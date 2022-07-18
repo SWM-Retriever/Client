@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "342119903515",
+    "project_id": "daily-pet-de19e",
+    "storage_bucket": "daily-pet-de19e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342119903515:android:eb91c38e33888085e0e3be",
+        "android_client_info": {
+          "package_name": "com.swm_retriever.dailypet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "342119903515-au8juie3jksfn6jr4qhug81jdr4ijcol.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swm_retriever.dailypet",
+            "certificate_hash": "09a4d38fad599f06934427efcfcac751ccee104b"
+          }
+        },
+        {
+          "client_id": "342119903515-su3i91gkdpdurachrf7t825ndc53p5k3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8ZaYGEAenFHoRvcF8ku7wHFYDeJxymzA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "342119903515-su3i91gkdpdurachrf7t825ndc53p5k3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
