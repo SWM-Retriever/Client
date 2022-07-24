@@ -28,11 +28,11 @@ class MainActivity : AppCompatActivity() {
             var bundle = Bundle().apply {
                 this.putString("level1", "Button")
             }
-            firebaseAnalytics.logEvent("Button1", bundle)
+            firebaseAnalytics.logEvent("button1", bundle)
         }
         log2Button.setOnClickListener {
             var bundle = Bundle().apply {
-                this.putString("level2", "Button2")
+                this.putString("level2", "button2")
             }
             firebaseAnalytics.logEvent("Button2", bundle)
         }
