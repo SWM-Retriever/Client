@@ -1,6 +1,6 @@
 name: Mirroring
 
-on: [push, delete]
+on: [push, delete, pull_request]
 
 jobs:
   to_gitlab:
