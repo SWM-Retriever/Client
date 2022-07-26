@@ -1,4 +1,4 @@
-package com.swm_retriever.dailypet
+package org.retriever.dailypet
 
 import org.junit.Test
 

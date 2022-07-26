@@ -1,8 +1,7 @@
-package com.swm_retriever.dailypet
+package org.retriever.dailypet
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.ViewGroup
 import android.widget.Button
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics

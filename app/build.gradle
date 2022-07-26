@@ -9,7 +9,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.swm_retriever.dailypet"
+        applicationId "org.retriever.dailypet"
         minSdk 23
         targetSdk 32
         versionCode 1
