@@ -1,5 +1,6 @@
 package org.retriever.dailypet
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         val crashButton = findViewById<Button>(R.id.btn_crash)
         val log1Button = findViewById<Button>(R.id.btn_1)
         val log2Button = findViewById<Button>(R.id.btn_2)
+        val loginButton = findViewById<Button>(R.id.btn_login)
 
         crashButton.setOnClickListener{
             throw RuntimeException("Test Crash") // Force a crash
@@ -34,6 +36,10 @@ class MainActivity : AppCompatActivity() {
                 this.putString("level2", "button2")
             }
             firebaseAnalytics.logEvent("Button2", bundle)
+        }
+        loginButton.setOnClickListener {
+            val nextIntent = Intent(this, LoginActivity::class.java)
+            startActivity(nextIntent)
         }
 
 
