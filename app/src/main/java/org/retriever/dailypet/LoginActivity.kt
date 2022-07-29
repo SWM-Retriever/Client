@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
         naverLoginButton.setOnClickListener{
-            val nextIntent = Intent(this, LoginActivity::class.java)
+            val nextIntent = Intent(this, RegisterProfileActivity::class.java)
             startActivity(nextIntent)
         }
     }
