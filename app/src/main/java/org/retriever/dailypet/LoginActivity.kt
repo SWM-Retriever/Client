@@ -1,5 +1,6 @@
 package org.retriever.dailypet
 import android.app.Application
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -25,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
 
         val context = this
         val kakaoLoginButton = findViewById<ImageButton>(R.id.btn_kakaoLogin)
+        var naverLoginButton = findViewById<ImageButton>(R.id.btn_naverLogin)
 
         kakaoLoginButton.setOnClickListener {
             lifecycleScope.launch {
@@ -40,6 +42,10 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+        naverLoginButton.setOnClickListener{
+            val nextIntent = Intent(this, LoginActivity::class.java)
+            startActivity(nextIntent)
         }
     }
 }
