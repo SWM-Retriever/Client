@@ -54,7 +54,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <android.widget.Button
-            android:id="@+id/img_registerProfileUpload"
+            android:id="@+id/btn_registerProfileUpload"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="76dp"
@@ -84,7 +84,6 @@
             android:id="@+id/text_registerProfileValidate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="닉네임 유효성 검사"
             android:textColor="#505050"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -114,8 +113,8 @@
             android:layout_marginTop="32dp"
             android:gravity="center"
             android:inputType="textPersonName"
-            android:text="닉네임"
-            android:textSize="24sp"
+            android:hint="닉네임을 입력해주세요"
+            android:textSize="12dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
