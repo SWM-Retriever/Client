@@ -17,6 +17,9 @@
         android:theme="@style/Theme.DailyPet"
         tools:targetApi="31">
         <activity
+            android:name=".RegisterProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".TestActivity"
             android:exported="false" />
         <activity
