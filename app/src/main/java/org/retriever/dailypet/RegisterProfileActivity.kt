@@ -9,20 +9,21 @@ import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import org.retriever.dailypet.databinding.ActivityMainBinding
+import org.retriever.dailypet.databinding.ActivityRegisterProfileBinding
 
 class RegisterProfileActivity : AppCompatActivity() {
-    var isValid = false
-    var TAG = "RegisterProfile"
+    private lateinit var binding: ActivityRegisterProfileBinding
+    var isValid:Boolean = false
+    var TAG = "REGISTER PROFILE"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register_profile)
+        binding = ActivityRegisterProfileBinding.inflate(layoutInflater)
+        var view = binding.root
+        setContentView(view)
 
-        var photoUploadButton = findViewById<Button>(R.id.btn_registerProfileUpload)
-        var nicknameCheckButton = findViewById<Button>(R.id.btn_registerProfileCheck)
-        var validateText = findViewById<TextView>(R.id.text_registerProfileValidate)
-        var registerButton = findViewById<Button>(R.id.btn_registerProfileSubmit)
-
-        photoUploadButton.setOnClickListener{
+        /* Upload Profile Image */
+        binding.btnRegisterProfileUpload.setOnClickListener{
             Log.d(TAG, "Button Photo Upload")
             var popupMenu = PopupMenu(applicationContext, it)
             menuInflater.inflate(R.menu.camera_menu, popupMenu.menu)
@@ -43,24 +44,27 @@ class RegisterProfileActivity : AppCompatActivity() {
                 }
             }
         }
-        nicknameCheckButton.setOnClickListener{
+        /* Check Nickname Validation */
+        binding.btnRegisterProfileCheck.setOnClickListener{
             Log.d(TAG, "Button NickName Check")
             if(isValid){
-                validateText.setText("중복된 닉네임입니다. 다른 닉네임을 사용해주세요")
-                validateText.setTextColor(Color.RED)
-                isValid = false
+                binding.textRegisterProfileValidate.text = "중복된 닉네임입니다. 다른 닉네임을 사용해주세요"
+                binding.textRegisterProfileValidate.setTextColor(Color.RED)
+                isValid = !isValid
             }
             else{
-                validateText.setText("사용가능한 닉네임입니다")
-                validateText.setTextColor(Color.BLUE)
-                isValid = true;
+                binding.textRegisterProfileValidate.text = "사용가능한 닉네임입니다"
+                binding.textRegisterProfileValidate.setTextColor(Color.BLUE)
+                isValid = !isValid
             }
         }
-        registerButton.setOnClickListener{
+        /* Submit Profile */
+        binding.btnRegisterProfileSubmit.setOnClickListener{
             Log.d(TAG, "Button Register")
             val nextIntent = Intent(this, RegisterProfileActivity::class.java)
             startActivity(nextIntent)
         }
-
     }
+
+
 }
