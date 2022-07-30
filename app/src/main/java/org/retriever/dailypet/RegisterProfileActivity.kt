@@ -1,26 +1,55 @@
 package org.retriever.dailypet
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import org.retriever.dailypet.databinding.ActivityMainBinding
 import org.retriever.dailypet.databinding.ActivityRegisterProfileBinding
 
 class RegisterProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterProfileBinding
-    var isValid:Boolean = false
-    var TAG = "REGISTER PROFILE"
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    private var isValid:Boolean = false
+    private var TAG = "REGISTER PROFILE"
+    // Permissions
+    val PERMISSIONS = arrayOf(
+        Manifest.permission.CAMERA,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE
+    )
+    val PERMISSIONS_REQUEST = 100
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterProfileBinding.inflate(layoutInflater)
         var view = binding.root
         setContentView(view)
+
+        /* Camera Register */
+        resultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (it.resultCode == RESULT_OK) {
+                Log.d(TAG, "RESULT_OK")
+                val bitmap = it.data?.extras?.get("data") as Bitmap
+                binding.imgRegisterProfile.setImageBitmap(bitmap)
+            }
+        }
 
         /* Upload Profile Image */
         binding.btnRegisterProfileUpload.setOnClickListener{
@@ -32,6 +61,7 @@ class RegisterProfileActivity : AppCompatActivity() {
                 when(it.itemId){
                     R.id.camera->{
                         Log.d(TAG, "Select Camera")
+                        takePicture()
                         return@setOnMenuItemClickListener true
                     }
                     R.id.gallery->{
@@ -63,6 +93,36 @@ class RegisterProfileActivity : AppCompatActivity() {
             Log.d(TAG, "Button Register")
             val nextIntent = Intent(this, RegisterProfileActivity::class.java)
             startActivity(nextIntent)
+        }
+    }
+
+    fun takePicture(){
+        if(checkPermissions(PERMISSIONS)) {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            resultLauncher.launch(intent)
+        }
+    }
+
+    private fun checkPermissions(permissions: Array<String>): Boolean {
+        val permissionList : MutableList<String> = mutableListOf()
+        for(permission in permissions){
+            val result = ContextCompat.checkSelfPermission(this, permission)
+            if(result != PackageManager.PERMISSION_GRANTED){
+                permissionList.add(permission)
+            }
+        }
+        if(permissionList.isNotEmpty()){
+            ActivityCompat.requestPermissions(this, permissionList.toTypedArray(), PERMISSIONS_REQUEST) // 권한요청
+            return false
+        }
+        return true
+    }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        for(result in grantResults){
+            if(result != PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this, "카메라 권한이 없습니다\n카메라 권한을 허용해주세요", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
