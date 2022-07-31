@@ -50,6 +50,8 @@ class RegisterProfileActivity : AppCompatActivity() {
                         "\n회원번호: ${user.id}" +
                         "\n이메일: ${user.kakaoAccount?.email}" +
                         "\n닉네임: ${user.kakaoAccount?.profile?.nickname}")
+                binding.textRegisterProfileName.text = user.kakaoAccount?.profile?.nickname
+                binding.textRegisterProfileEmail.text = user.kakaoAccount?.email
             }
         }
 
