@@ -18,6 +18,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.kakao.sdk.user.UserApiClient
 import org.retriever.dailypet.databinding.ActivityMainBinding
 import org.retriever.dailypet.databinding.ActivityRegisterProfileBinding
 
@@ -39,6 +40,20 @@ class RegisterProfileActivity : AppCompatActivity() {
         binding = ActivityRegisterProfileBinding.inflate(layoutInflater)
         var view = binding.root
         setContentView(view)
+
+        UserApiClient.instance.me { user, error ->
+            if (error != null) {
+                Log.e(TAG, "사용자 정보 요청 실패", error)
+            }
+            else if (user != null) {
+                Log.d(TAG, "사용자 정보 요청 성공" +
+                        "\n회원번호: ${user.id}" +
+                        "\n이메일: ${user.kakaoAccount?.email}" +
+                        "\n닉네임: ${user.kakaoAccount?.profile?.nickname}")
+                binding.textRegisterProfileName.text = user.kakaoAccount?.profile?.nickname
+                binding.textRegisterProfileEmail.text = user.kakaoAccount?.email
+            }
+        }
 
         /* Camera Register */
         resultLauncher = registerForActivityResult(

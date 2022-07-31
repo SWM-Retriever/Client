@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="kakao_native_app_key">45276ed14e089e697b39bb9cab043b7f</string>
+    <string name="manifest_kakao_native_app_key">kakao45276ed14e089e697b39bb9cab043b7f</string>
 </resources>
