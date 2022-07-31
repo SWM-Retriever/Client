@@ -1,5 +1,7 @@
 ## PR Description
-- 
+- 관련 이슈 : 
+- JIRA 백로그 : PET-
+- 관련 문서 : 
 ## Changes
 - 
 ## Screenshots
