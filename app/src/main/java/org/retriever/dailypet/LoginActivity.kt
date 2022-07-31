@@ -31,7 +31,6 @@ class LoginActivity : AppCompatActivity() {
         var view = binding.root
         setContentView(view)
 
-
         binding.btnKakaoLogin.setOnClickListener {
             if (AuthApiClient.instance.hasToken()) {
                 UserApiClient.instance.accessTokenInfo { _, error ->
@@ -70,6 +69,18 @@ class LoginActivity : AppCompatActivity() {
         binding.btnNaverLogin.setOnClickListener{
             val nextIntent = Intent(this, RegisterProfileActivity::class.java)
             startActivity(nextIntent)
+        }
+
+        binding.btnLogout.setOnClickListener{
+            // 카카오 로그아웃
+            UserApiClient.instance.logout { error ->
+                if (error != null) {
+                    Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+                }
+                else {
+                    Log.d(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
+                }
+            }
         }
     }
 
