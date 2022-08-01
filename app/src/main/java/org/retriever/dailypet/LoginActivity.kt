@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.KakaoSdk
@@ -19,6 +20,7 @@ import com.navercorp.nid.profile.data.NidProfileResponse
 import kotlinx.coroutines.launch
 import org.retriever.dailypet.databinding.ActivityLoginBinding
 import org.retriever.dailypet.interfaces.RetrofitService
+import org.retriever.dailypet.models.PostTest
 import org.retriever.dailypet.models.UserAccount
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
@@ -38,6 +40,8 @@ class LoginActivity : AppCompatActivity() {
     private var TAG = "LOGIN"
     private var context = this
     private var BASE_URL = "https://test11639.p.rapidapi.com/"
+    private var KEY = ""
+    private var HOST = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,34 +59,9 @@ class LoginActivity : AppCompatActivity() {
         /* 카카오 로그인 버튼 */
         binding.btnKakaoLogin.setOnClickListener {
             if (AuthApiClient.instance.hasToken()) {
-                UserApiClient.instance.accessTokenInfo { _, error ->
-                    if (error != null) {
-                        if ((error is KakaoSdkError) && error.isInvalidTokenError()) {
-                            //로그인 필요
-                            kakaoLogin()
-                        }
-                        else {
-                            //기타 에러
-                        }
-                    }
-                    else {
-                        //토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
-                        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-                            if (error != null) {
-                                Log.e(TAG, "카카오 토큰 정보 보기 실패", error)
-                            }
-                            else if (tokenInfo != null) {
-                                Log.d(TAG, "카카오 토큰 정보 보기 성공" +
-                                        "\n회원번호: ${tokenInfo.id}" +
-                                        "\n만료시간: ${tokenInfo.expiresIn} 초")
-                            }
-                        }
-                        val nextIntent = Intent(this, RegisterProfileActivity::class.java)
-                        startActivity(nextIntent)
-                    }
-                }
-            }
-            else {
+                val nextIntent = Intent(this, RegisterProfileActivity::class.java)
+                startActivity(nextIntent)
+            } else {
                 //로그인 필요
                 kakaoLogin()
             }
@@ -111,21 +90,20 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun postAccessToken(){
-        val callPostToken = retrofitService.postAccessToken("","", "", "", "")
-        callPostToken.enqueue(object : Callback<UserAccount> {
-            override fun onResponse(call: Call<UserAccount>, response: Response<UserAccount>) {
-                if (response.isSuccessful) {
-                    // 응답 성공
-                    var result: UserAccount? = response.body()
-                    Log.d(TAG, "onResponse 성공: " + result?.toString());
-                } else {
-                    // 응답 실패 (서버 에러 코드)
-                    Log.d(TAG, "onResponse 실패")
+        val callPostTest = retrofitService.postTest(KEY, HOST, "ashpurple")
+        callPostTest.enqueue(object : Callback<PostTest> {
+            override fun onResponse(call: Call<PostTest>, response: Response<PostTest>) {
+                if(response.isSuccessful) {
+                    val result: String = response.body().toString()
+                    Log.d("Test", result)
+                    Toast.makeText(applicationContext, result, Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    Toast.makeText(applicationContext, "POST Response 실패", Toast.LENGTH_SHORT).show()
                 }
             }
-            override fun onFailure(call: Call<UserAccount>, t: Throwable) {
-                // 인터넷 연결 실패 등
-                Log.d(TAG, "onFailure 에러: " + t.message.toString());
+            override fun onFailure(call: Call<PostTest>, t: Throwable) {
+                Toast.makeText(applicationContext, "POST 실패", Toast.LENGTH_SHORT).show()
             }
         })
     }
