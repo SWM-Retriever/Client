@@ -2,4 +2,6 @@
 <resources>
     <string name="kakao_native_app_key">45276ed14e089e697b39bb9cab043b7f</string>
     <string name="manifest_kakao_native_app_key">kakao45276ed14e089e697b39bb9cab043b7f</string>
+    <string name="naver_client_id">bl7aZ1ovzbnYvXH8ERnu</string>
+    <string name="naver_client_secret">3WB1kGyF_R</string>
 </resources>

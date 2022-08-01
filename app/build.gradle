@@ -52,4 +52,6 @@ dependencies {
     implementation "com.kakao.sdk:v2-talk:2.11.0" // 친구, 메시지(카카오톡)
     implementation "com.kakao.sdk:v2-share:2.11.0" // 메시지(카카오톡 공유)
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1" // 코루틴
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
+    implementation 'com.navercorp.nid:oauth:5.1.1' // 네이버 jdk 11
 }

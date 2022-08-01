@@ -11,6 +11,11 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.NidOAuthLogin
+import com.navercorp.nid.oauth.OAuthLoginCallback
+import com.navercorp.nid.profile.NidProfileCallback
+import com.navercorp.nid.profile.data.NidProfileResponse
 import kotlinx.coroutines.launch
 import org.retriever.dailypet.databinding.ActivityLoginBinding
 
@@ -18,6 +23,7 @@ class GlobalApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         KakaoSdk.init(this, resources.getString(R.string.kakao_native_app_key))
+        NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "반려하루")
     }
 }
 
@@ -35,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
             if (AuthApiClient.instance.hasToken()) {
                 UserApiClient.instance.accessTokenInfo { _, error ->
                     if (error != null) {
-                        if (error is KakaoSdkError && error.isInvalidTokenError() == true) {
+                        if ((error is KakaoSdkError) && error.isInvalidTokenError()) {
                             //로그인 필요
                             kakaoLogin()
                         }
@@ -67,8 +73,7 @@ class LoginActivity : AppCompatActivity() {
 
         }
         binding.btnNaverLogin.setOnClickListener{
-            val nextIntent = Intent(this, RegisterProfileActivity::class.java)
-            startActivity(nextIntent)
+            naverLogin()
         }
 
         binding.btnLogout.setOnClickListener{
@@ -101,6 +106,38 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun naverLogin(){
+        val oAuthLoginCallback = object : OAuthLoginCallback {
+            override fun onSuccess() {
+                Log.d(TAG, "Naver Access Token : ${NaverIdLoginSDK.getAccessToken()}")
+                Log.d(TAG, "Naver Refresh Token : ${NaverIdLoginSDK.getRefreshToken()}")
+                Log.d(TAG, "Naver Expire Dates : ${NaverIdLoginSDK.getExpiresAt()}")
+                // 네이버 로그인 API 호출 성공 시 유저 정보를 가져온다
+                NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
+                    override fun onSuccess(result: NidProfileResponse) {
+                        Log.d(TAG, "네이버 로그인 유저 정보 - 이름 : ${result.profile?.name.toString()}")
+                        Log.d(TAG, "네이버 로그인 유저 정보 - 이메일 : ${result.profile?.email.toString()}")
+                        Intent(this@LoginActivity, RegisterProfileActivity::class.java).also{
+                            startActivity(it)
+                            finish()
+                        }
+                    }
+
+                    override fun onError(errorCode: Int, message: String) {
+                    }
+                    override fun onFailure(httpStatus: Int, message: String) {
+                    }
+
+                })
+            }
+            override fun onError(errorCode: Int, message: String) {
+            }
+            override fun onFailure(httpStatus: Int, message: String) {
+            }
+        }
+        NaverIdLoginSDK.authenticate(this, oAuthLoginCallback)
     }
 }
 
