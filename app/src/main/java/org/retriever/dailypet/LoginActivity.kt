@@ -18,6 +18,10 @@ import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
 import kotlinx.coroutines.launch
 import org.retriever.dailypet.databinding.ActivityLoginBinding
+import org.retriever.dailypet.interfaces.RetrofitService
+import org.retriever.dailypet.models.UserAccount
+import retrofit2.*
+import retrofit2.converter.gson.GsonConverterFactory
 
 class GlobalApplication : Application() {
     override fun onCreate() {
@@ -29,14 +33,26 @@ class GlobalApplication : Application() {
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var retrofit : Retrofit
+    private lateinit var retrofitService : RetrofitService
     private var TAG = "LOGIN"
     private var context = this
+    private var BASE_URL = "https://test11639.p.rapidapi.com/"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         var view = binding.root
         setContentView(view)
 
+        /* API Init */
+        retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        retrofitService = retrofit.create(RetrofitService::class.java)
+
+        /* 카카오 로그인 버튼 */
         binding.btnKakaoLogin.setOnClickListener {
             if (AuthApiClient.instance.hasToken()) {
                 UserApiClient.instance.accessTokenInfo { _, error ->
@@ -72,10 +88,12 @@ class LoginActivity : AppCompatActivity() {
             }
 
         }
+        /* 네이버 로그인 버튼 */
         binding.btnNaverLogin.setOnClickListener{
             naverLogin()
         }
 
+        /* 로그아웃 버튼 */
         binding.btnLogout.setOnClickListener{
             // 카카오 로그아웃
             if(AuthApiClient.instance.hasToken()) {
@@ -90,6 +108,26 @@ class LoginActivity : AppCompatActivity() {
             // 네이버 로그아웃
             NaverIdLoginSDK.logout()
         }
+    }
+
+    private fun postAccessToken(){
+        val callPostToken = retrofitService.postAccessToken("","", "", "", "")
+        callPostToken.enqueue(object : Callback<UserAccount> {
+            override fun onResponse(call: Call<UserAccount>, response: Response<UserAccount>) {
+                if (response.isSuccessful) {
+                    // 응답 성공
+                    var result: UserAccount? = response.body()
+                    Log.d(TAG, "onResponse 성공: " + result?.toString());
+                } else {
+                    // 응답 실패 (서버 에러 코드)
+                    Log.d(TAG, "onResponse 실패")
+                }
+            }
+            override fun onFailure(call: Call<UserAccount>, t: Throwable) {
+                // 인터넷 연결 실패 등
+                Log.d(TAG, "onFailure 에러: " + t.message.toString());
+            }
+        })
     }
 
     private fun kakaoLogin(){
