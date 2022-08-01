@@ -53,10 +53,10 @@ class LoginActivity : AppCompatActivity() {
                         //토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
                         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
                             if (error != null) {
-                                Log.e(TAG, "토큰 정보 보기 실패", error)
+                                Log.e(TAG, "카카오 토큰 정보 보기 실패", error)
                             }
                             else if (tokenInfo != null) {
-                                Log.i(TAG, "토큰 정보 보기 성공" +
+                                Log.d(TAG, "카카오 토큰 정보 보기 성공" +
                                         "\n회원번호: ${tokenInfo.id}" +
                                         "\n만료시간: ${tokenInfo.expiresIn} 초")
                             }
@@ -78,14 +78,17 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnLogout.setOnClickListener{
             // 카카오 로그아웃
-            UserApiClient.instance.logout { error ->
-                if (error != null) {
-                    Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
-                }
-                else {
-                    Log.d(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
+            if(AuthApiClient.instance.hasToken()) {
+                UserApiClient.instance.logout { error ->
+                    if (error != null) {
+                        Log.e(TAG, "카카오 로그아웃 실패", error)
+                    } else {
+                        Log.d(TAG, "카카오 로그아웃 성공")
+                    }
                 }
             }
+            // 네이버 로그아웃
+            NaverIdLoginSDK.logout()
         }
     }
 

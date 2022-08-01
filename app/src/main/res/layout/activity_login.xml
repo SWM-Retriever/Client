@@ -23,8 +23,8 @@
 
     <ImageButton
         android:id="@+id/btn_naverLogin"
-        android:layout_width="219dp"
-        android:layout_height="56dp"
+        android:layout_width="221dp"
+        android:layout_height="51dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
         android:src="@drawable/naver_login_large_green"
@@ -63,12 +63,14 @@
 
     <Button
         android:id="@+id/btn_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_width="105dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#817777"
         android:text="로그아웃"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
