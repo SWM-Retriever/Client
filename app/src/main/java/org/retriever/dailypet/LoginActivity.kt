@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.KakaoSdk
@@ -18,6 +19,11 @@ import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
 import kotlinx.coroutines.launch
 import org.retriever.dailypet.databinding.ActivityLoginBinding
+import org.retriever.dailypet.interfaces.RetrofitService
+import org.retriever.dailypet.models.PostTest
+import org.retriever.dailypet.models.UserAccount
+import retrofit2.*
+import retrofit2.converter.gson.GsonConverterFactory
 
 class GlobalApplication : Application() {
     override fun onCreate() {
@@ -29,53 +35,44 @@ class GlobalApplication : Application() {
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var retrofit : Retrofit
+    private lateinit var retrofitService : RetrofitService
     private var TAG = "LOGIN"
     private var context = this
+    private var BASE_URL = "https://test11639.p.rapidapi.com/"
+    private var KEY = ""
+    private var HOST = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         var view = binding.root
         setContentView(view)
 
+        /* API Init */
+        retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        retrofitService = retrofit.create(RetrofitService::class.java)
+
+        /* 카카오 로그인 버튼 */
         binding.btnKakaoLogin.setOnClickListener {
             if (AuthApiClient.instance.hasToken()) {
-                UserApiClient.instance.accessTokenInfo { _, error ->
-                    if (error != null) {
-                        if ((error is KakaoSdkError) && error.isInvalidTokenError()) {
-                            //로그인 필요
-                            kakaoLogin()
-                        }
-                        else {
-                            //기타 에러
-                        }
-                    }
-                    else {
-                        //토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
-                        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-                            if (error != null) {
-                                Log.e(TAG, "카카오 토큰 정보 보기 실패", error)
-                            }
-                            else if (tokenInfo != null) {
-                                Log.d(TAG, "카카오 토큰 정보 보기 성공" +
-                                        "\n회원번호: ${tokenInfo.id}" +
-                                        "\n만료시간: ${tokenInfo.expiresIn} 초")
-                            }
-                        }
-                        val nextIntent = Intent(this, RegisterProfileActivity::class.java)
-                        startActivity(nextIntent)
-                    }
-                }
-            }
-            else {
+                val nextIntent = Intent(this, RegisterProfileActivity::class.java)
+                startActivity(nextIntent)
+            } else {
                 //로그인 필요
                 kakaoLogin()
             }
 
         }
+        /* 네이버 로그인 버튼 */
         binding.btnNaverLogin.setOnClickListener{
             naverLogin()
         }
 
+        /* 로그아웃 버튼 */
         binding.btnLogout.setOnClickListener{
             // 카카오 로그아웃
             if(AuthApiClient.instance.hasToken()) {
@@ -90,6 +87,25 @@ class LoginActivity : AppCompatActivity() {
             // 네이버 로그아웃
             NaverIdLoginSDK.logout()
         }
+    }
+
+    private fun postAccessToken(){
+        val callPostTest = retrofitService.postTest(KEY, HOST, "ashpurple")
+        callPostTest.enqueue(object : Callback<PostTest> {
+            override fun onResponse(call: Call<PostTest>, response: Response<PostTest>) {
+                if(response.isSuccessful) {
+                    val result: String = response.body().toString()
+                    Log.d("Test", result)
+                    Toast.makeText(applicationContext, result, Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    Toast.makeText(applicationContext, "POST Response 실패", Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onFailure(call: Call<PostTest>, t: Throwable) {
+                Toast.makeText(applicationContext, "POST 실패", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun kakaoLogin(){
