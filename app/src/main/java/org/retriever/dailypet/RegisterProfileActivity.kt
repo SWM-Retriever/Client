@@ -41,19 +41,19 @@ class RegisterProfileActivity : AppCompatActivity() {
         var view = binding.root
         setContentView(view)
 
-        UserApiClient.instance.me { user, error ->
-            if (error != null) {
-                Log.e(TAG, "사용자 정보 요청 실패", error)
-            }
-            else if (user != null) {
-                Log.d(TAG, "사용자 정보 요청 성공" +
-                        "\n회원번호: ${user.id}" +
-                        "\n이메일: ${user.kakaoAccount?.email}" +
-                        "\n닉네임: ${user.kakaoAccount?.profile?.nickname}")
-                binding.textRegisterProfileName.text = user.kakaoAccount?.profile?.nickname
-                binding.textRegisterProfileEmail.text = user.kakaoAccount?.email
-            }
-        }
+//        UserApiClient.instance.me { user, error ->
+//            if (error != null) {
+//                Log.e(TAG, "사용자 정보 요청 실패", error)
+//            }
+//            else if (user != null) {
+//                Log.d(TAG, "사용자 정보 요청 성공" +
+//                        "\n회원번호: ${user.id}" +
+//                        "\n이메일: ${user.kakaoAccount?.email}" +
+//                        "\n닉네임: ${user.kakaoAccount?.profile?.nickname}")
+//                binding.textRegisterProfileName.text = user.kakaoAccount?.profile?.nickname
+//                binding.textRegisterProfileEmail.text = user.kakaoAccount?.email
+//            }
+//        }
 
         /* Camera Register */
         resultLauncher = registerForActivityResult(
