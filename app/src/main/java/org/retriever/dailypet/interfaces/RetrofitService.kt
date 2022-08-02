@@ -1,6 +1,7 @@
 package org.retriever.dailypet.interfaces
 
 import org.retriever.dailypet.models.GetTest
+import org.retriever.dailypet.models.Message
 import org.retriever.dailypet.models.PostTest
 import org.retriever.dailypet.models.UserAccount
 import retrofit2.Call
@@ -22,12 +23,11 @@ interface RetrofitService {
     ): Call<PostTest>
 
     @FormUrlEncoded
-    @POST("posts/1")
-    fun postAccessToken(
-        @Header("X-Naver-Client-Id") clientId: String,
-        @Header("X-Naver-Client-Secret") clientSecret: String,
-        @Field("source") source: String,
-        @Field("target") target: String,
-        @Field("text") text: String
-    ): Call<UserAccount>
+    @POST("api/v1/login")
+    fun postIsMember(
+        @Header("X-") key: String,
+        @Header("X-") host: String,
+        @Field("name") name: String,
+        @Field("email") email: String,
+    ): Call<Message>
 }
