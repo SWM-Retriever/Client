@@ -25,9 +25,9 @@ interface RetrofitService {
     @FormUrlEncoded
     @POST("api/v1/login")
     fun postIsMember(
-        @Header("X-") key: String,
-        @Header("X-") host: String,
-        @Field("name") name: String,
+        @Header("X-RapidAPI-Key") key: String,
+        @Header("X-RapidAPI-Host") host: String,
+        @Field("nickname") nickname: String,
         @Field("email") email: String,
     ): Call<Message>
 }
