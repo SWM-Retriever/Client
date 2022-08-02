@@ -16,9 +16,9 @@ data class PostTest(
     val refreshToken: String = "",
 )
 
-data class Token(
-    @SerializedName("accessToken")
-    val accessToken: String
+data class Message(
+    @SerializedName("message")
+    val message: String
 )
 
 data class UserAccount(
