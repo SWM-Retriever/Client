@@ -87,6 +87,14 @@ class LoginActivity : AppCompatActivity() {
             // 네이버 로그아웃
             NaverIdLoginSDK.logout()
         }
+
+        /* 연동해제 버튼 */
+        binding.btnUnlink.setOnClickListener{
+            // 카카오 연동해제
+            kakaoUnlink()
+            // 네이버 연동해제
+            naverUnlink()
+        }
     }
 
     private fun postAccessToken(){
@@ -157,6 +165,36 @@ class LoginActivity : AppCompatActivity() {
             }
         }
         NaverIdLoginSDK.authenticate(this, oAuthLoginCallback)
+    }
+
+    private fun kakaoUnlink(){
+        UserApiClient.instance.unlink { error ->
+            if (error != null) {
+                Log.e(TAG, "연동 해제 실패", error)
+            }
+            else {
+                Log.i(TAG, "카카오 연동해제 성공. SDK에서 토큰 삭제 됨")
+            }
+        }
+    }
+    private fun naverUnlink(){
+        NidOAuthLogin().callDeleteTokenApi(context, object : OAuthLoginCallback {
+            override fun onSuccess() {
+                //서버에서 토큰 삭제에 성공한 상태입니다.
+                Log.d(TAG, "네이버 연동해제 성공")
+            }
+            override fun onFailure(httpStatus: Int, message: String) {
+                // 서버에서 토큰 삭제에 실패했어도 클라이언트에 있는 토큰은 삭제되어 로그아웃된 상태입니다.
+                // 클라이언트에 토큰 정보가 없기 때문에 추가로 처리할 수 있는 작업은 없습니다.
+                Log.d(TAG, "errorCode: ${NaverIdLoginSDK.getLastErrorCode().code}")
+                Log.d(TAG, "errorDesc: ${NaverIdLoginSDK.getLastErrorDescription()}")
+            }
+            override fun onError(errorCode: Int, message: String) {
+                // 서버에서 토큰 삭제에 실패했어도 클라이언트에 있는 토큰은 삭제되어 로그아웃된 상태입니다.
+                // 클라이언트에 토큰 정보가 없기 때문에 추가로 처리할 수 있는 작업은 없습니다.
+                onFailure(errorCode, message)
+            }
+        })
     }
 }
 

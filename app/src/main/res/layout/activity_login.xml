@@ -63,14 +63,28 @@
 
     <Button
         android:id="@+id/btn_logout"
-        android:layout_width="105dp"
-        android:layout_height="46dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="91dp"
+        android:layout_height="39dp"
         android:backgroundTint="#817777"
         android:text="로그아웃"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.284"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.964" />
+
+    <Button
+        android:id="@+id/btn_unlink"
+        android:layout_width="93dp"
+        android:layout_height="38dp"
+        android:backgroundTint="#817777"
+        android:text="연동해제"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.716"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.964" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
