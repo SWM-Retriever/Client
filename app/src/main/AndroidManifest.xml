@@ -20,7 +20,10 @@
         android:theme="@style/Theme.DailyPet"
         tools:targetApi="31">
         <activity
-            android:name=".SelectFamilyType"
+            android:name=".FamilyEntranceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SelectFamilyTypeActivity"
             android:exported="false" />
         <activity
             android:name=".CameraActivity"
