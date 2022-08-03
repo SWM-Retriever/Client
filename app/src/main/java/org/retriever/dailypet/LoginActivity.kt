@@ -1,3 +1,5 @@
+/** @author Sehun Ahn **/
+
 package org.retriever.dailypet
 import android.app.Application
 import android.content.Intent

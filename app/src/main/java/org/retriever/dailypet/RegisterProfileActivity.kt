@@ -1,31 +1,29 @@
 package org.retriever.dailypet
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.Button
 import android.widget.PopupMenu
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.kakao.sdk.user.UserApiClient
-import org.retriever.dailypet.databinding.ActivityMainBinding
 import org.retriever.dailypet.databinding.ActivityRegisterProfileBinding
+import java.lang.Exception
 
 class RegisterProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterProfileBinding
-    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
-    private var isValid:Boolean = false
+    private lateinit var cameraLauncher: ActivityResultLauncher<Intent>
+    private lateinit var galleryLauncher: ActivityResultLauncher<Intent>
+    private var isValid : Boolean = false
     private var TAG = "REGISTER PROFILE"
     // Permissions
     val PERMISSIONS = arrayOf(
@@ -45,15 +43,30 @@ class RegisterProfileActivity : AppCompatActivity() {
         binding.textRegisterProfileEmail.text = intent.getStringExtra("userEmail")
 
         /* Camera Register */
-        resultLauncher = registerForActivityResult(
+        cameraLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (it.resultCode == RESULT_OK) {
+                Log.d(TAG, "Get Image from Gallery")
+                var bitmap = it.data?.extras?.get("data") as Bitmap
+                binding.imgRegisterProfile.setImageBitmap(bitmap)
+            }
+        }
+        /* Gallery Register */
+        galleryLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == RESULT_OK) {
                 Log.d(TAG, "RESULT_OK")
-                val bitmap = it.data?.extras?.get("data") as Bitmap
-                binding.imgRegisterProfile.setImageBitmap(bitmap)
+                val imageData: Uri? = it.data?.data
+                    try {
+                        Log.d(TAG, "Get Image from Camera")
+                        var bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageData)
+                        binding.imgRegisterProfile.setImageBitmap(bitmap)
+                    } catch (e: Exception) { e.printStackTrace() }
             }
         }
+
 
         /* Upload Profile Image */
         binding.btnRegisterProfileUpload.setOnClickListener{
@@ -63,13 +76,14 @@ class RegisterProfileActivity : AppCompatActivity() {
             popupMenu.show()
             popupMenu.setOnMenuItemClickListener {
                 when(it.itemId){
-                    R.id.camera->{
+                    R.id.camera->{ // 카메라
                         Log.d(TAG, "Select Camera")
                         takePicture()
                         return@setOnMenuItemClickListener true
                     }
-                    R.id.gallery->{
+                    R.id.gallery->{ // 갤러리
                         Log.d(TAG, "Select Gallery")
+                        openGallery()
                         return@setOnMenuItemClickListener true
                     }
                     else->{
@@ -103,10 +117,19 @@ class RegisterProfileActivity : AppCompatActivity() {
     fun takePicture(){
         if(checkPermissions(PERMISSIONS)) {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            resultLauncher.launch(intent)
+            cameraLauncher.launch(intent)
         }
     }
 
+    fun openGallery(){
+        if(checkPermissions(PERMISSIONS)) {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = MediaStore.Images.Media.CONTENT_TYPE
+            galleryLauncher.launch(intent)
+        }
+    }
+
+    /* 권한 허용 확인 및 요청 */
     private fun checkPermissions(permissions: Array<String>): Boolean {
         val permissionList : MutableList<String> = mutableListOf()
         for(permission in permissions){
@@ -129,6 +152,4 @@ class RegisterProfileActivity : AppCompatActivity() {
             }
         }
     }
-
-
 }
