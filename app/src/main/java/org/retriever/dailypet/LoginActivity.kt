@@ -38,13 +38,13 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var retrofit : Retrofit
     private lateinit var retrofitService : RetrofitService
-    private var CODE_MEMBER = 200
-    private var CODE_NOT_MEMBER = 400
-    private var TAG = "LOGIN"
+    private val CODE_MEMBER = 200
+    private val CODE_NOT_MEMBER = 400
+    private val TAG = "LOGIN"
     private var context = this
-    private var BASE_URL = "https://dailypet.p.rapidapi.com/"
-    private var KEY = "455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c"
-    private var HOST = "dailypet.p.rapidapi.com"
+    private val BASE_URL = "https://dailypet.p.rapidapi.com/"
+    private val KEY = "455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c"
+    private val HOST = "dailypet.p.rapidapi.com"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -34,5 +34,15 @@ interface RetrofitService {
         @Header("X-RapidAPI-Key") key: String,
         @Header("X-RapidAPI-Host") host: String,
         @Field("nickname") nickname: String,
-    ): Call<NicknameCheck>
+    ): Call<General>
+
+    @FormUrlEncoded
+    @POST("api/v1/api/v1/member")
+    fun postProfile(
+        @Header("X-RapidAPI-Key") key: String,
+        @Header("X-RapidAPI-Host") host: String,
+        @Field("nickname") nickname: String,
+        @Field("email") email: String,
+        @Field("imageURL") image: String,
+    ): Call<General>
 }

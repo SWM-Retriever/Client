@@ -23,9 +23,9 @@ data class Message(
     val message: String = "",
 )
 
-data class NicknameCheck(
+data class General(
     @SerializedName("error")
-    val name: String,
+    val error: String,
     @SerializedName("message")
     val message: String,
     @SerializedName("status")
