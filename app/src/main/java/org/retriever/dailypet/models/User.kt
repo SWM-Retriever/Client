@@ -17,8 +17,10 @@ data class PostTest(
 )
 
 data class Message(
+    @SerializedName("error")
+    val error: String = "",
     @SerializedName("message")
-    val message: String
+    val message: String = "",
 )
 
 data class UserAccount(

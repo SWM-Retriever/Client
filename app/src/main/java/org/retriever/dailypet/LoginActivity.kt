@@ -1,3 +1,5 @@
+/** @author Sehun Ahn **/
+
 package org.retriever.dailypet
 import android.app.Application
 import android.content.Intent
@@ -36,13 +38,13 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var retrofit : Retrofit
     private lateinit var retrofitService : RetrofitService
-    private var CODE_MEMBER = 201
+    private var CODE_MEMBER = 200
     private var CODE_NOT_MEMBER = 400
     private var TAG = "LOGIN"
     private var context = this
-    private var BASE_URL = "https://test11639.p.rapidapi.com/"
-    private var KEY = ""
-    private var HOST = ""
+    private var BASE_URL = "https://dailypet.p.rapidapi.com/"
+    private var KEY = "455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c"
+    private var HOST = "dailypet.p.rapidapi.com"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +76,7 @@ class LoginActivity : AppCompatActivity() {
                     if (error != null) {
                         Log.e(TAG, "카카오 로그아웃 실패", error)
                     } else {
+                        Toast.makeText(this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show()
                         Log.d(TAG, "카카오 로그아웃 성공")
                     }
                 }
@@ -92,25 +95,24 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun checkIsMember(name: String?, email: String?){
-        val callPostIsMember = retrofitService.postIsMember(KEY, HOST, "", "")
+        val callPostIsMember = retrofitService.postIsMember(KEY, HOST, "sehun", "aaa")
         callPostIsMember.enqueue(object : Callback<Message> {
             override fun onResponse(call: Call<Message>, response: Response<Message>) {
+                val result: String = response.body().toString()
+                Log.d(TAG, "CODE = ${response.code()}")
+                Log.d(TAG, result)
                 if(response.isSuccessful) {
-                    val result: String = response.body().toString()
-                    Log.d(TAG, "CODE = ${response.code()}")
-                    Log.d(TAG, result)
                     if(response.code() == CODE_MEMBER){ // 이미 회원일때
                         // jwt 인증
                     }
-                    else if(response.code() == CODE_NOT_MEMBER){ // 신규 가입일때
+                }
+                else{
+                    if(response.code() == CODE_NOT_MEMBER){ // 신규 가입일때
                         val nextIntent = Intent(applicationContext, RegisterProfileActivity::class.java)
                         nextIntent.putExtra("userName",name)
                         nextIntent.putExtra("userEmail",email)
                         startActivity(nextIntent)
                     }
-                }
-                else{
-                    Log.e(TAG, "POST Response 실패")
                 }
             }
             override fun onFailure(call: Call<Message>, t: Throwable) {
@@ -131,7 +133,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                     else if (user != null) {
                         // 회원 확인 분기
-                        checkIsMember(user.kakaoAccount?.email, user.kakaoAccount?.profile?.nickname)
+                        checkIsMember(user.kakaoAccount?.profile?.nickname, user.kakaoAccount?.email)
                     }
                 }
 //                Intent(this@LoginActivity, RegisterProfileActivity::class.java).also{
@@ -183,7 +185,8 @@ class LoginActivity : AppCompatActivity() {
                 Log.e(TAG, "연동 해제 실패", error)
             }
             else {
-                Log.i(TAG, "카카오 연동해제 성공. SDK에서 토큰 삭제 됨")
+                Toast.makeText(this, "SNS 연동이 해제되었습니다", Toast.LENGTH_SHORT).show()
+                Log.d(TAG, "카카오 연동해제 성공. SDK에서 토큰 삭제 됨")
             }
         }
     }
