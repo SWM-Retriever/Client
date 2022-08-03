@@ -11,9 +11,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:text="가족 유형 선택"
-        android:textColor="#000000"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/divide_familyType"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,4 +28,94 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_selectAlone"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:background="@drawable/rectangle_button"
+        android:backgroundTint="@color/main_blue"
+        android:text="혼자 키워요"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.167"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.512">
+
+    </androidx.appcompat.widget.AppCompatButton>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_selectFamily"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:background="@drawable/rectangle_button"
+        android:backgroundTint="@color/main_pink"
+        android:text="함께 키워요"
+        android:textStyle="bold"
+        android:textColor ="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.821"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.512">
+
+    </androidx.appcompat.widget.AppCompatButton>
+
+    <TextView
+        android:id="@+id/text_selectFamiilyMain"
+        android:layout_width="315dp"
+        android:layout_height="37dp"
+        android:lineSpacingExtra="8sp"
+        android:text="반려동물 양육 유형을 선택해주세요"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divide_familyType"
+        app:layout_constraintVertical_bias="0.212" />
+
+    <TextView
+        android:id="@+id/text_aloneComment"
+        android:layout_width="131dp"
+        android:layout_height="124dp"
+        android:lineSpacingExtra="8sp"
+        android:text="1인가구 또는 \n반려동물을 혼자서 \n케어하는 사용자에게 적합한 유형이에요!"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/main_blue"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.167"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_selectAlone"
+        app:layout_constraintVertical_bias="0.155" />
+
+    <TextView
+        android:id="@+id/text_familyComment"
+        android:layout_width="131dp"
+        android:layout_height="124dp"
+        android:lineSpacingExtra="8sp"
+        android:text="1인 이상의 가족 또는 \n반려동물을 함께 \n케어하는 사용자에게 적합한 유형이에요!"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/main_pink"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.824"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_selectAlone"
+        app:layout_constraintVertical_bias="0.155" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
