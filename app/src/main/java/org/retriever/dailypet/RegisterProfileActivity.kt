@@ -17,14 +17,29 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import org.retriever.dailypet.databinding.ActivityRegisterProfileBinding
+import org.retriever.dailypet.interfaces.RetrofitService
+import org.retriever.dailypet.models.Message
+import org.retriever.dailypet.models.NicknameCheck
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
 
 class RegisterProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterProfileBinding
     private lateinit var cameraLauncher: ActivityResultLauncher<Intent>
     private lateinit var galleryLauncher: ActivityResultLauncher<Intent>
-    private var isValid : Boolean = false
-    private var TAG = "REGISTER PROFILE"
+    private lateinit var retrofit : Retrofit
+    private lateinit var retrofitService : RetrofitService
+    private var isValidNickname : Boolean = false
+    private val TAG = "REGISTER PROFILE"
+    private val BASE_URL = "https://dailypet.p.rapidapi.com/"
+    private val KEY = "455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c"
+    private val HOST = "dailypet.p.rapidapi.com"
+    private val CODE_VALID = 200
+    private val CODE_NOT_VALID = 400
     // Permissions
     val PERMISSIONS = arrayOf(
         Manifest.permission.CAMERA,
@@ -41,6 +56,13 @@ class RegisterProfileActivity : AppCompatActivity() {
 
         binding.textRegisterProfileName.text = intent.getStringExtra("userName")
         binding.textRegisterProfileEmail.text = intent.getStringExtra("userEmail")
+
+        /* API Init */
+        retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        retrofitService = retrofit.create(RetrofitService::class.java)
 
         /* Camera Register */
         cameraLauncher = registerForActivityResult(
@@ -95,25 +117,22 @@ class RegisterProfileActivity : AppCompatActivity() {
         /* Check Nickname Validation */
         binding.btnRegisterProfileCheck.setOnClickListener{
             Log.d(TAG, "Button NickName Check")
-            if(isValid){
-                binding.textRegisterProfileValidate.text = "중복된 닉네임입니다. 다른 닉네임을 사용해주세요"
-                binding.textRegisterProfileValidate.setTextColor(Color.RED)
-                isValid = !isValid
-            }
-            else{
-                binding.textRegisterProfileValidate.text = "사용가능한 닉네임입니다"
-                binding.textRegisterProfileValidate.setTextColor(Color.BLUE)
-                isValid = !isValid
-            }
+            val nickname = binding.textRegisterProfileNickName.text.toString()
+            checkValidNickname(nickname)
         }
         /* Submit Profile */
         binding.btnRegisterProfileSubmit.setOnClickListener{
             Log.d(TAG, "Button Register")
-            val nextIntent = Intent(this, RegisterProfileActivity::class.java)
-            startActivity(nextIntent)
+            if(isValidNickname ){
+                val nextIntent = Intent(this, RegisterProfileActivity::class.java)
+                startActivity(nextIntent)
+            } else{
+                Toast.makeText(this, "닉네임 중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
+    /* 사진 찍기 */
     fun takePicture(){
         if(checkPermissions(PERMISSIONS)) {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -121,12 +140,40 @@ class RegisterProfileActivity : AppCompatActivity() {
         }
     }
 
+    /* 갤러리 조회 */
     fun openGallery(){
         if(checkPermissions(PERMISSIONS)) {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = MediaStore.Images.Media.CONTENT_TYPE
             galleryLauncher.launch(intent)
         }
+    }
+
+    private fun checkValidNickname(nickname : String){
+        val callPostIsMember = retrofitService.postCheckNickname(KEY, HOST, nickname)
+        callPostIsMember.enqueue(object : Callback<NicknameCheck> {
+            override fun onResponse(call: Call<NicknameCheck>, response: Response<NicknameCheck>) {
+                val result: String = response.body().toString()
+                Log.d(TAG, "CODE = ${response.code()}")
+                Log.d(TAG, result)
+                if(response.isSuccessful) {
+                    if(response.code() == CODE_VALID){ // 유효한 닉네임
+                        binding.textRegisterProfileValidate.text = "사용가능한 닉네임입니다"
+                        binding.textRegisterProfileValidate.setTextColor(Color.BLUE)
+                        isValidNickname = true
+                    }
+                }
+                else{
+                    if(response.code() == CODE_NOT_VALID){ // 유효하지 않은 닉네임
+                        binding.textRegisterProfileValidate.text = "중복된 닉네임입니다. 다른 닉네임을 사용해주세요"
+                        binding.textRegisterProfileValidate.setTextColor(Color.RED)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<NicknameCheck>, t: Throwable) {
+                Log.e(TAG, "연결 실패")
+            }
+        })
     }
 
     /* 권한 허용 확인 및 요청 */

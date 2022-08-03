@@ -23,9 +23,11 @@ data class Message(
     val message: String = "",
 )
 
-data class UserAccount(
-    @SerializedName("name")
+data class NicknameCheck(
+    @SerializedName("error")
     val name: String,
-    @SerializedName("email")
-    val email: String
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("status")
+    val status: String
 )
