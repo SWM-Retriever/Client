@@ -1,9 +1,6 @@
 package org.retriever.dailypet.interfaces
 
-import org.retriever.dailypet.models.GetTest
-import org.retriever.dailypet.models.Message
-import org.retriever.dailypet.models.PostTest
-import org.retriever.dailypet.models.UserAccount
+import org.retriever.dailypet.models.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -30,4 +27,22 @@ interface RetrofitService {
         @Field("nickname") nickname: String,
         @Field("email") email: String,
     ): Call<Message>
+
+    @FormUrlEncoded
+    @POST("api/v1/validation/nickname")
+    fun postCheckNickname(
+        @Header("X-RapidAPI-Key") key: String,
+        @Header("X-RapidAPI-Host") host: String,
+        @Field("nickname") nickname: String,
+    ): Call<General>
+
+    @FormUrlEncoded
+    @POST("api/v1/api/v1/member")
+    fun postProfile(
+        @Header("X-RapidAPI-Key") key: String,
+        @Header("X-RapidAPI-Host") host: String,
+        @Field("nickname") nickname: String,
+        @Field("email") email: String,
+        @Field("imageURL") image: String,
+    ): Call<General>
 }

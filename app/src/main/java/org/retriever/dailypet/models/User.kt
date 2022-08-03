@@ -23,9 +23,11 @@ data class Message(
     val message: String = "",
 )
 
-data class UserAccount(
-    @SerializedName("name")
-    val name: String,
-    @SerializedName("email")
-    val email: String
+data class General(
+    @SerializedName("error")
+    val error: String,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("status")
+    val status: String
 )
