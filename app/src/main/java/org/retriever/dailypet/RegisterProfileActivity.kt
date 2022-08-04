@@ -160,7 +160,7 @@ class RegisterProfileActivity : AppCompatActivity() {
                 if(response.isSuccessful) {
                     if(response.code() == CODE_PROFILE){ // 프로필 등록 성공
                         Toast.makeText(applicationContext, "프로필 등록에 성공하였습니다", Toast.LENGTH_SHORT).show()
-                        val nextIntent = Intent(applicationContext, SelectFamilyType::class.java)
+                        val nextIntent = Intent(applicationContext, SelectFamilyTypeActivity::class.java)
                         startActivity(nextIntent) // 가족유형 선택 페이지로 이동
                     }
                 }
