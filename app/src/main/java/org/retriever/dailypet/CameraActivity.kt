@@ -14,12 +14,12 @@ import android.provider.MediaStore
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import org.retriever.dailypet.databinding.ActivityRegisterProfileBinding
+import org.retriever.dailypet.databinding.ActivityCreateProfileBinding
 
 class CameraActivity : AppCompatActivity() {
     lateinit var mContext: Context
     // ViewBinding
-    lateinit var binding : ActivityRegisterProfileBinding
+    lateinit var binding : ActivityCreateProfileBinding
     // Permisisons
     val PERMISSIONS = arrayOf(
         Manifest.permission.CAMERA,
@@ -34,7 +34,7 @@ class CameraActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRegisterProfileBinding.inflate(layoutInflater)
+        binding = ActivityCreateProfileBinding.inflate(layoutInflater)
 
     }
 
@@ -51,7 +51,7 @@ class CameraActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK){
             val imageBitmap = data?.extras?.get("data") as Bitmap
-            binding.imgRegisterProfile.setImageBitmap(imageBitmap)
+            binding.imgCreateProfilePhoto.setImageBitmap(imageBitmap)
         }
     }
 

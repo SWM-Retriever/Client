@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".CreateFamilyActivity">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="766dp" />
+
     <TextView
         android:id="@+id/text_createFamilyTitle"
         android:layout_width="wrap_content"
@@ -18,8 +25,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/text_createFamilyTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="가족 사진을 등록해주세요"
+        android:textColor="#99A5A5"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_createFamilyPhoto" />
+
     <View
-        android:id="@+id/divide_registerProfile"
+        android:id="@+id/divide_createFamily"
         android:layout_width="409dp"
         android:layout_height="1dp"
         android:layout_marginTop="64dp"
@@ -28,92 +48,129 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="403dp"
-        android:layout_height="390dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_createFamilyPhoto"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="56dp"
+        android:src="@color/browser_actions_bg_grey"
+        app:civ_border_color="@color/main_blue"
+        app:civ_border_width="1dp"
+        app:civ_circle_background_color="@color/browser_actions_bg_grey"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divide_createFamily" />
+
+    <android.widget.Button
+        android:id="@+id/btn_createFamilyLoad"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/round_button"
+        android:backgroundTint="@color/main_blue"
+        android:text="+"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="@+id/img_createFamilyPhoto"
+        app:layout_constraintEnd_toEndOf="@+id/img_createFamilyPhoto"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.187">
+        app:layout_constraintVertical_bias="1.0" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img_registerProfile"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@color/browser_actions_bg_grey"
-            app:civ_border_color="@color/main_blue"
-            app:civ_border_width="1dp"
-            app:civ_circle_background_color="@color/browser_actions_bg_grey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <android.widget.Button
-            android:id="@+id/btn_registerProfileUpload"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="76dp"
-            android:background="@drawable/round_button"
-            android:backgroundTint="@color/main_blue"
-            android:text="+"
-            android:textSize="34sp"
-            app:layout_constraintBottom_toBottomOf="@+id/img_registerProfile"
-            app:layout_constraintEnd_toEndOf="@+id/img_registerProfile"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+    <EditText
+        android:id="@+id/text_createFamilyNickname"
+        android:layout_width="169dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="36dp"
+        android:gravity="center"
+        android:hint="가족 내 닉네임을 입력해주세요\n예시) 엄마, 아들, 장남, 딸"
+        android:inputType="textPersonName"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.318"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_familyNameValidate" />
 
-        <TextView
-            android:id="@+id/text_registerProfileValidate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#505050"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_registerProfileNickName" />
+    <TextView
+        android:id="@+id/text_familyNameValidate"
+        android:layout_width="258dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:textColor="#505050"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_createFamilyName" />
 
-        <EditText
-            android:id="@+id/text_registerProfileNickName"
-            android:layout_width="169dp"
-            android:layout_height="54dp"
-            android:gravity="center"
-            android:hint="닉네임을 입력해주세요"
-            android:inputType="textPersonName"
-            android:textSize="12dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="267dp" />
+    <TextView
+        android:id="@+id/text_familyNicknameValidate"
+        android:layout_width="258dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:textColor="#505050"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_createFamilyNickname" />
 
-        <Button
-            android:id="@+id/btn_registerProfileCheck"
-            android:layout_width="84dp"
-            android:layout_height="37dp"
-            android:layout_marginBottom="76dp"
-            android:text="중복검사"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            app:backgroundTint="@color/main_blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.212"
-            app:layout_constraintStart_toEndOf="@+id/text_registerProfileNickName" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <EditText
+        android:id="@+id/text_createFamilyName"
+        android:layout_width="169dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="100dp"
+        android:gravity="center"
+        android:hint="가족 이름을 입력해주세요\n예시) 둥이네, 세훈패밀리, 범근팸"
+        android:inputType="textPersonName"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.318"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_createFamilyPhoto" />
 
     <Button
-        android:id="@+id/btn_registerProfileSubmit"
+        android:id="@+id/btn_createFamilyNameCheck"
+        android:layout_width="84dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="108dp"
+        android:text="중복검사"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:backgroundTint="@color/main_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toEndOf="@+id/text_createFamilyName"
+        app:layout_constraintTop_toBottomOf="@+id/img_createFamilyPhoto" />
+
+    <Button
+        android:id="@+id/btn_familyNicknameCheck"
+        android:layout_width="84dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="44dp"
+        android:text="중복검사"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:backgroundTint="@color/main_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toEndOf="@+id/text_createFamilyNickname"
+        app:layout_constraintTop_toBottomOf="@+id/text_familyNameValidate" />
+
+    <Button
+        android:id="@+id/btn_createFamilySubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="204dp"
+        android:layout_marginBottom="20dp"
         android:text="등록하기"
         android:textColor="@color/white"
         app:backgroundTint="@color/main_pink"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/text_familyNicknameValidate"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

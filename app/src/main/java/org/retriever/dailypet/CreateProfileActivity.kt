@@ -1,6 +1,7 @@
 package org.retriever.dailypet
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -16,7 +17,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import org.retriever.dailypet.databinding.ActivityRegisterProfileBinding
+import org.retriever.dailypet.databinding.ActivityCreateProfileBinding
 import org.retriever.dailypet.interfaces.RetrofitService
 import org.retriever.dailypet.models.General
 import retrofit2.Call
@@ -27,7 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
 
 class CreateProfileActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityRegisterProfileBinding
+    private lateinit var binding: ActivityCreateProfileBinding
     private lateinit var cameraLauncher: ActivityResultLauncher<Intent>
     private lateinit var galleryLauncher: ActivityResultLauncher<Intent>
     private lateinit var retrofit : Retrofit
@@ -50,7 +51,7 @@ class CreateProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRegisterProfileBinding.inflate(layoutInflater)
+        binding = ActivityCreateProfileBinding.inflate(layoutInflater)
         var view = binding.root
         setContentView(view)
 
@@ -71,7 +72,7 @@ class CreateProfileActivity : AppCompatActivity() {
             if (it.resultCode == RESULT_OK) {
                 Log.d(TAG, "Get Image from Gallery")
                 var bitmap = it.data?.extras?.get("data") as Bitmap
-                binding.imgRegisterProfile.setImageBitmap(bitmap)
+                binding.imgCreateProfilePhoto.setImageBitmap(bitmap)
             }
         }
         /* Gallery Register */
@@ -84,13 +85,13 @@ class CreateProfileActivity : AppCompatActivity() {
                     try {
                         Log.d(TAG, "Get Image from Camera")
                         var bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageData)
-                        binding.imgRegisterProfile.setImageBitmap(bitmap)
+                        binding.imgCreateProfilePhoto.setImageBitmap(bitmap)
                     } catch (e: Exception) { e.printStackTrace() }
             }
         }
 
         /* Upload Profile Image */
-        binding.btnRegisterProfileUpload.setOnClickListener{
+        binding.btnCreateProfileLoad.setOnClickListener{
             Log.d(TAG, "Button Photo Upload")
             var popupMenu = PopupMenu(applicationContext, it)
             menuInflater.inflate(R.menu.camera_menu, popupMenu.menu)
@@ -114,22 +115,23 @@ class CreateProfileActivity : AppCompatActivity() {
             }
         }
         /* Check Nickname Validation */
-        binding.btnRegisterProfileCheck.setOnClickListener{
+        binding.btnProfileNicknameCheck.setOnClickListener{
             Log.d(TAG, "Button NickName Check")
-            val nickname = binding.textRegisterProfileNickName.text.toString()
+            val nickname = binding.textCreateProfileNickname.text.toString()
+            Log.d(TAG, nickname)
             if(nickname == ""){
-                binding.textRegisterProfileValidate.text = "올바른 닉네임을 입력해주세요"
-                binding.textRegisterProfileValidate.setTextColor(Color.BLACK)
+                binding.textProfileNicknameValidate.text = "올바른 닉네임을 입력해주세요"
+                binding.textProfileNicknameValidate.setTextColor(Color.BLACK)
             }
             else checkValidNickname(nickname)
         }
         /* Submit Profile */
-        binding.btnRegisterProfileSubmit.setOnClickListener{
+        binding.btnCreateProfileSubmit.setOnClickListener{
             Log.d(TAG, "Button Register")
             if(isValidNickname ){
-                val nickname = binding.textRegisterProfileNickName.text.toString()
+                val nickname = binding.textCreateProfileNickname.text.toString()
                 val email = binding.textRegisterProfileEmail.text.toString()
-                val imageURL = binding.textRegisterProfileNickName.text.toString()
+                val imageURL = binding.imgCreateProfilePhoto.toString()
                 postProfileInfo(nickname, email, imageURL)
             } else{
                 Toast.makeText(this, "닉네임 중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
@@ -155,8 +157,8 @@ class CreateProfileActivity : AppCompatActivity() {
     }
     /* 프로필 등록 */
     private fun postProfileInfo(nickname : String, email : String, imageURL : String){
-        val callPostIsMember = retrofitService.postProfile(KEY, HOST, nickname, email, imageURL)
-        callPostIsMember.enqueue(object : Callback<General> {
+        val call = retrofitService.postProfile(KEY, HOST, nickname, email, imageURL)
+        call.enqueue(object : Callback<General> {
             override fun onResponse(call: Call<General>, response: Response<General>) {
                 val result: String = response.body().toString()
                 Log.d(TAG, "CODE = ${response.code()}")
@@ -181,23 +183,24 @@ class CreateProfileActivity : AppCompatActivity() {
     }
 
     private fun checkValidNickname(nickname : String){
-        val callPostIsMember = retrofitService.postCheckNickname(KEY, HOST, nickname)
-        callPostIsMember.enqueue(object : Callback<General> {
+        val call = retrofitService.postCheckNickname(KEY, HOST, nickname)
+        call.enqueue(object : Callback<General> {
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call<General>, response: Response<General>) {
                 val result: String = response.body().toString()
                 Log.d(TAG, "CODE = ${response.code()}")
                 Log.d(TAG, result)
                 if(response.isSuccessful) {
                     if(response.code() == CODE_NICKNAME){ // 유효한 닉네임
-                        binding.textRegisterProfileValidate.text = "사용가능한 닉네임입니다"
-                        binding.textRegisterProfileValidate.setTextColor(Color.BLUE)
+                        binding.textProfileNicknameValidate.text = "사용가능한 닉네임입니다"
+                        binding.textProfileNicknameValidate.setTextColor(Color.BLUE)
                         isValidNickname = true
                     }
                 }
                 else{
                     if(response.code() == CODE_FAIL){ // 유효하지 않은 닉네임
-                        binding.textRegisterProfileValidate.text = "중복된 닉네임입니다. 다른 닉네임을 사용해주세요"
-                        binding.textRegisterProfileValidate.setTextColor(Color.RED)
+                        binding.textProfileNicknameValidate.text = "중복된 닉네임입니다\n다른 닉네임을 사용해주세요"
+                        binding.textProfileNicknameValidate.setTextColor(Color.RED)
                     }
                 }
             }
