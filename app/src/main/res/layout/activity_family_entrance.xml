@@ -6,18 +6,88 @@
     android:layout_height="match_parent"
     tools:context=".FamilyEntranceActivity">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_createFamily"
+        android:layout_width="228dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rectangle_button"
+        android:backgroundTint="@color/main_blue"
+        android:text="가족 만들기"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_createFamily">
+
+    </androidx.appcompat.widget.AppCompatButton>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_toInvitePage"
+        android:layout_width="228dp"
+        android:layout_height="45dp"
+        android:background="@drawable/rectangle_button"
+        android:backgroundTint="@color/main_pink"
+        android:text="가족 초대코드 입력하기"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_familyEntranceSub"
+        app:layout_constraintVertical_bias="0.157">
+
+    </androidx.appcompat.widget.AppCompatButton>
+
+    <TextView
+        android:id="@+id/text_familyEntranceMain"
+        android:layout_width="315dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="68dp"
+        android:lineSpacingExtra="8sp"
+        android:text="가족을 만들어주세요"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/img_createFamily"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divide_familyType3"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/text_familyEntranceSub"
+        android:layout_width="315dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="168dp"
+        android:lineSpacingExtra="8sp"
+        android:text="이미 가족이 있으신가요?"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#7E7878"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_createFamily" />
+
     <TextView
         android:id="@+id/text_familyEntrance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="가족 생성 및 찾기"
+        android:text="가족 만들기 / 찾기"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/divide_familyType"
+        app:layout_constraintBottom_toTopOf="@+id/divide_familyType3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <View
         android:id="@+id/divide_familyType3"
@@ -28,4 +98,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_createFamily"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divide_familyType3"
+        app:layout_constraintVertical_bias="0.244"
+        app:srcCompat="@drawable/create_family"
+        app:tint="#02AEC5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="760dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
