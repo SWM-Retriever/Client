@@ -12,7 +12,7 @@ class SelectFamilyTypeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySelectFamilyTypeBinding.inflate(layoutInflater)
-        var view = binding.root
+        val view = binding.root
         setContentView(view)
 
         /* 1인 가구 */
