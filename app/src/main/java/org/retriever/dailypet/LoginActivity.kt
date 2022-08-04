@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.KakaoSdk
-import com.kakao.sdk.common.model.ApplicationContextInfo
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
@@ -108,7 +107,7 @@ class LoginActivity : AppCompatActivity() {
                 }
                 else{
                     if(response.code() == CODE_NOT_MEMBER){ // 신규 가입일때
-                        val nextIntent = Intent(applicationContext, RegisterProfileActivity::class.java)
+                        val nextIntent = Intent(applicationContext, CreateProfileActivity::class.java)
                         nextIntent.putExtra("userName",name)
                         nextIntent.putExtra("userEmail",email)
                         startActivity(nextIntent)

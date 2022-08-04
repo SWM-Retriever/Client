@@ -20,6 +20,9 @@
         android:theme="@style/Theme.DailyPet"
         tools:targetApi="31">
         <activity
+            android:name=".CreateFamilyActivity"
+            android:exported="false" />
+        <activity
             android:name=".FamilyEntranceActivity"
             android:exported="false" />
         <activity
@@ -29,7 +32,7 @@
             android:name=".CameraActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterProfileActivity"
+            android:name=".CreateProfileActivity"
             android:exported="false" />
         <activity
             android:name=".TestActivity"

@@ -54,9 +54,11 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/img_createFamily"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divide_familyType3" />
+        app:layout_constraintTop_toBottomOf="@+id/divide_familyType3"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/text_familyEntranceSub"
@@ -101,14 +103,21 @@
         android:id="@+id/img_createFamily"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="408dp"
         android:backgroundTint="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_familyEntranceMain"
-        app:layout_constraintVertical_bias="0.648"
-        app:srcCompat="@drawable/createFamily"
+        app:layout_constraintTop_toBottomOf="@+id/divide_familyType3"
+        app:layout_constraintVertical_bias="0.244"
+        app:srcCompat="@drawable/create_family"
         app:tint="#02AEC5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="760dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
