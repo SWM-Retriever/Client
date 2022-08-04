@@ -117,7 +117,11 @@ class RegisterProfileActivity : AppCompatActivity() {
         binding.btnRegisterProfileCheck.setOnClickListener{
             Log.d(TAG, "Button NickName Check")
             val nickname = binding.textRegisterProfileNickName.text.toString()
-            checkValidNickname(nickname)
+            if(nickname == ""){
+                binding.textRegisterProfileValidate.text = "올바른 닉네임을 입력해주세요"
+                binding.textRegisterProfileValidate.setTextColor(Color.BLACK)
+            }
+            else checkValidNickname(nickname)
         }
         /* Submit Profile */
         binding.btnRegisterProfileSubmit.setOnClickListener{

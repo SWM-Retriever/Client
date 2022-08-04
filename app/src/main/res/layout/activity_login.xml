@@ -49,15 +49,17 @@
 
     <TextView
         android:id="@+id/text_loginSlogan"
-        android:layout_width="293dp"
-        android:layout_height="44dp"
+        android:layout_width="316dp"
+        android:layout_height="42dp"
         android:layout_marginTop="76dp"
-        android:text="슬로건 문구"
+        android:text="스마트한 반려동물 케어의 시작"
         android:textAlignment="center"
         android:textColor="@color/teal_700"
         android:textSize="20sp"
+        android:textStyle="bold"
         android:typeface="normal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
