@@ -1,6 +1,7 @@
 package org.retriever.dailypet
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -128,9 +129,9 @@ class CreateProfileActivity : AppCompatActivity() {
         binding.btnCreateProfileSubmit.setOnClickListener{
             Log.d(TAG, "Button Register")
             if(isValidNickname ){
-                val nickname = binding.textCreateProfileNickname.toString()
+                val nickname = binding.textCreateProfileNickname.text.toString()
                 val email = binding.textRegisterProfileEmail.text.toString()
-                val imageURL = binding.textRegisterProfileEmail.toString()
+                val imageURL = binding.imgCreateProfilePhoto.toString()
                 postProfileInfo(nickname, email, imageURL)
             } else{
                 Toast.makeText(this, "닉네임 중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
@@ -184,6 +185,7 @@ class CreateProfileActivity : AppCompatActivity() {
     private fun checkValidNickname(nickname : String){
         val call = retrofitService.postCheckNickname(KEY, HOST, nickname)
         call.enqueue(object : Callback<General> {
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call<General>, response: Response<General>) {
                 val result: String = response.body().toString()
                 Log.d(TAG, "CODE = ${response.code()}")
@@ -197,7 +199,7 @@ class CreateProfileActivity : AppCompatActivity() {
                 }
                 else{
                     if(response.code() == CODE_FAIL){ // 유효하지 않은 닉네임
-                        binding.textProfileNicknameValidate.text = "중복된 닉네임입니다. 다른 닉네임을 사용해주세요"
+                        binding.textProfileNicknameValidate.text = "중복된 닉네임입니다\n다른 닉네임을 사용해주세요"
                         binding.textProfileNicknameValidate.setTextColor(Color.RED)
                     }
                 }

@@ -1,6 +1,7 @@
 package org.retriever.dailypet
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -115,7 +116,7 @@ class CreateFamilyActivity : AppCompatActivity() {
         /* Check Family Validation */
         binding.btnCreateFamilyNameCheck.setOnClickListener{
             Log.d(TAG, "Button FamilyName Check")
-            val familyName = binding.textFamilyNameValidate.toString()
+            val familyName = binding.textCreateFamilyName.text.toString()
             if(familyName == ""){
                 binding.textFamilyNameValidate.text = "올바른 닉네임을 입력해주세요"
                 binding.textFamilyNameValidate.setTextColor(Color.BLACK)
@@ -126,19 +127,19 @@ class CreateFamilyActivity : AppCompatActivity() {
         /* Check Nickname Validation */
         binding.btnFamilyNicknameCheck.setOnClickListener{
             Log.d(TAG, "Button FamilyNickname Check")
-            val familyName = binding.textCreateFamilyNickname.toString()
-            if(familyName == ""){
+            val familyNickname = binding.textCreateFamilyNickname.text.toString()
+            if(familyNickname == ""){
                 binding.textFamilyNicknameValidate.text = "올바른 닉네임을 입력해주세요"
                 binding.textFamilyNicknameValidate.setTextColor(Color.BLACK)
             }
-            else checkValidNickname(familyName)
+            else checkValidNickname(familyNickname)
         }
 
         /* Submit Profile */
         binding.btnCreateFamilySubmit.setOnClickListener{
             Log.d(TAG, "Button Register")
             if(isValidNickname && isValidFamilyname){
-                val familyname = binding.textCreateFamilyName.toString()
+                val familyname = binding.textCreateFamilyName.text.toString()
                 val nickname = binding.textCreateFamilyNickname.text.toString()
                 val imageURL = binding.imgCreateFamilyPhoto.toString()
                 postFamilyInfo(nickname, nickname, imageURL)
@@ -168,6 +169,7 @@ class CreateFamilyActivity : AppCompatActivity() {
     private fun checkValidFamilyname(familyName : String){
         val call = retrofitService.postCheckFamilyName(KEY, HOST, familyName)
         call.enqueue(object : Callback<General> {
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call<General>, response: Response<General>) {
                 val result: String = response.body().toString()
                 Log.d(TAG, "CODE = ${response.code()}")
@@ -195,13 +197,14 @@ class CreateFamilyActivity : AppCompatActivity() {
     private fun checkValidNickname(familyNickname : String){
         val call = retrofitService.postCheckFamilyNickName(KEY, HOST, familyNickname)
         call.enqueue(object : Callback<General> {
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call<General>, response: Response<General>) {
                 val result: String = response.body().toString()
                 Log.d(TAG, "CODE = ${response.code()}")
                 Log.d(TAG, result)
                 if(response.isSuccessful) {
                     if(response.code() == CODE_NICKNAME){ // 유효한 닉네임
-                        binding.textFamilyNicknameValidate.text = "중복된 가족 내 닉네임입니다\n다른 닉네임을 사용해주세요"
+                        binding.textFamilyNicknameValidate.text = "사용가능한 가족 이름입니다"
                         binding.textFamilyNicknameValidate.setTextColor(Color.BLUE)
                         isValidNickname = true
                     }
@@ -230,7 +233,7 @@ class CreateFamilyActivity : AppCompatActivity() {
                 if(response.isSuccessful) {
                     if(response.code() == CODE_FAMILY){ // 프로필 등록 성공
                         Toast.makeText(applicationContext, "가족 등록에 성공하였습니다", Toast.LENGTH_SHORT).show()
-                        val nextIntent = Intent(applicationContext, SelectFamilyTypeActivity::class.java)
+                        val nextIntent = Intent(applicationContext, CreatePetActivity::class.java)
                         startActivity(nextIntent) // 가족유형 선택 페이지로 이동
                     }
                 }
