@@ -71,4 +71,12 @@ interface RetrofitService {
         @Field("familyRoleName") familyNickname: String,
         @Field("imageURL") image: String,
     ): Call<General>
+
+    @FormUrlEncoded
+    @POST("api/v1/family/invitation-code")
+    fun postInviteCode(
+        @Header("X-RapidAPI-Key") key: String,
+        @Header("X-RapidAPI-Host") host: String,
+        @Field("invitationCode") inviteCode: String,
+    ): Call<FamilyInfo>
 }

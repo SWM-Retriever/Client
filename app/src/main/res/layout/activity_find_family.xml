@@ -68,6 +68,7 @@
         android:layout_width="244dp"
         android:layout_height="38dp"
         android:layout_marginTop="12dp"
+        android:textAlignment="center"
         android:textColor="#505050"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.425"
@@ -78,7 +79,7 @@
         android:id="@+id/img_FamilyPhoto"
         android:layout_width="172dp"
         android:layout_height="170dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="28dp"
         android:src="@color/browser_actions_bg_grey"
         android:visibility="invisible"
         app:civ_border_color="@color/main_blue"
@@ -94,6 +95,7 @@
         android:layout_width="206dp"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
+        android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -115,11 +117,11 @@
         app:layout_constraintTop_toBottomOf="@+id/text_familyName" />
 
     <Button
-        android:id="@+id/btn_enterFamily"
+        android:id="@+id/btn_selectFamily"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:text="가족에 들어가기"
+        android:text="가족 선택하기"
         android:textColor="@color/white"
         android:visibility="invisible"
         app:backgroundTint="@color/main_pink"
