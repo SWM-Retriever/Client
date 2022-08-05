@@ -31,11 +31,13 @@ class FindFamilyActivity : AppCompatActivity() {
     private val HOST = "dailypet.p.rapidapi.com"
     private val CODE_NICKNAME = 200
     private val CODE_FAIL = 400
+    private var FamilyName : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFindFamilyBinding.inflate(layoutInflater)
         val view = binding.root
+
         setContentView(view)
 
         /* API Init */
@@ -60,8 +62,11 @@ class FindFamilyActivity : AppCompatActivity() {
 
         /* Register Family Member Page*/
         binding.btnSelectFamily.setOnClickListener{
-            val nextIntent = Intent(this, EnterFamilyActivity::class.java)
-            startActivity(nextIntent) // 가족 구성원 등록 페이지로 이동
+            if(isValidCode){
+                val nextIntent = Intent(this, EnterFamilyActivity::class.java)
+                nextIntent.putExtra("FamilyName", FamilyName)
+                startActivity(nextIntent) // 가족 구성원 등록 페이지로 이동
+            }
         }
     }
 
@@ -79,6 +84,7 @@ class FindFamilyActivity : AppCompatActivity() {
                         binding.textInviteCodeValidate.setTextColor(Color.BLUE)
                         isValidCode = true
                         val familCount = response.body()?.familyCount
+                        FamilyName = response.body()?.familyName
                         binding.textFamilyName.text = response.body()?.familyName + " ($familCount 명)"
                         setVisibility()
                     }
@@ -101,6 +107,7 @@ class FindFamilyActivity : AppCompatActivity() {
     private fun setVisibility(){
         if(isValidCode){
             binding.imgFamilyPhoto.visibility = View.VISIBLE
+            binding.textFamilyName.visibility = View.VISIBLE
             binding.btnSelectFamily.visibility = Button.VISIBLE
             binding.textInvisibleComment.visibility = View.VISIBLE
         } else{
