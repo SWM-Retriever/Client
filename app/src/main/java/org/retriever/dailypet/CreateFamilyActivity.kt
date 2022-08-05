@@ -34,7 +34,6 @@ class CreateFamilyActivity : AppCompatActivity() {
     private lateinit var cameraLauncher: ActivityResultLauncher<Intent>
     private lateinit var galleryLauncher: ActivityResultLauncher<Intent>
     private var isValidFamilyname : Boolean = false
-    private var isValidNickname : Boolean = false
     private val TAG = "CREATE FAMILY ACTIVITY"
     private val BASE_URL = "https://dailypet.p.rapidapi.com/"
     private val KEY = "455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c"
@@ -124,25 +123,14 @@ class CreateFamilyActivity : AppCompatActivity() {
             else checkValidFamilyname(familyName)
         }
 
-        /* Check Nickname Validation */
-        binding.btnFamilyNicknameCheck.setOnClickListener{
-            Log.d(TAG, "Button FamilyNickname Check")
-            val familyNickname = binding.textCreateFamilyNickname.text.toString()
-            if(familyNickname == ""){
-                binding.textFamilyNicknameValidate.text = "올바른 닉네임을 입력해주세요"
-                binding.textFamilyNicknameValidate.setTextColor(Color.BLACK)
-            }
-            else checkValidNickname(familyNickname)
-        }
-
         /* Submit Profile */
         binding.btnCreateFamilySubmit.setOnClickListener{
             Log.d(TAG, "Button Register")
-            if(isValidNickname && isValidFamilyname){
+            if(isValidFamilyname){
                 val familyname = binding.textCreateFamilyName.text.toString()
                 val nickname = binding.textCreateFamilyNickname.text.toString()
                 val imageURL = binding.imgCreateFamilyPhoto.toString()
-                postFamilyInfo(nickname, nickname, imageURL)
+                postFamilyInfo(familyname, nickname, imageURL)
             } else{
                 Toast.makeText(this, "닉네임 중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
             }
@@ -185,34 +173,6 @@ class CreateFamilyActivity : AppCompatActivity() {
                     if(response.code() == CODE_FAIL){ // 유효하지 않은 가족이름
                         binding.textFamilyNameValidate.text = "중복된 가족이름입니다\n다른 이름을 사용해주세요"
                         binding.textFamilyNameValidate.setTextColor(Color.RED)
-                    }
-                }
-            }
-            override fun onFailure(call: Call<General>, t: Throwable) {
-                Log.e(TAG, "연결 실패")
-            }
-        })
-    }
-
-    private fun checkValidNickname(familyNickname : String){
-        val call = retrofitService.postCheckFamilyNickName(KEY, HOST, familyNickname)
-        call.enqueue(object : Callback<General> {
-            @SuppressLint("SetTextI18n")
-            override fun onResponse(call: Call<General>, response: Response<General>) {
-                val result: String = response.body().toString()
-                Log.d(TAG, "CODE = ${response.code()}")
-                Log.d(TAG, result)
-                if(response.isSuccessful) {
-                    if(response.code() == CODE_NICKNAME){ // 유효한 닉네임
-                        binding.textFamilyNicknameValidate.text = "사용가능한 가족 내 닉네임입니다"
-                        binding.textFamilyNicknameValidate.setTextColor(Color.BLUE)
-                        isValidNickname = true
-                    }
-                }
-                else{
-                    if(response.code() == CODE_FAIL){ // 유효하지 않은 닉네임
-                        binding.textFamilyNicknameValidate.text = "중복된 가족 내 닉네임입니다\n다른 닉네임을 사용해주세요"
-                        binding.textFamilyNicknameValidate.setTextColor(Color.RED)
                     }
                 }
             }

@@ -66,6 +66,7 @@
         android:layout_width="258dp"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
+        android:textAlignment="center"
         android:textColor="#505050"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.529"
