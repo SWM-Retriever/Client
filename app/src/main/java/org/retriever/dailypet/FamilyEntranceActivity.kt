@@ -21,7 +21,8 @@ class FamilyEntranceActivity : AppCompatActivity() {
         }
         /* 초대코드 페이지 버튼 */
         binding.btnToInvitePage.setOnClickListener{
-
+            val nextIntent = Intent(this, FindFamilyActivity::class.java)
+            startActivity(nextIntent)
         }
     }
 }

@@ -204,7 +204,7 @@ class CreateFamilyActivity : AppCompatActivity() {
                 Log.d(TAG, result)
                 if(response.isSuccessful) {
                     if(response.code() == CODE_NICKNAME){ // 유효한 닉네임
-                        binding.textFamilyNicknameValidate.text = "사용가능한 가족 이름입니다"
+                        binding.textFamilyNicknameValidate.text = "사용가능한 가족 내 닉네임입니다"
                         binding.textFamilyNicknameValidate.setTextColor(Color.BLUE)
                         isValidNickname = true
                     }

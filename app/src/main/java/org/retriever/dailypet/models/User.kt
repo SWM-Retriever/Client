@@ -31,3 +31,16 @@ data class General(
     @SerializedName("status")
     val status: String
 )
+
+data class FamilyInfo(
+    @SerializedName("familyName")
+    val familyName: String,
+    @SerializedName("familyCount")
+    val familyCount: Int,
+    @SerializedName("profileImage")
+    val familyProfile: String,
+    @SerializedName("error")
+    val error: String,
+    @SerializedName("message")
+    val message: String,
+)
