@@ -126,14 +126,19 @@ class CreateFamilyActivity : AppCompatActivity() {
         /* Submit Profile */
         binding.btnCreateFamilySubmit.setOnClickListener{
             Log.d(TAG, "Button Register")
-            if(isValidFamilyname){
+            val nickname = binding.textCreateFamilyNickname.text.toString()
+            if(nickname == "") {
+                Toast.makeText(this, "가족 내 닉네임을 작성해주세요", Toast.LENGTH_SHORT).show()
+            }
+            else if(isValidFamilyname){
                 val familyname = binding.textCreateFamilyName.text.toString()
                 val nickname = binding.textCreateFamilyNickname.text.toString()
                 val imageURL = binding.imgCreateFamilyPhoto.toString()
                 postFamilyInfo(familyname, nickname, imageURL)
             } else{
-                Toast.makeText(this, "닉네임 중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "가족이름 중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
             }
+
         }
     }
 
