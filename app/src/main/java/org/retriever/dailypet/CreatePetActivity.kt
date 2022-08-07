@@ -3,6 +3,7 @@ package org.retriever.dailypet
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -28,6 +29,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
+import java.util.*
 
 class CreatePetActivity : AppCompatActivity() {
     private var backKeyPressedTime : Long = 0
@@ -156,6 +158,17 @@ class CreatePetActivity : AppCompatActivity() {
             binding.btnPetBreedMix.setBackgroundColor(getColor(R.color.main_blue))
             MIX = false
             UNKOWN = true
+        }
+
+        /* Pop-up Calender */
+        binding.editTextBirth.setOnClickListener{
+            val cal = Calendar.getInstance()
+            val dateSetListener = DatePickerDialog.OnDateSetListener{
+                view, year, month, day ->
+                var dateString = "${year}년 ${month + 1}월 ${day}일"
+                binding.editTextBirth.setText(dateString)
+            }
+            DatePickerDialog(this, dateSetListener, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)).show()
         }
 
         /* Submit Profile */

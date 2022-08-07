@@ -179,7 +179,7 @@
                 android:layout_width="245dp"
                 android:layout_height="49dp"
                 android:layout_marginTop="12dp"
-                android:hint="예시) 2022-08-06"
+                android:hint="클릭하여 날짜를 입력해주세요"
                 android:inputType="date"
                 android:textAlignment="center"
                 android:textSize="16sp"
