@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -171,6 +170,13 @@ class CreatePetActivity : AppCompatActivity() {
                 }
                 DatePickerDialog(this, dateSetListener, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)).show()
             }
+        }
+
+        /* Pop-up Search */
+        binding.editTextBreed.setOnClickListener{
+            BreedSearchDialog(this){
+
+            }.show()
         }
 
         /* Submit Profile */
