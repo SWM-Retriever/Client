@@ -39,7 +39,7 @@ class CreateFamilyActivity : AppCompatActivity() {
     private val KEY = "455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c"
     private val HOST = "dailypet.p.rapidapi.com"
     private val CODE_NICKNAME = 200
-    private val CODE_FAMILY = 201
+    private val CODE_FAMILY = 200
     private val CODE_FAIL = 400
     // Permissions
     val PERMISSIONS = arrayOf(

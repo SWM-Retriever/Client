@@ -183,6 +183,7 @@
                 android:inputType="date"
                 android:textAlignment="center"
                 android:textSize="16sp"
+                android:focusable="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.186"
                 app:layout_constraintStart_toStartOf="parent"
@@ -201,20 +202,6 @@
                 app:layout_constraintHorizontal_bias="0.103"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_birth" />
-
-            <Button
-                android:id="@+id/btn_petBreedSearch"
-                android:layout_width="106dp"
-                android:layout_height="41dp"
-                android:layout_marginTop="20dp"
-                android:text="검색"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:backgroundTint="@color/main_blue"
-                app:layout_constraintEnd_toStartOf="@+id/btn_petBreedMix"
-                app:layout_constraintHorizontal_bias="0.659"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_petBreed" />
 
             <Button
                 android:id="@+id/btn_petBreedMix"
@@ -243,21 +230,20 @@
                 app:layout_constraintStart_toEndOf="@+id/btn_petBreedMix"
                 app:layout_constraintTop_toBottomOf="@+id/text_petBreed" />
 
+
             <TextView
                 android:id="@+id/text_petWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="36dp"
                 android:text="반려동물 몸무게"
                 android:textColor="#000000"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.108"
+                app:layout_constraintHorizontal_bias="0.115"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_petBreedSearch" />
-
-
+                app:layout_constraintTop_toBottomOf="@+id/btn_search" />
 
             <EditText
                 android:id="@+id/editText_petWeight"
@@ -354,6 +340,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_registerNumber" />
+
+            <SearchView
+                android:id="@+id/btn_search"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="32dp"
+                app:layout_constraintEnd_toStartOf="@+id/btn_petBreedMix"
+                app:layout_constraintHorizontal_bias="0.911"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_petBreed" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
