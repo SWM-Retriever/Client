@@ -109,6 +109,8 @@ class EnterFamilyActivity : AppCompatActivity() {
                     if(response.code() == CODE_FAMILY){ // 프로필 등록 성공
                         Toast.makeText(applicationContext, "가족 입장에 성공하였습니다", Toast.LENGTH_SHORT).show()
                     }
+                    val nextIntent = Intent(applicationContext, CreatePetActivity::class.java)
+                    startActivity(nextIntent) // 반려동물 생성 페이지로 이동
                 }
                 else{
                     if(response.code() == CODE_FAIL){ // 프로필 등록 실패
