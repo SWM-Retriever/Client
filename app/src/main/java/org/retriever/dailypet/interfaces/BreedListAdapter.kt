@@ -10,32 +10,41 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import org.retriever.dailypet.BreedSearchDialog
 import org.retriever.dailypet.R
-import org.retriever.dailypet.databinding.DialogSearchBreedBinding
 import org.retriever.dailypet.models.Breed
+import org.retriever.dailypet.databinding.ActivityCreatePetBinding
 
 class BreedListAdapter(var breeds: ArrayList<Breed>, var con: Context) :
     RecyclerView.Adapter<BreedListAdapter.ViewHolder>(), Filterable {
-        var TAG = "BREED LIST ADAPTER"
+        val TAG = "BREED LIST ADAPTER"
         var filteredBreeds = ArrayList<Breed>()
         var itemFilter = ItemFilter()
+        private lateinit var binding : ActivityCreatePetBinding
 
-        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            var text_title: TextView
-            var text_sub: TextView
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            var textTitle: TextView
+            var textSub: TextView
 
             init {
-                text_title = itemView.findViewById(R.id.text_breedItem)
-                text_sub = itemView.findViewById(R.id.text_descriptionItem)
+                textTitle = itemView.findViewById(R.id.text_breedItem)
+                textSub = itemView.findViewById(R.id.text_descriptionItem)
 
                 itemView.setOnClickListener {
                     AlertDialog.Builder(con).apply {
-                        var position = adapterPosition
-                        var breed = filteredBreeds[position]
-                        setTitle(breed.breed)
-                        setMessage(breed.description)
-                        setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
-                            Toast.makeText(con, "OK Button Click", Toast.LENGTH_SHORT).show()
+                        val position = adapterPosition
+                        val breed = filteredBreeds[position]
+                        setTitle("선택한 종이 맞습니까?")
+                        setMessage("\n종 이름 : "+ breed.name)
+                        setPositiveButton("네", DialogInterface.OnClickListener { _ , _ ->
+                            binding.editTextBreed.setText(breed.name)
+                            BreedSearchDialog(con){}.dismiss()
+
+
+
+                        })
+                        setNegativeButton("아니요", DialogInterface.OnClickListener { dialog, _ ->
+                            dialog.cancel()
                         })
                         show()
                     }
@@ -50,14 +59,16 @@ class BreedListAdapter(var breeds: ArrayList<Breed>, var con: Context) :
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val con = parent.context
             val inflater = con.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = inflater.inflate(R.layout.dialog_search_breed, parent, false)
+            binding = ActivityCreatePetBinding.inflate(inflater)
+            val view = inflater.inflate(R.layout.item_breed, parent, false)
             return ViewHolder(view)
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val breed: Breed = filteredBreeds[position]
-            holder.text_title.text = breed.breed
-            holder.text_sub.text = breed.description
+            Log.e(TAG, breed.name)
+            holder.textTitle.text = breed.name
+            holder.textSub.text = breed.description
         }
 
         override fun getItemCount(): Int {
@@ -85,14 +96,14 @@ class BreedListAdapter(var breeds: ArrayList<Breed>, var con: Context) :
                     //공백제외 2글자 이인 경우 -> 이름으로만 검색
                 } else if (filterString.trim { it <= ' ' }.length <= 2) {
                     for (breed in breeds) {
-                        if (breed.breed.contains(filterString)) {
+                        if (breed.name.contains(filterString)) {
                             filteredList.add(breed)
                         }
                     }
-                    //그 외의 경우(공백제외 2글자 초과) -> 이름/전화번호로 검색
+                    //그 외의 경우(공백제외 2글자 초과) -> 이름, 설명으로 검색
                 } else {
                     for (breed in breeds) {
-                        if (breed.breed.contains(filterString) || breed.description.contains(filterString)) {
+                        if (breed.name.contains(filterString) || breed.description.contains(filterString)) {
                             filteredList.add(breed)
                         }
                     }
@@ -110,6 +121,4 @@ class BreedListAdapter(var breeds: ArrayList<Breed>, var con: Context) :
                 notifyDataSetChanged()
             }
         }
-
-
 }

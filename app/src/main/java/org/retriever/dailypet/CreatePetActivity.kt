@@ -174,9 +174,7 @@ class CreatePetActivity : AppCompatActivity() {
 
         /* Pop-up Search */
         binding.editTextBreed.setOnClickListener{
-            BreedSearchDialog(this){
-
-            }.show()
+            BreedSearchDialog(this){}.show()
         }
 
         /* Submit Profile */

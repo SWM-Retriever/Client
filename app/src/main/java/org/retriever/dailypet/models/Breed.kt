@@ -1,6 +1,6 @@
 package org.retriever.dailypet.models
 
 data class Breed (
-    val breed: String,
+    val name: String,
     val description: String,
 ){}

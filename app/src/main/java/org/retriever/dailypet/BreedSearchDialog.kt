@@ -41,43 +41,46 @@ class BreedSearchDialog(
         // background를 투명하게
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        // OK Button 클릭에 대한 Callback 처리. 이 부분은 상황에 따라 자유롭게!
-        btnSearch.setOnClickListener {
-            if (editTextBreed.text.isNullOrBlank()) {
-                Toast.makeText(context, "품종을 입력해주세요", Toast.LENGTH_SHORT).show()
-            } else {
-                okCallback(editTextBreed.text.toString())
-                dismiss()
-            }
-        }
-        searchViewBreed.setOnQueryTextListener(searchViewTextListener)
-        breeds = tempBreeds()
-        setAdapter()
 
+        // OK Button 클릭에 대한 Callback 처리. 이 부분은 상황에 따라 자유롭게!
+//        btnSearch.setOnClickListener {
+//            if (editTextBreed.text.isNullOrBlank()) {
+//                Toast.makeText(context, "품종을 입력해주세요", Toast.LENGTH_SHORT).show()
+//            } else {
+//                okCallback(editTextBreed.text.toString())
+//                dismiss()
+//            }
+//        }
+        searchViewBreed.setOnQueryTextListener(searchViewTextListener)
+        breeds = setBreeds()
+        setAdapter()
     }
 
-    var searchViewTextListener: SearchView.OnQueryTextListener =
+    private var searchViewTextListener: SearchView.OnQueryTextListener =
         object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(s: String?): Boolean {
                 return false
             }
-
+            /* 입력할 때 마다 */
             override fun onQueryTextChange(s: String?): Boolean {
+                breedListAdapter.filter.filter(s)
                 return false
             }
         }
 
-    fun setAdapter(){
+    private fun setAdapter(){
         //리사이클러뷰에 리사이클러뷰 어댑터 부착
         recyclerView.layoutManager = LinearLayoutManager(context)
         breedListAdapter = BreedListAdapter(breeds, context)
         recyclerView.adapter = breedListAdapter
     }
 
-    fun tempBreeds(): ArrayList<Breed> {
-        var tempBreeds = ArrayList<Breed>()
-        tempBreeds.add(Breed( "리트리버","온순한 성격"))
-        tempBreeds.add(Breed( "말티즈", "하얀 강아지"))
+    private fun setBreeds(): ArrayList<Breed> {
+        val tempBreeds = ArrayList<Breed>()
+        tempBreeds.add(Breed( "Retriever","Gold hair, Big, Kind"))
+        tempBreeds.add(Breed( "Shih Tzu", "White hair, Small"))
+        tempBreeds.add(Breed( "Bichon Frise", "White hair, Medium"))
+        tempBreeds.add(Breed( "Poodle", "Brown hair"))
 
         return tempBreeds
     }
