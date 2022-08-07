@@ -265,7 +265,7 @@
                 android:layout_height="49dp"
                 android:layout_marginTop="12dp"
                 android:gravity="center"
-                android:hint="예시) 10.2kg"
+                android:hint="예시) 10.2 (kg)"
                 android:inputType="number"
                 android:textSize="16sp"
                 android:textStyle="bold"

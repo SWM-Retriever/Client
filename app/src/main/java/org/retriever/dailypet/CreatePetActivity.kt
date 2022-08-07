@@ -202,7 +202,7 @@ class CreatePetActivity : AppCompatActivity() {
     }
 
     private fun checkValidPetName(petName : String){
-        val call = retrofitService.postCheckFamilyNickName(KEY, HOST, petName)
+        val call = retrofitService.postCheckPetName(KEY, HOST, petName)
         call.enqueue(object : Callback<General> {
             @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call<General>, response: Response<General>) {
