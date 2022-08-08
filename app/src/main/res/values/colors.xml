@@ -9,5 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="logo_white">#F2F2F2</color>
     <color name="main_pink">#F2778D</color>
-    <color name="main_blue">#73D9D9</color>
+    <color name="main_blue">#6FC5CE</color>
+    <color name="light_grey">#FAFAFA</color>
+    <color name="dark_grey">#EEEEEE</color>
+
 </resources>
