@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.10671462829736211" />
         <entry key="app/src/main/res/drawable/dailypet_logo_background.xml" value="0.3075" />
+        <entry key="app/src/main/res/drawable/edittext_background.xml" value="0.287" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.3075" />
+        <entry key="app/src/main/res/drawable/radius_dialog.xml" value="0.287" />
         <entry key="app/src/main/res/drawable/rectangle_button.xml" value="0.352" />
         <entry key="app/src/main/res/drawable/round_button.xml" value="0.3075" />
         <entry key="app/src/main/res/layout/activity_create_family.xml" value="0.30867892261650276" />
@@ -19,6 +22,8 @@
         <entry key="app/src/main/res/layout/activity_select_family_type.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_test.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/dialog_search_breed.xml" value="0.30782385634886705" />
+        <entry key="app/src/main/res/layout/item_breed.xml" value="0.30782385634886705" />
         <entry key="app/src/main/res/menu/camera_menu.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3075" />
       </map>

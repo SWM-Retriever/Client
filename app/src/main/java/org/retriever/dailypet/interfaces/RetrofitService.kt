@@ -87,4 +87,12 @@ interface RetrofitService {
         @Header("X-RapidAPI-Host") host: String,
         @Field("familyRoleName") nickname: String,
     ): Call<General>
+
+    @FormUrlEncoded
+    @POST("api/v1/validation/pet-name'")
+    fun postCheckPetName(
+        @Header("X-RapidAPI-Key") key: String,
+        @Header("X-RapidAPI-Host") host: String,
+        @Field("petName") familyName: String,
+    ): Call<General>
 }

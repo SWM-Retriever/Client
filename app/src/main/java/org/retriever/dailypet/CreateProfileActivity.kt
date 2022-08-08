@@ -34,12 +34,12 @@ class CreateProfileActivity : AppCompatActivity() {
     private lateinit var retrofit : Retrofit
     private lateinit var retrofitService : RetrofitService
     private var isValidNickname : Boolean = false
-    private val TAG = "REGISTER PROFILE"
+    private val TAG = "CREATE PROFILE"
     private val BASE_URL = "https://dailypet.p.rapidapi.com/"
     private val KEY = "455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c"
     private val HOST = "dailypet.p.rapidapi.com"
     private val CODE_NICKNAME = 200
-    private val CODE_PROFILE = 201
+    private val CODE_PROFILE = 200
     private val CODE_FAIL = 400
     // Permissions
     val PERMISSIONS = arrayOf(

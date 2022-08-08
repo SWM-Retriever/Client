@@ -3,11 +3,11 @@ package org.retriever.dailypet
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -28,6 +28,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
+import java.util.*
 
 class CreatePetActivity : AppCompatActivity() {
     private var backKeyPressedTime : Long = 0
@@ -158,6 +159,24 @@ class CreatePetActivity : AppCompatActivity() {
             UNKOWN = true
         }
 
+        /* Pop-up Calender */
+        binding.editTextBirth.setOnClickListener{
+            it.setOnClickListener{
+                val cal = Calendar.getInstance()
+                val dateSetListener = DatePickerDialog.OnDateSetListener{
+                        view, year, month, day ->
+                    var dateString = "${year}년 ${month + 1}월 ${day}일"
+                    binding.editTextBirth.setText(dateString)
+                }
+                DatePickerDialog(this, dateSetListener, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)).show()
+            }
+        }
+
+        /* Pop-up Search */
+        binding.editTextBreed.setOnClickListener{
+            BreedSearchDialog(this){}.show()
+        }
+
         /* Submit Profile */
         binding.btnCreatePetSubmit.setOnClickListener{
             Log.d(TAG, "Button Register")
@@ -189,7 +208,7 @@ class CreatePetActivity : AppCompatActivity() {
     }
 
     private fun checkValidPetName(petName : String){
-        val call = retrofitService.postCheckFamilyNickName(KEY, HOST, petName)
+        val call = retrofitService.postCheckPetName(KEY, HOST, petName)
         call.enqueue(object : Callback<General> {
             @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call<General>, response: Response<General>) {
