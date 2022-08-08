@@ -11,7 +11,7 @@
         android:id="@+id/img_creation_complete"
         android:layout_width="220dp"
         android:layout_height="146dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -234,8 +234,8 @@
 
     <TextView
         android:id="@+id/text_inviteComment"
-        android:layout_width="284dp"
-        android:layout_height="30dp"
+        android:layout_width="313dp"
+        android:layout_height="27dp"
         android:layout_marginTop="12dp"
         android:text="@string/invite_comment"
         android:textAlignment="center"
@@ -245,5 +245,12 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_invite" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="755dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -179,7 +179,7 @@ class CreatePetActivity : AppCompatActivity() {
 
         /* Submit Profile */
         binding.btnCreatePetSubmit.setOnClickListener{
-            Log.d(TAG, "Button Register")
+            Log.d(TAG, "Button Create")
             if(isValidPetName ){
                 val petName = binding.editTextPetName.text.toString()
                 val weight = binding.editTextPetWeight.text.toString()
@@ -246,7 +246,7 @@ class CreatePetActivity : AppCompatActivity() {
                 if(response.isSuccessful) {
                     if(response.code() == 200){ // 반려동물 등록 성공
                         Toast.makeText(applicationContext, "반려동물 등록에 성공하였습니다", Toast.LENGTH_SHORT).show()
-                        val nextIntent = Intent(applicationContext, SelectFamilyTypeActivity::class.java)
+                        val nextIntent = Intent(applicationContext, CreationCompleteActivity::class.java)
                         startActivity(nextIntent) // 등록 완료 페이지로 이동
                     }
                 }

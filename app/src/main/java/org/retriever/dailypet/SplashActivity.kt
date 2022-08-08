@@ -20,7 +20,7 @@ class SplashActivity : AppCompatActivity() {
         imageLogo.startAnimation(fadeIn)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, StartActivity::class.java)
             startActivity(intent)
             finish()
         }, DURATION)
