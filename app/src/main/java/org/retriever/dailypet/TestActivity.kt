@@ -77,7 +77,7 @@ class TestActivity : AppCompatActivity() {
         }
 
         backButton.setOnClickListener {
-            val nextIntent = Intent(this, MainActivity::class.java)
+            val nextIntent = Intent(this, StartActivity::class.java)
             startActivity(nextIntent)
         }
     }

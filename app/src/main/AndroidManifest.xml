@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.retriever.dailypet">
+    package="org.retriever.dailypet" >
 
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 인터넷 사용권한 -->
     <uses-permission android:name="android.permission.CAMERA" /> <!-- 카메라 사용권한 -->
@@ -18,7 +18,13 @@
         android:roundIcon="@mipmap/dailypet_logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DailyPet"
-        tools:targetApi="31">
+        tools:targetApi="31" >
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreationCompleteActivity"
+            android:exported="false" />
         <activity
             android:name=".EnterFamilyActivity"
             android:exported="false" />
@@ -50,12 +56,12 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".StartActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
             android:exported="true"
-            android:theme="@style/Splash">
+            android:theme="@style/Splash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -64,7 +70,7 @@
         </activity>
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
