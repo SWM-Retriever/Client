@@ -109,7 +109,7 @@ class LoginActivity : AppCompatActivity() {
                 }
                 else{
                     if(response.code() == CODE_NEW_MEMBER){ // 신규 가입일때
-                        val nextIntent = Intent(applicationContext, CreateProfileActivity::class.java)
+                        val nextIntent = Intent(applicationContext, TermOfService::class.java)
                         nextIntent.putExtra("userName",name)
                         nextIntent.putExtra("userEmail",email)
                         startActivity(nextIntent)
