@@ -19,6 +19,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okio.BufferedSink
 import org.retriever.dailypet.databinding.ActivityCreatePetBinding
 import org.retriever.dailypet.interfaces.RetrofitService
 import org.retriever.dailypet.models.General
@@ -39,9 +44,10 @@ class CreatePetActivity : AppCompatActivity() {
     private lateinit var galleryLauncher: ActivityResultLauncher<Intent>
     private var isValidPetName = false
     private val TAG = "CREATE PET ACTIVITY"
-    private val BASE_URL = "https://dailypet.p.rapidapi.com/"
-    private val KEY = "455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c"
-    private val HOST = "dailypet.p.rapidapi.com"
+    private lateinit var BASE_URL: String
+    private lateinit var KEY : String
+    private lateinit var HOST : String
+    private var bitmap : Bitmap? = null
     private val CODE_NICKNAME = 200
     private val CODE_FAIL = 400
     private var DOG = false
@@ -62,6 +68,32 @@ class CreatePetActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        BASE_URL = getString(R.string.URL)
+        KEY = getString(R.string.KEY)
+        HOST = getString(R.string.HOST)
+
+        /* Pop-up Calender */
+        binding.editTextBirth.setOnClickListener{
+            it.setOnClickListener{
+                val cal = Calendar.getInstance()
+                val dateSetListener = DatePickerDialog.OnDateSetListener{
+                        view, year, month, day ->
+                    val dateString = "${year}년 ${month + 1}월 ${day}일"
+                    binding.editTextBirth.setText(dateString)
+                }
+                DatePickerDialog(this, dateSetListener, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)).show()
+            }
+        }
+
+        /* Pop-up Search */
+        binding.editTextBreed.setOnClickListener{
+            BreedSearchDialog(applicationContext){}.show()
+        }
+
+        init()
+    }
+
+    private fun init() = with(binding){
         /* API Init */
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -75,8 +107,9 @@ class CreatePetActivity : AppCompatActivity() {
         ) {
             if (it.resultCode == RESULT_OK) {
                 Log.d(TAG, "Get Image from Gallery")
-                var bitmap = it.data?.extras?.get("data") as Bitmap
-                binding.imgCreatePetPhoto.setImageBitmap(bitmap)
+                bitmap = it.data?.extras?.get("data") as Bitmap
+                bitmap = Bitmap.createScaledBitmap(bitmap!!, 300, 300, true)
+                imgCreatePetPhoto.setImageBitmap(bitmap)
             }
         }
         /* Gallery Register */
@@ -88,14 +121,15 @@ class CreatePetActivity : AppCompatActivity() {
                 val imageData: Uri? = it.data?.data
                 try {
                     Log.d(TAG, "Get Image from Camera")
-                    var bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageData)
-                    binding.imgCreatePetPhoto.setImageBitmap(bitmap)
+                    bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageData)
+                    bitmap = Bitmap.createScaledBitmap(bitmap!!, 300, 300, true)
+                    imgCreatePetPhoto.setImageBitmap(bitmap)
                 } catch (e: Exception) { e.printStackTrace() }
             }
         }
 
         /* Upload Profile Image */
-        binding.btnCreatePetProfileLoad.setOnClickListener{
+        btnCreatePetProfileLoad.setOnClickListener{
             Log.d(TAG, "Button Photo Upload")
             var popupMenu = PopupMenu(applicationContext, it)
             menuInflater.inflate(R.menu.camera_menu, popupMenu.menu)
@@ -120,76 +154,58 @@ class CreatePetActivity : AppCompatActivity() {
         }
 
         /* Check Pet Name Validation */
-        binding.btnPetNameCheck.setOnClickListener{
+        btnPetNameCheck.setOnClickListener{
             Log.d(TAG, "Button Nickname Check")
             val petName = binding.editTextPetName.text.toString()
             if(petName == ""){
-                binding.textPetNameValidate.text = "반려동물 이름을 입력해주세요"
-                binding.textPetNameValidate.setTextColor(Color.RED)
+                textPetNameValidate.text = "반려동물 이름을 입력해주세요"
+                textPetNameValidate.setTextColor(Color.RED)
                 isValidPetName = false
             }
             else checkValidPetName(petName)
         }
 
         /* Pet Type */
-        binding.btnPetTypeDog.setOnClickListener{
-            binding.btnPetTypeDog.setBackgroundColor(getColor(R.color.main_pink))
-            binding.btnPetTypeCat.setBackgroundColor(getColor(R.color.main_blue))
+        btnPetTypeDog.setOnClickListener{
+            btnPetTypeDog.setBackgroundColor(getColor(R.color.main_pink))
+            btnPetTypeCat.setBackgroundColor(getColor(R.color.main_blue))
             DOG = true
             CAT = false
         }
-        binding.btnPetTypeCat.setOnClickListener{
-            binding.btnPetTypeCat.setBackgroundColor(getColor(R.color.main_pink))
-            binding.btnPetTypeDog.setBackgroundColor(getColor(R.color.main_blue))
+        btnPetTypeCat.setOnClickListener{
+            btnPetTypeCat.setBackgroundColor(getColor(R.color.main_pink))
+            btnPetTypeDog.setBackgroundColor(getColor(R.color.main_blue))
             DOG = false
             CAT = true
         }
 
         /* Pet Breed */
-        binding.btnPetBreedMix.setOnClickListener{
-            binding.btnPetBreedMix.setBackgroundColor(getColor(R.color.main_pink))
-            binding.btnPetBreedUnknown.setBackgroundColor(getColor(R.color.main_blue))
+        btnPetBreedMix.setOnClickListener{
+            btnPetBreedMix.setBackgroundColor(getColor(R.color.main_pink))
+            btnPetBreedUnknown.setBackgroundColor(getColor(R.color.main_blue))
             MIX = true
             UNKOWN = false
         }
-        binding.btnPetBreedUnknown.setOnClickListener{
-            binding.btnPetBreedUnknown.setBackgroundColor(getColor(R.color.main_pink))
-            binding.btnPetBreedMix.setBackgroundColor(getColor(R.color.main_blue))
+        btnPetBreedUnknown.setOnClickListener{
+            btnPetBreedUnknown.setBackgroundColor(getColor(R.color.main_pink))
+            btnPetBreedMix.setBackgroundColor(getColor(R.color.main_blue))
             MIX = false
             UNKOWN = true
         }
 
-        /* Pop-up Calender */
-        binding.editTextBirth.setOnClickListener{
-            it.setOnClickListener{
-                val cal = Calendar.getInstance()
-                val dateSetListener = DatePickerDialog.OnDateSetListener{
-                        view, year, month, day ->
-                    var dateString = "${year}년 ${month + 1}월 ${day}일"
-                    binding.editTextBirth.setText(dateString)
-                }
-                DatePickerDialog(this, dateSetListener, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)).show()
-            }
-        }
-
-        /* Pop-up Search */
-        binding.editTextBreed.setOnClickListener{
-            BreedSearchDialog(this){}.show()
-        }
-
         /* Submit Profile */
-        binding.btnCreatePetSubmit.setOnClickListener{
+        btnCreatePetSubmit.setOnClickListener{
             Log.d(TAG, "Button Create")
             if(isValidPetName ){
-                val petName = binding.editTextPetName.text.toString()
-                val weight = binding.editTextPetWeight.text.toString()
-                val imageURL = binding.imgCreatePetPhoto.toString()
-                postPetInfo(petName, weight, imageURL)
+                val petName = editTextPetName.text.toString()
+                val weight = editTextPetWeight.text.toString()
+                postPetInfo(petName, weight)
             } else{
-                Toast.makeText(this, "필수항목을 모두 작성해주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "필수항목을 모두 작성해주세요", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
     /* 사진 찍기 */
     private fun takePicture(){
         if(checkPermissions(PERMISSIONS)) {
@@ -236,8 +252,17 @@ class CreatePetActivity : AppCompatActivity() {
     }
 
     /* 반려동물 등록 */
-    private fun postPetInfo(petName : String, weight : String, imageURL : String){
-        val call = retrofitService.postProfile(KEY, HOST, petName, weight)
+    private fun postPetInfo(petName : String, weight : String){
+        val call : Call<General>
+        if(bitmap != null){
+            val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
+            val bitmapMultipartBody: MultipartBody.Part =
+                MultipartBody.Part.createFormData("image", "petImage", bitmapRequestBody)
+            call = retrofitService.postProfileWithImage(KEY, HOST, petName, weight, bitmapMultipartBody)
+        } else{
+            call = retrofitService.postProfile(KEY, HOST, petName, weight)
+        }
+
         call.enqueue(object : Callback<General> {
             override fun onResponse(call: Call<General>, response: Response<General>) {
                 val result: String = response.body().toString()
@@ -260,6 +285,13 @@ class CreatePetActivity : AppCompatActivity() {
                 Log.e(TAG, "연결 실패")
             }
         })
+    }
+
+    inner class BitmapRequestBody(private val bitmap: Bitmap) : RequestBody() {
+        override fun contentType(): MediaType = "image/jpeg".toMediaType()
+        override fun writeTo(sink: BufferedSink) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 99, sink.outputStream())
+        }
     }
 
     /* 권한 허용 확인 및 요청 */
