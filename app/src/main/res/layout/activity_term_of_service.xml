@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TermOfService">
+
+    <View
+        android:id="@+id/divide_createProfile2"
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="180dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imgbtn_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.041"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/btn_arrow" />
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="166dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/noto_sans_kr_medium"
+        android:includeFontPadding="false"
+        android:text="약관 동의하기"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/check_all"
+        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:text="모두 동의합니다."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.188"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_title" />
+
+    <CheckBox
+        android:id="@+id/check_1"
+        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="[필수] 반려하루  서비스 이용약관"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.28"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/check_all" />
+
+    <CheckBox
+        android:id="@+id/check_2"
+        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="[필수] 개인정보 수집 및 이용약관"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.28"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/check_1" />
+
+    <CheckBox
+        android:id="@+id/check_3"
+        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="[선택] 프로필 정보 추가 수집 동의"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.284"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/check_2" />
+
+    <CheckBox
+        android:id="@+id/check_4"
+        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="[선택] 광고성 푸시알람 수신 동의"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.284"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/check_3" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_next"
+        android:layout_width="304dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/grey_button"
+        android:text="다음"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/check_4" />
+
+    <TextView
+        android:id="@+id/text_1"
+        android:layout_width="39dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/term"
+        android:textAlignment="textEnd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toEndOf="@+id/check_1"
+        app:layout_constraintTop_toBottomOf="@+id/divide_createProfile2" />
+
+    <TextView
+        android:id="@+id/text_2"
+        android:layout_width="39dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/term"
+        android:textAlignment="textEnd"
+        app:layout_constraintEnd_toEndOf="@+id/text_1"
+        app:layout_constraintTop_toBottomOf="@+id/text_1" />
+
+    <TextView
+        android:id="@+id/text_3"
+        android:layout_width="39dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/term"
+        android:textAlignment="textEnd"
+        app:layout_constraintEnd_toEndOf="@+id/text_2"
+        app:layout_constraintTop_toBottomOf="@+id/text_2" />
+
+    <TextView
+        android:id="@+id/text_4"
+        android:layout_width="39dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/term"
+        android:textAlignment="textEnd"
+        app:layout_constraintEnd_toEndOf="@+id/text_3"
+        app:layout_constraintTop_toBottomOf="@+id/text_3" />
+</androidx.constraintlayout.widget.ConstraintLayout>
