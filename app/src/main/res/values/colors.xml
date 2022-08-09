@@ -12,5 +12,7 @@
     <color name="main_blue">#6FC5CE</color>
     <color name="light_grey">#FAFAFA</color>
     <color name="dark_grey">#EEEEEE</color>
-
+    <color name="light_blue">#1B59EEFD</color>
+    <color name="fail_red">#E50205</color>
+    <color name="success_blue">#0CB564</color>
 </resources>

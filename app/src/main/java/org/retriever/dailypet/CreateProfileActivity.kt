@@ -49,6 +49,7 @@ class CreateProfileActivity : AppCompatActivity() {
     )
     val PERMISSIONS_REQUEST = 100
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateProfileBinding.inflate(layoutInflater)
@@ -121,7 +122,8 @@ class CreateProfileActivity : AppCompatActivity() {
             Log.d(TAG, nickname)
             if(nickname == ""){
                 binding.textProfileNicknameValidate.text = "올바른 닉네임을 입력해주세요"
-                binding.textProfileNicknameValidate.setTextColor(Color.BLACK)
+                binding.textProfileNicknameValidate.setTextColor(this.getColor(R.color.fail_red))
+                binding.textCreateProfileNickname.background = this.getDrawable(R.drawable.fail_edittext)
             }
             else checkValidNickname(nickname)
         }
@@ -185,7 +187,7 @@ class CreateProfileActivity : AppCompatActivity() {
     private fun checkValidNickname(nickname : String){
         val call = retrofitService.postCheckNickname(KEY, HOST, nickname)
         call.enqueue(object : Callback<General> {
-            @SuppressLint("SetTextI18n")
+            @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
             override fun onResponse(call: Call<General>, response: Response<General>) {
                 val result: String = response.body().toString()
                 Log.d(TAG, "CODE = ${response.code()}")
@@ -193,14 +195,18 @@ class CreateProfileActivity : AppCompatActivity() {
                 if(response.isSuccessful) {
                     if(response.code() == CODE_NICKNAME){ // 유효한 닉네임
                         binding.textProfileNicknameValidate.text = "사용가능한 닉네임입니다"
-                        binding.textProfileNicknameValidate.setTextColor(Color.BLUE)
+                        binding.textProfileNicknameValidate.setTextColor(applicationContext.getColor(R.color.success_blue))
+                        binding.textCreateProfileNickname.background = applicationContext.getDrawable(R.drawable.success_edittext)
+                        binding.btnCreateProfileSubmit.background = applicationContext.getDrawable(R.drawable.blue_button)
+                        binding.btnCreateProfileSubmit.setTextColor(applicationContext.getColor(R.color.white))
                         isValidNickname = true
                     }
                 }
                 else{
                     if(response.code() == CODE_FAIL){ // 유효하지 않은 닉네임
-                        binding.textProfileNicknameValidate.text = "중복된 닉네임입니다\n다른 닉네임을 사용해주세요"
-                        binding.textProfileNicknameValidate.setTextColor(Color.RED)
+                        binding.textProfileNicknameValidate.text = "이미 사용중인 닉네임입니다"
+                        binding.textProfileNicknameValidate.setTextColor(applicationContext.getColor(R.color.fail_red))
+                        binding.textCreateProfileNickname.background = applicationContext.getDrawable(R.drawable.fail_edittext)
                     }
                 }
             }
