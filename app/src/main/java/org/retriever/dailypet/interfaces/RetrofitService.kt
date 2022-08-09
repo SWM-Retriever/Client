@@ -73,14 +73,23 @@ interface RetrofitService {
         @Field("familyRoleName") nickname: String,
     ): Call<General>
 
-    @FormUrlEncoded
+    @Multipart
     @POST("api/v1/api/v1/member")
     fun postFamily(
         @Header("X-RapidAPI-Key") key: String,
         @Header("X-RapidAPI-Host") host: String,
-        @Field("familyName") familyName: String,
-        @Field("familyRoleName") familyNickname: String,
-        @Field("imageURL") image: String,
+        @Part("familyName") familyName: String,
+        @Part("familyRoleName") familyNickname: String,
+    ): Call<General>
+
+    @Multipart
+    @POST("api/v1/api/v1/member")
+    fun postFamilyWithImage(
+        @Header("X-RapidAPI-Key") key: String,
+        @Header("X-RapidAPI-Host") host: String,
+        @Part("familyName") familyName: String,
+        @Part("familyRoleName") familyNickname: String,
+        @Part image: MultipartBody.Part,
     ): Call<General>
 
     @FormUrlEncoded

@@ -39,12 +39,12 @@ class CreateProfileActivity : AppCompatActivity() {
     private lateinit var galleryLauncher: ActivityResultLauncher<Intent>
     private lateinit var retrofit : Retrofit
     private lateinit var retrofitService : RetrofitService
+    private lateinit var BASE_URL: String
+    private lateinit var KEY : String
+    private lateinit var HOST : String
     private var bitmap : Bitmap? = null
     private var isValidNickname : Boolean = false
     private val TAG = "CREATE PROFILE"
-    private val BASE_URL = "https://dailypet.p.rapidapi.com/"
-    private val KEY = "455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c"
-    private val HOST = "dailypet.p.rapidapi.com"
     private val CODE_NICKNAME = 200
     private val CODE_PROFILE = 200
     private val CODE_FAIL = 400
@@ -60,8 +60,12 @@ class CreateProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         binding = ActivityCreateProfileBinding.inflate(layoutInflater)
-        var view = binding.root
+        val view = binding.root
         setContentView(view)
+
+        BASE_URL = getString(R.string.URL)
+        KEY = getString(R.string.KEY)
+        HOST = getString(R.string.HOST)
 
         binding.textRegisterProfileName.text = intent.getStringExtra("userName")
         binding.textRegisterProfileEmail.text = intent.getStringExtra("userEmail")
