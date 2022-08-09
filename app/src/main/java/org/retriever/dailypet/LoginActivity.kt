@@ -37,9 +37,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var retrofit : Retrofit
     private lateinit var retrofitService : RetrofitService
-    private val CODE_MEMBER = 200
-    private val CODE_NOT_MEMBER = 400
-    private val TAG = "LOGIN"
+    private val CODE_NEW_MEMBER = 400
+    private val TAG = "LOGIN ACTIVITY"
     private var context = this
     private val BASE_URL = "https://dailypet.p.rapidapi.com/"
     private val KEY = "455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c"
@@ -51,6 +50,10 @@ class LoginActivity : AppCompatActivity() {
         var view = binding.root
         setContentView(view)
 
+        init()
+    }
+
+    private fun init(){
         /* API Init */
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -93,20 +96,19 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkIsMember(name: String?, email: String?){
-        val callPostIsMember = retrofitService.postIsMember(KEY, HOST, "sehun", "aaa")
+    private fun checkIsMember(name: String, email: String, domain: String){
+        val callPostIsMember = retrofitService.postIsMember(KEY, HOST, name, email, domain)
         callPostIsMember.enqueue(object : Callback<Message> {
             override fun onResponse(call: Call<Message>, response: Response<Message>) {
                 val result: String = response.body().toString()
                 Log.d(TAG, "CODE = ${response.code()}")
                 Log.d(TAG, result)
-                if(response.isSuccessful) {
-                    if(response.code() == CODE_MEMBER){ // 이미 회원일때
-                        // jwt 인증
-                    }
+                if(response.isSuccessful) { // 이미 회원일때
+                    /* jwt 인증 */
+
                 }
                 else{
-                    if(response.code() == CODE_NOT_MEMBER){ // 신규 가입일때
+                    if(response.code() == CODE_NEW_MEMBER){ // 신규 가입일때
                         val nextIntent = Intent(applicationContext, CreateProfileActivity::class.java)
                         nextIntent.putExtra("userName",name)
                         nextIntent.putExtra("userEmail",email)
@@ -123,7 +125,7 @@ class LoginActivity : AppCompatActivity() {
     private fun kakaoLogin(){
         lifecycleScope.launch {
             try {
-                var token = UserApiClient.loginWithKakao(context)
+                val token = UserApiClient.loginWithKakao(context)
                 Log.d(TAG, "Token:  > $token")
                 /* 사용자 정보 요청*/
                 UserApiClient.instance.me { user, error ->
@@ -132,23 +134,21 @@ class LoginActivity : AppCompatActivity() {
                     }
                     else if (user != null) {
                         // 회원 확인 분기
-                        checkIsMember(user.kakaoAccount?.profile?.nickname, user.kakaoAccount?.email)
+                        val name = user.kakaoAccount?.profile?.nickname
+                        val email = user.kakaoAccount?.email
+                        if(name != null && email != null) checkIsMember(name, email, "kakao")
+                        else Log.e(TAG, "카카오 프로필 조회 실패")
                     }
                 }
-//                Intent(this@LoginActivity, RegisterProfileActivity::class.java).also{
-//                    startActivity(it)
-//                    finish()
-//                }
             } catch (error: Throwable) {
                 if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                    Log.d("LoginActivity", "사용자가 명시적으로 취소")
+                    Log.d(TAG, "사용자가 명시적으로 취소")
                 } else {
-                    Log.e("LoginActivity", "인증 에러 발생", error)
+                    Log.e(TAG, "인증 에러 발생", error)
                 }
             }
         }
     }
-
 
     private fun naverLogin(){
         val oAuthLoginCallback = object : OAuthLoginCallback {
@@ -160,7 +160,7 @@ class LoginActivity : AppCompatActivity() {
                 NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
                     override fun onSuccess(result: NidProfileResponse) {
                         // 회원 확인 분기
-                        checkIsMember(result.profile?.name.toString(),result.profile?.email.toString())
+                        checkIsMember(result.profile?.name.toString(),result.profile?.email.toString(),"naver")
                     }
 
                     override fun onError(errorCode: Int, message: String) {
