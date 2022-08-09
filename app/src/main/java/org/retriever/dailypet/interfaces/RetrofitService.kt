@@ -26,6 +26,7 @@ interface RetrofitService {
         @Header("X-RapidAPI-Host") host: String,
         @Field("nickname") nickname: String,
         @Field("email") email: String,
+        @Field("domain") domain: String,
     ): Call<Message>
 
     @FormUrlEncoded
