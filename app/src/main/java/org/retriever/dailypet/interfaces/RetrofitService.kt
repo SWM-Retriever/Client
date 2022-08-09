@@ -1,5 +1,6 @@
 package org.retriever.dailypet.interfaces
 
+import okhttp3.MultipartBody
 import org.retriever.dailypet.models.*
 import retrofit2.Call
 import retrofit2.http.*
@@ -37,14 +38,23 @@ interface RetrofitService {
         @Field("nickname") nickname: String,
     ): Call<General>
 
-    @FormUrlEncoded
+    @Multipart
     @POST("api/v1/api/v1/member")
     fun postProfile(
         @Header("X-RapidAPI-Key") key: String,
         @Header("X-RapidAPI-Host") host: String,
-        @Field("nickname") nickname: String,
-        @Field("email") email: String,
-        @Field("imageURL") image: String,
+        @Part("nickname") nickname: String,
+        @Part("email") email: String,
+    ): Call<General>
+
+    @Multipart
+    @POST("api/v1/api/v1/member")
+    fun postProfileWithImage(
+        @Header("X-RapidAPI-Key") key: String,
+        @Header("X-RapidAPI-Host") host: String,
+        @Part("nickname") nickname: String,
+        @Part("email") email: String,
+        @Part image: MultipartBody.Part,
     ): Call<General>
 
     @FormUrlEncoded

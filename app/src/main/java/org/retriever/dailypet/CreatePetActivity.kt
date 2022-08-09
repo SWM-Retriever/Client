@@ -237,7 +237,7 @@ class CreatePetActivity : AppCompatActivity() {
 
     /* 반려동물 등록 */
     private fun postPetInfo(petName : String, weight : String, imageURL : String){
-        val call = retrofitService.postProfile(KEY, HOST, petName, weight, imageURL)
+        val call = retrofitService.postProfile(KEY, HOST, petName, weight)
         call.enqueue(object : Callback<General> {
             override fun onResponse(call: Call<General>, response: Response<General>) {
                 val result: String = response.body().toString()
