@@ -185,9 +185,9 @@ class CreateProfileActivity : AppCompatActivity() {
             val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
             val bitmapMultipartBody: MultipartBody.Part =
                 MultipartBody.Part.createFormData("image", "profileImage", bitmapRequestBody)
-            call = retrofitService.postProfileWithImage(KEY, HOST, nickname, email, bitmapMultipartBody)
+            call = retrofitService.postProfile(KEY, HOST, nickname, email, bitmapMultipartBody)
         } else{
-            call = retrofitService.postProfile(KEY, HOST, nickname, email)
+            call = retrofitService.postProfile(KEY, HOST, nickname, email, null)
         }
 
         call.enqueue(object : Callback<General> {

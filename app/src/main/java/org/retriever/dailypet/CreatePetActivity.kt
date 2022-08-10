@@ -19,6 +19,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import kotlinx.coroutines.flow.callbackFlow
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -48,7 +49,6 @@ class CreatePetActivity : AppCompatActivity() {
     private lateinit var KEY : String
     private lateinit var HOST : String
     private var bitmap : Bitmap? = null
-    private val CODE_NICKNAME = 200
     private val CODE_FAIL = 400
     private var DOG = false
     private var CAT = false
@@ -87,7 +87,11 @@ class CreatePetActivity : AppCompatActivity() {
 
         /* Pop-up Search */
         binding.editTextBreed.setOnClickListener{
-            BreedSearchDialog(applicationContext){}.show()
+            val dlg = BreedSearchDialog(this){}
+            dlg.setOnOKCickedListener {
+                content-> binding.editTextBreed.setText(content)
+            }
+            dlg.show()
         }
 
         init()
@@ -157,8 +161,9 @@ class CreatePetActivity : AppCompatActivity() {
         btnPetNameCheck.setOnClickListener{
             Log.d(TAG, "Button Nickname Check")
             val petName = binding.editTextPetName.text.toString()
-            if(petName == ""){
+            if(petName.isBlank()){
                 textPetNameValidate.text = "반려동물 이름을 입력해주세요"
+                textPetNameValidate.setTextColor(applicationContext.getColor(R.color.fail_red))
                 textPetNameValidate.setTextColor(Color.RED)
                 isValidPetName = false
             }
@@ -197,9 +202,14 @@ class CreatePetActivity : AppCompatActivity() {
         btnCreatePetSubmit.setOnClickListener{
             Log.d(TAG, "Button Create")
             if(isValidPetName ){
-                val petName = editTextPetName.text.toString()
-                val weight = editTextPetWeight.text.toString()
-                postPetInfo(petName, weight)
+                val name = editTextPetName.text.toString()
+                val type = if(DOG) "Dog" else "Cat"
+                val birth = editTextBirth.text.toString()
+                val breed = editTextBreed.text.toString()
+                val weight = editTextPetWeight.text.toString().toFloat()
+                val neutral = radioNeutral.isChecked
+                val registerNum = editTextRegisterNumber.text.toString()
+                postPetInfo(name, type, birth, breed, weight, neutral, registerNum)
             } else{
                 Toast.makeText(applicationContext, "필수항목을 모두 작성해주세요", Toast.LENGTH_SHORT).show()
             }
@@ -232,16 +242,15 @@ class CreatePetActivity : AppCompatActivity() {
                 Log.d(TAG, "CODE = ${response.code()}")
                 Log.d(TAG, result)
                 if(response.isSuccessful) {
-                    if(response.code() == CODE_NICKNAME){ // 유효한 닉네임
-                        binding.textPetNameValidate.text = "사용가능한 반려동물 이름입니다"
-                        binding.textPetNameValidate.setTextColor(Color.BLUE)
-                        isValidPetName = true
-                    }
+                    binding.textPetNameValidate.text = "사용가능한 반려동물 이름입니다"
+                    binding.textPetNameValidate.setTextColor(applicationContext.getColor(R.color.success_blue))
+                    isValidPetName = true
                 }
                 else{
                     if(response.code() == CODE_FAIL){ // 유효하지 않은 닉네임
-                        binding.textPetNameValidate.text = "이미 존재하는 반려동물 이름입니다"
-                        binding.textPetNameValidate.setTextColor(Color.RED)
+                        binding.textPetNameValidate.text = "그룹에 이미 존재하는 반려동물 이름입니다"
+                        binding.textPetNameValidate.setTextColor(applicationContext.getColor(R.color.fail_red))
+                        isValidPetName = false
                     }
                 }
             }
@@ -252,16 +261,16 @@ class CreatePetActivity : AppCompatActivity() {
     }
 
     /* 반려동물 등록 */
-    private fun postPetInfo(petName : String, weight : String){
+    private fun postPetInfo(name : String, type : String , birth: String, breed: String,
+                            weight : Float, neutral : Boolean, registerNumber: String){
+        var bitmapMultipartBody: MultipartBody.Part? = null
         val call : Call<General>
         if(bitmap != null){
             val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
-            val bitmapMultipartBody: MultipartBody.Part =
-                MultipartBody.Part.createFormData("image", "petImage", bitmapRequestBody)
-            call = retrofitService.postProfileWithImage(KEY, HOST, petName, weight, bitmapMultipartBody)
-        } else{
-            call = retrofitService.postProfile(KEY, HOST, petName, weight)
+            bitmapMultipartBody = MultipartBody.Part.createFormData("image", "petImage", bitmapRequestBody)
         }
+        call = retrofitService.postPet(KEY, HOST, name, type, birth, breed,
+            weight, neutral, registerNumber, bitmapMultipartBody)
 
         call.enqueue(object : Callback<General> {
             override fun onResponse(call: Call<General>, response: Response<General>) {

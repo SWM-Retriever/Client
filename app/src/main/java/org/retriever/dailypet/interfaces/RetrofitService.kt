@@ -45,16 +45,7 @@ interface RetrofitService {
         @Header("X-RapidAPI-Host") host: String,
         @Part("nickname") nickname: String,
         @Part("email") email: String,
-    ): Call<General>
-
-    @Multipart
-    @POST("api/v1/api/v1/member")
-    fun postProfileWithImage(
-        @Header("X-RapidAPI-Key") key: String,
-        @Header("X-RapidAPI-Host") host: String,
-        @Part("nickname") nickname: String,
-        @Part("email") email: String,
-        @Part image: MultipartBody.Part,
+        @Part image: MultipartBody.Part?,
     ): Call<General>
 
     @FormUrlEncoded
@@ -80,16 +71,7 @@ interface RetrofitService {
         @Header("X-RapidAPI-Host") host: String,
         @Part("familyName") familyName: String,
         @Part("familyRoleName") familyNickname: String,
-    ): Call<General>
-
-    @Multipart
-    @POST("api/v1/api/v1/member")
-    fun postFamilyWithImage(
-        @Header("X-RapidAPI-Key") key: String,
-        @Header("X-RapidAPI-Host") host: String,
-        @Part("familyName") familyName: String,
-        @Part("familyRoleName") familyNickname: String,
-        @Part image: MultipartBody.Part,
+        @Part image: MultipartBody.Part?,
     ): Call<General>
 
     @FormUrlEncoded
@@ -114,5 +96,20 @@ interface RetrofitService {
         @Header("X-RapidAPI-Key") key: String,
         @Header("X-RapidAPI-Host") host: String,
         @Field("petName") familyName: String,
+    ): Call<General>
+
+    @Multipart
+    @POST("api/v1/api/v1/member")
+    fun postPet(
+        @Header("X-RapidAPI-Key") key: String,
+        @Header("X-RapidAPI-Host") host: String,
+        @Part("petName") petName: String,
+        @Part("petType") petType: String,
+        @Part("petBirth") petBirth: String,
+        @Part("petBreed") petBreed: String,
+        @Part("petWeight") petWeight: Float,
+        @Part("petNeutral") petNeutral: Boolean,
+        @Part("petRegisterNum") petRegisterNum: String,
+        @Part image: MultipartBody.Part?,
     ): Call<General>
 }

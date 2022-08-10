@@ -209,9 +209,9 @@ class CreateFamilyActivity : AppCompatActivity() {
             val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
             val bitmapMultipartBody: MultipartBody.Part =
                 MultipartBody.Part.createFormData("image", "familyImage", bitmapRequestBody)
-            call = retrofitService.postFamilyWithImage(KEY, HOST, familyName, nickname, bitmapMultipartBody)
+            call = retrofitService.postFamily(KEY, HOST, familyName, nickname, bitmapMultipartBody)
         } else{
-            call = retrofitService.postFamily(KEY, HOST, familyName, nickname)
+            call = retrofitService.postFamily(KEY, HOST, familyName, nickname, null)
         }
 
         call.enqueue(object : Callback<General> {

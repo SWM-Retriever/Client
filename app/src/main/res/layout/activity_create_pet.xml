@@ -309,7 +309,7 @@
                     android:text="중성화 안함" />
 
                 <RadioButton
-                    android:id="@+id/rado_neutral"
+                    android:id="@+id/radio_neutral"
                     android:layout_width="118dp"
                     android:layout_height="37dp"
                     android:text="중성화 완료" />
