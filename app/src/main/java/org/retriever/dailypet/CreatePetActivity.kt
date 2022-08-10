@@ -258,9 +258,9 @@ class CreatePetActivity : AppCompatActivity() {
             val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
             val bitmapMultipartBody: MultipartBody.Part =
                 MultipartBody.Part.createFormData("image", "petImage", bitmapRequestBody)
-            call = retrofitService.postProfileWithImage(KEY, HOST, petName, weight, bitmapMultipartBody)
+            call = retrofitService.postProfile(KEY, HOST, petName, weight, bitmapMultipartBody)
         } else{
-            call = retrofitService.postProfile(KEY, HOST, petName, weight)
+            call = retrofitService.postProfile(KEY, HOST, petName, weight, null)
         }
 
         call.enqueue(object : Callback<General> {
