@@ -23,7 +23,7 @@
         <shape android:shape="rectangle">
             <stroke
                 android:width="1dp"
-                android:color="#EEEEEE" />
+                android:color="@color/grey" />
             <corners android:radius="12dp"/>
             <solid android:color="#FFFFFF" />
             <padding

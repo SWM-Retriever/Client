@@ -12,6 +12,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -19,6 +21,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import kotlinx.coroutines.flow.callbackFlow
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
@@ -52,8 +55,10 @@ class CreatePetActivity : AppCompatActivity() {
     private val CODE_FAIL = 400
     private var DOG = false
     private var CAT = false
-    private var MIX = false
+    private var MALE = false
+    private var FEMALE = false
     private var UNKOWN = false
+    private var SUBMIT = false
     // Permissions
     val PERMISSIONS = arrayOf(
         Manifest.permission.CAMERA,
@@ -62,6 +67,7 @@ class CreatePetActivity : AppCompatActivity() {
     )
     val PERMISSIONS_REQUEST = 100
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreatePetBinding.inflate(layoutInflater)
@@ -74,15 +80,17 @@ class CreatePetActivity : AppCompatActivity() {
 
         /* Pop-up Calender */
         binding.editTextBirth.setOnClickListener{
-            it.setOnClickListener{
-                val cal = Calendar.getInstance()
-                val dateSetListener = DatePickerDialog.OnDateSetListener{
-                        view, year, month, day ->
-                    val dateString = "${year}년 ${month + 1}월 ${day}일"
-                    binding.editTextBirth.setText(dateString)
-                }
-                DatePickerDialog(this, dateSetListener, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)).show()
+            val cal = Calendar.getInstance()
+            val dateSetListener = DatePickerDialog.OnDateSetListener{
+                    view, year, month, day ->
+                val dateString = "${year}년 ${month + 1}월 ${day}일"
+                binding.editTextBirth.setText(dateString)
+                binding.editTextBirth.setTextColor(this.getColor(R.color.main_blue))
+                binding.editTextBirth.background = this.getDrawable(R.drawable.whiteblue_click_button)
+                submitCheck()
             }
+            DatePickerDialog(this, dateSetListener, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)).show()
+
         }
 
         /* Pop-up Search */
@@ -90,13 +98,30 @@ class CreatePetActivity : AppCompatActivity() {
             val dlg = BreedSearchDialog(this){}
             dlg.setOnOKCickedListener {
                 content-> binding.editTextBreed.setText(content)
+                binding.editTextBreed.background = applicationContext.getDrawable(R.drawable.whiteblue_click_button)
             }
             dlg.show()
         }
 
+        /* Text Listener */
+        binding.edittextWeight.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+                submitCheck()
+                if(binding.edittextWeight.text.isNotBlank()){
+                    binding.edittextWeight.background = applicationContext.getDrawable(R.drawable.whiteblue_click_button)
+                }
+            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+        })
+
         init()
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun init() = with(binding){
         /* API Init */
         retrofit = Retrofit.Builder()
@@ -113,7 +138,7 @@ class CreatePetActivity : AppCompatActivity() {
                 Log.d(TAG, "Get Image from Gallery")
                 bitmap = it.data?.extras?.get("data") as Bitmap
                 bitmap = Bitmap.createScaledBitmap(bitmap!!, 300, 300, true)
-                imgCreatePetPhoto.setImageBitmap(bitmap)
+                imgPhoto.setImageBitmap(bitmap)
             }
         }
         /* Gallery Register */
@@ -127,13 +152,13 @@ class CreatePetActivity : AppCompatActivity() {
                     Log.d(TAG, "Get Image from Camera")
                     bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageData)
                     bitmap = Bitmap.createScaledBitmap(bitmap!!, 300, 300, true)
-                    imgCreatePetPhoto.setImageBitmap(bitmap)
+                    imgPhoto.setImageBitmap(bitmap)
                 } catch (e: Exception) { e.printStackTrace() }
             }
         }
 
         /* Upload Profile Image */
-        btnCreatePetProfileLoad.setOnClickListener{
+        btnLoadCamera.setOnClickListener{
             Log.d(TAG, "Button Photo Upload")
             var popupMenu = PopupMenu(applicationContext, it)
             menuInflater.inflate(R.menu.camera_menu, popupMenu.menu)
@@ -158,13 +183,13 @@ class CreatePetActivity : AppCompatActivity() {
         }
 
         /* Check Pet Name Validation */
-        btnPetNameCheck.setOnClickListener{
+        btnValidCheck.setOnClickListener{
             Log.d(TAG, "Button Nickname Check")
-            val petName = binding.editTextPetName.text.toString()
+            val petName = binding.edittextPetName.text.toString()
             if(petName.isBlank()){
-                textPetNameValidate.text = "반려동물 이름을 입력해주세요"
+                textPetNameValidate.text = "올바른 닉네임을 입력해주세요"
                 textPetNameValidate.setTextColor(applicationContext.getColor(R.color.fail_red))
-                textPetNameValidate.setTextColor(Color.RED)
+                edittextPetName.background = applicationContext.getDrawable(R.drawable.fail_edittext)
                 isValidPetName = false
             }
             else checkValidPetName(petName)
@@ -172,47 +197,63 @@ class CreatePetActivity : AppCompatActivity() {
 
         /* Pet Type */
         btnPetTypeDog.setOnClickListener{
-            btnPetTypeDog.setBackgroundColor(getColor(R.color.main_pink))
-            btnPetTypeCat.setBackgroundColor(getColor(R.color.main_blue))
+            btnPetTypeDog.isSelected = true
+            btnPetTypeCat.isSelected = false
             DOG = true
             CAT = false
+            submitCheck()
         }
         btnPetTypeCat.setOnClickListener{
-            btnPetTypeCat.setBackgroundColor(getColor(R.color.main_pink))
-            btnPetTypeDog.setBackgroundColor(getColor(R.color.main_blue))
+            btnPetTypeCat.isSelected = true
+            btnPetTypeDog.isSelected = false
             DOG = false
             CAT = true
+            submitCheck()
+        }
+
+        /* Sex Type */
+        btnPetSexMale.setOnClickListener{
+            btnPetSexMale.isSelected = true
+            btnPetSexFemale.isSelected = false
+            MALE = true
+            FEMALE = false
+            submitCheck()
+        }
+        btnPetSexFemale.setOnClickListener{
+            btnPetSexFemale.isSelected = true
+            btnPetSexMale.isSelected = false
+            MALE = false
+            FEMALE = true
+            submitCheck()
         }
 
         /* Pet Breed */
-        btnPetBreedMix.setOnClickListener{
-            btnPetBreedMix.setBackgroundColor(getColor(R.color.main_pink))
-            btnPetBreedUnknown.setBackgroundColor(getColor(R.color.main_blue))
-            MIX = true
-            UNKOWN = false
-        }
-        btnPetBreedUnknown.setOnClickListener{
-            btnPetBreedUnknown.setBackgroundColor(getColor(R.color.main_pink))
-            btnPetBreedMix.setBackgroundColor(getColor(R.color.main_blue))
-            MIX = false
+        btnDontknow.setOnClickListener{
             UNKOWN = true
+            submitCheck()
         }
 
         /* Submit Profile */
-        btnCreatePetSubmit.setOnClickListener{
+        btnPetSubmit.setOnClickListener{
             Log.d(TAG, "Button Create")
-            if(isValidPetName ){
-                val name = editTextPetName.text.toString()
+            if(SUBMIT){
+                val name = edittextPetName.text.toString()
                 val type = if(DOG) "Dog" else "Cat"
+                val sex = if(MALE) "Male" else "Female"
                 val birth = editTextBirth.text.toString()
                 val breed = editTextBreed.text.toString()
-                val weight = editTextPetWeight.text.toString().toFloat()
+                val weight = edittextWeight.text.toString().toFloat()
                 val neutral = radioNeutral.isChecked
-                val registerNum = editTextRegisterNumber.text.toString()
-                postPetInfo(name, type, birth, breed, weight, neutral, registerNum)
+                val registerNum = edittextRegisterNum.text.toString()
+                postPetInfo(name, type, sex, birth, breed, weight, neutral, registerNum)
             } else{
                 Toast.makeText(applicationContext, "필수항목을 모두 작성해주세요", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        /* 이전버튼 */
+        imgbtnBack.setOnClickListener{
+            onBackPressed()
         }
     }
 
@@ -236,7 +277,7 @@ class CreatePetActivity : AppCompatActivity() {
     private fun checkValidPetName(petName : String){
         val call = retrofitService.postCheckPetName(KEY, HOST, petName)
         call.enqueue(object : Callback<General> {
-            @SuppressLint("SetTextI18n")
+            @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
             override fun onResponse(call: Call<General>, response: Response<General>) {
                 val result: String = response.body().toString()
                 Log.d(TAG, "CODE = ${response.code()}")
@@ -244,12 +285,15 @@ class CreatePetActivity : AppCompatActivity() {
                 if(response.isSuccessful) {
                     binding.textPetNameValidate.text = "사용가능한 반려동물 이름입니다"
                     binding.textPetNameValidate.setTextColor(applicationContext.getColor(R.color.success_blue))
+                    binding.edittextPetName.background = applicationContext.getDrawable(R.drawable.success_edittext)
                     isValidPetName = true
+                    submitCheck()
                 }
                 else{
                     if(response.code() == CODE_FAIL){ // 유효하지 않은 닉네임
                         binding.textPetNameValidate.text = "그룹에 이미 존재하는 반려동물 이름입니다"
                         binding.textPetNameValidate.setTextColor(applicationContext.getColor(R.color.fail_red))
+                        binding.edittextPetName.background = applicationContext.getDrawable(R.drawable.fail_edittext)
                         isValidPetName = false
                     }
                 }
@@ -261,7 +305,7 @@ class CreatePetActivity : AppCompatActivity() {
     }
 
     /* 반려동물 등록 */
-    private fun postPetInfo(name : String, type : String , birth: String, breed: String,
+    private fun postPetInfo(name : String, type : String , sex : String, birth: String, breed: String,
                             weight : Float, neutral : Boolean, registerNumber: String){
         var bitmapMultipartBody: MultipartBody.Part? = null
         val call : Call<General>
@@ -269,7 +313,7 @@ class CreatePetActivity : AppCompatActivity() {
             val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
             bitmapMultipartBody = MultipartBody.Part.createFormData("image", "petImage", bitmapRequestBody)
         }
-        call = retrofitService.postPet(KEY, HOST, name, type, birth, breed,
+        call = retrofitService.postPet(KEY, HOST, name, type, sex, birth, breed,
             weight, neutral, registerNumber, bitmapMultipartBody)
 
         call.enqueue(object : Callback<General> {
@@ -300,6 +344,23 @@ class CreatePetActivity : AppCompatActivity() {
         override fun contentType(): MediaType = "image/jpeg".toMediaType()
         override fun writeTo(sink: BufferedSink) {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 99, sink.outputStream())
+        }
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun submitCheck(){
+        val name = isValidPetName
+        val type = DOG || CAT
+        val sex = MALE || FEMALE
+        val birth = binding.editTextBirth.text.isNotBlank()
+        val weight = binding.edittextWeight.text.isNotBlank()
+        SUBMIT = name && type && sex && birth && weight
+        if(SUBMIT){
+            binding.btnPetSubmit.background = applicationContext.getDrawable(R.drawable.blue_button)
+            binding.btnPetSubmit.setTextColor(applicationContext.getColor(R.color.white))
+        } else{
+            binding.btnPetSubmit.background = applicationContext.getDrawable(R.drawable.grey_button)
+            binding.btnPetSubmit.setTextColor(applicationContext.getColor(R.color.grey))
         }
     }
 

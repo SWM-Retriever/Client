@@ -13,282 +13,307 @@
         android:scrollbarAlwaysDrawVerticalTrack="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="2000dp"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            >
 
-            <TextView
-                android:id="@+id/text_createPetTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:text="반려동물 프로필 등록"
-                android:textColor="#000000"
-                android:textSize="24sp"
+            <EditText
+                android:id="@+id/edittext_petName"
+                android:layout_width="358dp"
+                android:layout_height="61dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/grey_blue_edittext"
+                android:hint="반려동물 이름을 입력해주세요"
+                android:maxLength="20"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.358"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/text_petName" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_validCheck"
+                android:layout_width="84dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/light_blue_button"
+                android:text="중복확인"
+                android:textColor="@color/main_blue"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/edittext_petName"
+                app:layout_constraintHorizontal_bias="0.948"
+                app:layout_constraintStart_toStartOf="@+id/edittext_petName"
+                app:layout_constraintTop_toTopOf="@+id/edittext_petName" />
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/img_createPetPhoto"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="8dp"
-                android:src="@color/browser_actions_bg_grey"
+                android:id="@+id/img_photo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="32dp"
+                android:src="@drawable/img_default_profile"
                 app:civ_border_color="@color/main_blue"
-                app:civ_border_width="1dp"
-                app:civ_circle_background_color="@color/browser_actions_bg_grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_title" />
+
+            <ImageButton
+                android:id="@+id/btn_loadCamera"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/img_camera"
+                app:layout_constraintBottom_toBottomOf="@+id/img_photo"
+                app:layout_constraintEnd_toEndOf="@+id/img_photo"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/img_photo" />
+
+            <ImageButton
+                android:id="@+id/imgbtn_back"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.041"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/btn_arrow" />
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="166dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:includeFontPadding="false"
+                android:text="반려동물 등록"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_createPetTitle" />
-
-            <android.widget.Button
-                android:id="@+id/btn_createPetProfileLoad"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="148dp"
-                android:background="@drawable/round_button"
-                android:backgroundTint="@color/main_blue"
-                android:text="+"
-                android:textSize="34sp"
-                app:layout_constraintEnd_toEndOf="@+id/img_createPetPhoto"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/img_createPetPhoto"
-                app:layout_constraintTop_toTopOf="@+id/img_createPetPhoto" />
-
-            <EditText
-                android:id="@+id/editText_petName"
-                android:layout_width="243dp"
-                android:layout_height="49dp"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:hint="이름을 입력해주세요"
-                android:inputType="textPersonName"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.196"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_petName" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/text_petName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="24dp"
-                android:text="반려동물 이름"
-                android:textColor="#000000"
-                android:textSize="16sp"
+                android:layout_marginTop="28dp"
+                android:text="이름"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/img_createPetPhoto"
-                app:layout_constraintHorizontal_bias="0.25"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/img_createPetPhoto" />
-
-            <Button
-                android:id="@+id/btn_petNameCheck"
-                android:layout_width="84dp"
-                android:layout_height="37dp"
-                android:layout_marginTop="16dp"
-                android:text="중복검사"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                app:backgroundTint="@color/main_blue"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.295"
-                app:layout_constraintStart_toEndOf="@+id/editText_petName"
-                app:layout_constraintTop_toBottomOf="@+id/text_petName" />
+                app:layout_constraintHorizontal_bias="0.051"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/img_photo" />
 
             <TextView
-                android:id="@+id/text_petNameValidate"
-                android:layout_width="233dp"
-                android:layout_height="26dp"
-                android:layout_marginTop="8dp"
-                android:textColor="#505050"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.184"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_petName" />
-
-            <TextView
-                android:id="@+id/text_petType"
+                android:id="@+id/text_petName2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="44dp"
+                android:layout_marginTop="12dp"
                 android:text="반려동물 종류"
-                android:textColor="#000000"
-                android:textSize="16sp"
+                android:textColor="#666666"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.107"
+                app:layout_constraintHorizontal_bias="0.06"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_petName" />
+                app:layout_constraintTop_toBottomOf="@+id/text_petNameValidate" />
 
-            <Button
-                android:id="@+id/btn_petTypeDog"
-                android:layout_width="159dp"
-                android:layout_height="47dp"
-                android:layout_marginTop="20dp"
-                android:text="강아지"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:backgroundTint="@color/main_blue"
+            <TextView
+                android:id="@+id/text_petSex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="성별"
+                android:textColor="#666666"
+                android:textSize="14sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.13"
+                app:layout_constraintHorizontal_bias="0.056"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_petType" />
-
-            <Button
-                android:id="@+id/btn_petTypeCat"
-                android:layout_width="159dp"
-                android:layout_height="47dp"
-                android:layout_marginTop="20dp"
-                android:text="고양이"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:backgroundTint="@color/main_blue"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.857"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_petType" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_petTypeDog" />
 
             <TextView
                 android:id="@+id/text_petBirth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="반려동물 생년월일"
-                android:textColor="#000000"
-                android:textSize="16sp"
+                android:layout_marginTop="24dp"
+                android:text="생일"
+                android:textColor="#666666"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.114"
+                app:layout_constraintHorizontal_bias="0.051"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_petTypeDog" />
-
-            <EditText
-                android:id="@+id/editText_birth"
-                android:layout_width="245dp"
-                android:layout_height="49dp"
-                android:layout_marginTop="12dp"
-                android:hint="클릭하여 날짜를 입력해주세요"
-                android:inputType="date"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:focusable="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.186"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_petBirth" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_petSexMale" />
 
             <TextView
                 android:id="@+id/text_petBreed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="반려동물 품종"
-                android:textColor="#000000"
-                android:textSize="16sp"
+                android:layout_marginTop="24dp"
+                android:text="품종"
+                android:textColor="#666666"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.103"
+                app:layout_constraintHorizontal_bias="0.051"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_birth" />
-
-            <EditText
-                android:id="@+id/editText_breed"
-                android:layout_width="245dp"
-                android:layout_height="49dp"
-                android:layout_marginTop="12dp"
-                android:focusable="false"
-                android:hint="클릭하여 품종을 검색하세요"
-                android:inputType="date"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.208"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_petBreed" />
-
-
-            <Button
-                android:id="@+id/btn_petBreedMix"
-                android:layout_width="106dp"
-                android:layout_height="41dp"
-                android:layout_marginTop="16dp"
-                android:text="믹스"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:backgroundTint="@color/main_blue"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.114"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_breed" />
-
-            <Button
-                android:id="@+id/btn_petBreedUnknown"
-                android:layout_width="106dp"
-                android:layout_height="41dp"
-                android:layout_marginTop="16dp"
-                android:text="모름"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:backgroundTint="@color/main_blue"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.198"
-                app:layout_constraintStart_toEndOf="@+id/btn_petBreedMix"
-                app:layout_constraintTop_toBottomOf="@+id/editText_breed" />
 
             <TextView
                 android:id="@+id/text_petWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="반려동물 몸무게"
-                android:textColor="#000000"
-                android:textSize="16sp"
+                android:layout_marginTop="20dp"
+                android:text="몸무게"
+                android:textColor="#666666"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.114"
+                app:layout_constraintHorizontal_bias="0.058"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_petBreedMix" />
-
-            <EditText
-                android:id="@+id/editText_petWeight"
-                android:layout_width="243dp"
-                android:layout_height="49dp"
-                android:layout_marginTop="12dp"
-                android:gravity="center"
-                android:hint="예시) 10.2 (kg)"
-                android:inputType="number"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.196"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_petWeight" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_dontknow" />
 
             <TextView
-                android:id="@+id/text_petNeutralization"
+                android:id="@+id/text_petRegisterNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="중성화 여부"
-                android:textColor="#000000"
-                android:textSize="16sp"
+                android:layout_marginTop="16dp"
+                android:text="반려동물 등록번호 (선택)"
+                android:textColor="#666666"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.101"
+                app:layout_constraintHorizontal_bias="0.075"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_petWeight" />
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+            <TextView
+                android:id="@+id/text_petNeutral"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="중성화 여부"
+                android:textColor="#666666"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.058"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edittext_weight" />
+
+            <TextView
+                android:id="@+id/text_petNameValidate"
+                android:layout_width="233dp"
+                android:layout_height="26dp"
+                android:layout_marginTop="16dp"
+                android:textColor="#505050"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.112"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edittext_petName" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_petTypeDog"
+                android:layout_width="170dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/btn_click"
+                android:text="강아지"
+                android:textColor="@drawable/text_click"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.079"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_petName2" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_petSexMale"
+                android:layout_width="170dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_click"
+                android:text="수컷"
+                android:textColor="@drawable/text_click"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.083"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_petSex" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_petTypeCat"
+                android:layout_width="170dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/btn_click"
+                android:text="고양이"
+                android:textColor="@drawable/text_click"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.346"
+                app:layout_constraintStart_toEndOf="@+id/btn_petTypeDog"
+                app:layout_constraintTop_toBottomOf="@+id/text_petName2" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_petSexFemale"
+                android:layout_width="170dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_click"
+                android:text="암컷"
+                android:textColor="@drawable/text_click"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.358"
+                app:layout_constraintStart_toEndOf="@+id/btn_petTypeDog"
+                app:layout_constraintTop_toBottomOf="@+id/text_petSex" />
+
+            <TextView
+                android:id="@+id/editText_birth"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/whitegrey_click_button"
+                android:gravity="center_vertical"
+                android:hint="날짜를 입력해주세요"
+                android:paddingStart="20dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.404"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_petBirth" />
+
+
+            <TextView
+                android:id="@+id/editText_breed"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/whitegrey_click_button"
+                android:gravity="center_vertical"
+                android:hint="품종을 선택하세요"
+                android:paddingStart="20dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.446"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_petBreed" />
 
             <RadioGroup
                 android:id="@+id/radioGroup"
@@ -298,64 +323,100 @@
                 android:checkedButton="@id/radio_notNeutral"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.244"
+                app:layout_constraintHorizontal_bias="0.201"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_petNeutralization">
+                app:layout_constraintTop_toBottomOf="@+id/text_petNeutral">
 
                 <RadioButton
                     android:id="@+id/radio_notNeutral"
                     android:layout_width="116dp"
                     android:layout_height="38dp"
-                    android:text="중성화 안함" />
+                    android:text="미실시" />
 
                 <RadioButton
                     android:id="@+id/radio_neutral"
                     android:layout_width="118dp"
                     android:layout_height="37dp"
-                    android:text="중성화 완료" />
+                    android:text="완료" />
 
             </RadioGroup>
 
-            <TextView
-                android:id="@+id/text_registerNumber"
-                android:layout_width="142dp"
-                android:layout_height="26dp"
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/editText_birth"
+                app:layout_constraintEnd_toEndOf="@+id/editText_birth"
+                app:layout_constraintTop_toTopOf="@+id/editText_birth"
+                app:layout_constraintVertical_bias="0.411"
+                app:srcCompat="@drawable/btn_arrow_down" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/editText_breed"
+                app:layout_constraintEnd_toEndOf="@+id/editText_breed"
+                app:layout_constraintTop_toTopOf="@+id/editText_breed"
+                app:layout_constraintVertical_bias="0.4"
+                app:srcCompat="@drawable/btn_arrow_down" />
+
+            <ImageView
+                android:id="@+id/btn_dontknow"
+                android:layout_width="90dp"
+                android:layout_height="20dp"
                 android:layout_marginTop="8dp"
-                android:text="반려동물 등록번호"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.129"
+                app:layout_constraintHorizontal_bias="0.068"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+                app:layout_constraintTop_toBottomOf="@+id/editText_breed"
+                app:srcCompat="@drawable/btn_dontknow" />
 
             <EditText
-                android:id="@+id/editText_registerNumber"
-                android:layout_width="235dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="8dp"
-                android:ems="10"
-                android:hint="예시) 410111111111111 (12자리)"
-                android:inputType="number"
-                android:textAlignment="center"
-                android:textSize="12sp"
+                android:id="@+id/edittext_weight"
+                android:layout_width="358dp"
+                android:layout_height="61dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/grey_blue_edittext"
+                android:hint="몸무게를 입력해주세요 (kg)"
+                android:maxLength="20"
+                android:textSize="14sp"
+                android:inputType="numberDecimal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.196"
+                app:layout_constraintHorizontal_bias="0.538"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_registerNumber" />
+                app:layout_constraintTop_toBottomOf="@+id/text_petWeight" />
 
-            <Button
-                android:id="@+id/btn_createPetSubmit"
-                android:layout_width="98dp"
-                android:layout_height="47dp"
-                android:layout_marginTop="32dp"
-                android:text="등록하기"
-                android:textColor="@color/white"
-                app:backgroundTint="@color/main_pink"
+            <EditText
+                android:id="@+id/edittext_registerNum"
+                android:layout_width="358dp"
+                android:layout_height="61dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/grey_blue_edittext"
+                android:hint="반려동물 등록번호를 입력해주세요 (15자리)"
+                android:maxLength="20"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.461"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_registerNumber" />
+                app:layout_constraintTop_toBottomOf="@+id/text_petRegisterNum" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_PetSubmit"
+                android:layout_width="360dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/grey_button"
+                android:text="등록하기"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.48"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edittext_registerNum" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
