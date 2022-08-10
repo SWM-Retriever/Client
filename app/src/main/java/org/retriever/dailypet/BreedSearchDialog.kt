@@ -9,6 +9,7 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import org.retriever.dailypet.databinding.ActivityCreatePetBinding
 import org.retriever.dailypet.databinding.DialogSearchBreedBinding
 import org.retriever.dailypet.interfaces.BreedListAdapter
 import org.retriever.dailypet.models.Breed
@@ -19,14 +20,18 @@ class BreedSearchDialog(
 ) : Dialog(context) { // 뷰를 띄워야하므로 Dialog 클래스는 context를 인자로 받는다.
 
     private lateinit var binding: DialogSearchBreedBinding
+    private lateinit var petBinding: ActivityCreatePetBinding
     val TAG = "SEARCH DIALOG"
     lateinit var recyclerView: RecyclerView
     lateinit var breedListAdapter: BreedListAdapter
     lateinit var breeds: ArrayList<Breed>
+    private val dlg = Dialog(context)
+    private lateinit var listener : DialogOKClickListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DialogSearchBreedBinding.inflate(layoutInflater)
+        petBinding = ActivityCreatePetBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
@@ -42,18 +47,31 @@ class BreedSearchDialog(
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
 
-        // OK Button 클릭에 대한 Callback 처리. 이 부분은 상황에 따라 자유롭게!
-//        btnSearch.setOnClickListener {
-//            if (editTextBreed.text.isNullOrBlank()) {
-//                Toast.makeText(context, "품종을 입력해주세요", Toast.LENGTH_SHORT).show()
-//            } else {
-//                okCallback(editTextBreed.text.toString())
-//                dismiss()
-//            }
-//        }
+        //OK Button 클릭에 대한 Callback 처리. 이 부분은 상황에 따라 자유롭게!
+        button.setOnClickListener {
+            if (searchViewBreed.toString().isBlank()) {
+                Toast.makeText(context, "품종을 입력해주세요", Toast.LENGTH_SHORT).show()
+            } else {
+                //okCallback(searchViewBreed.toString())
+                listener.onOkClicked(searchViewBreed.query.toString())
+                dismiss()
+            }
+        }
         searchViewBreed.setOnQueryTextListener(searchViewTextListener)
         breeds = setBreeds()
         setAdapter()
+    }
+
+    fun setOnOKCickedListener(listener: (String) -> Unit){
+        this.listener = object: DialogOKClickListener{
+            override fun onOkClicked(content: String) {
+                listener(content)
+            }
+        }
+    }
+
+    interface DialogOKClickListener{
+        fun onOkClicked(content: String)
     }
 
     private var searchViewTextListener: SearchView.OnQueryTextListener =

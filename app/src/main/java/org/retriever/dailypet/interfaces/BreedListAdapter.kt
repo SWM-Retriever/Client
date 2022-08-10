@@ -31,23 +31,24 @@ class BreedListAdapter(var breeds: ArrayList<Breed>, var con: Context) :
                 textSub = itemView.findViewById(R.id.text_descriptionItem)
 
                 itemView.setOnClickListener {
-                    AlertDialog.Builder(con).apply {
-                        val position = adapterPosition
-                        val breed = filteredBreeds[position]
-                        setTitle("선택한 종이 맞습니까?")
-                        setMessage("\n종 이름 : "+ breed.name)
-                        setPositiveButton("네", DialogInterface.OnClickListener { _ , _ ->
-                            binding.editTextBreed.setText(breed.name)
-                            BreedSearchDialog(con){}.dismiss()
 
-
-
-                        })
-                        setNegativeButton("아니요", DialogInterface.OnClickListener { dialog, _ ->
-                            dialog.cancel()
-                        })
-                        show()
-                    }
+//                    AlertDialog.Builder(con).apply {
+//                        val position = adapterPosition
+//                        val breed = filteredBreeds[position]
+//                        setTitle("선택한 종이 맞습니까?")
+//                        setMessage("\n종 이름 : "+ breed.name)
+//                        setPositiveButton("네", DialogInterface.OnClickListener { _ , _ ->
+//                            binding.editTextBreed.setText(breed.name)
+//                            BreedSearchDialog(con){}.dismiss()
+//
+//
+//
+//                        })
+//                        setNegativeButton("아니요", DialogInterface.OnClickListener { dialog, _ ->
+//                            dialog.cancel()
+//                        })
+//                        show()
+//                    }
                 }
             }
         }

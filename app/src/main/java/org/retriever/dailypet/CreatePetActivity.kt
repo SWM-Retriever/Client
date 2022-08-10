@@ -19,6 +19,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import kotlinx.coroutines.flow.callbackFlow
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -86,7 +87,11 @@ class CreatePetActivity : AppCompatActivity() {
 
         /* Pop-up Search */
         binding.editTextBreed.setOnClickListener{
-            BreedSearchDialog(applicationContext){}.show()
+            val dlg = BreedSearchDialog(this){}
+            dlg.setOnOKCickedListener {
+                content-> binding.editTextBreed.setText(content)
+            }
+            dlg.show()
         }
 
         init()

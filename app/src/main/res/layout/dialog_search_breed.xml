@@ -26,13 +26,14 @@
 
     <SearchView
         android:id="@+id/searchView_breed"
-        android:layout_width="312dp"
-        android:layout_height="41dp"
+        android:layout_width="249dp"
+        android:layout_height="39dp"
         android:layout_marginTop="60dp"
         android:iconifiedByDefault="false"
         android:queryHint="예시) 리트리버, 말티즈"
         android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintHorizontal_bias="0.761"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,6 +47,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView_breed"
         app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="77dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="20dp"
+        android:text="확인"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_title" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
