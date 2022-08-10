@@ -103,8 +103,13 @@ interface RetrofitService {
     fun postPet(
         @Header("X-RapidAPI-Key") key: String,
         @Header("X-RapidAPI-Host") host: String,
-        @Part("petName") familyName: String,
-        @Part("petWeight") familyNickname: String,
+        @Part("petName") petName: String,
+        @Part("petType") petType: String,
+        @Part("petBirth") petBirth: String,
+        @Part("petBreed") petBreed: String,
+        @Part("petWeight") petWeight: Float,
+        @Part("petNeutral") petNeutral: Boolean,
+        @Part("petRegisterNum") petRegisterNum: String,
         @Part image: MultipartBody.Part?,
     ): Call<General>
 }
