@@ -17,6 +17,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okio.BufferedSink
 import org.retriever.dailypet.databinding.ActivityCreateFamilyBinding
 import org.retriever.dailypet.interfaces.RetrofitService
 import org.retriever.dailypet.models.General
@@ -33,11 +38,12 @@ class CreateFamilyActivity : AppCompatActivity() {
     private lateinit var retrofitService : RetrofitService
     private lateinit var cameraLauncher: ActivityResultLauncher<Intent>
     private lateinit var galleryLauncher: ActivityResultLauncher<Intent>
+    private lateinit var BASE_URL: String
+    private lateinit var KEY : String
+    private lateinit var HOST : String
+    private var bitmap : Bitmap? = null
     private var isValidFamilyname : Boolean = false
     private val TAG = "CREATE FAMILY ACTIVITY"
-    private val BASE_URL = "https://dailypet.p.rapidapi.com/"
-    private val KEY = "455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c"
-    private val HOST = "dailypet.p.rapidapi.com"
     private val CODE_NICKNAME = 200
     private val CODE_FAMILY = 200
     private val CODE_FAIL = 400
@@ -55,6 +61,10 @@ class CreateFamilyActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        BASE_URL = getString(R.string.URL)
+        KEY = getString(R.string.KEY)
+        HOST = getString(R.string.HOST)
+
         /* API Init */
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -68,7 +78,8 @@ class CreateFamilyActivity : AppCompatActivity() {
         ) {
             if (it.resultCode == RESULT_OK) {
                 Log.d(TAG, "Get Image from Gallery")
-                var bitmap = it.data?.extras?.get("data") as Bitmap
+                bitmap = it.data?.extras?.get("data") as Bitmap
+                bitmap = Bitmap.createScaledBitmap(bitmap!!, 300, 300, true)
                 binding.imgCreateFamilyPhoto.setImageBitmap(bitmap)
             }
         }
@@ -81,14 +92,19 @@ class CreateFamilyActivity : AppCompatActivity() {
                 val imageData: Uri? = it.data?.data
                 try {
                     Log.d(TAG, "Get Image from Camera")
-                    var bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageData)
+                    bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageData)
+                    bitmap = Bitmap.createScaledBitmap(bitmap!!, 300, 300, true)
                     binding.imgCreateFamilyPhoto.setImageBitmap(bitmap)
                 } catch (e: Exception) { e.printStackTrace() }
             }
         }
 
+        init()
+    }
+
+    private fun init() = with(binding){
         /* Upload Profile Image */
-        binding.btnCreateFamilyLoad.setOnClickListener{
+        btnCreateFamilyLoad.setOnClickListener{
             Log.d(TAG, "Button Photo Upload")
             var popupMenu = PopupMenu(applicationContext, it)
             menuInflater.inflate(R.menu.camera_menu, popupMenu.menu)
@@ -113,30 +129,29 @@ class CreateFamilyActivity : AppCompatActivity() {
         }
 
         /* Check Family Validation */
-        binding.btnCreateFamilyNameCheck.setOnClickListener{
+        btnCreateFamilyNameCheck.setOnClickListener{
             Log.d(TAG, "Button FamilyName Check")
-            val familyName = binding.textCreateFamilyName.text.toString()
+            val familyName = textCreateFamilyName.text.toString()
             if(familyName == ""){
-                binding.textFamilyNameValidate.text = "올바른 닉네임을 입력해주세요"
-                binding.textFamilyNameValidate.setTextColor(Color.BLACK)
+                textFamilyNameValidate.text = "올바른 닉네임을 입력해주세요"
+                textFamilyNameValidate.setTextColor(Color.BLACK)
             }
             else checkValidFamilyname(familyName)
         }
 
         /* Submit Profile */
-        binding.btnCreateFamilySubmit.setOnClickListener{
+        btnCreateFamilySubmit.setOnClickListener{
             Log.d(TAG, "Button Register")
-            val nickname = binding.textCreateFamilyNickname.text.toString()
+            val nickname = textCreateFamilyNickname.text.toString()
             if(nickname == "") {
-                Toast.makeText(this, "가족 내 닉네임을 작성해주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "가족 내 닉네임을 작성해주세요", Toast.LENGTH_SHORT).show()
             }
             else if(isValidFamilyname){
-                val familyname = binding.textCreateFamilyName.text.toString()
-                val nickname = binding.textCreateFamilyNickname.text.toString()
-                val imageURL = binding.imgCreateFamilyPhoto.toString()
-                postFamilyInfo(familyname, nickname, imageURL)
+                val familyname = textCreateFamilyName.text.toString()
+                val nickname = textCreateFamilyNickname.text.toString()
+                postFamilyInfo(familyname, nickname)
             } else{
-                Toast.makeText(this, "가족이름 중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "가족이름 중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -188,8 +203,17 @@ class CreateFamilyActivity : AppCompatActivity() {
     }
 
     /* 프로필 등록 */
-    private fun postFamilyInfo(familyName : String, nickname : String, imageURL : String){
-        val call = retrofitService.postFamily(KEY, HOST, familyName, nickname, imageURL)
+    private fun postFamilyInfo(familyName : String, nickname : String){
+        val call : Call<General>
+        if(bitmap != null){
+            val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
+            val bitmapMultipartBody: MultipartBody.Part =
+                MultipartBody.Part.createFormData("image", "familyImage", bitmapRequestBody)
+            call = retrofitService.postFamilyWithImage(KEY, HOST, familyName, nickname, bitmapMultipartBody)
+        } else{
+            call = retrofitService.postFamily(KEY, HOST, familyName, nickname)
+        }
+
         call.enqueue(object : Callback<General> {
             override fun onResponse(call: Call<General>, response: Response<General>) {
                 val result: String = response.body().toString()
@@ -212,6 +236,13 @@ class CreateFamilyActivity : AppCompatActivity() {
                 Log.e(TAG, "연결 실패")
             }
         })
+    }
+
+    inner class BitmapRequestBody(private val bitmap: Bitmap) : RequestBody() {
+        override fun contentType(): MediaType = "image/jpeg".toMediaType()
+        override fun writeTo(sink: BufferedSink) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 99, sink.outputStream())
+        }
     }
 
     /* 권한 허용 확인 및 요청 */

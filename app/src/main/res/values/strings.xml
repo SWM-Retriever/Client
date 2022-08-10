@@ -3,4 +3,7 @@
     <string name="invite_comment">가족 또는 친구를 초대해서 반려동물을 함께 케어해보세요!</string>
     <string name="copyright">Copyright© 2022.Retriever. All rights reserved</string>
     <string name="term"><u>보기</u></string>
+    <string name="URL">https://dailypet.p.rapidapi.com/</string>
+    <string name="KEY">455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c</string>
+    <string name="HOST">dailypet.p.rapidapi.com</string>
 </resources>

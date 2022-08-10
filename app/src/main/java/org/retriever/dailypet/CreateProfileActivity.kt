@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okio.BufferedSink
 import org.retriever.dailypet.databinding.ActivityCreateProfileBinding
 import org.retriever.dailypet.interfaces.RetrofitService
 import org.retriever.dailypet.models.General
@@ -33,14 +39,16 @@ class CreateProfileActivity : AppCompatActivity() {
     private lateinit var galleryLauncher: ActivityResultLauncher<Intent>
     private lateinit var retrofit : Retrofit
     private lateinit var retrofitService : RetrofitService
+    private lateinit var BASE_URL: String
+    private lateinit var KEY : String
+    private lateinit var HOST : String
+    private var bitmap : Bitmap? = null
     private var isValidNickname : Boolean = false
     private val TAG = "CREATE PROFILE"
-    private val BASE_URL = "https://dailypet.p.rapidapi.com/"
-    private val KEY = "455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c"
-    private val HOST = "dailypet.p.rapidapi.com"
     private val CODE_NICKNAME = 200
     private val CODE_PROFILE = 200
     private val CODE_FAIL = 400
+
     // Permissions
     val PERMISSIONS = arrayOf(
         Manifest.permission.CAMERA,
@@ -49,16 +57,23 @@ class CreateProfileActivity : AppCompatActivity() {
     )
     val PERMISSIONS_REQUEST = 100
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         binding = ActivityCreateProfileBinding.inflate(layoutInflater)
-        var view = binding.root
+        val view = binding.root
         setContentView(view)
+
+        BASE_URL = getString(R.string.URL)
+        KEY = getString(R.string.KEY)
+        HOST = getString(R.string.HOST)
 
         binding.textRegisterProfileName.text = intent.getStringExtra("userName")
         binding.textRegisterProfileEmail.text = intent.getStringExtra("userEmail")
+        init()
+    }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun init() = with(binding){
         /* API Init */
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -72,8 +87,9 @@ class CreateProfileActivity : AppCompatActivity() {
         ) {
             if (it.resultCode == RESULT_OK) {
                 Log.d(TAG, "Get Image from Gallery")
-                var bitmap = it.data?.extras?.get("data") as Bitmap
-                binding.imgCreateProfilePhoto.setImageBitmap(bitmap)
+                bitmap = it.data?.extras?.get("data") as Bitmap
+                bitmap = Bitmap.createScaledBitmap(bitmap!!, 300, 300, true)
+                imgCreateProfilePhoto.setImageBitmap(bitmap)
             }
         }
         /* Gallery Register */
@@ -83,18 +99,19 @@ class CreateProfileActivity : AppCompatActivity() {
             if (it.resultCode == RESULT_OK) {
                 Log.d(TAG, "RESULT_OK")
                 val imageData: Uri? = it.data?.data
-                    try {
-                        Log.d(TAG, "Get Image from Camera")
-                        var bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageData)
-                        binding.imgCreateProfilePhoto.setImageBitmap(bitmap)
-                    } catch (e: Exception) { e.printStackTrace() }
+                try {
+                    Log.d(TAG, "Get Image from Camera")
+                    bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageData)
+                    bitmap = Bitmap.createScaledBitmap(bitmap!!, 300, 300, true)
+                    imgCreateProfilePhoto.setImageBitmap(bitmap)
+                } catch (e: Exception) { e.printStackTrace() }
             }
         }
 
-        /* Upload Profile Image */
-        binding.btnCreateProfileLoad.setOnClickListener{
+        /* Camera Pop-up Button */
+        btnCreateProfileLoad.setOnClickListener{
             Log.d(TAG, "Button Photo Upload")
-            var popupMenu = PopupMenu(applicationContext, it)
+            val popupMenu = PopupMenu(applicationContext, it)
             menuInflater.inflate(R.menu.camera_menu, popupMenu.menu)
             popupMenu.show()
             popupMenu.setOnMenuItemClickListener {
@@ -116,28 +133,32 @@ class CreateProfileActivity : AppCompatActivity() {
             }
         }
         /* Check Nickname Validation */
-        binding.btnProfileNicknameCheck.setOnClickListener{
+        btnProfileNicknameCheck.setOnClickListener{
             Log.d(TAG, "Button NickName Check")
-            val nickname = binding.textCreateProfileNickname.text.toString()
+            val nickname = textCreateProfileNickname.text.toString()
             Log.d(TAG, nickname)
-            if(nickname == ""){
-                binding.textProfileNicknameValidate.text = "올바른 닉네임을 입력해주세요"
-                binding.textProfileNicknameValidate.setTextColor(this.getColor(R.color.fail_red))
-                binding.textCreateProfileNickname.background = this.getDrawable(R.drawable.fail_edittext)
+            if(nickname.isBlank()){
+                textProfileNicknameValidate.text = "올바른 닉네임을 입력해주세요"
+                textProfileNicknameValidate.setTextColor(applicationContext.getColor(R.color.fail_red))
+                textCreateProfileNickname.background = applicationContext.getDrawable(R.drawable.fail_edittext)
             }
             else checkValidNickname(nickname)
         }
         /* Submit Profile */
-        binding.btnCreateProfileSubmit.setOnClickListener{
+        btnCreateProfileSubmit.setOnClickListener{
             Log.d(TAG, "Button Register")
-            if(isValidNickname ){
-                val nickname = binding.textCreateProfileNickname.text.toString()
-                val email = binding.textRegisterProfileEmail.text.toString()
-                val imageURL = binding.imgCreateProfilePhoto.toString()
-                postProfileInfo(nickname, email, imageURL)
+            if(isValidNickname){
+                val nickname = textCreateProfileNickname.text.toString()
+                val email = textRegisterProfileEmail.text.toString()
+                postProfileInfo(nickname, email)
             } else{
-                Toast.makeText(this, "닉네임 중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "닉네임 중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        /* 이전버튼 */
+        binding.imgbtnBack.setOnClickListener{
+            onBackPressed()
         }
     }
 
@@ -158,8 +179,17 @@ class CreateProfileActivity : AppCompatActivity() {
         }
     }
     /* 프로필 등록 */
-    private fun postProfileInfo(nickname : String, email : String, imageURL : String){
-        val call = retrofitService.postProfile(KEY, HOST, nickname, email, imageURL)
+    private fun postProfileInfo(nickname : String, email : String){
+        val call : Call<General>
+        if(bitmap != null){
+            val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
+            val bitmapMultipartBody: MultipartBody.Part =
+                MultipartBody.Part.createFormData("image", "profileImage", bitmapRequestBody)
+            call = retrofitService.postProfileWithImage(KEY, HOST, nickname, email, bitmapMultipartBody)
+        } else{
+            call = retrofitService.postProfile(KEY, HOST, nickname, email)
+        }
+
         call.enqueue(object : Callback<General> {
             override fun onResponse(call: Call<General>, response: Response<General>) {
                 val result: String = response.body().toString()
@@ -182,6 +212,13 @@ class CreateProfileActivity : AppCompatActivity() {
                 Log.e(TAG, "연결 실패")
             }
         })
+    }
+
+    inner class BitmapRequestBody(private val bitmap: Bitmap) : RequestBody() {
+        override fun contentType(): MediaType = "image/jpeg".toMediaType()
+        override fun writeTo(sink: BufferedSink) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 99, sink.outputStream())
+        }
     }
 
     private fun checkValidNickname(nickname : String){

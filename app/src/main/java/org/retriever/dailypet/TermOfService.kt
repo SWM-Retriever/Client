@@ -28,6 +28,10 @@ class TermOfService : AppCompatActivity() {
         binding.btnNext.setOnClickListener{
             if(binding.check1.isChecked && binding.check2.isChecked){
                 val nextIntent = Intent(this, CreateProfileActivity::class.java)
+                val name = intent.getStringExtra("userName")
+                val email = intent.getStringExtra("userEmail")
+                nextIntent.putExtra("userName",name)
+                nextIntent.putExtra("userEmail",email)
                 startActivity(nextIntent)
             } else{
                 Toast.makeText(this,"필수 약관을 모두 동의해주세요",Toast.LENGTH_SHORT).show()
