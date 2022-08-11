@@ -99,6 +99,7 @@ class CreatePetActivity : AppCompatActivity() {
             dlg.setOnOKCickedListener {
                 content-> binding.editTextBreed.setText(content)
                 binding.editTextBreed.background = applicationContext.getDrawable(R.drawable.whiteblue_click_button)
+
             }
             dlg.show()
         }
