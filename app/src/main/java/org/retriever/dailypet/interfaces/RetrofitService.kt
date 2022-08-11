@@ -105,6 +105,7 @@ interface RetrofitService {
         @Header("X-RapidAPI-Host") host: String,
         @Part("petName") petName: String,
         @Part("petType") petType: String,
+        @Part("petSex") sex: String,
         @Part("petBirth") petBirth: String,
         @Part("petBreed") petBreed: String,
         @Part("petWeight") petWeight: Float,
