@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import org.retriever.dailypet.databinding.ActivityFamilyEntranceBinding
-import org.retriever.dailypet.databinding.ActivitySelectFamilyTypeBinding
 
 class FamilyEntranceActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFamilyEntranceBinding
@@ -25,7 +24,7 @@ class FamilyEntranceActivity : AppCompatActivity() {
         }
         /* 초대코드 페이지 버튼 */
         textInviteCode.setOnClickListener{
-            val nextIntent = Intent(applicationContext, FindFamilyActivity::class.java)
+            val nextIntent = Intent(applicationContext, FindGroupActivity::class.java)
             startActivity(nextIntent)
         }
         /* 이전버튼 */

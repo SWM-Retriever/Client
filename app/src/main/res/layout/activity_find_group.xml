@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FindFamilyActivity">
+    tools:context=".FindGroupActivity">
 
 
     <EditText
-        android:id="@+id/text_createProfileNickname2"
+        android:id="@+id/editText_code"
         android:layout_width="358dp"
         android:layout_height="61dp"
         android:layout_marginTop="36dp"
@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_findFamilySubtitle" />
+        app:layout_constraintTop_toBottomOf="@+id/text_findGroupComment" />
 
     <ImageButton
         android:id="@+id/imgbtn_back"
@@ -50,7 +50,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_findFamilySubtitle"
+        android:id="@+id/text_findGroupComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -68,9 +68,9 @@
         android:layout_height="44dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/text_createProfileNickname2"
-        app:layout_constraintEnd_toEndOf="@+id/text_createProfileNickname2"
-        app:layout_constraintTop_toTopOf="@+id/text_createProfileNickname2"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_code"
+        app:layout_constraintEnd_toEndOf="@+id/editText_code"
+        app:layout_constraintTop_toTopOf="@+id/editText_code"
         app:layout_constraintVertical_bias="0.529"
         app:srcCompat="@android:drawable/ic_menu_search"
         app:tint="#00BCD4" />
@@ -80,12 +80,11 @@
         android:layout_width="244dp"
         android:layout_height="38dp"
         android:layout_marginTop="12dp"
-        android:textAlignment="center"
         android:textColor="#505050"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.155"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_createProfileNickname2" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_code" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_FamilyPhoto"
