@@ -19,7 +19,7 @@
         android:theme="@style/Theme.DailyPet"
         tools:targetApi="31">
         <activity
-            android:name=".TermOfService"
+            android:name=".TermOfServiceActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

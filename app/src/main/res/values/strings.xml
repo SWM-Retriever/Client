@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">반려하루</string>
-    <string name="invite_comment">가족 또는 친구를 초대해서 반려동물을 함께 케어해보세요!</string>
-    <string name="copyright">Copyright© 2022.Retriever. All rights reserved</string>
-    <string name="term"><u>보기</u></string>
     <string name="URL">https://dailypet.p.rapidapi.com/</string>
     <string name="KEY">455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c</string>
     <string name="HOST">dailypet.p.rapidapi.com</string>
+    <string name="copyright">Copyright© 2022.Retriever. All rights reserved</string>
+    <string name="invite_comment">가족 또는 친구를 초대해서 반려동물을 함께 케어해보세요!</string>
+    <string name="term"><u>보기</u></string>
+    <string name="input_code"><u>초대코드 입력하기</u></string>
+    <string name="create_group_comment">그룹을 만들면 공동 양육 기능 및 그룹 통계 기능을 사용할 수 있습니다\n그룹을 생성하고 가족 또는 친구를 초대해서 반려동물을 함께 케어해보세요</string>
 </resources>
