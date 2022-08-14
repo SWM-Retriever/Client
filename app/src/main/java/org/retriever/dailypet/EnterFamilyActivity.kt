@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import org.retriever.dailypet.databinding.ActivityEnterFamilyBinding
-import org.retriever.dailypet.databinding.ActivityFindFamilyBinding
 import org.retriever.dailypet.interfaces.RetrofitService
 import org.retriever.dailypet.models.General
 import retrofit2.Call

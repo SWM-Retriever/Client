@@ -8,20 +8,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
-import androidx.core.view.isVisible
-import org.retriever.dailypet.databinding.ActivityFindFamilyBinding
+import org.retriever.dailypet.databinding.ActivityFindGroupBinding
 import org.retriever.dailypet.interfaces.RetrofitService
 import org.retriever.dailypet.models.FamilyInfo
-import org.retriever.dailypet.models.General
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class FindFamilyActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityFindFamilyBinding
+class FindGroupActivity : AppCompatActivity() {
+    private lateinit var binding : ActivityFindGroupBinding
     private lateinit var retrofit : Retrofit
     private lateinit var retrofitService : RetrofitService
     private var isValidCode : Boolean = false
@@ -31,11 +28,11 @@ class FindFamilyActivity : AppCompatActivity() {
     private val HOST = "dailypet.p.rapidapi.com"
     private val CODE_NICKNAME = 200
     private val CODE_FAIL = 400
-    private var FamilyName : String? = null
+    private var groupName : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityFindFamilyBinding.inflate(layoutInflater)
+        binding = ActivityFindGroupBinding.inflate(layoutInflater)
         val view = binding.root
 
         setContentView(view)
@@ -46,14 +43,20 @@ class FindFamilyActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         retrofitService = retrofit.create(RetrofitService::class.java)
+        init()
+    }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun init() = with(binding){
         /* Check Code Validation */
-        binding.btnSearchInviteCode.setOnClickListener{
+        btnSearchInviteCode.setOnClickListener{
             Log.d(TAG, "Button InviteCode Check")
-            val inviteCode = binding.editTextInviteCode.text.toString()
-            if(inviteCode == ""){
-                binding.textInviteCodeValidate.text = "올바른 코드를 입력해주세요"
-                binding.textInviteCodeValidate.setTextColor(Color.RED)
+            val inviteCode = editTextCode.text.toString()
+            Log.e(TAG, inviteCode)
+            if(inviteCode.isBlank()){
+                textInviteCodeValidate.text = "올바른 코드를 입력해주세요"
+                textInviteCodeValidate.setTextColor(applicationContext.getColor(R.color.fail_red))
+                editTextCode.background = applicationContext.getDrawable(R.drawable.fail_edittext)
                 isValidCode = false
                 setVisibility()
             }
@@ -61,19 +64,24 @@ class FindFamilyActivity : AppCompatActivity() {
         }
 
         /* Register Family Member Page*/
-        binding.btnSelectFamily.setOnClickListener{
+        btnAddProfile.setOnClickListener{
             if(isValidCode){
-                val nextIntent = Intent(this, EnterFamilyActivity::class.java)
-                nextIntent.putExtra("FamilyName", FamilyName)
+                val nextIntent = Intent(applicationContext, EnterFamilyActivity::class.java)
+                nextIntent.putExtra("FamilyName", groupName)
                 startActivity(nextIntent) // 가족 구성원 등록 페이지로 이동
             }
+        }
+
+        /* 이전버튼 */
+        imgbtnBack.setOnClickListener{
+            onBackPressed()
         }
     }
 
     private fun checkValidCode(inviteCode : String){
         val call = retrofitService.postInviteCode(KEY, HOST, inviteCode)
         call.enqueue(object : Callback<FamilyInfo> {
-            @SuppressLint("SetTextI18n")
+            @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
             override fun onResponse(call: Call<FamilyInfo>, response: Response<FamilyInfo>) {
                 val result: String = response.body().toString()
                 Log.d(TAG, "CODE = ${response.code()}")
@@ -81,19 +89,19 @@ class FindFamilyActivity : AppCompatActivity() {
                 if(response.isSuccessful) {
                     if(response.code() == CODE_NICKNAME){ // 유효한 코드
                         binding.textInviteCodeValidate.text = ""
-                        binding.textInviteCodeValidate.setTextColor(Color.BLUE)
+                        binding.editTextCode.background = applicationContext.getDrawable(R.drawable.success_edittext)
                         isValidCode = true
-                        val familCount = response.body()?.familyCount
-                        FamilyName = response.body()?.familyName
-                        binding.textFamilyName.text = response.body()?.familyName + " ($familCount 명)"
+                        val memberCnt = response.body()?.familyCount
+                        groupName = response.body()?.familyName
+                        binding.textFamilyName.text = response.body()?.familyName + " ($memberCnt 명)"
                         setVisibility()
                     }
                 }
                 else{
                     if(response.code() == CODE_FAIL){ // 유효하지 않은 코드
                         setVisibility()
-                        binding.textInviteCodeValidate.text = "유효하지 않은 코드입니다"
-                        binding.textInviteCodeValidate.setTextColor(Color.RED)
+                        binding.textInviteCodeValidate.setTextColor(applicationContext.getColor(R.color.fail_red))
+                        binding.editTextCode.background = applicationContext.getDrawable(R.drawable.fail_edittext)
                         isValidCode = false
                     }
                 }
@@ -108,12 +116,12 @@ class FindFamilyActivity : AppCompatActivity() {
         if(isValidCode){
             binding.imgFamilyPhoto.visibility = View.VISIBLE
             binding.textFamilyName.visibility = View.VISIBLE
-            binding.btnSelectFamily.visibility = Button.VISIBLE
+            binding.btnAddProfile.visibility = Button.VISIBLE
             binding.textInvisibleComment.visibility = View.VISIBLE
         } else{
             binding.imgFamilyPhoto.visibility = View.INVISIBLE
             binding.textFamilyName.visibility = View.INVISIBLE
-            binding.btnSelectFamily.visibility = Button.INVISIBLE
+            binding.btnAddProfile.visibility = Button.INVISIBLE
             binding.textInvisibleComment.visibility = View.INVISIBLE
         }
     }
