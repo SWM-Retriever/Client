@@ -11,7 +11,7 @@ import android.widget.Toast
 import org.retriever.dailypet.databinding.ActivityCreationCompleteBinding
 import org.retriever.dailypet.databinding.ActivityTermOfServiceBinding
 
-class TermOfService : AppCompatActivity() {
+class TermOfServiceActivity : AppCompatActivity() {
     private lateinit var binding : ActivityTermOfServiceBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,34 +21,33 @@ class TermOfService : AppCompatActivity() {
         setContentView(view)
 
         init()
-
     }
-    private fun init(){
+    private fun init() = with(binding){
         /* 다음 버튼 */
-        binding.btnNext.setOnClickListener{
-            if(binding.check1.isChecked && binding.check2.isChecked){
-                val nextIntent = Intent(this, CreateProfileActivity::class.java)
+        btnNext.setOnClickListener{
+            if(check1.isChecked && check2.isChecked){
+                val nextIntent = Intent(applicationContext, CreateProfileActivity::class.java)
                 val name = intent.getStringExtra("userName")
                 val email = intent.getStringExtra("userEmail")
                 nextIntent.putExtra("userName",name)
                 nextIntent.putExtra("userEmail",email)
                 startActivity(nextIntent)
             } else{
-                Toast.makeText(this,"필수 약관을 모두 동의해주세요",Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext,"필수 약관을 모두 동의해주세요",Toast.LENGTH_SHORT).show()
             }
 
         }
         /* 체크박스 */
-        binding.checkAll.setOnClickListener{onCheckChanged(binding.checkAll)}
-        binding.check1.setOnClickListener{onCheckChanged(binding.check1)}
-        binding.check2.setOnClickListener{onCheckChanged(binding.check2)}
-        binding.check3.setOnClickListener{onCheckChanged(binding.check3)}
-        binding.check4.setOnClickListener{onCheckChanged(binding.check4)}
+        checkAll.setOnClickListener{onCheckChanged(checkAll)}
+        check1.setOnClickListener{onCheckChanged(check1)}
+        check2.setOnClickListener{onCheckChanged(check2)}
+        check3.setOnClickListener{onCheckChanged(check3)}
+        check4.setOnClickListener{onCheckChanged(check4)}
         /* 약관보기 */
-        binding.text1.setOnClickListener{}
+        text1.setOnClickListener{}
 
         /* 이전버튼 */
-        binding.imgbtnBack.setOnClickListener{
+        imgbtnBack.setOnClickListener{
             onBackPressed()
         }
     }
