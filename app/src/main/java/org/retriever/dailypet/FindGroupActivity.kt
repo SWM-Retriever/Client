@@ -64,12 +64,17 @@ class FindGroupActivity : AppCompatActivity() {
         }
 
         /* Register Family Member Page*/
-        btnSelectFamily.setOnClickListener{
+        btnAddProfile.setOnClickListener{
             if(isValidCode){
                 val nextIntent = Intent(applicationContext, EnterFamilyActivity::class.java)
                 nextIntent.putExtra("FamilyName", groupName)
                 startActivity(nextIntent) // 가족 구성원 등록 페이지로 이동
             }
+        }
+
+        /* 이전버튼 */
+        imgbtnBack.setOnClickListener{
+            onBackPressed()
         }
     }
 
@@ -111,12 +116,12 @@ class FindGroupActivity : AppCompatActivity() {
         if(isValidCode){
             binding.imgFamilyPhoto.visibility = View.VISIBLE
             binding.textFamilyName.visibility = View.VISIBLE
-            binding.btnSelectFamily.visibility = Button.VISIBLE
+            binding.btnAddProfile.visibility = Button.VISIBLE
             binding.textInvisibleComment.visibility = View.VISIBLE
         } else{
             binding.imgFamilyPhoto.visibility = View.INVISIBLE
             binding.textFamilyName.visibility = View.INVISIBLE
-            binding.btnSelectFamily.visibility = Button.INVISIBLE
+            binding.btnAddProfile.visibility = Button.INVISIBLE
             binding.textInvisibleComment.visibility = View.INVISIBLE
         }
     }
