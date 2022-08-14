@@ -8,4 +8,8 @@
     <string name="term"><u>보기</u></string>
     <string name="input_code"><u>초대코드 입력하기</u></string>
     <string name="create_group_comment">그룹을 만들면 공동 양육 기능 및 그룹 통계 기능을 사용할 수 있습니다\n그룹을 생성하고 가족 또는 친구를 초대해서 반려동물을 함께 케어해보세요</string>
+    <string name="group_photo_comment">(선택) 그룹 사진을 설정해주세요</string>
+    <string name="group_name_comment">그룹을 대표하는 이름을 설정해주세요\n예시) 00패밀리, 00이네, 00커플, 00팸 등</string>
+    <string name="group_nickname_comment">그룹 내에서 사용할 닉네임을 설정해주세요\n예시) 아빠, 엄마, 큰오빠, 막내, 별명 등</string>
+
 </resources>
