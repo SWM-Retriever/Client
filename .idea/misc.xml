@@ -5,6 +5,7 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.10671462829736211" />
         <entry key="app/src/main/res/drawable/blue_button.xml" value="0.215" />
+        <entry key="app/src/main/res/drawable/bottom_bar_color.xml" value="0.134" />
         <entry key="app/src/main/res/drawable/btn_click.xml" value="0.368" />
         <entry key="app/src/main/res/drawable/dailypet_logo_background.xml" value="0.3075" />
         <entry key="app/src/main/res/drawable/edittext_background.xml" value="0.287" />
@@ -26,14 +27,14 @@
         <entry key="app/src/main/res/font/font.xml" value="0.33262077811030355" />
         <entry key="app/src/main/res/layout/activity_create_family.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/layout/activity_create_pet.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_create_profile.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_create_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_creation_complete.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_enter_family.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_family_entrance.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_find_family.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_find_group.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.19479166666666667" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_register_profile.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/activity_select_family_type.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
@@ -41,7 +42,12 @@
         <entry key="app/src/main/res/layout/activity_term_of_service.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_test.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/dialog_search_breed.xml" value="0.30782385634886705" />
+        <entry key="app/src/main/res/layout/fragment_calendar.xml" value="0.29713552800342025" />
+        <entry key="app/src/main/res/layout/fragment_diary.xml" value="0.20761559383499548" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.30867892261650276" />
+        <entry key="app/src/main/res/layout/fragment_my_page.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_breed.xml" value="0.30782385634886705" />
+        <entry key="app/src/main/res/menu/bottom_nav.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/menu/camera_menu.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3075" />
       </map>

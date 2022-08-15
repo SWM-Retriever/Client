@@ -173,7 +173,6 @@ class CreateFamilyActivity : AppCompatActivity() {
             }
             else{
                 val groupName = editTextGroupName.text.toString()
-                if(groupName.isBlank())
                 postFamilyInfo(groupName, nickname)
             }
 
