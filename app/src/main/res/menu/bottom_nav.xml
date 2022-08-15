@@ -7,7 +7,7 @@
         android:title="반려일기"
         android:icon="@drawable/icon_diary"/>
     <item android:id="@+id/action_calendar"
-        android:title="캘린더"
+        android:title="반려일정"
         android:icon="@drawable/icon_caldendar"/>
     <item android:id="@+id/action_myPage"
         android:title="마이페이지"

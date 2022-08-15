@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import org.retriever.dailypet.databinding.ActivityMainBinding
+import org.retriever.dailypet.fragments.CalendarFragment
+import org.retriever.dailypet.fragments.DiaryFragment
 import org.retriever.dailypet.fragments.HomeFragment
 import org.retriever.dailypet.fragments.MyPageFragment
 
@@ -15,19 +17,23 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        navigationItemSelect()
     }
 
     private fun replaceFragment(fragment: Fragment) {
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.holder_fl_main, fragment)
+        fragmentTransaction.replace(R.id.frame_main, fragment)
         fragmentTransaction.commit()
     }
 
     private fun navigationItemSelect() {
-        binding.bnMain.run {
+        binding.bottomBar.run {
             setOnItemSelectedListener { item ->
                 when(item.itemId) {
                     R.id.action_home -> replaceFragment(HomeFragment())
+                    R.id.action_diary -> replaceFragment(DiaryFragment())
+                    R.id.action_calendar -> replaceFragment(CalendarFragment())
                     R.id.action_myPage -> replaceFragment(MyPageFragment())
                 }
                 true
