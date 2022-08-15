@@ -34,6 +34,9 @@ android {
     viewBinding{
         enabled = true
     }
+    dataBinding{
+        enabled = true
+    }
 }
 
 dependencies {
@@ -41,7 +44,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'de.hdodenhof:circleimageview:3.1.0' // 원형 이미지뷰
@@ -51,9 +54,10 @@ dependencies {
     implementation "com.kakao.sdk:v2-user:2.11.0" // 카카오 로그인
     implementation "com.kakao.sdk:v2-talk:2.11.0" // 친구, 메시지(카카오톡)
     implementation "com.kakao.sdk:v2-share:2.11.0" // 메시지(카카오톡 공유)
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.0" // 코루틴
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1" // 코루틴
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
     implementation 'com.navercorp.nid:oauth:5.1.1' // 네이버 jdk 11
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0' // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.google.android.material:material:1.6.1' // bottom bar
 }
