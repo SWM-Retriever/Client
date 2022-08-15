@@ -18,7 +18,7 @@ import org.retriever.dailypet.databinding.FragmentHomeBinding
 import org.retriever.dailypet.databinding.FragmentMyPageBinding
 
 class MyPageFragment : Fragment(), View.OnClickListener {
-    private val TAG = "HomeFragment"
+    private val TAG = "MyPageFragment"
     private lateinit var binding: FragmentMyPageBinding
 
     override fun onCreateView(

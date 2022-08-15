@@ -7,7 +7,7 @@
     tools:context=".RegisterCareActivity">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_care_register"
+        android:id="@+id/btn_care_register_submit"
         android:layout_width="360dp"
         android:layout_height="60dp"
         android:layout_marginBottom="16dp"
@@ -116,7 +116,9 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
-        android:scrollbarStyle="outsideOverlay"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbarSize="1dp"
+        android:scrollbarThumbHorizontal="@color/main_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -215,16 +217,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </HorizontalScrollView>
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginEnd="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/edittext_weight"
-        app:layout_constraintEnd_toEndOf="@+id/edittext_weight"
-        app:layout_constraintTop_toTopOf="@+id/edittext_weight"
-        app:layout_constraintVertical_bias="0.463"
-        app:srcCompat="@drawable/btn_arrow_down" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -234,7 +226,18 @@
         app:layout_constraintBottom_toBottomOf="@+id/edittext_number"
         app:layout_constraintEnd_toEndOf="@+id/edittext_number"
         app:layout_constraintTop_toTopOf="@+id/edittext_number"
-        app:layout_constraintVertical_bias="0.439"
+        app:layout_constraintVertical_bias="0.463"
+        app:srcCompat="@drawable/btn_arrow_down" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/edittext_period"
+        app:layout_constraintEnd_toEndOf="@+id/edittext_period"
+        app:layout_constraintTop_toTopOf="@+id/edittext_period"
+        app:layout_constraintVertical_bias="0.463"
         app:srcCompat="@drawable/btn_arrow_down" />
 
     <androidx.constraintlayout.widget.Guideline
