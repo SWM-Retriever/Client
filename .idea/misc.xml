@@ -26,7 +26,7 @@
         <entry key="app/src/main/res/font-v26/font.xml" value="0.40520833333333334" />
         <entry key="app/src/main/res/font/font.xml" value="0.33262077811030355" />
         <entry key="app/src/main/res/layout/activity_create_family.xml" value="0.30867892261650276" />
-        <entry key="app/src/main/res/layout/activity_create_pet.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_create_pet.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_create_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_creation_complete.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_enter_family.xml" value="0.335" />
@@ -35,6 +35,7 @@
         <entry key="app/src/main/res/layout/activity_find_group.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_register_care.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_register_profile.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/activity_select_family_type.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
