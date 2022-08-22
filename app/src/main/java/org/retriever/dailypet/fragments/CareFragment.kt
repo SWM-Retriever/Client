@@ -1,60 +1,79 @@
 package org.retriever.dailypet.fragments
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
+import org.retriever.dailypet.LoginActivity
 import org.retriever.dailypet.R
+import org.retriever.dailypet.RegisterCareActivity
+import org.retriever.dailypet.databinding.ActivityMainBinding
+import org.retriever.dailypet.databinding.FragmentCareBinding
+import org.retriever.dailypet.databinding.FragmentHomeBinding
+import org.retriever.dailypet.interfaces.CareAdapter
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class CareFragment : Fragment(), View.OnClickListener{
+    private val TAG = "CARE_FRAGMENT"
+    private lateinit var binding: FragmentCareBinding
+    var name = ""
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CareFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class CareFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    fun newInstance(str : String) : CareFragment{
+        val fragment = CareFragment()
+        fragment.name = str
+        return fragment
     }
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_care, container, false)
+        binding = FragmentCareBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CareFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CareFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setOnClickListener()
+
+//        val pagerAdapter = CareAdapter()
+//        // 3개의 Fragment Add
+//        pagerAdapter.addFragment(FirstFragment())
+//        pagerAdapter.addFragment(SecondFragment())
+//        pagerAdapter.addFragment(ThirdFragment())
+//        // Adapter
+//        binding.viewpagerMain.adapter = pagerAdapter
+//
+//        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+//            override fun onPageSelected(position: Int) {
+//                super.onPageSelected(position)
+//                Log.e("ViewPagerFragment", "Page ${position+1}")
+//            }
+//        })
+//
+//        // TabLayout attach
+//        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+//            tab.text = "Tab ${position+1}"
+//        }.attach()
+    }
+
+    private fun setOnClickListener() {
+        binding.button.setOnClickListener(this)
+        binding.button.text = name
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.button -> {
+                activity?.let{
+                    Toast.makeText(context, name, Toast.LENGTH_SHORT).show()
                 }
             }
+        }
     }
 }
