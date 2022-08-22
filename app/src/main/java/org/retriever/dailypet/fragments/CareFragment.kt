@@ -1,6 +1,5 @@
 package org.retriever.dailypet.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,12 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
-import org.retriever.dailypet.LoginActivity
 import org.retriever.dailypet.R
-import org.retriever.dailypet.RegisterCareActivity
 import org.retriever.dailypet.databinding.ActivityMainBinding
 import org.retriever.dailypet.databinding.FragmentCareBinding
-import org.retriever.dailypet.databinding.FragmentHomeBinding
 import org.retriever.dailypet.interfaces.CareAdapter
 
 class CareFragment : Fragment(), View.OnClickListener{
@@ -40,26 +36,6 @@ class CareFragment : Fragment(), View.OnClickListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListener()
-
-//        val pagerAdapter = CareAdapter()
-//        // 3개의 Fragment Add
-//        pagerAdapter.addFragment(FirstFragment())
-//        pagerAdapter.addFragment(SecondFragment())
-//        pagerAdapter.addFragment(ThirdFragment())
-//        // Adapter
-//        binding.viewpagerMain.adapter = pagerAdapter
-//
-//        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-//            override fun onPageSelected(position: Int) {
-//                super.onPageSelected(position)
-//                Log.e("ViewPagerFragment", "Page ${position+1}")
-//            }
-//        })
-//
-//        // TabLayout attach
-//        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-//            tab.text = "Tab ${position+1}"
-//        }.attach()
     }
 
     private fun setOnClickListener() {

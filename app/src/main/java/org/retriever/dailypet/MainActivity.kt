@@ -16,16 +16,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-        tabItemSelected()
+        ViewPagerFragment()
         navigationItemSelect()
     }
 
     private fun tabItemSelected() = with(binding){
         val tabLayout = tabCareList
         val tab: TabLayout.Tab = tabLayout.newTab()
+        val tab2: TabLayout.Tab = tabLayout.newTab()
         tab.text = "newTab"
+        tab2.text = "newTab"
         tabLayout.addTab(tab)
+        tabLayout.addTab(tab2)
 
         tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
             // 탭 버튼을 선택할 때 이벤트

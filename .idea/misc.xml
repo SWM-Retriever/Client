@@ -44,7 +44,7 @@
         <entry key="app/src/main/res/layout/activity_test.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/dialog_search_breed.xml" value="0.30782385634886705" />
         <entry key="app/src/main/res/layout/fragment_calendar.xml" value="0.29713552800342025" />
-        <entry key="app/src/main/res/layout/fragment_care.xml" value="0.30867892261650276" />
+        <entry key="app/src/main/res/layout/fragment_care.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_diary.xml" value="0.20761559383499548" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/layout/fragment_my_page.xml" value="0.33" />
