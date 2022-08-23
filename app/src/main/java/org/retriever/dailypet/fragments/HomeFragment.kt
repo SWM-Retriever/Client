@@ -19,7 +19,7 @@ import org.retriever.dailypet.interfaces.CareAdapter
 import org.retriever.dailypet.models.Care
 
 class HomeFragment : Fragment(), View.OnClickListener{
-    private val TAG = "HomeFragment"
+    private val TAG = "HOME_FRAGMENT"
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
@@ -63,9 +63,9 @@ class HomeFragment : Fragment(), View.OnClickListener{
 
         val pagerAdapter = CareAdapter(requireActivity())
         // Fragment Add
-        pagerAdapter.addFragment(CareFragment().newInstance("1"))
-        pagerAdapter.addFragment(CareFragment().newInstance("2"))
-        pagerAdapter.addFragment(CareFragment().newInstance("3"))
+        for(care in careList){
+            pagerAdapter.addFragment(CareFragment().newInstance(care))
+        }
 
         // Adapter 연결
         viewPager.adapter = pagerAdapter
@@ -78,7 +78,7 @@ class HomeFragment : Fragment(), View.OnClickListener{
 
         // TabLayout attach
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = "Tab ${position+1}"
+            tab.text = careList[position].name
         }.attach()
     }
 

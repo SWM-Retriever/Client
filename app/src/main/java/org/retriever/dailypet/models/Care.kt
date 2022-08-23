@@ -1,6 +1,6 @@
 package org.retriever.dailypet.models
 
-class Care(val name: String, val period: String, val totalCnt: Int, val curCnt: Int, val log : String) {
+class Care(var name: String, var period: String, var totalCnt: Int, var curCnt: Int, var log : String) {
 
 
 }
