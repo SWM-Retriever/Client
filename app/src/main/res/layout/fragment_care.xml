@@ -12,6 +12,8 @@
         android:layout_width="350dp"
         android:layout_height="280dp"
         android:layout_marginTop="40dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,18 +83,38 @@
             <ProgressBar
                 android:id="@+id/progressbar"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="317dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="96dp"
-                android:scaleY="2"
+                android:layout_width="312dp"
+                android:layout_height="10dp"
+                android:layout_marginTop="80dp"
                 android:max="100"
                 android:progress="30"
-                android:background="@drawable/care_progressbar"
+                android:progressDrawable="@drawable/care_progressbar"
                 android:progressTint="@color/main_pink"
+
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.484"
+                app:layout_constraintHorizontal_bias="0.394"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_careTitle" />
+
+            <TextView
+                android:id="@+id/text_period"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="주기"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_careTitle" />
+
+            <TextView
+                android:id="@+id/text_log"
+                android:layout_width="220dp"
+                android:layout_height="21dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressbar" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

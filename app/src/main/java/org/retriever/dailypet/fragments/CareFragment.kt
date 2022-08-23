@@ -7,21 +7,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayoutMediator
 import org.retriever.dailypet.R
-import org.retriever.dailypet.databinding.ActivityMainBinding
 import org.retriever.dailypet.databinding.FragmentCareBinding
-import org.retriever.dailypet.interfaces.CareAdapter
+import org.retriever.dailypet.models.Care
 
 class CareFragment : Fragment(), View.OnClickListener{
     private val TAG = "CARE_FRAGMENT"
     private lateinit var binding: FragmentCareBinding
-    var name = ""
+    private lateinit var care : Care
 
-    fun newInstance(str : String) : CareFragment{
+    fun newInstance(newCare : Care) : CareFragment{
         val fragment = CareFragment()
-        fragment.name = str
+//        care = newCare
+//        Log.e(TAG,"newInstance ${care.name}")
+
+        val args = Bundle()
+        args.putString("name", newCare.name)
+        args.putInt("totalCnt", newCare.totalCnt)
+        args.putInt("curCnt", newCare.curCnt)
+        args.putString("period", newCare.period)
+        args.putString("log", newCare.log)
+        fragment.arguments = args
         return fragment
     }
     override fun onCreateView(
@@ -35,7 +41,24 @@ class CareFragment : Fragment(), View.OnClickListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val name = arguments?.getString("name")!!
+        val period = arguments?.getString("period")!!
+        val log = arguments?.getString("log")!!
+        val totalCnt = arguments?.getInt("totalCnt")!!
+        val curCnt = arguments?.getInt("curCnt")!!
+        init(name, period, log, totalCnt, curCnt)
         setOnClickListener()
+    }
+
+
+    private fun init(name : String, period : String, log : String, totalCnt : Int, curCnt : Int) = with(binding){
+        textCareTitle.text = name
+        textCareCnt.text = totalCnt.toString()
+        textLog.text = log
+        textPeriod.text = period
+        val percent = curCnt.toDouble() / totalCnt.toDouble()
+        progressbar.progress = (percent * 100).toInt()
+        Log.e(TAG, percent.toString())
     }
 
     private fun setOnClickListener() {
@@ -47,7 +70,7 @@ class CareFragment : Fragment(), View.OnClickListener{
         when (v.id) {
             R.id.button -> {
                 activity?.let{
-                    Toast.makeText(context, name, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "", Toast.LENGTH_SHORT).show()
                 }
             }
         }

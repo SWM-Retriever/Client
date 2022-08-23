@@ -12,4 +12,8 @@
         <item name="colorAccent">@color/main_blue</item>
         <item name="android:fontFamily">@font/noto_sans_kr_black</item>
     </style>
+    <style name="TabText" parent="TextAppearance.Design.Tab">
+        <item name="fontFamily">@font/noto_sans_kr_bold</item>
+        <item name="android:textSize">14dp</item>
+    </style>
 </resources>
