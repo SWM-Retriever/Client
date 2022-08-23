@@ -163,6 +163,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_care_title" />
 
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_careList"
+            android:layout_width="398dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.461"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_empty_comment"
+            app:tabIndicatorColor="@color/grey"
+            app:tabMode="scrollable" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager_main"
+            android:layout_width="403dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tab_careList" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
