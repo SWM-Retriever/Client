@@ -4,22 +4,13 @@
     <item android:id="@android:id/background">
         <shape>
             <corners android:radius="6dp" />
-
         </shape>
     </item>
-    <item android:id="@android:id/secondaryProgress">
-        <clip>
-            <shape>
-                <corners android:radius="6dp" />
-                <gradient android:startColor="@color/main_pink" android:endColor="@color/main_pink"
-                    android:angle="90" />
-            </shape>
-        </clip>
-    </item>
+
     <item android:id="@android:id/progress">
         <clip>
             <shape>
-                <corners android:radius="6dp" />
+                <corners android:radius="10dp" />
                 <gradient android:startColor="@color/main_pink" android:endColor="@color/main_pink"
                     android:angle="90" />
             </shape>
