@@ -61,4 +61,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.google.android.material:material:1.6.1' // bottom bar
     implementation "androidx.viewpager2:viewpager2:1.0.0" // 뷰페이저2
+    implementation "androidx.cardview:cardview:1.0.0" // 카드뷰
 }

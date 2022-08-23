@@ -16,52 +16,10 @@
         <FrameLayout
             android:id="@+id/frame_main"
             android:layout_width="match_parent"
-            android:layout_height="351dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_careList"
-            android:layout_width="398dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/frame_main"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="9dp"
-            app:tabIndicatorColor="@color/grey"
-            app:tabMode="scrollable">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="식사" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="놀이" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="간식" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="병원" />
-
-        </com.google.android.material.tabs.TabLayout>
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewpager_main"
-            android:layout_width="match_parent"
-            android:layout_height="429dp"
+            android:layout_height="835dp"
             android:layout_above="@+id/bottom_bar"
-            android:layout_below="@+id/tab_careList"
-            android:layout_marginTop="2dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="0dp" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView

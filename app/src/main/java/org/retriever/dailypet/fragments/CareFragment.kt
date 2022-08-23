@@ -39,8 +39,8 @@ class CareFragment : Fragment(), View.OnClickListener{
     }
 
     private fun setOnClickListener() {
-        binding.button.setOnClickListener(this)
-        binding.button.text = name
+//        binding.button.setOnClickListener(this)
+//        binding.button.text = name
     }
 
     override fun onClick(v: View) {

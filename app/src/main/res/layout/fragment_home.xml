@@ -105,6 +105,7 @@
             android:layout_marginTop="12dp"
             android:text="아직 챙겨주기 항목이 없어요\n등록하기 버튼을 눌러 반려동물을 챙겨주세요!"
             android:textAlignment="center"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_register_care" />
@@ -149,6 +150,22 @@
             app:layout_constraintTop_toBottomOf="@+id/text_contribution" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_add_care"
+
+            android:layout_width="50dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="108dp"
+            android:background="@drawable/grey_button"
+            android:text="추가"
+            android:textColor="@color/light_black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.94"
+            app:layout_constraintStart_toEndOf="@+id/text_care_title"
+            app:layout_constraintTop_toBottomOf="@+id/text_contribution" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_register_care"
             android:layout_width="360dp"
             android:layout_height="60dp"
@@ -158,10 +175,31 @@
             android:textColor="@color/main_blue"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.484"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_care_title" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_careList"
+            android:layout_width="398dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.461"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_care_title"
+            app:tabIndicatorColor="@color/grey"
+            app:tabMode="scrollable" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager_main"
+            android:layout_width="404dp"
+            android:layout_height="479dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tab_careList" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

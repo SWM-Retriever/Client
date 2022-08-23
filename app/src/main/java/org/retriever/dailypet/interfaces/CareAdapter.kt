@@ -1,8 +1,9 @@
 package org.retriever.dailypet.interfaces
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class CareAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+class CareAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
 
     var fragments : ArrayList<Fragment> = ArrayList()
 
