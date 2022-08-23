@@ -1,6 +1,7 @@
 package org.retriever.dailypet.fragments
 
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,6 +16,7 @@ import org.retriever.dailypet.R
 import org.retriever.dailypet.RegisterCareActivity
 import org.retriever.dailypet.databinding.FragmentHomeBinding
 import org.retriever.dailypet.interfaces.CareAdapter
+import org.retriever.dailypet.models.Care
 
 class HomeFragment : Fragment(), View.OnClickListener{
     private val TAG = "HomeFragment"
@@ -38,6 +40,26 @@ class HomeFragment : Fragment(), View.OnClickListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListener()
+
+        // Load Data
+        val careList = ArrayList<Care>()
+        careList.add(Care("식사","월 수 금",3,1,"나"))
+        careList.add(Care("산책","월 화 수 목 금",2,0,""))
+        careList.add(Care("간식","월 화 수 목 금 토 일",5,4,"나 아빠 엄마 동생"))
+
+        if(careList.isEmpty()){
+            binding.btnRegisterCare.visibility = View.VISIBLE
+            binding.textEmptyComment.visibility = View.VISIBLE
+            binding.tabCareList.visibility = View.GONE
+            binding.viewpagerMain.visibility = View.GONE
+            binding.btnAddCare.visibility = View.GONE
+        } else{
+            binding.btnRegisterCare.visibility = View.GONE
+            binding.textEmptyComment.visibility = View.GONE
+            binding.tabCareList.visibility = View.VISIBLE
+            binding.viewpagerMain.visibility = View.VISIBLE
+            binding.btnAddCare.visibility = View.VISIBLE
+        }
 
         val pagerAdapter = CareAdapter(requireActivity())
         // Fragment Add
