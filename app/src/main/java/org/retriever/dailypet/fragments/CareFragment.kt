@@ -1,5 +1,6 @@
 package org.retriever.dailypet.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,7 +15,8 @@ import org.retriever.dailypet.models.Care
 class CareFragment : Fragment(), View.OnClickListener{
     private val TAG = "CARE_FRAGMENT"
     private lateinit var binding: FragmentCareBinding
-    private lateinit var care : Care
+    private var TOTAL = 1
+    private var CUR = 0
 
     fun newInstance(newCare : Care) : CareFragment{
         val fragment = CareFragment()
@@ -28,6 +30,7 @@ class CareFragment : Fragment(), View.OnClickListener{
         args.putString("period", newCare.period)
         args.putString("log", newCare.log)
         fragment.arguments = args
+
         return fragment
     }
     override fun onCreateView(
@@ -50,27 +53,52 @@ class CareFragment : Fragment(), View.OnClickListener{
         setOnClickListener()
     }
 
-
+    @SuppressLint("SetTextI18n")
     private fun init(name : String, period : String, log : String, totalCnt : Int, curCnt : Int) = with(binding){
         textCareTitle.text = name
-        textCareCnt.text = totalCnt.toString()
+        textCareCnt.text = curCnt.toString() + "회/" + totalCnt.toString() + "회"
         textLog.text = log
         textPeriod.text = period
         val percent = curCnt.toDouble() / totalCnt.toDouble()
-        progressbar.progress = (percent * 100).toInt()
-        Log.e(TAG, percent.toString())
+        binding.progressbar.progress = (percent * 100).toInt()
+
+        TOTAL = totalCnt
+        CUR = curCnt
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun increaseProgress(){
+        CUR++
+        if(CUR > TOTAL) CUR = TOTAL
+        val percent = CUR.toDouble() / TOTAL.toDouble()
+        binding.textCareCnt.text = CUR.toString() + "회/" + TOTAL.toString() + "회"
+        binding.progressbar.progress = (percent * 100).toInt()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun decreaseProgress(){
+        CUR--
+        if(CUR < 0) CUR = 0
+        val percent = CUR.toDouble() / TOTAL.toDouble()
+        binding.textCareCnt.text = CUR.toString() + "회/" + TOTAL.toString() + "회"
+        binding.progressbar.progress = (percent * 100).toInt()
     }
 
     private fun setOnClickListener() {
-//        binding.button.setOnClickListener(this)
-//        binding.button.text = name
+        binding.btnCheck.setOnClickListener(this)
+        binding.btnCancel.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.button -> {
+            R.id.btn_check -> {
                 activity?.let{
-                    Toast.makeText(context, "", Toast.LENGTH_SHORT).show()
+                    increaseProgress()
+                }
+            }
+            R.id.btn_cancel -> {
+                activity?.let{
+                    decreaseProgress()
                 }
             }
         }
