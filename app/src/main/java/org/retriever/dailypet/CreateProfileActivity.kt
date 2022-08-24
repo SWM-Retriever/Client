@@ -25,6 +25,7 @@ import okhttp3.RequestBody
 import okio.BufferedSink
 import org.retriever.dailypet.databinding.ActivityCreateProfileBinding
 import org.retriever.dailypet.interfaces.RetrofitService
+import org.retriever.dailypet.models.App
 import org.retriever.dailypet.models.General
 import retrofit2.Call
 import retrofit2.Callback
@@ -197,6 +198,9 @@ class CreateProfileActivity : AppCompatActivity() {
                 Log.d(TAG, result)
                 if(response.isSuccessful) {
                     if(response.code() == CODE_PROFILE){ // 프로필 등록 성공
+                        val jwt = response.body().toString()
+                        App.prefs.token = jwt
+
                         Toast.makeText(applicationContext, "프로필 등록에 성공하였습니다", Toast.LENGTH_SHORT).show()
                         val nextIntent = Intent(applicationContext, SelectFamilyTypeActivity::class.java)
                         startActivity(nextIntent) // 가족유형 선택 페이지로 이동

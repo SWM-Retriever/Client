@@ -16,11 +16,20 @@ data class PostTest(
     val refreshToken: String = "",
 )
 
+data class Member(
+    @SerializedName("snsNickName")
+    val userInfo: String = "",
+    @SerializedName("email")
+    val accessToken: String = "",
+    @SerializedName("providerType")
+    val refreshToken: String = "",
+)
+
 data class Message(
-    @SerializedName("error")
-    val error: String = "",
+    @SerializedName("errorCode")
+    val errorCode: String,
     @SerializedName("message")
-    val message: String = "",
+    val message: String,
 )
 
 data class General(

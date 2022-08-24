@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">반려하루</string>
-    <string name="URL">https://dailypet.p.rapidapi.com/</string>
+    <string name="URL">http://ec2-13-124-5-128.ap-northeast-2.compute.amazonaws.com:8080/</string>
     <string name="KEY">455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c</string>
     <string name="HOST">dailypet.p.rapidapi.com</string>
     <string name="copyright">Copyright© 2022.Retriever. All rights reserved</string>
