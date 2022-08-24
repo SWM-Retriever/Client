@@ -16,6 +16,7 @@ import org.retriever.dailypet.LoginActivity
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentHomeBinding
 import org.retriever.dailypet.databinding.FragmentMyPageBinding
+import org.retriever.dailypet.models.App
 
 class MyPageFragment : Fragment(), View.OnClickListener {
     private val TAG = "MyPageFragment"
@@ -58,6 +59,7 @@ class MyPageFragment : Fragment(), View.OnClickListener {
     }
 
     private fun logout(){
+        App.prefs.init()
         // 카카오 로그아웃
         if(AuthApiClient.instance.hasToken()) {
             UserApiClient.instance.logout { error ->

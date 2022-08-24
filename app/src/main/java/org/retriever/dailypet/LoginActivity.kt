@@ -1,15 +1,15 @@
 /** @author Sehun Ahn **/
 
 package org.retriever.dailypet
-import android.app.Application
+
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.gson.GsonBuilder
 import com.kakao.sdk.auth.AuthApiClient
-import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
@@ -22,26 +22,24 @@ import kotlinx.coroutines.launch
 import org.retriever.dailypet.databinding.ActivityLoginBinding
 import org.retriever.dailypet.interfaces.RetrofitService
 import org.retriever.dailypet.models.App
+import org.retriever.dailypet.models.Member
 import org.retriever.dailypet.models.Message
-import retrofit2.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class GlobalApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        KakaoSdk.init(this, resources.getString(R.string.kakao_native_app_key))
-        NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "반려하루")
-    }
-}
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var retrofit : Retrofit
     private lateinit var retrofitService : RetrofitService
-    private val CODE_NEW_MEMBER = 400
+    private val CODE_NEW_MEMBER = 401
+    private val CODE_OTHER_DOMAIN = 400
     private val TAG = "LOGIN ACTIVITY"
     private var context = this
-    private val BASE_URL = "https://dailypet.p.rapidapi.com/"
+    private lateinit var BASE_URL : String
     private val KEY = "455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c"
     private val HOST = "dailypet.p.rapidapi.com"
 
@@ -56,8 +54,12 @@ class LoginActivity : AppCompatActivity() {
 
     private fun init(){
         /* API Init */
+        BASE_URL = getString(R.string.URL)
+        Log.e(TAG, BASE_URL)
+
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
+    //        .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         retrofitService = retrofit.create(RetrofitService::class.java)
@@ -98,29 +100,32 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun checkIsMember(name: String, email: String, domain: String){
-        val callPostIsMember = retrofitService.postIsMember(KEY, HOST, name, email, domain)
-        callPostIsMember.enqueue(object : Callback<Message> {
+        val call = retrofitService.postIsMember(Member(name, email, domain))
+        call.enqueue(object : Callback<Message> {
             override fun onResponse(call: Call<Message>, response: Response<Message>) {
                 val result: String = response.body().toString()
                 Log.d(TAG, "CODE = ${response.code()}")
                 Log.d(TAG, result)
                 if(response.isSuccessful) { // 이미 회원일때
                     /* jwt 발급 */
-                    val jwt = response.body().toString()
+                    val jwt = "test"
                     App.prefs.token = jwt
                     val nextIntent = Intent(applicationContext, MainActivity::class.java)
                     startActivity(nextIntent) // 메인 페이지
                 }
                 else{
-                    if(response.code() == CODE_NEW_MEMBER){ // 신규 가입일때
-                        val nextIntent = Intent(applicationContext, TermOfServiceActivity::class.java)
-                        nextIntent.putExtra("userName",name)
-                        nextIntent.putExtra("userEmail",email)
-                        startActivity(nextIntent) // 프로필 등록 페이지
+                    when(response.code()){
+                        CODE_NEW_MEMBER->{ // 신규 가입
+                            val nextIntent = Intent(applicationContext, TermOfServiceActivity::class.java)
+                            nextIntent.putExtra("userName",name)
+                            nextIntent.putExtra("userEmail",email)
+                            startActivity(nextIntent) // 프로필 등록 페이지
+                        }
                     }
                 }
             }
             override fun onFailure(call: Call<Message>, t: Throwable) {
+                t.message?.let { Log.e(TAG, it) }
                 Log.e(TAG, "API 통신 실패")
             }
         })
@@ -140,7 +145,7 @@ class LoginActivity : AppCompatActivity() {
                         // 회원 확인 분기
                         val name = user.kakaoAccount?.profile?.nickname
                         val email = user.kakaoAccount?.email
-                        if(name != null && email != null) checkIsMember(name, email, "kakao")
+                        if(name != null && email != null) checkIsMember(name, email, "KAKAO")
                         else Log.e(TAG, "카카오 프로필 조회 실패")
                     }
                 }
@@ -164,7 +169,7 @@ class LoginActivity : AppCompatActivity() {
                 NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
                     override fun onSuccess(result: NidProfileResponse) {
                         // 회원 확인 분기
-                        checkIsMember(result.profile?.name.toString(),result.profile?.email.toString(),"naver")
+                        checkIsMember(result.profile?.name.toString(),result.profile?.email.toString(),"NAVER")
                     }
 
                     override fun onError(errorCode: Int, message: String) {

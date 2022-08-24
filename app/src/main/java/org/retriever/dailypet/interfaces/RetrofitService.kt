@@ -20,14 +20,10 @@ interface RetrofitService {
         @Field("authToken") value: String,
     ): Call<PostTest>
 
-    @FormUrlEncoded
-    @POST("api/v1/login")
+    @Headers("accept: application/json", "content-type: application/json")
+    @POST("api/v1/auth/login")
     fun postIsMember(
-        @Header("X-RapidAPI-Key") key: String,
-        @Header("X-RapidAPI-Host") host: String,
-        @Field("nickname") nickname: String,
-        @Field("email") email: String,
-        @Field("domain") domain: String,
+        @Body member: Member
     ): Call<Message>
 
     @FormUrlEncoded
