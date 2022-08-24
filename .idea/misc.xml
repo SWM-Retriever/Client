@@ -42,7 +42,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_register_care.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_register_profile.xml" value="0.37604166666666666" />
-        <entry key="app/src/main/res/layout/activity_select_family_type.xml" value="0.30867892261650276" />
+        <entry key="app/src/main/res/layout/activity_select_family_type.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_start.xml" value="0.2736212056434374" />
         <entry key="app/src/main/res/layout/activity_term_of_service.xml" value="0.33" />
