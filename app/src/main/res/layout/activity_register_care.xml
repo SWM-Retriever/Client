@@ -76,24 +76,11 @@
         android:id="@+id/text_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="88dp"
         android:text="케어 횟수"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.061"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_period" />
-
-    <EditText
-        android:id="@+id/edittext_period"
-        android:layout_width="358dp"
-        android:layout_height="61dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/grey_blue_edittext"
-        android:hint="케어주기를 선택해주세요"
-        android:maxLength="20"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.044"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_period" />
 
@@ -101,13 +88,14 @@
         android:id="@+id/edittext_number"
         android:layout_width="358dp"
         android:layout_height="61dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/grey_blue_edittext"
         android:hint="케어 횟수를 선택해주세요"
+        android:inputType="number"
         android:maxLength="20"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_number" />
 
@@ -133,11 +121,10 @@
                 android:id="@+id/btn_food"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
-
+                android:background="@drawable/small_button_click"
+                android:textColor="@drawable/text_click"
                 android:layout_marginStart="24dp"
-                android:background="@drawable/whitegrey_click_button"
                 android:text="식사"
-                android:textColor="@color/grey"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -147,11 +134,10 @@
                 android:id="@+id/btn_walk"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
-
+                android:background="@drawable/small_button_click"
+                android:textColor="@drawable/text_click"
                 android:layout_marginStart="8dp"
-                android:background="@drawable/whitegrey_click_button"
                 android:text="산책"
-                android:textColor="@color/grey"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn_food"
@@ -161,11 +147,10 @@
                 android:id="@+id/btn_wash"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
-
+                android:background="@drawable/small_button_click"
+                android:textColor="@drawable/text_click"
                 android:layout_marginStart="8dp"
-                android:background="@drawable/whitegrey_click_button"
                 android:text="목욕"
-                android:textColor="@color/grey"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn_walk"
@@ -175,11 +160,10 @@
                 android:id="@+id/btn_play"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
-
+                android:background="@drawable/small_button_click"
+                android:textColor="@drawable/text_click"
                 android:layout_marginStart="8dp"
-                android:background="@drawable/whitegrey_click_button"
                 android:text="놀이"
-                android:textColor="@color/grey"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn_wash"
@@ -189,11 +173,10 @@
                 android:id="@+id/btn_teeth"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
-
+                android:background="@drawable/small_button_click"
+                android:textColor="@drawable/text_click"
                 android:layout_marginStart="8dp"
-                android:background="@drawable/whitegrey_click_button"
                 android:text="양치"
-                android:textColor="@color/grey"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn_play"
@@ -203,16 +186,14 @@
                 android:id="@+id/btn_snack"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
-
+                android:background="@drawable/small_button_click"
+                android:textColor="@drawable/text_click"
                 android:layout_marginStart="8dp"
-                android:background="@drawable/whitegrey_click_button"
                 android:text="간식"
-                android:textColor="@color/grey"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn_teeth"
                 app:layout_constraintTop_toTopOf="parent" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </HorizontalScrollView>
@@ -229,21 +210,146 @@
         app:layout_constraintVertical_bias="0.463"
         app:srcCompat="@drawable/btn_arrow_down" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginEnd="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/edittext_period"
-        app:layout_constraintEnd_toEndOf="@+id/edittext_period"
-        app:layout_constraintTop_toTopOf="@+id/edittext_period"
-        app:layout_constraintVertical_bias="0.463"
-        app:srcCompat="@drawable/btn_arrow_down" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="771dp" />
+
+    <CheckBox
+        android:id="@+id/check_everyday"
+        android:layout_width="38dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
+        android:text="매일"
+
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/text_number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_period"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <CheckBox
+        android:id="@+id/check_mon"
+        android:layout_width="38dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
+
+        android:text="월"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/text_number"
+        app:layout_constraintStart_toEndOf="@+id/check_everyday"
+        app:layout_constraintTop_toBottomOf="@+id/text_period"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <CheckBox
+        android:id="@+id/check_tue"
+        android:layout_width="38dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
+
+        android:text="화"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/text_number"
+        app:layout_constraintStart_toEndOf="@+id/check_mon"
+        app:layout_constraintTop_toBottomOf="@+id/text_period"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <CheckBox
+        android:id="@+id/check_wed"
+        android:layout_width="38dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:button="@null"
+
+        android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
+        android:text="수"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/text_number"
+        app:layout_constraintStart_toEndOf="@+id/check_tue"
+        app:layout_constraintTop_toBottomOf="@+id/text_period"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <CheckBox
+        android:id="@+id/check_thu"
+        android:layout_width="38dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
+        android:text="목"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/text_number"
+        app:layout_constraintStart_toEndOf="@+id/check_wed"
+        app:layout_constraintTop_toBottomOf="@+id/text_period"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <CheckBox
+        android:id="@+id/check_fri"
+        android:layout_width="38dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="12dp"
+
+        android:layout_marginBottom="12dp"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
+        android:text="금"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/text_number"
+        app:layout_constraintStart_toEndOf="@+id/check_thu"
+        app:layout_constraintTop_toBottomOf="@+id/text_period"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <CheckBox
+        android:id="@+id/check_sat"
+        android:layout_width="38dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="5dp"
+
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
+        android:text="토"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/text_number"
+        app:layout_constraintStart_toEndOf="@+id/check_fri"
+        app:layout_constraintTop_toBottomOf="@+id/text_period"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <CheckBox
+        android:id="@+id/check_sun"
+        android:layout_width="38dp"
+        android:layout_height="55dp"
+
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
+        android:text="일"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/text_number"
+        app:layout_constraintStart_toEndOf="@+id/check_sat"
+        app:layout_constraintTop_toBottomOf="@+id/text_period"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
