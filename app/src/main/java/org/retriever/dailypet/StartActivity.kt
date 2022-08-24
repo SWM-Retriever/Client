@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import com.kakao.sdk.auth.AuthApiClient
+import org.retriever.dailypet.models.App
 
 class StartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,9 +14,9 @@ class StartActivity : AppCompatActivity() {
 
         val loginButton = findViewById<Button>(R.id.btn_login)
         val testButton = findViewById<Button>(R.id.btn_test)
-
+        val jwt = App.prefs.token
         loginButton.setOnClickListener {
-            if(AuthApiClient.instance.hasToken()) {
+            if(jwt != null) {
                 val nextIntent = Intent(this, MainActivity::class.java)
                 startActivity(nextIntent)
             }
@@ -23,6 +24,16 @@ class StartActivity : AppCompatActivity() {
                 val nextIntent = Intent(this, LoginActivity::class.java)
                 startActivity(nextIntent)
             }
+
+            // sns 토큰 방식
+//            if(AuthApiClient.instance.hasToken()) {
+//                val nextIntent = Intent(this, MainActivity::class.java)
+//                startActivity(nextIntent)
+//            }
+//            else{
+//                val nextIntent = Intent(this, LoginActivity::class.java)
+//                startActivity(nextIntent)
+//            }
         }
         testButton.setOnClickListener {
             val nextIntent = Intent(this, TestActivity::class.java)

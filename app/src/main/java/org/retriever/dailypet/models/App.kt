@@ -21,10 +21,13 @@ class Prefs(context: Context){
     private val prefName = "jwt"
     private val prefs = context.getSharedPreferences(prefName, MODE_PRIVATE)
     var token: String?
-        get() = prefs.getString("token",null)
+        get() = prefs.getString("token", null)
         set(value){
             prefs.edit().putString("token",value).apply()
         }
+    fun init(){
+        prefs.edit().putString("token",null).apply()
+    }
 }
 
 class AuthInterceptor: Interceptor{

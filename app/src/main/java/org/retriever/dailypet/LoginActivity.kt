@@ -21,6 +21,7 @@ import com.navercorp.nid.profile.data.NidProfileResponse
 import kotlinx.coroutines.launch
 import org.retriever.dailypet.databinding.ActivityLoginBinding
 import org.retriever.dailypet.interfaces.RetrofitService
+import org.retriever.dailypet.models.App
 import org.retriever.dailypet.models.Message
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
@@ -47,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
-        var view = binding.root
+        val view = binding.root
         setContentView(view)
 
         init()
@@ -104,20 +105,23 @@ class LoginActivity : AppCompatActivity() {
                 Log.d(TAG, "CODE = ${response.code()}")
                 Log.d(TAG, result)
                 if(response.isSuccessful) { // 이미 회원일때
-                    /* jwt 인증 */
-
+                    /* jwt 발급 */
+                    val jwt = response.body().toString()
+                    App.prefs.token = jwt
+                    val nextIntent = Intent(applicationContext, MainActivity::class.java)
+                    startActivity(nextIntent) // 메인 페이지
                 }
                 else{
                     if(response.code() == CODE_NEW_MEMBER){ // 신규 가입일때
                         val nextIntent = Intent(applicationContext, TermOfServiceActivity::class.java)
                         nextIntent.putExtra("userName",name)
                         nextIntent.putExtra("userEmail",email)
-                        startActivity(nextIntent)
+                        startActivity(nextIntent) // 프로필 등록 페이지
                     }
                 }
             }
             override fun onFailure(call: Call<Message>, t: Throwable) {
-                Log.e(TAG, "연결 실패")
+                Log.e(TAG, "API 통신 실패")
             }
         })
     }
