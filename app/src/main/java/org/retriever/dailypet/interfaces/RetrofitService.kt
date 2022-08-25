@@ -20,29 +20,31 @@ interface RetrofitService {
         @Field("authToken") value: String,
     ): Call<PostTest>
 
+    /* 회원 검증 */
     @Headers("accept: application/json", "content-type: application/json")
     @POST("api/v1/auth/login")
     fun postIsMember(
         @Body member: Member
     ): Call<Message>
 
-    @FormUrlEncoded
-    @POST("api/v1/validation/nickname")
-    fun postCheckNickname(
-        @Header("X-RapidAPI-Key") key: String,
-        @Header("X-RapidAPI-Host") host: String,
-        @Field("nickname") nickname: String,
-    ): Call<General>
+    /* 닉네임 검증 */
+    @Headers("accept: application/json", "content-type: application/json")
+    @POST("/api/v1/validation/nickname")
+    fun postCheckProfileNickname(
+        @Body nickname: Nickname
+    ): Call<Message>
 
+//    @Headers("accept: application/json", "content-type: application/json")
+//    @POST("api/v1/auth/sign-up")
+//    fun postProfile(
+//        @Body temp: Temp,
+//    ): Call<JWT>
     @Multipart
-    @POST("api/v1/api/v1/member")
+    @POST("api/v1/auth/sign-up")
     fun postProfile(
-        @Header("X-RapidAPI-Key") key: String,
-        @Header("X-RapidAPI-Host") host: String,
-        @Part("nickname") nickname: String,
-        @Part("email") email: String,
-        @Part image: MultipartBody.Part?,
-    ): Call<General>
+    @Part("dto") registerProfile: RegisterProfile,
+    @Part image: MultipartBody.Part?,
+    ): Call<JWT>
 
     @FormUrlEncoded
     @POST("api/v1/validation/familyName")

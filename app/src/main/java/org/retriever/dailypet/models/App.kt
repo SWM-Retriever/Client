@@ -7,7 +7,11 @@ import com.kakao.sdk.common.KakaoSdk
 import com.navercorp.nid.NaverIdLoginSDK
 import okhttp3.Interceptor
 import okhttp3.Response
+import okhttp3.ResponseBody
 import org.retriever.dailypet.R
+import retrofit2.Converter
+import retrofit2.Retrofit
+import java.lang.reflect.Type
 
 class App : Application() {
     companion object{
@@ -46,4 +50,18 @@ class AuthInterceptor: Interceptor{
             .build()
         return chain.proceed(request)
     }
+}
+
+class NullOnEmptyConverterFactory : Converter.Factory() { // empty response 처리
+    override fun responseBodyConverter(type: Type?, annotations: Array<Annotation>?, retrofit: Retrofit?): Converter<ResponseBody, *>? {
+        val delegate = retrofit!!.nextResponseBodyConverter<Any>(this, type!!, annotations!!)
+        return Converter<ResponseBody, Any> {
+            if (it.contentLength() == 0L) return@Converter EmptyResponse()
+            delegate.convert(it)
+        }
+    }
+    class EmptyResponse {
+
+    }
+
 }
