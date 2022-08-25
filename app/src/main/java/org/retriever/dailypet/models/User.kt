@@ -25,9 +25,32 @@ data class Member(
     val domain: String = "",
 )
 
+
 data class Nickname(
     @SerializedName("nickName")
     val nickname: String = "",
+)
+
+data class Temp(
+    @SerializedName("dto")
+    val registerProfile: RegisterProfile,
+    @SerializedName("image")
+    val str: String,
+)
+
+data class RegisterProfile(
+    @SerializedName("snsNickName")
+    val nickname: String = "",
+    @SerializedName("email")
+    val email: String = "",
+    @SerializedName("providerType")
+    val domain: String = "",
+    @SerializedName("deviceToken")
+    val deviceToken: String = "",
+    @SerializedName("isPushAgree")
+    val isPushAgree: Boolean = false,
+    @SerializedName("isProfileInformationAgree")
+    val isProfileInformationAgree: Boolean = false,
 )
 
 data class Message(
@@ -35,6 +58,15 @@ data class Message(
     val errorCode: String,
     @SerializedName("message")
     val message: String,
+)
+
+data class JWT(
+    @SerializedName("error")
+    val error: String,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("jwtToken")
+    val status: String
 )
 
 data class General(

@@ -34,8 +34,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var retrofit : Retrofit
     private lateinit var retrofitService : RetrofitService
-    private val CODE_NEW_MEMBER = 400
-    private val CODE_OTHER_DOMAIN = 401
+    private val CODE_NEW_MEMBER = 401
+    private val CODE_OTHER_DOMAIN = 400
     private val CODE_ERROR = 500
     private val TAG = "LOGIN ACTIVITY"
     private var context = this
@@ -55,8 +55,6 @@ class LoginActivity : AppCompatActivity() {
     private fun init(){
         /* API Init */
         BASE_URL = getString(R.string.URL)
-        Log.e(TAG, BASE_URL)
-
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -120,10 +118,11 @@ class LoginActivity : AppCompatActivity() {
                             val nextIntent = Intent(applicationContext, TermOfServiceActivity::class.java)
                             nextIntent.putExtra("userName",name)
                             nextIntent.putExtra("userEmail",email)
+                            nextIntent.putExtra("domain", domain)
                             startActivity(nextIntent) // 프로필 등록 페이지
                         }
-                        CODE_OTHER_DOMAIN->{ // 신규 가입
-                            Toast.makeText(applicationContext, "다른 SNS로 가입된 이메일입니다\n다른 SNS로 로그인해주세요",Toast.LENGTH_SHORT).show()
+                        CODE_OTHER_DOMAIN->{ // 같은 이메일 다른 SNS
+                            Toast.makeText(applicationContext, "다른 SNS로 가입된 이메일입니다\n가입된 SNS로 로그인해주세요",Toast.LENGTH_SHORT).show()
                         }
                         CODE_ERROR->{ // 서버 에러
                             Toast.makeText(applicationContext, "API 서버 에러",Toast.LENGTH_SHORT).show()

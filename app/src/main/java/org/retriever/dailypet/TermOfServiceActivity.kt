@@ -29,8 +29,12 @@ class TermOfServiceActivity : AppCompatActivity() {
                 val nextIntent = Intent(applicationContext, CreateProfileActivity::class.java)
                 val name = intent.getStringExtra("userName")
                 val email = intent.getStringExtra("userEmail")
+                val domain = intent.getStringExtra("domain")
                 nextIntent.putExtra("userName",name)
                 nextIntent.putExtra("userEmail",email)
+                nextIntent.putExtra("domain", domain)
+                nextIntent.putExtra("option1", check3.isChecked)
+                nextIntent.putExtra("option2", check4.isChecked)
                 startActivity(nextIntent)
             } else{
                 Toast.makeText(applicationContext,"필수 약관을 모두 동의해주세요",Toast.LENGTH_SHORT).show()

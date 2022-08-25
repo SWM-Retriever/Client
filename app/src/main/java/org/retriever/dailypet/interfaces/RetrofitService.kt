@@ -34,15 +34,17 @@ interface RetrofitService {
         @Body nickname: Nickname
     ): Call<Message>
 
+//    @Headers("accept: application/json", "content-type: application/json")
+//    @POST("api/v1/auth/sign-up")
+//    fun postProfile(
+//        @Body temp: Temp,
+//    ): Call<JWT>
     @Multipart
-    @POST("api/v1/api/v1/member")
+    @POST("api/v1/auth/sign-up")
     fun postProfile(
-        @Header("X-RapidAPI-Key") key: String,
-        @Header("X-RapidAPI-Host") host: String,
-        @Part("nickname") nickname: String,
-        @Part("email") email: String,
-        @Part image: MultipartBody.Part?,
-    ): Call<General>
+    @Part("dto") registerProfile: RegisterProfile,
+    @Part image: MultipartBody.Part?,
+    ): Call<JWT>
 
     @FormUrlEncoded
     @POST("api/v1/validation/familyName")
