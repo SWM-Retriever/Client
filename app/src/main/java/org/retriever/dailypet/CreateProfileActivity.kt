@@ -27,6 +27,8 @@ import org.retriever.dailypet.databinding.ActivityCreateProfileBinding
 import org.retriever.dailypet.interfaces.RetrofitService
 import org.retriever.dailypet.models.App
 import org.retriever.dailypet.models.General
+import org.retriever.dailypet.models.Message
+import org.retriever.dailypet.models.Nickname
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,9 +48,8 @@ class CreateProfileActivity : AppCompatActivity() {
     private var bitmap : Bitmap? = null
     private var isValidNickname : Boolean = false
     private val TAG = "CREATE PROFILE"
-    private val CODE_NICKNAME = 200
-    private val CODE_PROFILE = 200
-    private val CODE_FAIL = 400
+    private val CODE_INVALID_NICKNAME = 409
+    private val CODE_FAIL = 500
 
     // Permissions
     val PERMISSIONS = arrayOf(
@@ -196,15 +197,13 @@ class CreateProfileActivity : AppCompatActivity() {
                 val result: String = response.body().toString()
                 Log.d(TAG, "CODE = ${response.code()}")
                 Log.d(TAG, result)
-                if(response.isSuccessful) {
-                    if(response.code() == CODE_PROFILE){ // 프로필 등록 성공
-                        val jwt = response.body().toString()
-                        App.prefs.token = jwt
+                if(response.isSuccessful) {// 프로필 등록 성공
+                    val jwt = response.body().toString()
+                    App.prefs.token = jwt
 
-                        Toast.makeText(applicationContext, "프로필 등록에 성공하였습니다", Toast.LENGTH_SHORT).show()
-                        val nextIntent = Intent(applicationContext, SelectFamilyTypeActivity::class.java)
-                        startActivity(nextIntent) // 가족유형 선택 페이지로 이동
-                    }
+                    Toast.makeText(applicationContext, "프로필 등록에 성공하였습니다", Toast.LENGTH_SHORT).show()
+                    val nextIntent = Intent(applicationContext, SelectFamilyTypeActivity::class.java)
+                    startActivity(nextIntent) // 가족유형 선택 페이지로 이동
                 }
                 else{
                     if(response.code() == CODE_FAIL){ // 프로필 등록 실패
@@ -226,33 +225,39 @@ class CreateProfileActivity : AppCompatActivity() {
     }
 
     private fun checkValidNickname(nickname : String){
-        val call = retrofitService.postCheckNickname(KEY, HOST, nickname)
-        call.enqueue(object : Callback<General> {
+        val call = retrofitService.postCheckProfileNickname(Nickname(nickname))
+        call.enqueue(object : Callback<Message> {
             @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
-            override fun onResponse(call: Call<General>, response: Response<General>) {
+            override fun onResponse(call: Call<Message>, response: Response<Message>) {
                 val result: String = response.body().toString()
                 Log.d(TAG, "CODE = ${response.code()}")
                 Log.d(TAG, result)
-                if(response.isSuccessful) {
-                    if(response.code() == CODE_NICKNAME){ // 유효한 닉네임
-                        binding.textProfileNicknameValidate.text = "사용가능한 닉네임입니다"
-                        binding.textProfileNicknameValidate.setTextColor(applicationContext.getColor(R.color.success_blue))
-                        binding.textCreateProfileNickname.background = applicationContext.getDrawable(R.drawable.success_edittext)
-                        binding.btnCreateProfileSubmit.background = applicationContext.getDrawable(R.drawable.blue_button)
-                        binding.btnCreateProfileSubmit.setTextColor(applicationContext.getColor(R.color.white))
-                        isValidNickname = true
-                    }
+                if(response.isSuccessful) { // 유효한 닉네임
+                    binding.textProfileNicknameValidate.text = "사용가능한 닉네임입니다"
+                    binding.textProfileNicknameValidate.setTextColor(applicationContext.getColor(R.color.success_blue))
+                    binding.textCreateProfileNickname.background = applicationContext.getDrawable(R.drawable.success_edittext)
+                    binding.btnCreateProfileSubmit.background = applicationContext.getDrawable(R.drawable.blue_button)
+                    binding.btnCreateProfileSubmit.setTextColor(applicationContext.getColor(R.color.white))
+                    isValidNickname = true
+
                 }
                 else{
-                    if(response.code() == CODE_FAIL){ // 유효하지 않은 닉네임
-                        binding.textProfileNicknameValidate.text = "이미 사용중인 닉네임입니다"
-                        binding.textProfileNicknameValidate.setTextColor(applicationContext.getColor(R.color.fail_red))
-                        binding.textCreateProfileNickname.background = applicationContext.getDrawable(R.drawable.fail_edittext)
+                    when(response.code()){
+                        CODE_INVALID_NICKNAME->{ // 유효하지 않은 닉네임
+                            binding.textProfileNicknameValidate.text = "이미 사용중인 닉네임입니다"
+                            binding.textProfileNicknameValidate.setTextColor(applicationContext.getColor(R.color.fail_red))
+                            binding.textCreateProfileNickname.background = applicationContext.getDrawable(R.drawable.fail_edittext)
+                            isValidNickname = false
+                        }
+                        CODE_FAIL->{ // 서버에러
+                            Log.e(TAG, "SERVER ERROR")
+                            Toast.makeText(applicationContext, "API 서버 에러",Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }
-            override fun onFailure(call: Call<General>, t: Throwable) {
-                Log.e(TAG, "연결 실패")
+            override fun onFailure(call: Call<Message>, t: Throwable) {
+                t.message?.let { Log.e(TAG, it) }
             }
         })
     }

@@ -18,11 +18,16 @@ data class PostTest(
 
 data class Member(
     @SerializedName("snsNickName")
-    val userInfo: String = "",
+    val nickname: String = "",
     @SerializedName("email")
-    val accessToken: String = "",
+    val email: String = "",
     @SerializedName("providerType")
-    val refreshToken: String = "",
+    val domain: String = "",
+)
+
+data class Nickname(
+    @SerializedName("nickName")
+    val nickname: String = "",
 )
 
 data class Message(

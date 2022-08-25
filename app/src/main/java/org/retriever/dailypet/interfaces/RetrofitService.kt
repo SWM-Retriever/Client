@@ -20,19 +20,19 @@ interface RetrofitService {
         @Field("authToken") value: String,
     ): Call<PostTest>
 
+    /* 회원 검증 */
     @Headers("accept: application/json", "content-type: application/json")
     @POST("api/v1/auth/login")
     fun postIsMember(
         @Body member: Member
     ): Call<Message>
 
-    @FormUrlEncoded
-    @POST("api/v1/validation/nickname")
-    fun postCheckNickname(
-        @Header("X-RapidAPI-Key") key: String,
-        @Header("X-RapidAPI-Host") host: String,
-        @Field("nickname") nickname: String,
-    ): Call<General>
+    /* 닉네임 검증 */
+    @Headers("accept: application/json", "content-type: application/json")
+    @POST("/api/v1/validation/nickname")
+    fun postCheckProfileNickname(
+        @Body nickname: Nickname
+    ): Call<Message>
 
     @Multipart
     @POST("api/v1/api/v1/member")

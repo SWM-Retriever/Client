@@ -8,7 +8,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.google.gson.GsonBuilder
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -35,8 +34,9 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var retrofit : Retrofit
     private lateinit var retrofitService : RetrofitService
-    private val CODE_NEW_MEMBER = 401
-    private val CODE_OTHER_DOMAIN = 400
+    private val CODE_NEW_MEMBER = 400
+    private val CODE_OTHER_DOMAIN = 401
+    private val CODE_ERROR = 500
     private val TAG = "LOGIN ACTIVITY"
     private var context = this
     private lateinit var BASE_URL : String
@@ -59,7 +59,6 @@ class LoginActivity : AppCompatActivity() {
 
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
-    //        .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         retrofitService = retrofit.create(RetrofitService::class.java)
@@ -75,6 +74,7 @@ class LoginActivity : AppCompatActivity() {
 
         /* 로그아웃 버튼 */
         binding.btnLogout.setOnClickListener{
+            App.prefs.init()
             // 카카오 로그아웃
             if(AuthApiClient.instance.hasToken()) {
                 UserApiClient.instance.logout { error ->
@@ -92,6 +92,7 @@ class LoginActivity : AppCompatActivity() {
 
         /* 연동해제 버튼 */
         binding.btnUnlink.setOnClickListener{
+            App.prefs.init()
             // 카카오 연동해제
             kakaoUnlink()
             // 네이버 연동해제
@@ -121,12 +122,18 @@ class LoginActivity : AppCompatActivity() {
                             nextIntent.putExtra("userEmail",email)
                             startActivity(nextIntent) // 프로필 등록 페이지
                         }
+                        CODE_OTHER_DOMAIN->{ // 신규 가입
+                            Toast.makeText(applicationContext, "다른 SNS로 가입된 이메일입니다\n다른 SNS로 로그인해주세요",Toast.LENGTH_SHORT).show()
+                        }
+                        CODE_ERROR->{ // 서버 에러
+                            Toast.makeText(applicationContext, "API 서버 에러",Toast.LENGTH_SHORT).show()
+                            Log.e(TAG, "SERVER ERROR")
+                        }
                     }
                 }
             }
             override fun onFailure(call: Call<Message>, t: Throwable) {
                 t.message?.let { Log.e(TAG, it) }
-                Log.e(TAG, "API 통신 실패")
             }
         })
     }
