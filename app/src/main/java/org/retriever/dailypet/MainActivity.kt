@@ -20,6 +20,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun replaceFragment(id : Int, fragment: Fragment) {
+        val bundle = Bundle()
+        val flag = intent.getIntExtra("flag", 0)
+        bundle.putInt("flag",flag)
+        fragment.arguments = bundle //fragment의 arguments에 데이터를 담은 bundle을 넘겨줌
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(id, fragment)
         fragmentTransaction.commit()
