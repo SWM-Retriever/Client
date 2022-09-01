@@ -16,12 +16,15 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.firebase.FirebaseApp
+import com.google.firebase.messaging.FirebaseMessaging
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okio.BufferedSink
 import org.retriever.dailypet.databinding.ActivityCreateProfileBinding
+import org.retriever.dailypet.interfaces.MyFirebaseMessagingService
 import org.retriever.dailypet.interfaces.RetrofitService
 import org.retriever.dailypet.models.*
 import retrofit2.Call
@@ -63,6 +66,7 @@ class CreateProfileActivity : AppCompatActivity() {
         setContentView(view)
 
         BASE_URL = getString(R.string.URL)
+        FirebaseApp.initializeApp(this)
 
         binding.textRegisterProfileName.text = intent.getStringExtra("userName")
         binding.textRegisterProfileEmail.text = intent.getStringExtra("userEmail")
@@ -147,7 +151,9 @@ class CreateProfileActivity : AppCompatActivity() {
             val email = textRegisterProfileEmail.text.toString()
             checkValidNickname(nickname)
             if(isValidNickname){
-                postProfileInfo(nickname, email)
+                val deviceToken = getDeviceToken()
+                if(deviceToken.isEmpty()) Log.e(TAG, "Device Token Error")
+                else postProfileInfo(nickname, email, deviceToken)
             } else{
                 Toast.makeText(applicationContext, "닉네임 중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
             }
@@ -174,22 +180,33 @@ class CreateProfileActivity : AppCompatActivity() {
             galleryLauncher.launch(intent)
         }
     }
+
+    private fun getDeviceToken() : String{
+        var deviceToken = ""
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                deviceToken = task.result
+            }
+        }
+        return deviceToken
+    }
+
     /* 프로필 등록 */
-    private fun postProfileInfo(nickname : String, email : String){
+    private fun postProfileInfo(nickname : String, email : String, deviceToken : String){
         val call : Call<JWT>
-        val registerProfile = RegisterProfile(nickname, email, domain, "DT", option1, option2)
+        val registerProfile = RegisterProfile(nickname, email, domain, deviceToken, option1, option2)
         val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
         val multiPartBody = MultipartBody.Part.createFormData("image", "image", bitmapRequestBody)
         call = retrofitService.postProfile(registerProfile, multiPartBody)
-        if(bitmap != null){
+//        if(bitmap != null){
 //            val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
 //            val multiPartBody = MultipartBody.Part.createFormData("image", "image", bitmapRequestBody)
 //            call = retrofitService.postProfile(registerProfile, multiPartBody)
-        } else{
+//        } else{
 //            val bitmapRequestBody = BitmapRequestBody(null)
 //            val multiPartBody = MultipartBody.Part.createFormData("image", "image", bitmapRequestBody)
 //            call = retrofitService.postProfile(registerProfile, multiPartBody)
-        }
+//        }
 
         call.enqueue(object : Callback<JWT> {
             override fun onResponse(call: Call<JWT>, response: Response<JWT>) {
