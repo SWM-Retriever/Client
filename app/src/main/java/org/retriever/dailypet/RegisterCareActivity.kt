@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
@@ -58,6 +59,9 @@ class RegisterCareActivity : AppCompatActivity() {
         btnCareRegisterSubmit.setOnClickListener{
             Toast.makeText(applicationContext, "챙겨주기 항목이 등록되었습니다", Toast.LENGTH_SHORT).show()
             val nextIntent = Intent(applicationContext, MainActivity::class.java)
+            var flag = intent.getIntExtra("flag", 0)
+            nextIntent.putExtra("flag", flag)
+            Log.e("CNT", flag.toString())
             startActivity(nextIntent)
         }
 

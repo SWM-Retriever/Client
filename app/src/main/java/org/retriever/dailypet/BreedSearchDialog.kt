@@ -95,10 +95,10 @@ class BreedSearchDialog(
 
     private fun setBreeds(): ArrayList<Breed> {
         val tempBreeds = ArrayList<Breed>()
-        tempBreeds.add(Breed( "Retriever","Gold hair, Big, Kind"))
-        tempBreeds.add(Breed( "Shih Tzu", "White hair, Small"))
-        tempBreeds.add(Breed( "Bichon Frise", "White hair, Medium"))
-        tempBreeds.add(Breed( "Poodle", "Brown hair"))
+        tempBreeds.add(Breed( "리트리버","금색털, 대형견, 온순함, "))
+        tempBreeds.add(Breed( "말티즈", "흰색, 소형견, 장난기 많음"))
+        tempBreeds.add(Breed( "비숑", "흰색, 중형견, 장난기 많음"))
+        tempBreeds.add(Breed( "푸들", "갈색털, 소형견, 영리함"))
 
         return tempBreeds
     }
