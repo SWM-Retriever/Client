@@ -40,8 +40,6 @@ class LoginActivity : AppCompatActivity() {
     private val TAG = "LOGIN ACTIVITY"
     private var context = this
     private lateinit var BASE_URL : String
-    private val KEY = "455e42b91cmshc6a9672a01080d5p13c40ajsn2e2c01284a4c"
-    private val HOST = "dailypet.p.rapidapi.com"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
                 if(response.isSuccessful) { // 이미 회원일때
                     /* jwt 발급 */
                     val jwt = "test"
-                    App.prefs.token = jwt
+                    App.prefs.jwt = jwt
                     val nextIntent = Intent(applicationContext, MainActivity::class.java)
                     startActivity(nextIntent) // 메인 페이지
                 }

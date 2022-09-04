@@ -2,6 +2,7 @@ package org.retriever.dailypet
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -17,14 +18,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.firebase.FirebaseApp
-import com.google.firebase.messaging.FirebaseMessaging
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okio.BufferedSink
 import org.retriever.dailypet.databinding.ActivityCreateProfileBinding
-import org.retriever.dailypet.interfaces.MyFirebaseMessagingService
 import org.retriever.dailypet.interfaces.RetrofitService
 import org.retriever.dailypet.models.*
 import retrofit2.Call
@@ -32,7 +31,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.File
 import java.lang.Exception
 
 class CreateProfileActivity : AppCompatActivity() {
@@ -151,7 +149,7 @@ class CreateProfileActivity : AppCompatActivity() {
             val email = textRegisterProfileEmail.text.toString()
             checkValidNickname(nickname)
             if(isValidNickname){
-                val deviceToken = getDeviceToken()
+                val deviceToken = App.prefs.getString("deviceToken","")
                 if(deviceToken.isEmpty()) Log.e(TAG, "Device Token Error")
                 else postProfileInfo(nickname, email, deviceToken)
             } else{
@@ -181,15 +179,6 @@ class CreateProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun getDeviceToken() : String{
-        var deviceToken = ""
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                deviceToken = task.result
-            }
-        }
-        return deviceToken
-    }
 
     /* 프로필 등록 */
     private fun postProfileInfo(nickname : String, email : String, deviceToken : String){
@@ -214,10 +203,10 @@ class CreateProfileActivity : AppCompatActivity() {
                 Log.d(TAG, "PROFILE CODE = ${response.code()}")
                 Log.d(TAG, result)
                 if(response.isSuccessful) {// 프로필 등록 성공
-                    val jwt = response.body().toString()
-                    App.prefs.token = jwt
-                    Log.e(TAG, jwt)
-
+                    val jwt = response.body()?.status
+                    App.prefs.jwt = jwt
+                    Log.d(TAG, "JWT {$jwt}")
+                    Log.d(TAG, "Post Info {$nickname} {$email} {$domain} {$option1} {$option2} {$deviceToken}")
                     Toast.makeText(applicationContext, "프로필 등록에 성공하였습니다", Toast.LENGTH_SHORT).show()
                     val nextIntent = Intent(applicationContext, SelectFamilyTypeActivity::class.java)
                     startActivity(nextIntent) // 가족유형 선택 페이지로 이동

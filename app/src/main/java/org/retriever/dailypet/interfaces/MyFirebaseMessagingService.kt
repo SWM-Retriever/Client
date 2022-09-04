@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
@@ -13,6 +14,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import org.retriever.dailypet.MainActivity
 import org.retriever.dailypet.R
+import org.retriever.dailypet.models.App
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -21,13 +23,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     // FirebaseInstanceIdService는 이제 사라짐. 이제 이걸 사용함
     override fun onNewToken(token: String) {
         Log.d(TAG, "new Token: $token")
-
         // 토큰 값을 따로 저장해둔다.
-        val pref = this.getSharedPreferences("deviceToken", Context.MODE_PRIVATE)
-        val editor = pref.edit()
-        editor.putString("deviceToken", token).apply()
-        editor.apply()
-
+        App.prefs.setString("deviceToken",token)
         Log.i("로그: ", "성공적으로 토큰을 저장함")
     }
 

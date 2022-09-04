@@ -31,22 +31,31 @@ class App : Application() {
 }
 
 class Prefs(context: Context){
-    private val prefName = "jwt"
+    private val prefName = "dailyPet"
     private val prefs = context.getSharedPreferences(prefName, MODE_PRIVATE)
-    var token: String?
-        get() = prefs.getString("token", null)
+
+    fun getString(key: String, defValue: String): String {
+        return prefs.getString(key, defValue).toString()
+    }
+
+    fun setString(key: String, str: String) {
+        prefs.edit().putString(key, str).apply()
+    }
+
+    var jwt: String?
+        get() = prefs.getString("jwt", null)
         set(value){
-            prefs.edit().putString("token",value).apply()
+            prefs.edit().putString("jwt",value).apply()
         }
     fun init(){
-        prefs.edit().putString("token",null).apply()
+        prefs.edit().putString("jwt",null).apply()
     }
 }
 
 class AuthInterceptor: Interceptor{
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
-            .addHeader("Authorization",App.prefs.token?: " ")
+            .addHeader("Authorization",App.prefs.jwt?: " ")
             .build()
         return chain.proceed(request)
     }
