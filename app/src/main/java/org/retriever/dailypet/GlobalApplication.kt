@@ -5,14 +5,15 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import com.kakao.sdk.common.KakaoSdk
 import com.navercorp.nid.NaverIdLoginSDK
+import dagger.hilt.android.HiltAndroidApp
 import okhttp3.Interceptor
 import okhttp3.Response
 import okhttp3.ResponseBody
-import org.retriever.dailypet.R
 import retrofit2.Converter
 import retrofit2.Retrofit
 import java.lang.reflect.Type
 
+@HiltAndroidApp
 class GlobalApplication : Application() {
     companion object{
         lateinit var instance : GlobalApplication

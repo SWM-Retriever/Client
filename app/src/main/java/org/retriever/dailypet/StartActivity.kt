@@ -10,7 +10,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.AuthApiClient
 import org.retriever.dailypet.interfaces.MyFirebaseMessagingService
-import org.retriever.dailypet.GlobalApplication
+import org.retriever.dailypet.test.ui.login.LoginActivity
 
 class StartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

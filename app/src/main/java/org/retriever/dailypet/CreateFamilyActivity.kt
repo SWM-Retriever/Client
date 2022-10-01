@@ -254,7 +254,7 @@ class CreateFamilyActivity : AppCompatActivity() {
                     if(response.code() == CODE_GROUP){ // 프로필 등록 성공
                         Toast.makeText(applicationContext, "그룹이 성공적으로 생성되었습니다", Toast.LENGTH_SHORT).show()
                         val nextIntent = Intent(applicationContext, CreatePetActivity::class.java)
-                        startActivity(nextIntent) // 가족유형 선택 페이지로 이동
+                        startActivity(nextIntent) // 펫 생성 페이지로 이동
                     }
                 }
                 else{

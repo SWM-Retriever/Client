@@ -136,14 +136,14 @@ class CreateProfileActivity : AppCompatActivity() {
                 }
             }
         }
-        /* Check Nickname Validation */
+      /*  *//* Check Nickname Validation *//*
         btnProfileNicknameCheck.setOnClickListener{
             Log.d(TAG, "Button NickName Check")
             val nickname = textCreateProfileNickname.text.toString()
             Log.d(TAG, nickname)
             checkValidNickname(nickname)
         }
-        /* Submit Profile */
+        *//* Submit Profile *//*
         btnCreateProfileSubmit.setOnClickListener{
             Log.d(TAG, "Button Register")
             val nickname = textCreateProfileNickname.text.toString()
@@ -156,7 +156,7 @@ class CreateProfileActivity : AppCompatActivity() {
             } else{
                 Toast.makeText(applicationContext, "닉네임 중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
             }
-        }
+        }*/
         /* 이전버튼 */
         binding.imgbtnBack.setOnClickListener{
             onBackPressed()
@@ -231,7 +231,7 @@ class CreateProfileActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    /*@SuppressLint("UseCompatLoadingForDrawables")
     private fun checkValidNickname(nickname : String){
         if(nickname.isBlank()){
             binding.textProfileNicknameValidate.text = "올바른 닉네임을 입력해주세요"
@@ -280,7 +280,7 @@ class CreateProfileActivity : AppCompatActivity() {
                 }
             })
         }
-    }
+    }*/
 
     /* 권한 허용 확인 및 요청 */
     private fun checkPermissions(permissions: Array<String>): Boolean {

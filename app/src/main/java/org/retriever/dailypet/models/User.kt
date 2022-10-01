@@ -16,14 +16,6 @@ data class PostTest(
     val refreshToken: String = "",
 )
 
-data class Member(
-    @SerializedName("snsNickName")
-    val nickname: String = "",
-    @SerializedName("email")
-    val email: String = "",
-    @SerializedName("providerType")
-    val domain: String = "",
-)
 
 
 data class Nickname(
@@ -36,6 +28,10 @@ data class Temp(
     val registerProfile: RegisterProfile,
     @SerializedName("image")
     val str: String,
+)
+
+data class Message(
+    val abc : String,
 )
 
 data class RegisterProfile(
@@ -53,12 +49,7 @@ data class RegisterProfile(
     val isProfileInformationAgree: Boolean = false,
 )
 
-data class Message(
-    @SerializedName("errorCode")
-    val errorCode: String,
-    @SerializedName("message")
-    val message: String,
-)
+
 
 data class JWT(
     @SerializedName("error")

@@ -12,7 +12,7 @@ import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
 import org.retriever.dailypet.GlobalApplication
-import org.retriever.dailypet.LoginActivity
+import org.retriever.dailypet.test.ui.login.LoginActivity
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentMyPageBinding
 

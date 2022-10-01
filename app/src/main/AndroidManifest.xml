@@ -60,7 +60,7 @@
             android:name=".TestActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".test.ui.login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".StartActivity"

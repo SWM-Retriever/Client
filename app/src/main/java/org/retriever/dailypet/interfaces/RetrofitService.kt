@@ -2,6 +2,7 @@ package org.retriever.dailypet.interfaces
 
 import okhttp3.MultipartBody
 import org.retriever.dailypet.models.*
+import org.retriever.dailypet.test.model.login.Member
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -19,13 +20,6 @@ interface RetrofitService {
         @Header("X-RapidAPI-Host") host: String,
         @Field("authToken") value: String,
     ): Call<PostTest>
-
-    /* 회원 검증 */
-    @Headers("accept: application/json", "content-type: application/json")
-    @POST("api/v1/auth/login")
-    fun postIsMember(
-        @Body member: Member
-    ): Call<Message>
 
     /* 닉네임 검증 */
     @Headers("accept: application/json", "content-type: application/json")
