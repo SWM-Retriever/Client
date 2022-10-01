@@ -70,7 +70,7 @@ class CreatePetActivity : AppCompatActivity() {
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCreatePetBinding.inflate(layoutInflater)
+        /*binding = ActivityCreatePetBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
@@ -78,7 +78,7 @@ class CreatePetActivity : AppCompatActivity() {
         KEY = getString(R.string.KEY)
         HOST = getString(R.string.HOST)
 
-        /* Pop-up Calender */
+        *//* Pop-up Calender *//*
         binding.editTextBirth.setOnClickListener{
             val cal = Calendar.getInstance()
             val dateSetListener = DatePickerDialog.OnDateSetListener{
@@ -93,7 +93,7 @@ class CreatePetActivity : AppCompatActivity() {
 
         }
 
-        /* Pop-up Search */
+        *//* Pop-up Search *//*
         binding.editTextBreed.setOnClickListener{
             val dlg = BreedSearchDialog(this){}
             dlg.setOnOKCickedListener {
@@ -104,7 +104,7 @@ class CreatePetActivity : AppCompatActivity() {
             dlg.show()
         }
 
-        /* Text Listener */
+        *//* Text Listener *//*
         binding.edittextWeight.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
                 submitCheck()
@@ -119,19 +119,19 @@ class CreatePetActivity : AppCompatActivity() {
             }
         })
 
-        init()
+        init()*/
     }
-
+/*
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun init() = with(binding){
-        /* API Init */
+        *//* API Init *//*
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         retrofitService = retrofit.create(RetrofitService::class.java)
 
-        /* Camera Register */
+        *//* Camera Register *//*
         cameraLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
@@ -142,7 +142,7 @@ class CreatePetActivity : AppCompatActivity() {
                 imgPhoto.setImageBitmap(bitmap)
             }
         }
-        /* Gallery Register */
+        *//* Gallery Register *//*
         galleryLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
@@ -158,7 +158,7 @@ class CreatePetActivity : AppCompatActivity() {
             }
         }
 
-        /* Upload Profile Image */
+        *//* Upload Profile Image *//*
         btnLoadCamera.setOnClickListener{
             Log.d(TAG, "Button Photo Upload")
             var popupMenu = PopupMenu(applicationContext, it)
@@ -183,7 +183,7 @@ class CreatePetActivity : AppCompatActivity() {
             }
         }
 
-        /* Check Pet Name Validation */
+        *//* Check Pet Name Validation *//*
         btnValidCheck.setOnClickListener{
             Log.d(TAG, "Button Nickname Check")
             val petName = binding.edittextPetName.text.toString()
@@ -196,7 +196,7 @@ class CreatePetActivity : AppCompatActivity() {
             else checkValidPetName(petName)
         }
 
-        /* Pet Type */
+        *//* Pet Type *//*
         btnPetTypeDog.setOnClickListener{
             btnPetTypeDog.isSelected = true
             btnPetTypeCat.isSelected = false
@@ -212,7 +212,7 @@ class CreatePetActivity : AppCompatActivity() {
             submitCheck()
         }
 
-        /* Sex Type */
+        *//* Sex Type *//*
         btnPetSexMale.setOnClickListener{
             btnPetSexMale.isSelected = true
             btnPetSexFemale.isSelected = false
@@ -228,13 +228,13 @@ class CreatePetActivity : AppCompatActivity() {
             submitCheck()
         }
 
-        /* Pet Breed */
+        *//* Pet Breed *//*
         btnDontknow.setOnClickListener{
             UNKOWN = true
             submitCheck()
         }
 
-        /* Submit Profile */
+        *//* Submit Profile *//*
         btnPetSubmit.setOnClickListener{
             Log.d(TAG, "Button Create")
             if(SUBMIT){
@@ -252,13 +252,13 @@ class CreatePetActivity : AppCompatActivity() {
             }
         }
 
-        /* 이전버튼 */
+        *//* 이전버튼 *//*
         imgbtnBack.setOnClickListener{
             onBackPressed()
         }
     }
 
-    /* 사진 찍기 */
+    *//* 사진 찍기 *//*
     private fun takePicture(){
         if(checkPermissions(PERMISSIONS)) {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -266,7 +266,7 @@ class CreatePetActivity : AppCompatActivity() {
         }
     }
 
-    /* 갤러리 조회 */
+    *//* 갤러리 조회 *//*
     private fun openGallery(){
         if(checkPermissions(PERMISSIONS)) {
             val intent = Intent(Intent.ACTION_PICK)
@@ -305,7 +305,7 @@ class CreatePetActivity : AppCompatActivity() {
         })
     }
 
-    /* 반려동물 등록 */
+    *//* 반려동물 등록 *//*
     private fun postPetInfo(name : String, type : String , sex : String, birth: String, breed: String,
                             weight : Float, neutral : Boolean, registerNumber: String){
         var bitmapMultipartBody: MultipartBody.Part? = null
@@ -365,7 +365,7 @@ class CreatePetActivity : AppCompatActivity() {
         }
     }
 
-    /* 권한 허용 확인 및 요청 */
+    *//* 권한 허용 확인 및 요청 *//*
     private fun checkPermissions(permissions: Array<String>): Boolean {
         val permissionList : MutableList<String> = mutableListOf()
         for(permission in permissions){
@@ -396,5 +396,5 @@ class CreatePetActivity : AppCompatActivity() {
         } else{
             finishAffinity()
         }
-    }
+    }*/
 }

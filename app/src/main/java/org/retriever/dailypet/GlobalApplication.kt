@@ -23,7 +23,7 @@ class GlobalApplication : Application() {
         instance = this
         prefs = Prefs(applicationContext)
         KakaoSdk.init(this, BuildConfig.KAKAO_NATIVE_APP_KEY)
-        NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "반려하루")
+        NaverIdLoginSDK.initialize(this, BuildConfig.NAVER_CLIENT_ID, BuildConfig.NAVER_CLIENT_SECRET, "반려하루")
         super.onCreate()
     }
 

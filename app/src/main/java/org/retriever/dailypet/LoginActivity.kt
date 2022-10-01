@@ -52,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun init(){
         /* API Init */
-        BASE_URL = getString(R.string.URL)
+        BASE_URL = BuildConfig.BASE_URL
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())

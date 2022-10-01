@@ -60,22 +60,22 @@ class CreateFamilyActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCreateFamilyBinding.inflate(layoutInflater)
+        /*binding = ActivityCreateFamilyBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
-        BASE_URL = getString(R.string.URL)
+        BASE_URL = BuildConfig.BASE_URL
         KEY = getString(R.string.KEY)
         HOST = getString(R.string.HOST)
 
-        /* API Init */
+        *//* API Init *//*
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         retrofitService = retrofit.create(RetrofitService::class.java)
 
-        /* Camera Register */
+        *//* Camera Register *//*
         cameraLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
@@ -86,7 +86,7 @@ class CreateFamilyActivity : AppCompatActivity() {
                 binding.imgPhoto.setImageBitmap(bitmap)
             }
         }
-        /* Gallery Register */
+        *//* Gallery Register *//*
         galleryLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
@@ -102,7 +102,7 @@ class CreateFamilyActivity : AppCompatActivity() {
             }
         }
 
-        /* Text Listener */
+        *//* Text Listener *//*
         binding.editTextGroupNickname.addTextChangedListener(object : TextWatcher {
             @SuppressLint("UseCompatLoadingForDrawables")
             override fun afterTextChanged(p0: Editable?) {
@@ -118,12 +118,12 @@ class CreateFamilyActivity : AppCompatActivity() {
             }
         })
 
-        init()
+        init()*/
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    /*@SuppressLint("UseCompatLoadingForDrawables")
     private fun init() = with(binding){
-        /* Upload Profile Image */
+        *//* Upload Profile Image *//*
         btnCamera.setOnClickListener{
             Log.d(TAG, "Button Photo Upload")
             val popupMenu = PopupMenu(applicationContext, it)
@@ -148,7 +148,7 @@ class CreateFamilyActivity : AppCompatActivity() {
             }
         }
 
-        /* Check Group Name Validation */
+        *//* Check Group Name Validation *//*
         btnValidCheck.setOnClickListener{
             val groupName = editTextGroupName.text.toString()
             if(groupName.isBlank()){
@@ -161,7 +161,7 @@ class CreateFamilyActivity : AppCompatActivity() {
             submitCheck()
         }
 
-        /* Submit Profile */
+        *//* Submit Profile *//*
         btnCreate.setOnClickListener{
             Log.d(TAG, "Button Register")
             val nickname = editTextGroupNickname.text.toString()
@@ -178,13 +178,13 @@ class CreateFamilyActivity : AppCompatActivity() {
 
         }
 
-        /* 이전버튼 */
+        *//* 이전버튼 *//*
         imgbtnBack.setOnClickListener{
             onBackPressed()
         }
     }
 
-    /* 사진 찍기 */
+    *//* 사진 찍기 *//*
     private fun takePicture(){
         if(checkPermissions(PERMISSIONS)) {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -192,7 +192,7 @@ class CreateFamilyActivity : AppCompatActivity() {
         }
     }
 
-    /* 갤러리 조회 */
+    *//* 갤러리 조회 *//*
     private fun openGallery(){
         if(checkPermissions(PERMISSIONS)) {
             val intent = Intent(Intent.ACTION_PICK)
@@ -233,7 +233,7 @@ class CreateFamilyActivity : AppCompatActivity() {
         submitCheck()
     }
 
-    /* 프로필 등록 */
+    *//* 프로필 등록 *//*
     private fun postFamilyInfo(familyName : String, nickname : String){
         val call : Call<General>
         if(bitmap != null){
@@ -290,7 +290,7 @@ class CreateFamilyActivity : AppCompatActivity() {
         }
     }
 
-    /* 권한 허용 확인 및 요청 */
+    *//* 권한 허용 확인 및 요청 *//*
     private fun checkPermissions(permissions: Array<String>): Boolean {
         val permissionList : MutableList<String> = mutableListOf()
         for(permission in permissions){
@@ -312,5 +312,5 @@ class CreateFamilyActivity : AppCompatActivity() {
                 Toast.makeText(this, "카메라 권한이 없습니다\n카메라 권한을 허용해주세요", Toast.LENGTH_SHORT).show()
             }
         }
-    }
+    }*/
 }
