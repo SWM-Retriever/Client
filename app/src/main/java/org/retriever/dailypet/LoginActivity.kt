@@ -20,7 +20,7 @@ import com.navercorp.nid.profile.data.NidProfileResponse
 import kotlinx.coroutines.launch
 import org.retriever.dailypet.databinding.ActivityLoginBinding
 import org.retriever.dailypet.interfaces.RetrofitService
-import org.retriever.dailypet.models.App
+import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.models.Member
 import org.retriever.dailypet.models.Message
 import retrofit2.Call
@@ -70,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
 
         /* 로그아웃 버튼 */
         binding.btnLogout.setOnClickListener{
-            App.prefs.init()
+            GlobalApplication.prefs.init()
             // 카카오 로그아웃
             if(AuthApiClient.instance.hasToken()) {
                 UserApiClient.instance.logout { error ->
@@ -88,7 +88,7 @@ class LoginActivity : AppCompatActivity() {
 
         /* 연동해제 버튼 */
         binding.btnUnlink.setOnClickListener{
-            App.prefs.init()
+            GlobalApplication.prefs.init()
             // 카카오 연동해제
             kakaoUnlink()
             // 네이버 연동해제
@@ -106,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
                 if(response.isSuccessful) { // 이미 회원일때
                     /* jwt 발급 */
                     val jwt = "test"
-                    App.prefs.jwt = jwt
+                    GlobalApplication.prefs.jwt = jwt
                     val nextIntent = Intent(applicationContext, MainActivity::class.java)
                     startActivity(nextIntent) // 메인 페이지
                 }

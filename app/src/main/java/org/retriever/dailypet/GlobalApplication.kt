@@ -1,4 +1,4 @@
-package org.retriever.dailypet.models
+package org.retriever.dailypet
 
 import android.app.Application
 import android.content.Context
@@ -13,16 +13,16 @@ import retrofit2.Converter
 import retrofit2.Retrofit
 import java.lang.reflect.Type
 
-class App : Application() {
+class GlobalApplication : Application() {
     companion object{
-        lateinit var instance : App
+        lateinit var instance : GlobalApplication
         lateinit var prefs : Prefs
     }
 
     override fun onCreate() {
         instance = this
         prefs = Prefs(applicationContext)
-        KakaoSdk.init(this, resources.getString(R.string.kakao_native_app_key))
+        KakaoSdk.init(this, BuildConfig.KAKAO_NATIVE_APP_KEY)
         NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "반려하루")
         super.onCreate()
     }
@@ -55,7 +55,7 @@ class Prefs(context: Context){
 class AuthInterceptor: Interceptor{
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
-            .addHeader("Authorization",App.prefs.jwt?: " ")
+            .addHeader("Authorization",GlobalApplication.prefs.jwt?: " ")
             .build()
         return chain.proceed(request)
     }

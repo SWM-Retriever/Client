@@ -3,20 +3,18 @@ package org.retriever.dailypet.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
+import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.LoginActivity
 import org.retriever.dailypet.R
-import org.retriever.dailypet.databinding.FragmentHomeBinding
 import org.retriever.dailypet.databinding.FragmentMyPageBinding
-import org.retriever.dailypet.models.App
 
 class MyPageFragment : Fragment(), View.OnClickListener {
     private val TAG = "MyPageFragment"
@@ -59,7 +57,7 @@ class MyPageFragment : Fragment(), View.OnClickListener {
     }
 
     private fun logout(){
-        App.prefs.init()
+        GlobalApplication.prefs.init()
         // 카카오 로그아웃
         if(AuthApiClient.instance.hasToken()) {
             UserApiClient.instance.logout { error ->

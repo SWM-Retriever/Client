@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -63,7 +64,7 @@ class CreateProfileActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        BASE_URL = getString(R.string.URL)
+        BASE_URL = BuildConfig.BASE_URL
         FirebaseApp.initializeApp(this)
 
         binding.textRegisterProfileName.text = intent.getStringExtra("userName")
@@ -149,7 +150,7 @@ class CreateProfileActivity : AppCompatActivity() {
             val email = textRegisterProfileEmail.text.toString()
             checkValidNickname(nickname)
             if(isValidNickname){
-                val deviceToken = App.prefs.getString("deviceToken","")
+                val deviceToken = GlobalApplication.prefs.getString("deviceToken","")
                 if(deviceToken.isEmpty()) Log.e(TAG, "Device Token Error")
                 else postProfileInfo(nickname, email, deviceToken)
             } else{
@@ -204,7 +205,7 @@ class CreateProfileActivity : AppCompatActivity() {
                 Log.d(TAG, result)
                 if(response.isSuccessful) {// 프로필 등록 성공
                     val jwt = response.body()?.status
-                    App.prefs.jwt = jwt
+                    GlobalApplication.prefs.jwt = jwt
                     Log.d(TAG, "JWT {$jwt}")
                     Log.d(TAG, "Post Info {$nickname} {$email} {$domain} {$option1} {$option2} {$deviceToken}")
                     Toast.makeText(applicationContext, "프로필 등록에 성공하였습니다", Toast.LENGTH_SHORT).show()

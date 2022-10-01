@@ -10,7 +10,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.AuthApiClient
 import org.retriever.dailypet.interfaces.MyFirebaseMessagingService
-import org.retriever.dailypet.models.App
+import org.retriever.dailypet.GlobalApplication
 
 class StartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +19,7 @@ class StartActivity : AppCompatActivity() {
         init()
         val loginButton = findViewById<Button>(R.id.btn_login)
         val testButton = findViewById<Button>(R.id.btn_test)
-        val jwt = App.prefs.jwt
+        val jwt = GlobalApplication.prefs.jwt
         loginButton.setOnClickListener {
 
             // jwt 인증 방식
