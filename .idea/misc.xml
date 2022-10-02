@@ -58,6 +58,7 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_my_page.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_select_family_type.xml" value="0.30782385634886705" />
         <entry key="app/src/main/res/layout/fragment_term_of_service.xml" value="0.17956391620350576" />
         <entry key="app/src/main/res/layout/item_breed.xml" value="0.30782385634886705" />
         <entry key="app/src/main/res/menu/bottom_nav.xml" value="0.30867892261650276" />

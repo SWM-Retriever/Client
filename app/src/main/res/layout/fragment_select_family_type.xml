@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SelectFamilyTypeActivity">
+    tools:context=".test.ui.login.SelectFamilyTypeFragment">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_select_type"
@@ -156,6 +156,5 @@
         app:layout_constraintStart_toStartOf="@+id/img_group"
         app:layout_constraintTop_toTopOf="@+id/img_group"
         app:srcCompat="@drawable/icon_group" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

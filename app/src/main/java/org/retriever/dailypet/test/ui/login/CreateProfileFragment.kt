@@ -28,7 +28,6 @@ import okhttp3.RequestBody
 import okio.BufferedSink
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
-import org.retriever.dailypet.SelectFamilyTypeActivity
 import org.retriever.dailypet.databinding.FragmentCreateProfileBinding
 import org.retriever.dailypet.test.model.Resource
 import org.retriever.dailypet.test.model.login.FragmentCameraSheet
@@ -136,8 +135,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
                     GlobalApplication.prefs.jwt = jwt
 
                     Toast.makeText(requireContext(), "프로필 등록에 성공하였습니다", Toast.LENGTH_SHORT).show()
-                    val nextIntent = Intent(requireContext(), SelectFamilyTypeActivity::class.java)
-                    startActivity(nextIntent) // 가족유형 선택 페이지로 이동
+                    root.findNavController().navigate(R.id.action_createProfileFragment_to_selectFamilyTypeFragment)
                 }
                 is Resource.Error -> {
                     Toast.makeText(requireContext(), "프로필 등록에 실패하였습니다", Toast.LENGTH_SHORT).show()

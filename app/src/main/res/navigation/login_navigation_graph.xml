@@ -36,10 +36,18 @@
         <argument
             android:name="registerProfile"
             app:argType="org.retriever.dailypet.test.model.login.RegisterProfile" />
+        <action
+            android:id="@+id/action_createProfileFragment_to_selectFamilyTypeFragment"
+            app:destination="@id/selectFamilyTypeFragment" />
     </fragment>
     <activity
         android:id="@+id/mainActivity"
         android:name="org.retriever.dailypet.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/selectFamilyTypeFragment"
+        android:name="org.retriever.dailypet.test.ui.login.SelectFamilyTypeFragment"
+        android:label="fragment_select_family_type"
+        tools:layout="@layout/fragment_select_family_type" />
 </navigation>
