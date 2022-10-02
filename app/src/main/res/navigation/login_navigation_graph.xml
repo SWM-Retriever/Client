@@ -76,4 +76,9 @@
         android:name="org.retriever.dailypet.test.ui.login.FindGroupFragment"
         android:label="fragment_find_group"
         tools:layout="@layout/fragment_find_group" />
+    <fragment
+        android:id="@+id/creationCompleteFragment"
+        android:name="org.retriever.dailypet.test.ui.login.CreationCompleteFragment"
+        android:label="fragment_creation_complete"
+        tools:layout="@layout/fragment_creation_complete" />
 </navigation>

@@ -73,7 +73,7 @@ class SelectFamilyTypeFragment : BaseFragment<FragmentSelectFamilyTypeBinding>()
         btnSelectType.setOnClickListener{
             if(alone){
                 // 가족 생성 처리
-
+                // TODO Create Pet으로 이동
                 val nextIntent = Intent(requireContext(), CreatePetActivity::class.java)
                 startActivity(nextIntent)
             }
