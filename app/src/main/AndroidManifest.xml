@@ -30,12 +30,6 @@
             android:name=".CreationCompleteActivity"
             android:exported="false" />
         <activity
-            android:name=".EnterFamilyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".FindGroupActivity"
-            android:exported="false" />
-        <activity
             android:name=".CreatePetActivity"
             android:exported="false" />
         <activity

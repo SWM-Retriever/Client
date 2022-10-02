@@ -1,12 +1,10 @@
 package org.retriever.dailypet.test.ui.login
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
-import org.retriever.dailypet.FindGroupActivity
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentFamilyEntranceBinding
 import org.retriever.dailypet.test.ui.base.BaseFragment
@@ -30,8 +28,7 @@ class FamilyEntranceFragment : BaseFragment<FragmentFamilyEntranceBinding>() {
         }
 
         textInviteCode.setOnClickListener {
-            val nextIntent = Intent(requireContext(), FindGroupActivity::class.java)
-            startActivity(nextIntent)
+            root.findNavController().navigate(R.id.action_familyEntranceFragment_to_findGroupFragment)
         }
 
         imgbtnBack.setOnClickListener {

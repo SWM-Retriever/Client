@@ -62,10 +62,18 @@
         <action
             android:id="@+id/action_familyEntranceFragment_to_createFamilyFragment"
             app:destination="@id/createFamilyFragment" />
+        <action
+            android:id="@+id/action_familyEntranceFragment_to_findGroupFragment"
+            app:destination="@id/findGroupFragment" />
     </fragment>
     <fragment
         android:id="@+id/createFamilyFragment"
         android:name="org.retriever.dailypet.test.ui.login.CreateFamilyFragment"
         android:label="fragment_create_family"
         tools:layout="@layout/fragment_create_family" />
+    <fragment
+        android:id="@+id/findGroupFragment"
+        android:name="org.retriever.dailypet.test.ui.login.FindGroupFragment"
+        android:label="fragment_find_group"
+        tools:layout="@layout/fragment_find_group" />
 </navigation>
