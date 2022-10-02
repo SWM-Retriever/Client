@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import dagger.hilt.android.AndroidEntryPoint
 import org.retriever.dailypet.databinding.ActivityMainBinding
 import org.retriever.dailypet.fragments.*
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private val TAG = "MAIN_ACTIVITY"

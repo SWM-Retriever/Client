@@ -10,6 +10,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.retriever.dailypet.BuildConfig.BASE_URL
 import org.retriever.dailypet.test.data.network.LoginApiService
+import org.retriever.dailypet.test.data.network.MyPageApiService
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
@@ -29,6 +30,9 @@ object NetworkModule {
             .addInterceptor(getLoggingInterceptor())
             .build()
     }
+
+    private fun getLoggingInterceptor(): HttpLoggingInterceptor =
+        HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
     @Singleton
     @Provides
@@ -54,9 +58,14 @@ object NetworkModule {
         return retrofit.create(LoginApiService::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideMyPageApiService(retrofit: Retrofit): MyPageApiService{
+        return retrofit.create(MyPageApiService::class.java)
+    }
 
-    private fun getLoggingInterceptor(): HttpLoggingInterceptor =
-        HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+
+
 
 
 }

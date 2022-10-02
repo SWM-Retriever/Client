@@ -7,16 +7,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.widget.ViewSwitcher
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LifecycleOwner
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
+import dagger.hilt.android.AndroidEntryPoint
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.test.ui.login.LoginActivity
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentMyPageBinding
+import org.retriever.dailypet.test.model.Resource
+import org.retriever.dailypet.test.ui.login.LoginViewModel
+import org.retriever.dailypet.test.ui.mypage.MyPageViewModel
 
+@AndroidEntryPoint
 class MyPageFragment : Fragment(), View.OnClickListener {
+
+    private val myPageViewModel by activityViewModels<MyPageViewModel>()
     private val TAG = "MyPageFragment"
     private lateinit var binding: FragmentMyPageBinding
 
@@ -32,18 +42,44 @@ class MyPageFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListener()
+        init()
+    }
+
+    private fun init(){
+        myPageViewModel.withdrawalResponse.observe(viewLifecycleOwner)    { response->
+            when(response){
+                is Resource.Loading ->{
+
+                }
+                is Resource.Success->{
+
+                }
+                is Resource.Error->{
+
+                }
+            }
+
+        }
     }
 
     private fun setOnClickListener() {
         val btnLogout = binding.btnLogout
         btnLogout.setOnClickListener(this)
-
+        val btnWithdrawal = binding.btnWithdrawal
+        btnWithdrawal.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn_logout -> {
                 logout()
+                activity?.let{
+                    val intent = Intent(context, LoginActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+            R.id.btn_withdrawal ->{
+                withdrawal()
                 activity?.let{
                     val intent = Intent(context, LoginActivity::class.java)
                     startActivity(intent)
@@ -71,6 +107,13 @@ class MyPageFragment : Fragment(), View.OnClickListener {
         }
         // 네이버 로그아웃
         NaverIdLoginSDK.logout()
+    }
+
+    private fun withdrawal(){
+        val jwt = GlobalApplication.prefs.jwt ?: ""
+        GlobalApplication.prefs.init()
+        Log.e("",jwt)
+        myPageViewModel.deleteMemberWithdrawal(jwt)
     }
 
 }
