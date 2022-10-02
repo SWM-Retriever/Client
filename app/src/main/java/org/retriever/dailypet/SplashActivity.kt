@@ -1,12 +1,14 @@
 package org.retriever.dailypet
+
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import org.retriever.dailypet.test.ui.login.LoginActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
@@ -20,7 +22,7 @@ class SplashActivity : AppCompatActivity() {
         imageLogo.startAnimation(fadeIn)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, StartActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }, DURATION)

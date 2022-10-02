@@ -48,10 +48,12 @@
         <entry key="app/src/main/res/layout/activity_term_of_service.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_test.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/dialog_search_breed.xml" value="0.30782385634886705" />
+        <entry key="app/src/main/res/layout/fragement_login.xml" value="0.24454895254382214" />
         <entry key="app/src/main/res/layout/fragment_calendar.xml" value="0.29713552800342025" />
         <entry key="app/src/main/res/layout/fragment_care.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_diary.xml" value="0.20761559383499548" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.17870884993587002" />
         <entry key="app/src/main/res/layout/fragment_my_page.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_breed.xml" value="0.30782385634886705" />
         <entry key="app/src/main/res/menu/bottom_nav.xml" value="0.30867892261650276" />
