@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
 import org.retriever.dailypet.CreatePetActivity
-import org.retriever.dailypet.FamilyEntranceActivity
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentSelectFamilyTypeBinding
 import org.retriever.dailypet.test.ui.base.BaseFragment
@@ -78,8 +78,7 @@ class SelectFamilyTypeFragment : BaseFragment<FragmentSelectFamilyTypeBinding>()
                 startActivity(nextIntent)
             }
             else if(group){
-                val nextIntent = Intent(requireContext(), FamilyEntranceActivity::class.java)
-                startActivity(nextIntent)
+                root.findNavController().navigate(R.id.action_selectFamilyTypeFragment_to_familyEntranceFragment)
             }
             else{
                 Toast.makeText(requireContext(), "양육 유형을 선택해주세요", Toast.LENGTH_SHORT).show()

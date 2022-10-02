@@ -49,5 +49,14 @@
         android:id="@+id/selectFamilyTypeFragment"
         android:name="org.retriever.dailypet.test.ui.login.SelectFamilyTypeFragment"
         android:label="fragment_select_family_type"
-        tools:layout="@layout/fragment_select_family_type" />
+        tools:layout="@layout/fragment_select_family_type" >
+        <action
+            android:id="@+id/action_selectFamilyTypeFragment_to_familyEntranceFragment"
+            app:destination="@id/familyEntranceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/familyEntranceFragment"
+        android:name="org.retriever.dailypet.test.ui.login.FamilyEntranceFragment"
+        android:label="fragment_family_entrance"
+        tools:layout="@layout/fragment_family_entrance" />
 </navigation>
