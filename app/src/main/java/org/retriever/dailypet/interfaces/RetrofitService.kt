@@ -28,19 +28,11 @@ interface RetrofitService {
 //        @Body temp: Temp,
 //    ): Call<JWT>
 
-    @FormUrlEncoded
-    @POST("api/v1/validation/familyName")
-    fun postCheckFamilyName(
-        @Header("X-RapidAPI-Key") key: String,
-        @Header("X-RapidAPI-Host") host: String,
-        @Field("familyName") familyName: String,
-    ): Call<General>
+
 
     @FormUrlEncoded
     @POST("api/v1/validation/family-role-name")
     fun postCheckFamilyNickName(
-        @Header("X-RapidAPI-Key") key: String,
-        @Header("X-RapidAPI-Host") host: String,
         @Field("familyRoleName") nickname: String,
     ): Call<General>
 

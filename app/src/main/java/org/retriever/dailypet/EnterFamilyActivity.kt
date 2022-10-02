@@ -54,7 +54,7 @@ class EnterFamilyActivity : AppCompatActivity() {
                 binding.textFamilyNicknameValidate.setTextColor(Color.RED)
                 isValidNickname = false
             }
-            else checkValidNickname(nickname)
+          //  else checkValidNickname(nickname)
         }
 
         /* Enter Family Member*/
@@ -68,7 +68,7 @@ class EnterFamilyActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkValidNickname(familyNickname : String){
+    /*private fun checkValidNickname(familyNickname : String){
         val call = retrofitService.postCheckFamilyNickName(KEY, HOST, familyNickname)
         call.enqueue(object : Callback<General> {
             @SuppressLint("SetTextI18n")
@@ -94,7 +94,7 @@ class EnterFamilyActivity : AppCompatActivity() {
                 Log.e(TAG, "연결 실패")
             }
         })
-    }
+    }*/
 
     /* 프로필 등록 */
     private fun postEnterFamily(nickname : String){

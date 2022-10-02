@@ -39,9 +39,6 @@
             android:name=".CreatePetActivity"
             android:exported="false" />
         <activity
-            android:name=".CreateFamilyActivity"
-            android:exported="false" />
-        <activity
             android:name=".test.ui.login.LoginActivity"
             android:exported="false" />
         <activity

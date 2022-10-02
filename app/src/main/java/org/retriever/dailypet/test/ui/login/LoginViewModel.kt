@@ -10,10 +10,7 @@ import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import org.retriever.dailypet.test.data.repository.login.LoginRepository
 import org.retriever.dailypet.test.model.Resource
-import org.retriever.dailypet.test.model.login.LoginResponse
-import org.retriever.dailypet.test.model.login.Member
-import org.retriever.dailypet.test.model.login.RegisterProfile
-import org.retriever.dailypet.test.model.login.RegisterProfileResponse
+import org.retriever.dailypet.test.model.login.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,6 +26,12 @@ class LoginViewModel @Inject constructor(
 
     private val _registerProfileResponse = MutableLiveData<Resource<RegisterProfileResponse>>()
     val registerProfileResponse: LiveData<Resource<RegisterProfileResponse>> = _registerProfileResponse
+
+    private val _familyNameResponse = MutableLiveData<Resource<ResponseBody>>()
+    val familyNameResponse: LiveData<Resource<ResponseBody>> = _familyNameResponse
+
+    private val _registerFamilyResponse = MutableLiveData<Resource<ResponseBody>>()
+    val registerFamilyResponse: LiveData<Resource<ResponseBody>> = _registerFamilyResponse
 
     fun postIsMember(member: Member) = viewModelScope.launch {
         _loginResponse.postValue(Resource.Loading())
@@ -46,6 +49,18 @@ class LoginViewModel @Inject constructor(
         _registerProfileResponse.postValue(Resource.Loading())
 
         _registerProfileResponse.postValue(loginRepository.postProfile(registerProfile, image))
+    }
+
+    fun postCheckFamilyName(jwt : String, familyName : String) = viewModelScope.launch {
+        _familyNameResponse.postValue(Resource.Loading())
+
+        _familyNameResponse.postValue(loginRepository.postCheckFamilyName(jwt, familyName))
+    }
+
+    fun postFamily(jwt : String, familyInfo : FamilyInfo) = viewModelScope.launch {
+        _registerFamilyResponse.postValue(Resource.Loading())
+
+        _registerFamilyResponse.postValue(loginRepository.postFamily(jwt, familyInfo))
     }
 
 }

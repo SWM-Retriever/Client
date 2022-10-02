@@ -18,4 +18,10 @@ class LoginRepository @Inject constructor(private val loginApiService: LoginApiS
     suspend fun postProfile(registerProfile: RegisterProfile, image: MultipartBody.Part?): Resource<RegisterProfileResponse> =
         safeApiCall { loginApiService.postProfile(registerProfile, image) }
 
+    suspend fun postCheckFamilyName(jwt: String, familyName: String): Resource<ResponseBody> =
+        safeApiCall { loginApiService.postCheckFamilyName(jwt, familyName) }
+
+    suspend fun postFamily(jwt: String, familyInfo: FamilyInfo): Resource<ResponseBody> =
+        safeApiCall { loginApiService.postFamily(jwt, familyInfo) }
+
 }
