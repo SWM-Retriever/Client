@@ -13,11 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import org.retriever.dailypet.BreedSearchDialog
 import org.retriever.dailypet.R
 import org.retriever.dailypet.models.Breed
-import org.retriever.dailypet.databinding.ActivityCreatePetBinding
-
-class BreedListAdapter(var breeds: ArrayList<Breed>, var con: Context) :
-    RecyclerView.Adapter<BreedListAdapter.ViewHolder>(), Filterable {
-        val TAG = "BREED LIST ADAPTER"
+/*class BreedListAdapter(var breeds: ArrayList<Breed>, var con: Context) :
+    RecyclerView.Adapter<BreedListAdapter.ViewHolder>(), Filterable {*/
+       /* val TAG = "BREED LIST ADAPTER"
         var filteredBreeds = ArrayList<Breed>()
         var itemFilter = ItemFilter()
         private lateinit var binding : ActivityCreatePetBinding
@@ -121,5 +119,5 @@ class BreedListAdapter(var breeds: ArrayList<Breed>, var con: Context) :
                 filteredBreeds.addAll(filterResults.values as ArrayList<Breed>)
                 notifyDataSetChanged()
             }
-        }
-}
+        }*/
+//}

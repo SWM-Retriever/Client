@@ -7,21 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import android.widget.ViewSwitcher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LifecycleOwner
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.AndroidEntryPoint
 import org.retriever.dailypet.GlobalApplication
-import org.retriever.dailypet.test.ui.login.LoginActivity
+import org.retriever.dailypet.ui.login.LoginActivity
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentMyPageBinding
-import org.retriever.dailypet.test.model.Resource
-import org.retriever.dailypet.test.ui.login.LoginViewModel
-import org.retriever.dailypet.test.ui.mypage.MyPageViewModel
+import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.ui.mypage.MyPageViewModel
 
 @AndroidEntryPoint
 class MyPageFragment : Fragment(), View.OnClickListener {

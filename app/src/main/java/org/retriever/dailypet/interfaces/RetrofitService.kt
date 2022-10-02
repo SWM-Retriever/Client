@@ -2,7 +2,6 @@ package org.retriever.dailypet.interfaces
 
 import okhttp3.MultipartBody
 import org.retriever.dailypet.models.*
-import org.retriever.dailypet.test.model.login.Member
 import retrofit2.Call
 import retrofit2.http.*
 

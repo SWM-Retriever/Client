@@ -9,9 +9,7 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import org.retriever.dailypet.databinding.ActivityCreatePetBinding
 import org.retriever.dailypet.databinding.DialogSearchBreedBinding
-import org.retriever.dailypet.interfaces.BreedListAdapter
 import org.retriever.dailypet.models.Breed
 
 class BreedSearchDialog(
@@ -19,7 +17,7 @@ class BreedSearchDialog(
     private val okCallback: (String) -> Unit,
 ) : Dialog(context) { // 뷰를 띄워야하므로 Dialog 클래스는 context를 인자로 받는다.
 
-    private lateinit var binding: DialogSearchBreedBinding
+   /* private lateinit var binding: DialogSearchBreedBinding
     private lateinit var petBinding: ActivityCreatePetBinding
     val TAG = "SEARCH DIALOG"
     lateinit var recyclerView: RecyclerView
@@ -79,7 +77,7 @@ class BreedSearchDialog(
             override fun onQueryTextSubmit(s: String?): Boolean {
                 return false
             }
-            /* 입력할 때 마다 */
+            *//* 입력할 때 마다 *//*
             override fun onQueryTextChange(s: String?): Boolean {
                 breedListAdapter.filter.filter(s)
                 return false
@@ -101,5 +99,5 @@ class BreedSearchDialog(
         tempBreeds.add(Breed( "푸들", "갈색털, 소형견, 영리함"))
 
         return tempBreeds
-    }
+    }*/
 }

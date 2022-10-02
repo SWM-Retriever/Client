@@ -6,7 +6,7 @@
     app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/loginFragment"
-        android:name="org.retriever.dailypet.test.ui.login.LoginFragment"
+        android:name="org.retriever.dailypet.ui.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/termOfServiceFragment"
-        android:name="org.retriever.dailypet.test.ui.login.TermOfServiceFragment"
+        android:name="org.retriever.dailypet.ui.login.TermOfServiceFragment"
         android:label="fragment_term_of_service"
         tools:layout="@layout/fragment_term_of_service" >
         <action
@@ -26,19 +26,19 @@
             app:destination="@id/createProfileFragment" />
         <argument
             android:name="registerProfile"
-            app:argType="org.retriever.dailypet.test.model.login.RegisterProfile" />
+            app:argType="org.retriever.dailypet.model.login.RegisterProfile" />
     </fragment>
     <fragment
         android:id="@+id/createProfileFragment"
-        android:name="org.retriever.dailypet.test.ui.login.CreateProfileFragment"
+        android:name="org.retriever.dailypet.ui.login.CreateProfileFragment"
         android:label="fragment_create_profile"
         tools:layout="@layout/fragment_create_profile" >
-        <argument
-            android:name="registerProfile"
-            app:argType="org.retriever.dailypet.test.model.login.RegisterProfile" />
         <action
             android:id="@+id/action_createProfileFragment_to_selectFamilyTypeFragment"
             app:destination="@id/selectFamilyTypeFragment" />
+        <argument
+            android:name="registerProfile"
+            app:argType="org.retriever.dailypet.model.login.RegisterProfile" />
     </fragment>
     <activity
         android:id="@+id/mainActivity"
@@ -47,16 +47,19 @@
         tools:layout="@layout/activity_main" />
     <fragment
         android:id="@+id/selectFamilyTypeFragment"
-        android:name="org.retriever.dailypet.test.ui.login.SelectFamilyTypeFragment"
+        android:name="org.retriever.dailypet.ui.login.SelectFamilyTypeFragment"
         android:label="fragment_select_family_type"
         tools:layout="@layout/fragment_select_family_type" >
         <action
             android:id="@+id/action_selectFamilyTypeFragment_to_familyEntranceFragment"
             app:destination="@id/familyEntranceFragment" />
+        <action
+            android:id="@+id/action_selectFamilyTypeFragment_to_createPetFragment"
+            app:destination="@id/createPetFragment" />
     </fragment>
     <fragment
         android:id="@+id/familyEntranceFragment"
-        android:name="org.retriever.dailypet.test.ui.login.FamilyEntranceFragment"
+        android:name="org.retriever.dailypet.ui.login.FamilyEntranceFragment"
         android:label="fragment_family_entrance"
         tools:layout="@layout/fragment_family_entrance" >
         <action
@@ -68,17 +71,37 @@
     </fragment>
     <fragment
         android:id="@+id/createFamilyFragment"
-        android:name="org.retriever.dailypet.test.ui.login.CreateFamilyFragment"
+        android:name="org.retriever.dailypet.ui.login.CreateFamilyFragment"
         android:label="fragment_create_family"
-        tools:layout="@layout/fragment_create_family" />
+        tools:layout="@layout/fragment_create_family" >
+        <action
+            android:id="@+id/action_createFamilyFragment_to_createPetFragment"
+            app:destination="@id/createPetFragment" />
+    </fragment>
     <fragment
         android:id="@+id/findGroupFragment"
-        android:name="org.retriever.dailypet.test.ui.login.FindGroupFragment"
+        android:name="org.retriever.dailypet.ui.login.FindGroupFragment"
         android:label="fragment_find_group"
-        tools:layout="@layout/fragment_find_group" />
+        tools:layout="@layout/fragment_find_group" >
+        <action
+            android:id="@+id/action_findGroupFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
     <fragment
         android:id="@+id/creationCompleteFragment"
-        android:name="org.retriever.dailypet.test.ui.login.CreationCompleteFragment"
+        android:name="org.retriever.dailypet.ui.login.CreationCompleteFragment"
         android:label="fragment_creation_complete"
-        tools:layout="@layout/fragment_creation_complete" />
+        tools:layout="@layout/fragment_creation_complete" >
+        <action
+            android:id="@+id/action_creationCompleteFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPetFragment"
+        android:name="org.retriever.dailypet.ui.login.CreatePetFragment"
+        android:label="CreatePetFragment" >
+        <action
+            android:id="@+id/action_createPetFragment_to_creationCompleteFragment"
+            app:destination="@id/creationCompleteFragment" />
+    </fragment>
 </navigation>

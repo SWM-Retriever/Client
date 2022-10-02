@@ -8,7 +8,7 @@ import android.os.Looper
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import org.retriever.dailypet.test.ui.login.LoginActivity
+import org.retriever.dailypet.ui.login.LoginActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {

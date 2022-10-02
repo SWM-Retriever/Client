@@ -27,7 +27,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".test.ui.login.LoginActivity"
+            android:name="org.retriever.dailypet.ui.login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
