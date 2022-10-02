@@ -3,10 +3,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_navigation_graph"
-    app:startDestination="@id/createProfileFragment">
+    app:startDestination="@id/loginFragment">
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="org.retriever.dailypet.test.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_loginFragment_to_termOfServiceFragment"
+            app:destination="@id/termOfServiceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/termOfServiceFragment"
+        android:name="org.retriever.dailypet.test.ui.login.TermOfServiceFragment"
+        android:label="fragment_term_of_service"
+        tools:layout="@layout/fragment_term_of_service" >
+        <action
+            android:id="@+id/action_termOfServiceFragment_to_createProfileFragment"
+            app:destination="@id/createProfileFragment" />
+        <argument
+            android:name="registerProfile"
+            app:argType="org.retriever.dailypet.test.model.login.RegisterProfile" />
+    </fragment>
     <fragment
         android:id="@+id/createProfileFragment"
         android:name="org.retriever.dailypet.test.ui.login.CreateProfileFragment"
         android:label="fragment_create_profile"
-        tools:layout="@layout/fragment_create_profile" />
+        tools:layout="@layout/fragment_create_profile" >
+        <argument
+            android:name="registerProfile"
+            app:argType="org.retriever.dailypet.test.model.login.RegisterProfile" />
+    </fragment>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="org.retriever.dailypet.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
 </navigation>

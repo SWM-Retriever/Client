@@ -1,6 +1,5 @@
 package org.retriever.dailypet.test.ui.login
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
@@ -20,11 +20,13 @@ import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import org.retriever.dailypet.TermOfServiceActivity
+import org.retriever.dailypet.GlobalApplication
+import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentLoginBinding
 import org.retriever.dailypet.loginWithKakao
 import org.retriever.dailypet.test.model.Resource
 import org.retriever.dailypet.test.model.login.Member
+import org.retriever.dailypet.test.model.login.RegisterProfile
 import org.retriever.dailypet.test.ui.base.BaseFragment
 import org.retriever.dailypet.test.util.hideProgressCircular
 import org.retriever.dailypet.test.util.showProgressCircular
@@ -60,19 +62,23 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
                     val jwt = response.data?.jwtToken
-                    org.retriever.dailypet.GlobalApplication.prefs.jwt = jwt
-                    val intent = Intent(requireContext(), org.retriever.dailypet.MainActivity::class.java)
-                    startActivity(intent)
+                    GlobalApplication.prefs.jwt = jwt
+
+                    root.findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
                 }
                 is Resource.Error -> {
                     hideProgressCircular(progressCircular)
                     when (response.code) {
                         CODE_NEW_MEMBER -> {
-                            val nextIntent = Intent(requireContext(), TermOfServiceActivity::class.java)
-                            nextIntent.putExtra("userName", name)
-                            nextIntent.putExtra("userEmail", email)
-                            nextIntent.putExtra("domain", domain)
-                            startActivity(nextIntent) // 프로필 등록 페이지
+                            val registerProfile = RegisterProfile(
+                                nickname = name,
+                                email = email,
+                                domain = domain,
+                                deviceToken = getDeviceToken()
+                            )
+
+                            val action = LoginFragmentDirections.actionLoginFragmentToTermOfServiceFragment(registerProfile)
+                            root.findNavController().navigate(action)
                         }
                         CODE_OTHER_DOMAIN -> {
                             Toast.makeText(requireContext(), "다른 SNS로 가입된 이메일입니다\n가입된 SNS로 로그인해주세요", Toast.LENGTH_SHORT).show()
@@ -87,6 +93,17 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
     }
 
+    private fun getDeviceToken(): String {
+        var deviceToken = ""
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                deviceToken = task.result
+            }
+        }
+
+        return deviceToken
+    }
+
     private fun buttonClick() = with(binding) {
         /* 카카오 로그인 버튼 */
         btnKakaoLogin.setOnClickListener {
@@ -98,7 +115,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
         /* 로그아웃 버튼 */
         btnLogout.setOnClickListener {
-            org.retriever.dailypet.GlobalApplication.prefs.init()
+            GlobalApplication.prefs.init()
             // 카카오 로그아웃
             if (com.kakao.sdk.auth.AuthApiClient.instance.hasToken()) {
                 UserApiClient.instance.logout { error ->
@@ -116,7 +133,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
         /* 연동해제 버튼 */
         btnUnlink.setOnClickListener {
-            org.retriever.dailypet.GlobalApplication.prefs.init()
+            GlobalApplication.prefs.init()
             // 카카오 연동해제
             kakaoUnlink()
             // 네이버 연동해제
@@ -163,16 +180,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private fun naverLogin() {
         val oAuthLoginCallback = object : OAuthLoginCallback {
             override fun onSuccess() {
-                Log.d(TAG, "Naver Access Token : ${NaverIdLoginSDK.getAccessToken()}")
-                Log.d(TAG, "Naver Refresh Token : ${NaverIdLoginSDK.getRefreshToken()}")
-                Log.d(TAG, "Naver Expire Dates : ${NaverIdLoginSDK.getExpiresAt()}")
-                // 네이버 로그인 API 호출 성공 시 유저 정보를 가져온다
                 NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
                     override fun onSuccess(result: NidProfileResponse) {
-                        // 회원 확인 분기
                         name = result.profile?.name ?: ""
                         email = result.profile?.email ?: ""
                         domain = NAVER_DOMAIN
+
                         postIsMember(name, email, domain)
                     }
 

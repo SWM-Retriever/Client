@@ -24,9 +24,6 @@
             android:name=".RegisterCareActivity"
             android:exported="false" />
         <activity
-            android:name=".TermOfServiceActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity

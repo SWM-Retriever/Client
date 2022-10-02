@@ -14,9 +14,7 @@ interface LoginApiService {
 
     @Headers("accept: application/json", "content-type: application/json")
     @POST("/api/v1/validation/nickname")
-    fun postCheckProfileNickname(
-        @Body nickName: String
-    ): Response<ResponseBody>
+    suspend fun postCheckProfileNickname(@Body nickName: String): Response<ResponseBody>
 
     @Multipart
     @POST("api/v1/auth/sign-up")

@@ -14,13 +14,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -32,7 +32,6 @@ import org.retriever.dailypet.SelectFamilyTypeActivity
 import org.retriever.dailypet.databinding.FragmentCreateProfileBinding
 import org.retriever.dailypet.test.model.Resource
 import org.retriever.dailypet.test.model.login.FragmentCameraSheet
-import org.retriever.dailypet.test.model.login.RegisterProfile
 import org.retriever.dailypet.test.ui.base.BaseFragment
 import org.retriever.dailypet.test.util.hideProgressCircular
 import org.retriever.dailypet.test.util.showProgressCircular
@@ -41,9 +40,6 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
     private val loginViewModel by activityViewModels<LoginViewModel>()
 
-    private var domain = ""
-    private var option1 = false
-    private var option2 = false
     private var bitmap: Bitmap? = null
     private var isValidNickname: Boolean = false
 
@@ -164,31 +160,24 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
         btnCreateProfileSubmit.setOnClickListener {
             val nickname = textCreateProfileNickname.text.toString()
-            val email = textRegisterProfileEmail.text.toString()
             checkValidNickName(nickname)
 
             if (isValidNickname) {
-                val deviceToken = GlobalApplication.prefs.getString("deviceToken", "")
-                if (deviceToken.isEmpty()) {
-                    Log.e(TAG, "Device Token Error")
-                } else {
-                    postProfileInfo(nickname, email, deviceToken)
-                }
+                postProfileInfo(nickname)
             } else {
                 Toast.makeText(requireContext(), "닉네임 중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
             }
         }
 
-        /* 이전버튼 */
-        binding.imgbtnBack.setOnClickListener {
-            //onBackPressed()
+        imgbtnBack.setOnClickListener {
+            root.findNavController().popBackStack()
         }
 
     }
 
     private fun showBottomSheetDialog() {
-        val cameraSheetFragment : FragmentCameraSheet = FragmentCameraSheet {
-            when(it){
+        val cameraSheetFragment = FragmentCameraSheet {
+            when (it) {
                 0 -> takePicture()
                 1 -> openGallery()
             }
@@ -240,8 +229,10 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
         }
     }
 
-    private fun postProfileInfo(nickname: String, email: String, deviceToken: String) {
-        val registerProfile = RegisterProfile(nickname, email, domain, deviceToken, option1, option2)
+    private fun postProfileInfo(nickname: String) {
+        val args: CreateProfileFragmentArgs by navArgs()
+        val registerProfile = args.registerProfile
+        registerProfile.nickname = nickname
         val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
         val multiPartBody = MultipartBody.Part.createFormData("image", "image", bitmapRequestBody)
 
