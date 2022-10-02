@@ -26,7 +26,7 @@ class TermOfServiceActivity : AppCompatActivity() {
         /* 다음 버튼 */
         btnNext.setOnClickListener{
             if(check1.isChecked && check2.isChecked){
-                val nextIntent = Intent(applicationContext, CreateProfileActivity::class.java)
+             /* //  val nextIntent = Intent(applicationContext, CreateProfileActivity::class.java)
                 val name = intent.getStringExtra("userName")
                 val email = intent.getStringExtra("userEmail")
                 val domain = intent.getStringExtra("domain")
@@ -35,7 +35,7 @@ class TermOfServiceActivity : AppCompatActivity() {
                 nextIntent.putExtra("domain", domain)
                 nextIntent.putExtra("option1", check3.isChecked)
                 nextIntent.putExtra("option2", check4.isChecked)
-                startActivity(nextIntent)
+                startActivity(nextIntent)*/
             } else{
                 Toast.makeText(applicationContext,"필수 약관을 모두 동의해주세요",Toast.LENGTH_SHORT).show()
             }

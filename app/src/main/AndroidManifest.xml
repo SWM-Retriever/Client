@@ -51,12 +51,6 @@
             android:name=".SelectFamilyTypeActivity"
             android:exported="false" />
         <activity
-            android:name=".CameraActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CreateProfileActivity"
-            android:exported="false" />
-        <activity
             android:name=".test.ui.login.LoginActivity"
             android:exported="false" />
         <activity

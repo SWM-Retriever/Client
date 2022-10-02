@@ -11,6 +11,10 @@
     <string name="input_code_comment">그룹장에게 초대코드 공유를 부탁하세요!\n초대 코드를 입력하면 그룹 정보를 확인할 수 있습니다</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
+    <string name="invalid_nickname_text">올바른 닉네임을 입력해주세요.</string>
+    <string name="valid_nickname_text">사용가능한 닉네임입니다.</string>
+    <string name="already_used_nickname_text">이미 사용중인 닉네임입니다.</string>
+    <string name="profile_setting_text">프로필 설정</string>
+    <string name="capture_photo_text">사진 찍기</string>
+    <string name="get_photo_text">사진 가져오기</string>
 </resources>

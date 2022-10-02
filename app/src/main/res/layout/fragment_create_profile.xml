@@ -4,7 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateProfileActivity">
+    tools:context=".test.ui.login.CreateProfileFragment">
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/divide_createProfile"
@@ -114,9 +124,9 @@
         android:layout_width="358dp"
         android:layout_height="61dp"
         android:layout_marginTop="12dp"
-        android:maxLength="20"
         android:background="@drawable/grey_blue_edittext"
         android:hint="닉네임을 입력해주세요"
+        android:maxLength="20"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.471"
@@ -145,8 +155,8 @@
         android:layout_marginBottom="28dp"
         android:background="@drawable/grey_button"
         android:text="등록완료"
-        android:textSize="16sp"
         android:textColor="#CCCCCC"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
@@ -170,6 +180,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="775dp" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

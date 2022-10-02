@@ -21,24 +21,12 @@ interface RetrofitService {
         @Field("authToken") value: String,
     ): Call<PostTest>
 
-    /* 닉네임 검증 */
-    @Headers("accept: application/json", "content-type: application/json")
-    @POST("/api/v1/validation/nickname")
-    fun postCheckProfileNickname(
-        @Body nickname: Nickname
-    ): Call<Message>
 
 //    @Headers("accept: application/json", "content-type: application/json")
 //    @POST("api/v1/auth/sign-up")
 //    fun postProfile(
 //        @Body temp: Temp,
 //    ): Call<JWT>
-    @Multipart
-    @POST("api/v1/auth/sign-up")
-    fun postProfile(
-    @Part("dto") registerProfile: RegisterProfile,
-    @Part image: MultipartBody.Part?,
-    ): Call<JWT>
 
     @FormUrlEncoded
     @POST("api/v1/validation/familyName")

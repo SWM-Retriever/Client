@@ -1,6 +1,7 @@
 package org.retriever.dailypet.models
 
 import com.google.gson.annotations.SerializedName
+import org.retriever.dailypet.test.model.login.RegisterProfile
 
 data class GetTest(
     @SerializedName("message")
@@ -18,10 +19,7 @@ data class PostTest(
 
 
 
-data class Nickname(
-    @SerializedName("nickName")
-    val nickname: String = "",
-)
+
 
 data class Temp(
     @SerializedName("dto")
@@ -34,20 +32,6 @@ data class Message(
     val abc : String,
 )
 
-data class RegisterProfile(
-    @SerializedName("snsNickName")
-    val nickname: String = "",
-    @SerializedName("email")
-    val email: String = "",
-    @SerializedName("providerType")
-    val domain: String = "",
-    @SerializedName("deviceToken")
-    val deviceToken: String = "",
-    @SerializedName("isPushAgree")
-    val isPushAgree: Boolean = false,
-    @SerializedName("isProfileInformationAgree")
-    val isProfileInformationAgree: Boolean = false,
-)
 
 
 
