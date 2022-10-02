@@ -1,4 +1,4 @@
-package org.retriever.dailypet.test.data.network
+package org.retriever.dailypet.test.data.network.mypage
 
 import okhttp3.ResponseBody
 import retrofit2.Response

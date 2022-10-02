@@ -1,7 +1,7 @@
 package org.retriever.dailypet.test.data.repository.mypage
 
 import okhttp3.ResponseBody
-import org.retriever.dailypet.test.data.network.MyPageApiService
+import org.retriever.dailypet.test.data.network.mypage.MyPageApiService
 import org.retriever.dailypet.test.data.repository.BaseRepo
 import org.retriever.dailypet.test.model.Resource
 import javax.inject.Inject

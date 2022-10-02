@@ -9,8 +9,8 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.retriever.dailypet.BuildConfig.BASE_URL
-import org.retriever.dailypet.test.data.network.LoginApiService
-import org.retriever.dailypet.test.data.network.MyPageApiService
+import org.retriever.dailypet.test.data.network.login.LoginApiService
+import org.retriever.dailypet.test.data.network.mypage.MyPageApiService
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
@@ -60,7 +60,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideMyPageApiService(retrofit: Retrofit): MyPageApiService{
+    fun provideMyPageApiService(retrofit: Retrofit): MyPageApiService {
         return retrofit.create(MyPageApiService::class.java)
     }
 

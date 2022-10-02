@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import org.retriever.dailypet.CreatePetActivity
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreateFamilyBinding
@@ -60,6 +59,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
                     textValidate.setTextColor(ContextCompat.getColor(requireContext(), R.color.success_blue))
                     editTextGroupName.background = ContextCompat.getDrawable(requireContext(), R.drawable.success_edittext)
                     isValidGroupName = true
+                    submitCheck()
                 }
                 is Resource.Error -> {
                     hideProgressCircular(progressCircular)
@@ -69,9 +69,11 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
                             textValidate.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
                             editTextGroupName.background = ContextCompat.getDrawable(requireContext(), R.drawable.fail_edittext)
                             isValidGroupName = false
+                            submitCheck()
                         }
                         CODE_ERROR -> {
                             Toast.makeText(requireContext(), "서버 에러입니다", Toast.LENGTH_SHORT).show()
+                            submitCheck()
                         }
                     }
                 }
@@ -91,6 +93,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
                     Toast.makeText(requireContext(), "그룹이 성공적으로 생성되었습니다", Toast.LENGTH_SHORT).show()
                     val nextIntent = Intent(requireContext(), CreatePetActivity::class.java)
                     startActivity(nextIntent) // 펫 생성 페이지로 이동
+                    submitCheck()
                 }
                 is Resource.Error -> {
                     hideProgressCircular(progressCircular)
@@ -102,6 +105,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
                             Toast.makeText(requireContext(), "서버 오류가 발생하였습니다.", Toast.LENGTH_SHORT).show()
                         }
                     }
+                    submitCheck()
                 }
             }
         }
@@ -137,6 +141,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
                 textValidate.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
                 editTextGroupName.background = ContextCompat.getDrawable(requireContext(), R.drawable.fail_edittext)
                 isValidGroupName = false
+                submitCheck()
             } else {
                 checkValidGroupName(groupName)
             }

@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
-import org.retriever.dailypet.CreatePetActivity
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentSelectFamilyTypeBinding
 import org.retriever.dailypet.test.ui.base.BaseFragment

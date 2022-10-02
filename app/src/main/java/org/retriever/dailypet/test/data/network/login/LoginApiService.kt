@@ -1,4 +1,4 @@
-package org.retriever.dailypet.test.data.network
+package org.retriever.dailypet.test.data.network.login
 
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
@@ -35,6 +35,13 @@ interface LoginApiService {
     suspend fun postFamily(
         @Header("X-AUTH-TOKEN") jwt: String,
         @Body familyInfo: FamilyInfo,
+    ): Response<ResponseBody>
+
+    @POST("api/v1/validation/families/{familyId}/pet-name")
+    suspend fun postCheckPetName(
+        @Path("familyId") familyId: Int,
+        @Header("X-AUTH_TOKEN") jwt: String,
+        @Body petName: String
     ): Response<ResponseBody>
 
 }

@@ -2,7 +2,7 @@ package org.retriever.dailypet.test.data.repository.login
 
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
-import org.retriever.dailypet.test.data.network.LoginApiService
+import org.retriever.dailypet.test.data.network.login.LoginApiService
 import org.retriever.dailypet.test.data.repository.BaseRepo
 import org.retriever.dailypet.test.model.Resource
 import org.retriever.dailypet.test.model.login.*
@@ -23,5 +23,8 @@ class LoginRepository @Inject constructor(private val loginApiService: LoginApiS
 
     suspend fun postFamily(jwt: String, familyInfo: FamilyInfo): Resource<ResponseBody> =
         safeApiCall { loginApiService.postFamily(jwt, familyInfo) }
+
+    suspend fun postCheckPetName(familyId: Int, jwt: String, petName: String): Resource<ResponseBody> =
+        safeApiCall { loginApiService.postCheckPetName(familyId, jwt, petName) }
 
 }

@@ -33,6 +33,9 @@ class LoginViewModel @Inject constructor(
     private val _registerFamilyResponse = MutableLiveData<Resource<ResponseBody>>()
     val registerFamilyResponse: LiveData<Resource<ResponseBody>> = _registerFamilyResponse
 
+    private val _petNameResponse = MutableLiveData<Resource<ResponseBody>>()
+    val petNameResponse: LiveData<Resource<ResponseBody>> = _petNameResponse
+
     fun postIsMember(member: Member) = viewModelScope.launch {
         _loginResponse.postValue(Resource.Loading())
 
@@ -51,16 +54,22 @@ class LoginViewModel @Inject constructor(
         _registerProfileResponse.postValue(loginRepository.postProfile(registerProfile, image))
     }
 
-    fun postCheckFamilyName(jwt : String, familyName : String) = viewModelScope.launch {
+    fun postCheckFamilyName(jwt: String, familyName: String) = viewModelScope.launch {
         _familyNameResponse.postValue(Resource.Loading())
 
         _familyNameResponse.postValue(loginRepository.postCheckFamilyName(jwt, familyName))
     }
 
-    fun postFamily(jwt : String, familyInfo : FamilyInfo) = viewModelScope.launch {
+    fun postFamily(jwt: String, familyInfo: FamilyInfo) = viewModelScope.launch {
         _registerFamilyResponse.postValue(Resource.Loading())
 
         _registerFamilyResponse.postValue(loginRepository.postFamily(jwt, familyInfo))
+    }
+
+    fun postCheckPetName(familyId: Int, jwt: String, petName: String) = viewModelScope.launch {
+        _petNameResponse.postValue(Resource.Loading())
+
+        _petNameResponse.postValue(loginRepository.postCheckPetName(familyId, jwt, petName))
     }
 
 }

@@ -27,9 +27,6 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".CreatePetActivity"
-            android:exported="false" />
-        <activity
             android:name=".test.ui.login.LoginActivity"
             android:exported="false" />
         <activity

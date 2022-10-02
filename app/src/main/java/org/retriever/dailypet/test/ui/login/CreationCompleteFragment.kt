@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import org.retriever.dailypet.CreatePetActivity
 import org.retriever.dailypet.MainActivity
 import org.retriever.dailypet.databinding.FragmentCreationCompleteBinding
 import org.retriever.dailypet.test.ui.base.BaseFragment
