@@ -15,9 +15,9 @@ import java.lang.reflect.Type
 
 @HiltAndroidApp
 class GlobalApplication : Application() {
-    companion object{
-        lateinit var instance : GlobalApplication
-        lateinit var prefs : Prefs
+    companion object {
+        lateinit var instance: GlobalApplication
+        lateinit var prefs: Prefs
     }
 
     override fun onCreate() {
@@ -31,7 +31,7 @@ class GlobalApplication : Application() {
     fun context(): Context = applicationContext
 }
 
-class Prefs(context: Context){
+class Prefs(context: Context) {
     private val prefName = "dailyPet"
     private val prefs = context.getSharedPreferences(prefName, MODE_PRIVATE)
 
@@ -45,18 +45,28 @@ class Prefs(context: Context){
 
     var jwt: String?
         get() = prefs.getString("jwt", null)
-        set(value){
-            prefs.edit().putString("jwt",value).apply()
+        set(value) {
+            prefs.edit().putString("jwt", value).apply()
         }
-    fun init(){
-        prefs.edit().putString("jwt",null).apply()
+    var familyId: Int
+        get() = prefs.getInt("familyId", -1)
+        set(value) {
+            prefs.edit().putInt("familyId", value).apply()
+        }
+
+    fun jwtInit() {
+        prefs.edit().putString("jwt", null).apply()
+    }
+
+    fun familyIdInit() {
+        prefs.edit().putInt("familyId", -1).apply()
     }
 }
 
-class AuthInterceptor: Interceptor{
+class AuthInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
-            .addHeader("Authorization",GlobalApplication.prefs.jwt?: " ")
+            .addHeader("Authorization", GlobalApplication.prefs.jwt ?: " ")
             .build()
         return chain.proceed(request)
     }
@@ -70,6 +80,7 @@ class NullOnEmptyConverterFactory : Converter.Factory() { // empty response ì²˜ë
             delegate.convert(it)
         }
     }
+
     class EmptyResponse {
 
     }

@@ -30,8 +30,8 @@ class LoginViewModel @Inject constructor(
     private val _familyNameResponse = MutableLiveData<Resource<ResponseBody>>()
     val familyNameResponse: LiveData<Resource<ResponseBody>> = _familyNameResponse
 
-    private val _registerFamilyResponse = MutableLiveData<Resource<ResponseBody>>()
-    val registerFamilyResponse: LiveData<Resource<ResponseBody>> = _registerFamilyResponse
+    private val _registerFamilyResponse = MutableLiveData<Resource<FamilyResponse>>()
+    val registerFamilyResponse: LiveData<Resource<FamilyResponse>> = _registerFamilyResponse
 
     private val _petNameResponse = MutableLiveData<Resource<ResponseBody>>()
     val petNameResponse: LiveData<Resource<ResponseBody>> = _petNameResponse

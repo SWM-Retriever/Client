@@ -21,7 +21,7 @@ class LoginRepository @Inject constructor(private val loginApiService: LoginApiS
     suspend fun postCheckFamilyName(jwt: String, familyName: String): Resource<ResponseBody> =
         safeApiCall { loginApiService.postCheckFamilyName(jwt, familyName) }
 
-    suspend fun postFamily(jwt: String, familyInfo: FamilyInfo): Resource<ResponseBody> =
+    suspend fun postFamily(jwt: String, familyInfo: FamilyInfo): Resource<FamilyResponse> =
         safeApiCall { loginApiService.postFamily(jwt, familyInfo) }
 
     suspend fun postCheckPetName(familyId: Int, jwt: String, petName: String): Resource<ResponseBody> =

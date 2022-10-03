@@ -90,7 +90,7 @@ class MyPageFragment : Fragment(), View.OnClickListener {
     }
 
     private fun logout(){
-        GlobalApplication.prefs.init()
+        GlobalApplication.prefs.jwtInit()
         // 카카오 로그아웃
         if(AuthApiClient.instance.hasToken()) {
             UserApiClient.instance.logout { error ->
@@ -108,7 +108,7 @@ class MyPageFragment : Fragment(), View.OnClickListener {
 
     private fun withdrawal(){
         val jwt = GlobalApplication.prefs.jwt ?: ""
-        GlobalApplication.prefs.init()
+        GlobalApplication.prefs.jwtInit()
         Log.e("",jwt)
         myPageViewModel.deleteMemberWithdrawal(jwt)
     }

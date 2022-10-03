@@ -115,7 +115,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
         /* 로그아웃 버튼 */
         btnLogout.setOnClickListener {
-            GlobalApplication.prefs.init()
+            GlobalApplication.prefs.jwtInit()
             // 카카오 로그아웃
             if (com.kakao.sdk.auth.AuthApiClient.instance.hasToken()) {
                 UserApiClient.instance.logout { error ->
@@ -133,7 +133,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
         /* 연동해제 버튼 */
         btnUnlink.setOnClickListener {
-            GlobalApplication.prefs.init()
+            GlobalApplication.prefs.jwtInit()
             // 카카오 연동해제
             kakaoUnlink()
             // 네이버 연동해제

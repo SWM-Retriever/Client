@@ -27,7 +27,6 @@ import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreatePetBinding
 import org.retriever.dailypet.model.Resource
-import org.retriever.dailypet.model.login.FragmentCameraSheet
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
@@ -47,6 +46,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     private var female = false
     private var dontKnow = false
     private var submit = false
+
     //TODO 캘린더다이얼로그
     private val galleryResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -210,8 +210,8 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     }
 
     private fun checkValidPetName(petName: String) {
-        //TODO familyID  수정
-        loginViewModel.postCheckPetName(0, jwt, petName)
+        val familyId = GlobalApplication.prefs.familyId
+        loginViewModel.postCheckPetName(familyId, jwt, petName)
     }
 
     private fun initPetNameView() = with(binding) {

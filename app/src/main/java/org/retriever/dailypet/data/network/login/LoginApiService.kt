@@ -29,11 +29,11 @@ interface LoginApiService {
         @Body familyName: String,
     ): Response<ResponseBody>
 
-    @POST("api/v1/validation/family")
+    @POST("api/v1/family")
     suspend fun postFamily(
         @Header("X-AUTH-TOKEN") jwt: String,
         @Body familyInfo: FamilyInfo,
-    ): Response<ResponseBody>
+    ): Response<FamilyResponse>
 
     @POST("api/v1/validation/families/{familyId}/pet-name")
     suspend fun postCheckPetName(
