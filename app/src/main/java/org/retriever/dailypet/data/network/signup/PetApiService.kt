@@ -15,9 +15,9 @@ interface PetApiService {
     ): Response<ResponseBody>
 
     @GET("api/v1/pet/{petType}/kinds")
-    suspend fun getPetBreed(
+    suspend fun getPetBreedList(
         @Path("petType") petType : String,
-        @Header("X-AuUTH-TOKEN") jwt : String
+        @Header("X-AUTH-TOKEN") jwt : String
     ) : Response<BreedResponse>
 
 }

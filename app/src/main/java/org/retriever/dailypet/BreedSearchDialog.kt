@@ -2,15 +2,6 @@ package org.retriever.dailypet
 
 import android.app.Dialog
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
-import android.widget.SearchView
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import org.retriever.dailypet.databinding.DialogSearchBreedBinding
-import org.retriever.dailypet.models.Breed
 
 class BreedSearchDialog(
     context: Context,

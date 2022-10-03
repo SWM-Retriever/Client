@@ -29,6 +29,7 @@ import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreatePetBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.ui.bottomsheet.BreedBottomSheet
 import org.retriever.dailypet.ui.bottomsheet.CameraBottomSheet
 import org.retriever.dailypet.ui.signup.viewmodel.PetViewModel
 import org.retriever.dailypet.util.hideProgressCircular
@@ -100,7 +101,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     private fun buttonClick() = with(binding) {
 
         btnLoadCamera.setOnClickListener {
-            showBottomSheetDialog()
+            showCameraBottomSheetDialog()
         }
 
         btnValidCheck.setOnClickListener {
@@ -151,6 +152,14 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
             showDatePicker()
         }
 
+        editTextBreed.setOnClickListener {
+            if (dog || cat) {
+                showBreedBottomSheetDialog()
+            } else {
+                Toast.makeText(requireContext(), "반려동물 종류를 선택해주세요.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         btnDontknow.setOnClickListener {
             dontKnow != dontKnow
             btnDontknow.isSelected = dontKnow
@@ -179,7 +188,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     }
 
-    private fun showBottomSheetDialog() {
+    private fun showCameraBottomSheetDialog() {
         val cameraSheetFragment = CameraBottomSheet {
             when (it) {
                 0 -> takePicture()
@@ -240,6 +249,19 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
                 dismiss()
             }
         }
+    }
+
+    private fun showBreedBottomSheetDialog() {
+        val breedSheetFragment = BreedBottomSheet { breed ->
+            binding.editTextBreed.text = breed
+        }
+
+        val bundle = Bundle()
+        val petType = if (dog) "DOG" else "CAT"
+        bundle.putString("petType", petType)
+
+        breedSheetFragment.arguments = bundle
+        breedSheetFragment.show(childFragmentManager, breedSheetFragment.tag)
     }
 
     private fun initPetNameView() = with(binding) {

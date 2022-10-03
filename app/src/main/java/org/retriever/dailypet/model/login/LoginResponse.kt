@@ -7,4 +7,6 @@ data class LoginResponse(
     val snsNickName: String,
     val email: String,
     val jwtToken: String,
+    val familyId : Int,
+    val petIdList : List<Int>,
 )
