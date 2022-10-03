@@ -1,4 +1,4 @@
-package org.retriever.dailypet.fragments
+package org.retriever.dailypet.ui.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,18 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import org.retriever.dailypet.R
 
-class CalendarFragment : Fragment() {
+class DiaryFragment : Fragment() {
     private val TAG = "HomeFragment"
 
-    fun newInstance() : CalendarFragment{
-        return CalendarFragment()
+    fun newInstance() : DiaryFragment {
+        return DiaryFragment()
     }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_calendar, container, false)
+        return inflater.inflate(R.layout.fragment_diary, container, false)
     }
 
 }

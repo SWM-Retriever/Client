@@ -1,4 +1,4 @@
-package org.retriever.dailypet.fragments
+package org.retriever.dailypet.ui.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -21,7 +21,7 @@ class HomeFragment : Fragment(), View.OnClickListener{
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
-    fun newInstance(list: ArrayList<Care>) : HomeFragment{
+    fun newInstance(list: ArrayList<Care>) : HomeFragment {
         return HomeFragment()
     }
     override fun onCreateView(

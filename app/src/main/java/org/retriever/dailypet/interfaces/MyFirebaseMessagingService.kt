@@ -23,7 +23,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         Log.d(TAG, "new Token: $token")
         // 토큰 값을 따로 저장해둔다.
-        GlobalApplication.prefs.setString("deviceToken", token)
+        GlobalApplication.prefs.deviceToken = token
         Log.i("로그: ", "성공적으로 토큰을 저장함")
     }
 

@@ -10,6 +10,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.gson.Gson
+import com.google.gson.JsonArray
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
@@ -20,6 +22,7 @@ import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentLoginBinding
@@ -61,9 +64,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 }
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
-                    val jwt = response.data?.jwtToken ?: ""
-                    GlobalApplication.prefs.jwt = jwt
 
+                    val jwt = response.data?.jwtToken ?: ""
+                    val familyId = response.data?.familyId ?: -1
+                    val petIdList = response.data?.petIdList ?: listOf()
+
+                    saveSharedPreference(jwt, familyId, petIdList)
                     initProgress(jwt)
                 }
                 is Resource.Error -> {
@@ -91,6 +97,25 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 }
             }
         }
+    }
+
+    private fun saveSharedPreference(jwt : String, familyId : Int, petIdList : List<Int>){
+        GlobalApplication.prefs.jwt = jwt
+        GlobalApplication.prefs.familyId = familyId
+
+        val jsonArray = JSONArray()
+        petIdList.forEach { id ->
+            jsonArray.put(id)
+        }
+        GlobalApplication.prefs.petIdList = jsonArray.toString()
+
+        //TODO  petIdList 가져오는 로직임
+        /*val abc = GlobalApplication.prefs.petIdList
+        val aaa = mutableListOf<Int>()
+        val test = JSONArray(abc)
+        for(i in 0 until test.length()){
+            aaa.add(test.optInt(i))
+        }*/
     }
 
     private fun initProgress(jwt: String) = with(binding) {
@@ -138,7 +163,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
         /* 로그아웃 버튼 */
         btnLogout.setOnClickListener {
-            GlobalApplication.prefs.jwtInit()
+            GlobalApplication.prefs.initJwt()
             // 카카오 로그아웃
             if (com.kakao.sdk.auth.AuthApiClient.instance.hasToken()) {
                 UserApiClient.instance.logout { error ->
@@ -156,7 +181,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
         /* 연동해제 버튼 */
         btnUnlink.setOnClickListener {
-            GlobalApplication.prefs.jwtInit()
+            GlobalApplication.prefs.initJwt()
             // 카카오 연동해제
             kakaoUnlink()
             // 네이버 연동해제

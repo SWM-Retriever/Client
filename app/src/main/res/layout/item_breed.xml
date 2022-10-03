@@ -13,6 +13,7 @@
         android:layout_marginTop="24dp"
         android:textColor="@color/black_500"
         android:textSize="16sp"
+        android:background="?android:attr/selectableItemBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

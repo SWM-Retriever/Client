@@ -1,4 +1,4 @@
-package org.retriever.dailypet.fragments
+package org.retriever.dailypet.ui.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -90,7 +90,7 @@ class MyPageFragment : Fragment(), View.OnClickListener {
     }
 
     private fun logout(){
-        GlobalApplication.prefs.jwtInit()
+        GlobalApplication.prefs.initJwt()
         // 카카오 로그아웃
         if(AuthApiClient.instance.hasToken()) {
             UserApiClient.instance.logout { error ->
@@ -108,7 +108,7 @@ class MyPageFragment : Fragment(), View.OnClickListener {
 
     private fun withdrawal(){
         val jwt = GlobalApplication.prefs.jwt ?: ""
-        GlobalApplication.prefs.jwtInit()
+        GlobalApplication.prefs.initJwt()
         Log.e("",jwt)
         myPageViewModel.deleteMemberWithdrawal(jwt)
     }

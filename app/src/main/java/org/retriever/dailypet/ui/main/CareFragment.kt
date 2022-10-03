@@ -1,13 +1,11 @@
-package org.retriever.dailypet.fragments
+package org.retriever.dailypet.ui.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCareBinding
 import org.retriever.dailypet.models.Care
@@ -18,7 +16,7 @@ class CareFragment : Fragment(), View.OnClickListener{
     private var TOTAL = 1
     private var CUR = 0
 
-    fun newInstance(newCare : Care) : CareFragment{
+    fun newInstance(newCare : Care) : CareFragment {
         val fragment = CareFragment()
 //        care = newCare
 //        Log.e(TAG,"newInstance ${care.name}")
