@@ -47,11 +47,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initView()
+        initLogin()
         buttonClick()
     }
 
-    private fun initView() = with(binding) {
+    private fun initLogin() = with(binding) {
         hideProgressCircular(binding.progressCircular)
 
         loginViewModel.loginResponse.observe(viewLifecycleOwner) { response ->
@@ -61,10 +61,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 }
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
-                    val jwt = response.data?.jwtToken
+                    val jwt = response.data?.jwtToken ?: ""
                     GlobalApplication.prefs.jwt = jwt
 
-                    root.findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+                    initProgress(jwt)
                 }
                 is Resource.Error -> {
                     hideProgressCircular(progressCircular)
@@ -88,6 +88,29 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                             Log.e(TAG, "SERVER ERROR")
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private fun initProgress(jwt: String) = with(binding) {
+        loginViewModel.getProgressStatus(jwt)
+
+        loginViewModel.progressStatusResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+                    when (response.data?.status) {
+                        "PROFILE" -> root.findNavController().navigate(R.id.action_loginFragment_to_selectFamilyTypeFragment)
+                        "GROUP" -> root.findNavController().navigate(R.id.action_loginFragment_to_createPetFragment)
+                        else -> root.findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+                    }
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(progressCircular)
                 }
             }
         }

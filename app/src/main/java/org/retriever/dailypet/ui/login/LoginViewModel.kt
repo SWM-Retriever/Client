@@ -21,6 +21,9 @@ class LoginViewModel @Inject constructor(
     private val _loginResponse = MutableLiveData<Resource<LoginResponse>>()
     val loginResponse: LiveData<Resource<LoginResponse>> = _loginResponse
 
+    private val _progressStatusResponse = MutableLiveData<Resource<ProgressStatusResponse>>()
+    val progressStatusResponse: LiveData<Resource<ProgressStatusResponse>> = _progressStatusResponse
+
     private val _nickNameResponse = MutableLiveData<Resource<ResponseBody>>()
     val nickNameResponse: LiveData<Resource<ResponseBody>> = _nickNameResponse
 
@@ -40,6 +43,12 @@ class LoginViewModel @Inject constructor(
         _loginResponse.postValue(Resource.Loading())
 
         _loginResponse.postValue(loginRepository.postIsMember(member))
+    }
+
+    fun getProgressStatus(jwt: String) = viewModelScope.launch {
+        _progressStatusResponse.postValue(Resource.Loading())
+
+        _progressStatusResponse.postValue(loginRepository.getProgressStatus(jwt))
     }
 
     fun postCheckProfileNickname(nickName: String) = viewModelScope.launch {

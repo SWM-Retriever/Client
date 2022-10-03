@@ -15,6 +15,12 @@
         <action
             android:id="@+id/action_loginFragment_to_termOfServiceFragment"
             app:destination="@id/termOfServiceFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_selectFamilyTypeFragment"
+            app:destination="@id/selectFamilyTypeFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_createPetFragment"
+            app:destination="@id/createPetFragment" />
     </fragment>
     <fragment
         android:id="@+id/termOfServiceFragment"

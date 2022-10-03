@@ -10,7 +10,11 @@ import javax.inject.Inject
 
 class LoginRepository @Inject constructor(private val loginApiService: LoginApiService) : BaseRepo() {
 
-    suspend fun postIsMember(member: Member): Resource<LoginResponse> = safeApiCall { loginApiService.postIsMember(member) }
+    suspend fun postIsMember(member: Member): Resource<LoginResponse> =
+        safeApiCall { loginApiService.postIsMember(member) }
+
+    suspend fun getProgressStatus(jwt : String) : Resource<ProgressStatusResponse> =
+        safeApiCall { loginApiService.getProgressStatus(jwt) }
 
     suspend fun postCheckProfileNickname(nickname: String): Resource<ResponseBody> =
         safeApiCall { loginApiService.postCheckProfileNickname(nickname) }

@@ -12,6 +12,9 @@ interface LoginApiService {
     @POST("api/v1/auth/login")
     suspend fun postIsMember(@Body member: Member): Response<LoginResponse>
 
+    @GET("api/v1/progress-status")
+    suspend fun getProgressStatus(@Header("X-AUTH-TOKEN") jwt : String) : Response<ProgressStatusResponse>
+
     @Headers("accept: application/json", "content-type: application/json")
     @POST("/api/v1/validation/nickname")
     suspend fun postCheckProfileNickname(@Body nickName: String): Response<ResponseBody>
@@ -38,7 +41,7 @@ interface LoginApiService {
     @POST("api/v1/validation/families/{familyId}/pet-name")
     suspend fun postCheckPetName(
         @Path("familyId") familyId: Int,
-        @Header("X-AUTH_TOKEN") jwt: String,
+        @Header("X-AUTH-TOKEN") jwt: String,
         @Body petName: String
     ): Response<ResponseBody>
 

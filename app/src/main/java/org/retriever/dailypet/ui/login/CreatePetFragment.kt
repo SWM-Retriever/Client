@@ -251,9 +251,11 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         if (submit) {
             btnPetSubmit.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
             btnPetSubmit.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            btnPetSubmit.isClickable = true
         } else {
             btnPetSubmit.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
             btnPetSubmit.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
+            btnPetSubmit.isClickable = false
         }
     }
 

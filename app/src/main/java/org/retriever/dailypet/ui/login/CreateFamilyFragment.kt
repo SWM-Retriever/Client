@@ -167,10 +167,12 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
         return if (isValidGroupName && isValidRoleName) {
             binding.btnCreate.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
             binding.btnCreate.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.btnCreate.isClickable = true
             true
         } else {
             binding.btnCreate.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
             binding.btnCreate.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
+            binding.btnCreate.isClickable = false
             false
         }
     }
