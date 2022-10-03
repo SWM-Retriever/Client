@@ -12,7 +12,7 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import org.retriever.dailypet.GlobalApplication
-import org.retriever.dailypet.MainActivity
+import org.retriever.dailypet.ui.main.MainActivity
 import org.retriever.dailypet.R
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {

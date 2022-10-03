@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import com.google.android.material.datepicker.MaterialDatePicker
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -28,8 +29,11 @@ import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreatePetBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.ui.bottomsheet.FragmentCameraSheet
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
@@ -39,6 +43,8 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     private var bitmap: Bitmap? = null
 
+    private var datePicker : MaterialDatePicker<Long>? = null
+
     private var isValidPetName = false
     private var dog = false
     private var cat = false
@@ -47,7 +53,6 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     private var dontKnow = false
     private var submit = false
 
-    //TODO 캘린더다이얼로그
     private val galleryResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -141,6 +146,10 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
             submitCheck()
         }
 
+        editTextBirth.setOnClickListener {
+            showDatePicker()
+        }
+
         btnDontknow.setOnClickListener {
             dontKnow != dontKnow
             btnDontknow.isSelected = dontKnow
@@ -214,6 +223,24 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         loginViewModel.postCheckPetName(familyId, jwt, petName)
     }
 
+    private fun showDatePicker(){
+        datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText(getString(R.string.input_pet_birth_text))
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .build()
+
+        datePicker?.apply {
+            show(this@CreatePetFragment.requireActivity().supportFragmentManager, datePicker.toString())
+            addOnPositiveButtonClickListener {
+                val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(it)
+                binding.editTextBirth.text = date
+            }
+            addOnNegativeButtonClickListener {
+                dismiss()
+            }
+        }
+    }
+
     private fun initPetNameView() = with(binding) {
         loginViewModel.petNameResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
@@ -277,6 +304,12 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         override fun writeTo(sink: BufferedSink) {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 99, sink.outputStream())
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        datePicker = null
     }
 
     companion object {

@@ -11,6 +11,7 @@ import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import org.retriever.dailypet.databinding.ActivityRegisterCareBinding
+import org.retriever.dailypet.ui.main.MainActivity
 
 class RegisterCareActivity : AppCompatActivity() {
     private lateinit var binding : ActivityRegisterCareBinding

@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.login
+package org.retriever.dailypet.ui.bottomsheet
 
 import android.os.Bundle
 import android.view.LayoutInflater
