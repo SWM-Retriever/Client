@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.retriever.dailypet.R
-import org.retriever.dailypet.databinding.FragmentCameraSheetBinding
+import org.retriever.dailypet.databinding.BottomSheetCameraBinding
 
-class FragmentCameraSheet(val itemClick : (Int) -> Unit) : BottomSheetDialogFragment() {
+class CameraBottomSheet(val itemClick: (Int) -> Unit) : BottomSheetDialogFragment() {
 
-  private lateinit var binding : FragmentCameraSheetBinding
+    private lateinit var binding: BottomSheetCameraBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +19,7 @@ class FragmentCameraSheet(val itemClick : (Int) -> Unit) : BottomSheetDialogFrag
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentCameraSheetBinding.inflate(inflater, container, false)
+        binding = BottomSheetCameraBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -30,7 +30,7 @@ class FragmentCameraSheet(val itemClick : (Int) -> Unit) : BottomSheetDialogFrag
         buttonClick()
     }
 
-    private fun buttonClick() = with(binding){
+    private fun buttonClick() = with(binding) {
         exitButton.setOnClickListener {
             dismiss()
         }

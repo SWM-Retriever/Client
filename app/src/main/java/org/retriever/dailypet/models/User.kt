@@ -1,7 +1,7 @@
 package org.retriever.dailypet.models
 
 import com.google.gson.annotations.SerializedName
-import org.retriever.dailypet.model.login.RegisterProfile
+import org.retriever.dailypet.model.signup.profile.RegisterProfile
 
 data class GetTest(
     @SerializedName("message")

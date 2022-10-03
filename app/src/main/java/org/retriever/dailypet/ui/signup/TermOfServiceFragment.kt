@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.login
+package org.retriever.dailypet.ui.signup
 
 import android.graphics.Color
 import android.os.Bundle

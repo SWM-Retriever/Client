@@ -1,4 +1,4 @@
-package org.retriever.dailypet.model.login
+package org.retriever.dailypet.model.signup.profile
 
 import android.os.Parcelable
 import com.squareup.moshi.Json

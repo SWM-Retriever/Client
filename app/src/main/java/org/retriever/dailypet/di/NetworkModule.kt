@@ -11,8 +11,12 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.retriever.dailypet.BuildConfig.BASE_URL
 import org.retriever.dailypet.data.network.login.LoginApiService
 import org.retriever.dailypet.data.network.mypage.MyPageApiService
+import org.retriever.dailypet.data.network.signup.FamilyApiInterface
+import org.retriever.dailypet.data.network.signup.PetApiService
+import org.retriever.dailypet.data.network.signup.ProfileApiService
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -56,6 +60,24 @@ object NetworkModule {
     @Singleton
     fun provideLoginApiService(retrofit: Retrofit): LoginApiService {
         return retrofit.create(LoginApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProfileApiService(retrofit: Retrofit) : ProfileApiService{
+        return retrofit.create(ProfileApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFamilyApiService(retrofit: Retrofit) : FamilyApiInterface{
+        return retrofit.create(FamilyApiInterface::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providePetApiService(retrofit: Retrofit) : PetApiService{
+        return retrofit.create(PetApiService::class.java)
     }
 
     @Provides

@@ -15,34 +15,9 @@ interface LoginApiService {
     @GET("api/v1/progress-status")
     suspend fun getProgressStatus(@Header("X-AUTH-TOKEN") jwt : String) : Response<ProgressStatusResponse>
 
-    @Headers("accept: application/json", "content-type: application/json")
-    @POST("/api/v1/validation/nickname")
-    suspend fun postCheckProfileNickname(@Body nickName: String): Response<ResponseBody>
 
-    @Multipart
-    @POST("api/v1/auth/sign-up")
-    suspend fun postProfile(
-        @Part("dto") registerProfile: RegisterProfile,
-        @Part image: MultipartBody.Part?,
-    ): Response<RegisterProfileResponse>
 
-    @POST("api/v1/validation/family-name")
-    suspend fun postCheckFamilyName(
-        @Header("X-AUTH-TOKEN") jwt: String,
-        @Body familyName: String,
-    ): Response<ResponseBody>
 
-    @POST("api/v1/family")
-    suspend fun postFamily(
-        @Header("X-AUTH-TOKEN") jwt: String,
-        @Body familyInfo: FamilyInfo,
-    ): Response<FamilyResponse>
 
-    @POST("api/v1/validation/families/{familyId}/pet-name")
-    suspend fun postCheckPetName(
-        @Path("familyId") familyId: Int,
-        @Header("X-AUTH-TOKEN") jwt: String,
-        @Body petName: String
-    ): Response<ResponseBody>
 
 }

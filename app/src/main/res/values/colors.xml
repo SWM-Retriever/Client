@@ -18,4 +18,5 @@
     <color name="fail_red">#E50205</color>
     <color name="success_blue">#0CB564</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="black_500">#222222</color>
 </resources>

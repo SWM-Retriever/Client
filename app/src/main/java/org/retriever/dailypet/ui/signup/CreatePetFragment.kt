@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.login
+package org.retriever.dailypet.ui.signup
 
 import android.Manifest
 import android.app.Activity
@@ -29,7 +29,8 @@ import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreatePetBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
-import org.retriever.dailypet.ui.bottomsheet.FragmentCameraSheet
+import org.retriever.dailypet.ui.bottomsheet.CameraBottomSheet
+import org.retriever.dailypet.ui.signup.viewmodel.PetViewModel
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 import java.text.SimpleDateFormat
@@ -37,13 +38,13 @@ import java.util.*
 
 class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
-    private val loginViewModel by activityViewModels<LoginViewModel>()
+    private val petViewModel by activityViewModels<PetViewModel>()
 
     private val jwt = GlobalApplication.prefs.jwt ?: ""
 
     private var bitmap: Bitmap? = null
 
-    private var datePicker : MaterialDatePicker<Long>? = null
+    private var datePicker: MaterialDatePicker<Long>? = null
 
     private var isValidPetName = false
     private var dog = false
@@ -179,7 +180,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     }
 
     private fun showBottomSheetDialog() {
-        val cameraSheetFragment = FragmentCameraSheet {
+        val cameraSheetFragment = CameraBottomSheet {
             when (it) {
                 0 -> takePicture()
                 1 -> openGallery()
@@ -220,10 +221,10 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     private fun checkValidPetName(petName: String) {
         val familyId = GlobalApplication.prefs.familyId
-        loginViewModel.postCheckPetName(familyId, jwt, petName)
+        petViewModel.postCheckPetName(familyId, jwt, petName)
     }
 
-    private fun showDatePicker(){
+    private fun showDatePicker() {
         datePicker = MaterialDatePicker.Builder.datePicker()
             .setTitleText(getString(R.string.input_pet_birth_text))
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
@@ -242,7 +243,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     }
 
     private fun initPetNameView() = with(binding) {
-        loginViewModel.petNameResponse.observe(viewLifecycleOwner) { response ->
+        petViewModel.petNameResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
                     showProgressCircular(progressCircular)

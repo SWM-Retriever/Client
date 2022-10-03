@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.login
+package org.retriever.dailypet.ui.signup
 
 import android.Manifest.permission.*
 import android.app.Activity.RESULT_OK
@@ -31,13 +31,15 @@ import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreateProfileBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
-import org.retriever.dailypet.ui.bottomsheet.FragmentCameraSheet
+import org.retriever.dailypet.ui.bottomsheet.CameraBottomSheet
+import org.retriever.dailypet.ui.login.LoginViewModel
+import org.retriever.dailypet.ui.signup.viewmodel.ProfileViewModel
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 
 class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
-    private val loginViewModel by activityViewModels<LoginViewModel>()
+    private val profileViewModel by activityViewModels<ProfileViewModel>()
 
     private var bitmap: Bitmap? = null
     private var isValidNickname: Boolean = false
@@ -87,7 +89,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
     }
 
     private fun initNickNameView() = with(binding) {
-        loginViewModel.nickNameResponse.observe(viewLifecycleOwner) { response ->
+        profileViewModel.nickNameResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
                     showProgressCircular(progressCircular)
@@ -124,7 +126,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
     }
 
     private fun initProfileView() = with(binding) {
-        loginViewModel.registerProfileResponse.observe(viewLifecycleOwner) { response ->
+        profileViewModel.registerProfileResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
                     showProgressCircular(progressCircular)
@@ -174,7 +176,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
     }
 
     private fun showBottomSheetDialog() {
-        val cameraSheetFragment = FragmentCameraSheet {
+        val cameraSheetFragment = CameraBottomSheet {
             when (it) {
                 0 -> takePicture()
                 1 -> openGallery()
@@ -223,7 +225,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
             btnCreateProfileSubmit.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
             isValidNickname = false
         } else {
-            loginViewModel.postCheckProfileNickname(nickName)
+            profileViewModel.postCheckProfileNickname(nickName)
         }
     }
 
@@ -234,7 +236,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
         val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
         val multiPartBody = MultipartBody.Part.createFormData("image", "image", bitmapRequestBody)
 
-        loginViewModel.postProfile(registerProfile, multiPartBody)
+        profileViewModel.postProfile(registerProfile, multiPartBody)
     }
 
     companion object {

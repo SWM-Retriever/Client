@@ -26,7 +26,7 @@ import org.retriever.dailypet.databinding.FragmentLoginBinding
 import org.retriever.dailypet.loginWithKakao
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.login.Member
-import org.retriever.dailypet.model.login.RegisterProfile
+import org.retriever.dailypet.model.signup.profile.RegisterProfile
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular

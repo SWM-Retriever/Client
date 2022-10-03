@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.login
+package org.retriever.dailypet.ui.signup
 
 import android.os.Bundle
 import android.text.Editable
@@ -14,14 +14,15 @@ import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreateFamilyBinding
 import org.retriever.dailypet.model.Resource
-import org.retriever.dailypet.model.login.FamilyInfo
+import org.retriever.dailypet.model.signup.family.FamilyInfo
 import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.ui.signup.viewmodel.FamilyViewModel
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 
 class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
 
-    private val loginViewModel by activityViewModels<LoginViewModel>()
+    private val familyViewModel by activityViewModels<FamilyViewModel>()
 
     private val jwt = GlobalApplication.prefs.jwt ?: ""
 
@@ -47,7 +48,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
     }
 
     private fun initCheckFamilyName() = with(binding) {
-        loginViewModel.familyNameResponse.observe(viewLifecycleOwner) { response ->
+        familyViewModel.familyNameResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
                     showProgressCircular(progressCircular)
@@ -82,7 +83,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
     }
 
     private fun initPostFamilyInfo() = with(binding) {
-        loginViewModel.registerFamilyResponse.observe(viewLifecycleOwner) { response ->
+        familyViewModel.registerFamilyResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
                     showProgressCircular(progressCircular)
@@ -160,7 +161,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
     }
 
     private fun checkValidGroupName(groupName: String) {
-        loginViewModel.postCheckFamilyName(jwt, groupName)
+        familyViewModel.postCheckFamilyName(jwt, groupName)
     }
 
     private fun submitCheck(): Boolean {
@@ -182,7 +183,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
         val roleName = editTextGroupNickname.text.toString()
         val familyInfo = FamilyInfo(familyName, roleName)
 
-        loginViewModel.postFamily(jwt, familyInfo)
+        familyViewModel.postFamily(jwt, familyInfo)
     }
 
     companion object {
