@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_navigation_graph"
+    app:startDestination="@id/loginFragment">
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="org.retriever.dailypet.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_loginFragment_to_termOfServiceFragment"
+            app:destination="@id/termOfServiceFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_selectFamilyTypeFragment"
+            app:destination="@id/selectFamilyTypeFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_createPetFragment"
+            app:destination="@id/createPetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/termOfServiceFragment"
+        android:name="org.retriever.dailypet.ui.signup.TermOfServiceFragment"
+        android:label="fragment_term_of_service"
+        tools:layout="@layout/fragment_term_of_service" >
+        <action
+            android:id="@+id/action_termOfServiceFragment_to_createProfileFragment"
+            app:destination="@id/createProfileFragment" />
+        <argument
+            android:name="registerProfile"
+            app:argType="org.retriever.dailypet.model.signup.profile.RegisterProfile" />
+    </fragment>
+    <fragment
+        android:id="@+id/createProfileFragment"
+        android:name="org.retriever.dailypet.ui.signup.CreateProfileFragment"
+        android:label="fragment_create_profile"
+        tools:layout="@layout/fragment_create_profile" >
+        <action
+            android:id="@+id/action_createProfileFragment_to_selectFamilyTypeFragment"
+            app:destination="@id/selectFamilyTypeFragment" />
+        <argument
+            android:name="registerProfile"
+            app:argType="org.retriever.dailypet.model.signup.profile.RegisterProfile" />
+    </fragment>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="org.retriever.dailypet.ui.main.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/selectFamilyTypeFragment"
+        android:name="org.retriever.dailypet.ui.signup.SelectFamilyTypeFragment"
+        android:label="fragment_select_family_type"
+        tools:layout="@layout/fragment_select_family_type" >
+        <action
+            android:id="@+id/action_selectFamilyTypeFragment_to_familyEntranceFragment"
+            app:destination="@id/familyEntranceFragment" />
+        <action
+            android:id="@+id/action_selectFamilyTypeFragment_to_createPetFragment"
+            app:destination="@id/createPetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/familyEntranceFragment"
+        android:name="org.retriever.dailypet.ui.signup.FamilyEntranceFragment"
+        android:label="fragment_family_entrance"
+        tools:layout="@layout/fragment_family_entrance" >
+        <action
+            android:id="@+id/action_familyEntranceFragment_to_createFamilyFragment"
+            app:destination="@id/createFamilyFragment" />
+        <action
+            android:id="@+id/action_familyEntranceFragment_to_findGroupFragment"
+            app:destination="@id/findGroupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createFamilyFragment"
+        android:name="org.retriever.dailypet.ui.signup.CreateFamilyFragment"
+        android:label="fragment_create_family"
+        tools:layout="@layout/fragment_create_family" >
+        <action
+            android:id="@+id/action_createFamilyFragment_to_createPetFragment"
+            app:destination="@id/createPetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/findGroupFragment"
+        android:name="org.retriever.dailypet.ui.signup.FindGroupFragment"
+        android:label="fragment_find_group"
+        tools:layout="@layout/fragment_find_group" >
+        <action
+            android:id="@+id/action_findGroupFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/creationCompleteFragment"
+        android:name="org.retriever.dailypet.ui.signup.CreationCompleteFragment"
+        android:label="fragment_creation_complete"
+        tools:layout="@layout/fragment_creation_complete" >
+        <action
+            android:id="@+id/action_creationCompleteFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPetFragment"
+        android:name="org.retriever.dailypet.ui.signup.CreatePetFragment"
+        android:label="CreatePetFragment" >
+        <action
+            android:id="@+id/action_createPetFragment_to_creationCompleteFragment"
+            app:destination="@id/creationCompleteFragment" />
+    </fragment>
+</navigation>

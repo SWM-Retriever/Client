@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MyPageFragment">
+    tools:context=".ui.main.MyPageFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,13 +14,27 @@
             android:id="@+id/btn_logout"
             android:layout_width="91dp"
             android:layout_height="39dp"
-            android:layout_marginBottom="36dp"
+            android:layout_marginBottom="84dp"
             android:backgroundTint="#817777"
             android:text="로그아웃"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.95"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btn_withdrawal"
+            android:layout_width="91dp"
+            android:layout_height="39dp"
+            android:layout_marginBottom="28dp"
+            android:backgroundTint="#817777"
+            android:text="회원탈퇴"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_logout"
+            app:layout_constraintVertical_bias="0.882" />
 
         <TextView
             android:id="@+id/title"

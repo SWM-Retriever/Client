@@ -5,16 +5,15 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import org.retriever.dailypet.MainActivity
+import org.retriever.dailypet.GlobalApplication
+import org.retriever.dailypet.ui.main.MainActivity
 import org.retriever.dailypet.R
-import org.retriever.dailypet.models.App
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -24,7 +23,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         Log.d(TAG, "new Token: $token")
         // 토큰 값을 따로 저장해둔다.
-        App.prefs.setString("deviceToken",token)
+        GlobalApplication.prefs.deviceToken = token
         Log.i("로그: ", "성공적으로 토큰을 저장함")
     }
 
@@ -35,13 +34,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // remoteMessage.notification?.body!! 여기에 내용이 저장되어있다.
         // Log.d(TAG, "Notification Message Body: " + remoteMessage.notification?.body!!)
 
-        if(message.data.isNotEmpty()){
+        if (message.data.isNotEmpty()) {
             Log.i("바디: ", message.data["body"].toString())
             Log.i("타이틀: ", message.data["title"].toString())
             sendNotification(message)
-        }
-
-        else {
+        } else {
             Log.i("수신에러: ", "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
             Log.i("data값: ", message.data.toString())
         }

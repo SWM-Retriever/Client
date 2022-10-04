@@ -16,4 +16,12 @@
         <item name="fontFamily">@font/noto_sans_kr_bold</item>
         <item name="android:textSize">14dp</item>
     </style>
+
+    <style name="BottomSheetDialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/bottomSheetBackground</item>
+    </style>
+    <style name="bottomSheetBackground" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/camera_modal_bottom_sheet_background</item>
+    </style>
+
 </resources>
