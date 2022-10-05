@@ -15,13 +15,14 @@ import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.BottomSheetBreedBinding
 import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.signup.pet.Breed
 import org.retriever.dailypet.ui.signup.adapter.BreedAdapter
 import org.retriever.dailypet.ui.signup.viewmodel.PetViewModel
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 
 @AndroidEntryPoint
-class BreedBottomSheet(val itemClick : (String) -> Unit) : BottomSheetDialogFragment() {
+class BreedBottomSheet(val itemClick : (Breed) -> Unit) : BottomSheetDialogFragment() {
 
     private val petViewModel by activityViewModels<PetViewModel>()
 
@@ -66,7 +67,7 @@ class BreedBottomSheet(val itemClick : (String) -> Unit) : BottomSheetDialogFrag
         }
 
         breedAdapter.onItemClick = {
-            itemClick(it.petKindName)
+            itemClick(it)
             dismiss()
         }
     }

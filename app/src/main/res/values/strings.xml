@@ -18,7 +18,7 @@
     <string name="get_photo_text">사진 가져오기</string>
     <string name="invalid_groupname_text">올바른 그룹 이름을 입력해주세요.</string>
     <string name="valid_groupname_text">사용가능한 그룹 이름입니다.</string>
-    <string name="already_used_groupname_text">이미 사용중인 그룹이름입니다.\n다른 이름을 사용해주세요.</string>
+    <string name="already_used_groupname_text">이미 사용중인 그룹이름입니다. 다른 이름을 사용해주세요.</string>
     <string name="invalid_petname_text">올바른 반려동물 이름을 입력해주세요.</string>
     <string name="valid_petname_text">사용가능한 반려동물 이름입니다.</string>
     <string name="already_used_petname_text">그룹에 이미 존재하는 반려동물 이름입니다.</string>

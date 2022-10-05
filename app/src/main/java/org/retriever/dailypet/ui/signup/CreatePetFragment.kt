@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
@@ -28,6 +29,9 @@ import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreatePetBinding
 import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.signup.family.FamilyInfo
+import org.retriever.dailypet.model.signup.pet.PetInfo
+import org.retriever.dailypet.model.signup.pet.PetResponse
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.bottomsheet.BreedBottomSheet
 import org.retriever.dailypet.ui.bottomsheet.CameraBottomSheet
@@ -52,6 +56,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     private var cat = false
     private var male = false
     private var female = false
+    private var petKindId = -1
     private var dontKnow = false
     private var submit = false
 
@@ -92,6 +97,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         initProgressCircular()
         buttonClick()
         initPetNameView()
+        initPetView()
     }
 
     private fun initProgressCircular() {
@@ -169,14 +175,14 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         btnPetSubmit.setOnClickListener {
             if (submit) {
                 val name = edittextPetName.text.toString()
-                val type = if (dog) "Dog" else "Cat"
-                val sex = if (male) "Male" else "Female"
+                val type = if (dog) "DOG" else "CAT"
+                val sex = if (male) "MALE" else "FEMALE"
                 val birth = editTextBirth.text.toString()
                 val breed = editTextBreed.text.toString()
                 val weight = edittextWeight.text.toString().toFloat()
                 val neutral = radioNeutral.isChecked
                 val registerNum = edittextRegisterNum.text.toString()
-                postPetInfo(name, type, sex, birth, breed, weight, neutral, registerNum)
+                postPetInfo(name, type, sex, birth, petKindId, weight, neutral, registerNum)
             } else {
                 Toast.makeText(requireContext(), "필수항목을 모두 작성해주세요", Toast.LENGTH_SHORT).show()
             }
@@ -253,7 +259,8 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     private fun showBreedBottomSheetDialog() {
         val breedSheetFragment = BreedBottomSheet { breed ->
-            binding.editTextBreed.text = breed
+            binding.editTextBreed.text = breed.petKindName
+            petKindId = breed.petKindId
         }
 
         val bundle = Bundle()
@@ -290,6 +297,35 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         }
     }
 
+    private fun initPetView() = with(binding){
+        petViewModel.petResponse.observe(viewLifecycleOwner){ response ->
+            when(response){
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+
+                    val petResponse = response.data?.let {
+                        PetResponse(
+                            familyId = it.familyId,
+                            familyName = response.data.familyName,
+                            familyRoleName = response.data.familyRoleName,
+                            petList = response.data.petList,
+                            invitationCode = response.data.invitationCode
+                        )
+                    }
+
+                    val action = CreatePetFragmentDirections.actionCreatePetFragmentToCreationCompleteFragment(petResponse!!)
+                    root.findNavController().navigate(action)
+                }
+                is Resource.Error -> {
+                    Toast.makeText(requireContext(), "반려동물 등록에 실패하였습니다", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
     private fun submitCheck() = with(binding) {
         val name = isValidPetName
         val type = dog || cat
@@ -310,16 +346,16 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     }
 
     private fun postPetInfo(
-        name: String, type: String, sex: String, birth: String, breed: String,
+        name: String, type: String, sex: String, birth: String, petKindId: Int,
         weight: Float, neutral: Boolean, registerNumber: String
     ) {
-        var bitmapMultipartBody: MultipartBody.Part? = null
-        bitmap?.let {
-            val bitmapRequestBody = BitmapRequestBody(it)
-            bitmapMultipartBody = MultipartBody.Part.createFormData("image", "petImage", bitmapRequestBody)
-        }
 
-        //TODO POST 등록하기 해야함
+        val familyId = GlobalApplication.prefs.familyId
+        val petInfo = PetInfo(name, type, sex, birth, petKindId, weight, neutral, registerNumber)
+        val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
+        val multiPartBody = MultipartBody.Part.createFormData("image", "image", bitmapRequestBody)
+
+        petViewModel.postPet(familyId, jwt, petInfo, multiPartBody)
     }
 
     inner class BitmapRequestBody(private val bitmap: Bitmap) : RequestBody() {

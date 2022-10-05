@@ -101,6 +101,9 @@
         <action
             android:id="@+id/action_creationCompleteFragment_to_mainActivity"
             app:destination="@id/mainActivity" />
+        <argument
+            android:name="petResponse"
+            app:argType="org.retriever.dailypet.model.signup.pet.PetResponse" />
     </fragment>
     <fragment
         android:id="@+id/createPetFragment"
