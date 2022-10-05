@@ -104,11 +104,15 @@
         <argument
             android:name="petResponse"
             app:argType="org.retriever.dailypet.model.signup.pet.PetResponse" />
+        <action
+            android:id="@+id/action_creationCompleteFragment_to_createPetFragment"
+            app:destination="@id/createPetFragment" />
     </fragment>
     <fragment
         android:id="@+id/createPetFragment"
         android:name="org.retriever.dailypet.ui.signup.CreatePetFragment"
-        android:label="CreatePetFragment" >
+        android:label="CreatePetFragment"
+        tools:layout="@layout/fragment_create_pet">
         <action
             android:id="@+id/action_createPetFragment_to_creationCompleteFragment"
             app:destination="@id/creationCompleteFragment" />

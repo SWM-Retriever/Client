@@ -99,12 +99,11 @@
 
     <TextView
         android:id="@+id/text_validate"
-        android:layout_width="197dp"
-        android:layout_height="28dp"
+        android:layout_width="355dp"
+        android:layout_height="22dp"
         android:layout_marginTop="16dp"
         android:textColor="#505050"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.121"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_groupName" />
 

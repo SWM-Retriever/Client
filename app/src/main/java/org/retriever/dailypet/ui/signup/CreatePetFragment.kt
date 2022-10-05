@@ -9,6 +9,7 @@ import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -94,6 +95,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //TODO 넘어갈떄 백스택에 petfragment를 지우고 넘어가기
         initProgressCircular()
         buttonClick()
         initPetNameView()
@@ -316,8 +318,10 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
                         )
                     }
 
-                    val action = CreatePetFragmentDirections.actionCreatePetFragmentToCreationCompleteFragment(petResponse!!)
-                    root.findNavController().navigate(action)
+                    if(submit) {
+                        val action = CreatePetFragmentDirections.actionCreatePetFragmentToCreationCompleteFragment(petResponse!!)
+                        root.findNavController().navigate(action)
+                    }
                 }
                 is Resource.Error -> {
                     Toast.makeText(requireContext(), "반려동물 등록에 실패하였습니다", Toast.LENGTH_SHORT).show()
@@ -354,7 +358,6 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         val petInfo = PetInfo(name, type, sex, birth, petKindId, weight, neutral, registerNumber)
         val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
         val multiPartBody = MultipartBody.Part.createFormData("image", "image", bitmapRequestBody)
-
         petViewModel.postPet(familyId, jwt, petInfo, multiPartBody)
     }
 
