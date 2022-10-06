@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import org.retriever.dailypet.R
@@ -27,12 +28,12 @@ class TermOfServiceFragment : BaseFragment<FragmentTermOfServiceBinding>() {
 
     private fun buttonClick() = with(binding) {
 
-        btnNext.setOnClickListener {
-            if (check1.isChecked && check2.isChecked) {
+        nextButton.setOnClickListener {
+            if (firstCheck.isChecked && secondCheck.isChecked) {
                 val args: TermOfServiceFragmentArgs by navArgs()
                 val registerProfile = args.registerProfile
-                registerProfile.isProfileInformationAgree = check3.isChecked
-                registerProfile.isPushAgree = check4.isChecked
+                registerProfile.isProfileInformationAgree = thirdCheck.isChecked
+                registerProfile.isPushAgree = fourthCheck.isChecked
 
                 val action = TermOfServiceFragmentDirections.actionTermOfServiceFragmentToCreateProfileFragment(registerProfile)
                 root.findNavController().navigate(action)
@@ -43,14 +44,14 @@ class TermOfServiceFragment : BaseFragment<FragmentTermOfServiceBinding>() {
         }
 
         checkAll.setOnClickListener { onCheckChanged(checkAll) }
-        check1.setOnClickListener { onCheckChanged(check1) }
-        check2.setOnClickListener { onCheckChanged(check2) }
-        check3.setOnClickListener { onCheckChanged(check3) }
-        check4.setOnClickListener { onCheckChanged(check4) }
+        firstCheck.setOnClickListener { onCheckChanged(firstCheck) }
+        secondCheck.setOnClickListener { onCheckChanged(secondCheck) }
+        thirdCheck.setOnClickListener { onCheckChanged(thirdCheck) }
+        fourthCheck.setOnClickListener { onCheckChanged(fourthCheck) }
 
         //TODO 약관보기 나중에 해야함
 
-        imgbtnBack.setOnClickListener {
+        backButton.setOnClickListener {
             root.findNavController().popBackStack()
         }
     }
@@ -59,30 +60,30 @@ class TermOfServiceFragment : BaseFragment<FragmentTermOfServiceBinding>() {
         when (checkBox.id) {
             checkAll.id -> {
                 if (checkAll.isChecked) {
-                    check1.isChecked = true
-                    check2.isChecked = true
-                    check3.isChecked = true
-                    check4.isChecked = true
+                    firstCheck.isChecked = true
+                    secondCheck.isChecked = true
+                    thirdCheck.isChecked = true
+                    fourthCheck.isChecked = true
                 } else {
-                    check1.isChecked = false
-                    check2.isChecked = false
-                    check3.isChecked = false
-                    check4.isChecked = false
+                    firstCheck.isChecked = false
+                    secondCheck.isChecked = false
+                    thirdCheck.isChecked = false
+                    fourthCheck.isChecked = false
                 }
             }
             else -> {
-                checkAll.isChecked = (check1.isChecked
-                        && check2.isChecked
-                        && check3.isChecked
-                        && check4.isChecked)
+                checkAll.isChecked = (firstCheck.isChecked
+                        && secondCheck.isChecked
+                        && thirdCheck.isChecked
+                        && fourthCheck.isChecked)
             }
         }
-        if (check1.isChecked && check2.isChecked) {
-            btnNext.setBackgroundColor(resources.getColor(R.color.main_blue))
-            btnNext.setTextColor(Color.WHITE)
+        if (firstCheck.isChecked && secondCheck.isChecked) {
+            nextButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
+            nextButton.setTextColor(Color.WHITE)
         } else {
-            btnNext.setBackgroundColor(resources.getColor(R.color.light_grey))
-            btnNext.setTextColor(Color.BLACK)
+            nextButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.light_grey))
+            nextButton.setTextColor(Color.BLACK)
         }
     }
 

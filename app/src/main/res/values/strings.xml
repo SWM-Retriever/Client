@@ -32,4 +32,11 @@
     <string name="login_slogan_text">스마트한 반려동물 케어의 시작</string>
     <string name="login_sub_slogan_text">우리의 가족 반려동물, 매일매일 케어해보세요</string>
     <string name="version_text">ver 1.00</string>
+    <string name="agree_terms_text">약관 동의하기</string>
+    <string name="all_agree_text">모두 동의합니다.</string>
+    <string name="first_check_text">[필수] 반려하루 서비스 이용약관</string>
+    <string name="second_check_text">[필수] 개인정보 수집 및 이용약관</string>
+    <string name="third_check_text">[선택] 프로필 정보 추가 수집 동의</string>
+    <string name="fourth_check_text">[선택] 광고성 푸시알람 수신 동의</string>
+    <string name="next_button_text">다음</string>
 </resources>

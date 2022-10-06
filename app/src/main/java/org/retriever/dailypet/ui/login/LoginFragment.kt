@@ -55,41 +55,43 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private fun initLogin() = with(binding) {
         hideProgressCircular(binding.progressCircular)
 
-        loginViewModel.loginResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success -> {
-                    hideProgressCircular(progressCircular)
+        loginViewModel.loginResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
 
-                    val jwt = response.data?.jwtToken ?: ""
-                    val familyId = response.data?.familyId ?: -1
-                    val petIdList = response.data?.petIdList ?: listOf()
+                        val jwt = response.data?.jwtToken ?: ""
+                        val familyId = response.data?.familyId ?: -1
+                        val petIdList = response.data?.petIdList ?: listOf()
 
-                    saveSharedPreference(jwt, familyId, petIdList)
-                    initProgress(jwt)
-                }
-                is Resource.Error -> {
-                    hideProgressCircular(progressCircular)
-                    when (response.code) {
-                        CODE_NEW_MEMBER -> {
-                            val registerProfile = RegisterProfile(
-                                nickname = name,
-                                email = email,
-                                domain = domain,
-                                deviceToken = getDeviceToken()
-                            )
+                        saveSharedPreference(jwt, familyId, petIdList)
+                        initProgress(jwt)
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                        when (response.code) {
+                            CODE_NEW_MEMBER -> {
+                                val registerProfile = RegisterProfile(
+                                    nickname = name,
+                                    email = email,
+                                    domain = domain,
+                                    deviceToken = getDeviceToken()
+                                )
 
-                            val action = LoginFragmentDirections.actionLoginFragmentToTermOfServiceFragment(registerProfile)
-                            root.findNavController().navigate(action)
-                        }
-                        CODE_OTHER_DOMAIN -> {
-                            Toast.makeText(requireContext(), "다른 SNS로 가입된 이메일입니다\n가입된 SNS로 로그인해주세요", Toast.LENGTH_SHORT).show()
-                        }
-                        CODE_ERROR -> {
-                            Toast.makeText(requireContext(), "API 서버 에러", Toast.LENGTH_SHORT).show()
-                            Log.e(TAG, "SERVER ERROR")
+                                val action = LoginFragmentDirections.actionLoginFragmentToTermOfServiceFragment(registerProfile)
+                                root.findNavController().navigate(action)
+                            }
+                            CODE_OTHER_DOMAIN -> {
+                                Toast.makeText(requireContext(), "다른 SNS로 가입된 이메일입니다\n가입된 SNS로 로그인해주세요", Toast.LENGTH_SHORT).show()
+                            }
+                            CODE_ERROR -> {
+                                Toast.makeText(requireContext(), "API 서버 에러", Toast.LENGTH_SHORT).show()
+                                Log.e(TAG, "SERVER ERROR")
+                            }
                         }
                     }
                 }
@@ -97,7 +99,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
     }
 
-    private fun saveSharedPreference(jwt : String, familyId : Int, petIdList : List<Int>){
+    private fun saveSharedPreference(jwt: String, familyId: Int, petIdList: List<Int>) {
         GlobalApplication.prefs.jwt = jwt
         GlobalApplication.prefs.familyId = familyId
 
@@ -111,21 +113,23 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private fun initProgress(jwt: String) = with(binding) {
         loginViewModel.getProgressStatus(jwt)
 
-        loginViewModel.progressStatusResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success -> {
-                    hideProgressCircular(progressCircular)
-                    when (response.data?.status) {
-                        "PROFILE" -> root.findNavController().navigate(R.id.action_loginFragment_to_selectFamilyTypeFragment)
-                        "GROUP" -> root.findNavController().navigate(R.id.action_loginFragment_to_createPetFragment)
-                        else -> root.findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+        loginViewModel.progressStatusResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
                     }
-                }
-                is Resource.Error -> {
-                    hideProgressCircular(progressCircular)
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        when (response.data?.status) {
+                            "PROFILE" -> root.findNavController().navigate(R.id.action_loginFragment_to_selectFamilyTypeFragment)
+                            "GROUP" -> root.findNavController().navigate(R.id.action_loginFragment_to_createPetFragment)
+                            else -> root.findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+                        }
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                    }
                 }
             }
         }
