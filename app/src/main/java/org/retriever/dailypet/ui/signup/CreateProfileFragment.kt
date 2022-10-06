@@ -32,9 +32,9 @@ import org.retriever.dailypet.databinding.FragmentCreateProfileBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.bottomsheet.CameraBottomSheet
-import org.retriever.dailypet.ui.login.LoginViewModel
 import org.retriever.dailypet.ui.signup.viewmodel.ProfileViewModel
 import org.retriever.dailypet.util.hideProgressCircular
+import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
 
 class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
@@ -56,7 +56,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
                     MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, it)
                 }
                 bitmap = Bitmap.createScaledBitmap(bitmap!!, 300, 300, true)
-                binding.imgCreateProfilePhoto.setImageBitmap(bitmap)
+                binding.profilePhotoImageview.setImageBitmap(bitmap)
             }
         }
     }
@@ -67,7 +67,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
         if (result.resultCode == RESULT_OK) {
             bitmap = result.data?.extras?.get("data") as Bitmap
             bitmap = Bitmap.createScaledBitmap(bitmap!!, 300, 300, true)
-            binding.imgCreateProfilePhoto.setImageBitmap(bitmap)
+            binding.profilePhotoImageview.setImageBitmap(bitmap)
         }
     }
 
@@ -96,11 +96,12 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
                 }
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
-                    textProfileNicknameValidate.text = resources.getString(R.string.valid_nickname_text)
-                    textProfileNicknameValidate.setTextColor(ContextCompat.getColor(requireContext(), R.color.success_blue))
-                    textCreateProfileNickname.background = ContextCompat.getDrawable(requireContext(), R.drawable.success_edittext)
-                    btnCreateProfileSubmit.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
-                    btnCreateProfileSubmit.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                    validateNicknameText.text = resources.getString(R.string.valid_nickname_text)
+                    validateNicknameText.setTextColor(ContextCompat.getColor(requireContext(), R.color.success_blue))
+                    profileNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
+                    registerCompleteButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
+                    registerCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                    registerCompleteButton.isClickable = true
                     isValidNickname = true
                 }
                 is Resource.Error -> {
@@ -108,11 +109,12 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
                     when (response.code) {
                         CODE_INVALID_NICKNAME -> {
-                            binding.textProfileNicknameValidate.text = resources.getString(R.string.already_used_nickname_text)
-                            textProfileNicknameValidate.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
-                            textCreateProfileNickname.background = ContextCompat.getDrawable(requireContext(), R.drawable.fail_edittext)
-                            btnCreateProfileSubmit.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
-                            btnCreateProfileSubmit.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
+                            validateNicknameText.text = resources.getString(R.string.already_used_nickname_text)
+                            validateNicknameText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
+                            profileNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
+                            registerCompleteButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
+                            registerCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_light_grey))
+                            registerCompleteButton.isClickable = false
                             isValidNickname = false
                         }
                         CODE_FAIL -> {
@@ -149,17 +151,17 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
     private fun buttonClick() = with(binding) {
 
-        btnCreateProfileLoad.setOnClickListener {
+        createProfilePhotoButton.setOnClickListener {
             showBottomSheetDialog()
         }
 
-        btnProfileNicknameCheck.setOnClickListener {
-            val nickname = textCreateProfileNickname.text.toString()
+        profileNicknameCheckButton.setOnClickListener {
+            val nickname = profileNicknameEdittext.text.toString()
             checkValidNickName(nickname)
         }
 
-        btnCreateProfileSubmit.setOnClickListener {
-            val nickname = textCreateProfileNickname.text.toString()
+        registerCompleteButton.setOnClickListener {
+            val nickname = profileNicknameEdittext.text.toString()
             checkValidNickName(nickname)
 
             if (isValidNickname) {
@@ -169,7 +171,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
             }
         }
 
-        imgbtnBack.setOnClickListener {
+        backButton.setOnClickListener {
             root.findNavController().popBackStack()
         }
 
@@ -218,11 +220,11 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
     private fun checkValidNickName(nickName: String) = with(binding) {
         if (nickName.isBlank()) {
-            textProfileNicknameValidate.text = resources.getString(R.string.invalid_nickname_text)
-            textProfileNicknameValidate.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
-            textCreateProfileNickname.background = ContextCompat.getDrawable(requireContext(), R.drawable.fail_edittext)
-            btnCreateProfileSubmit.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
-            btnCreateProfileSubmit.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
+            validateNicknameText.text = resources.getString(R.string.invalid_nickname_text)
+            validateNicknameText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
+            profileNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
+            registerCompleteButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
+            registerCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_light_grey))
             isValidNickname = false
         } else {
             profileViewModel.postCheckProfileNickname(nickName)
