@@ -44,4 +44,11 @@
     <string name="nickname_hint_text">닉네임을 입력해주세요</string>
     <string name="overlap_check_text">중복확인</string>
     <string name="register_complete_text">등록완료</string>
+    <string name="select_group_type_text">그룹 유형 선택</string>
+    <string name="select_group_sub_type_text">반려동물 양육 유형을 선택해주세요</string>
+    <string name="select_alone_text">\n혼자 키워요</string>
+    <string name="alone_comment_text">1인가구 또는 반려동물을\n혼자서 케어하는 분에게\n적합한 유형이에요!</string>
+    <string name="select_group_text">\n함께 키워요</string>
+    <string name="group_comment_text">1인 이상의 가족 또는\n반려동물을 함께 케어하는\n분에게 적합한 유형이에요!</string>
+    <string name="choose_complete_text">선택하기</string>
 </resources>

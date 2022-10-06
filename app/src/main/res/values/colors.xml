@@ -21,4 +21,5 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="black_500">#222222</color>
     <color name="light_light_grey">#CCCCCC</color>
+    <color name="unselected_circle_background_color">#DDDDDD</color>
 </resources>

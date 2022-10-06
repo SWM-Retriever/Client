@@ -6,155 +6,151 @@
     android:layout_height="match_parent"
     tools:context=".ui.signup.SelectFamilyTypeFragment">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_select_type"
-        android:layout_width="360dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/grey_button"
-        android:text="선택하기"
-        android:textColor="@color/grey"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
-        app:layout_constraintStart_toStartOf="parent" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/right_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
 
     <TextView
-        android:id="@+id/text_title"
-        android:layout_width="139dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
-        android:lineSpacingExtra="8sp"
-        android:text="그룹 유형 선택"
-        android:textAlignment="textStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:id="@+id/select_group_type_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/select_group_type_text"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_selectAlone"
-        android:layout_width="167dp"
-        android:layout_height="242dp"
-        android:layout_marginStart="16dp"
-        android:background="@drawable/btn_click"
-        android:text="\n혼자 키워요"
-        android:textColor="@drawable/text_click"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_selectFamiilyMain"
-        app:layout_constraintVertical_bias="0.123">
-
-    </androidx.appcompat.widget.AppCompatButton>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_selectGroup"
-        android:layout_width="167dp"
-        android:layout_height="242dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/btn_click"
-        android:text="\n함께 키워요"
-        android:textColor="@drawable/text_click"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_selectFamiilyMain"
-        app:layout_constraintVertical_bias="0.124">
-
-    </androidx.appcompat.widget.AppCompatButton>
-
     <TextView
-        android:id="@+id/text_selectFamiilyMain"
-        android:layout_width="219dp"
-        android:layout_height="25dp"
-        android:lineSpacingExtra="8sp"
-        android:text="반려동물 양육 유형을 선택해주세요"
-        android:textAlignment="viewStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:id="@+id/select_group_sub_type_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/select_group_sub_type_text"
+        android:textColor="@color/light_black"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.083"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_title" />
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/select_group_type_text" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/select_alone_button"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="7dp"
+        android:background="@drawable/btn_click"
+        android:text="@string/select_alone_text"
+        android:textColor="@drawable/text_click"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/select_group_button"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/select_group_sub_type_text" />
+
+    <ImageView
+        android:id="@+id/alone_image_circle"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/gray_circle_background"
+        app:layout_constraintEnd_toEndOf="@id/select_alone_button"
+        app:layout_constraintStart_toStartOf="@id/select_alone_button"
+        app:layout_constraintTop_toTopOf="@id/select_alone_button" />
+
+    <ImageView
+        android:id="@+id/alone_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_alone"
+        app:layout_constraintBottom_toBottomOf="@+id/alone_image_circle"
+        app:layout_constraintEnd_toEndOf="@+id/alone_image_circle"
+        app:layout_constraintStart_toStartOf="@+id/alone_image_circle"
+        app:layout_constraintTop_toTopOf="@+id/alone_image_circle" />
 
     <TextView
-        android:id="@+id/text_aloneComment"
-        android:layout_width="146dp"
-        android:layout_height="69dp"
-        android:layout_marginBottom="4dp"
-        android:lineSpacingExtra="8sp"
-        android:text="1인가구 또는 반려동물을\n혼자서 케어하는 분에게\n적합한 유형이에요!"
+        android:id="@+id/alone_comment_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/alone_comment_text"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/light_black"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_selectAlone"
-        app:layout_constraintEnd_toEndOf="@+id/btn_selectAlone"
-        app:layout_constraintHorizontal_bias="0.428"
-        app:layout_constraintStart_toStartOf="@+id/btn_selectAlone" />
+        app:layout_constraintBottom_toBottomOf="@+id/select_alone_button"
+        app:layout_constraintEnd_toEndOf="@+id/select_alone_button"
+        app:layout_constraintStart_toStartOf="@+id/select_alone_button" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/select_group_button"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/btn_click"
+        android:text="@string/select_group_text"
+        android:textColor="@drawable/text_click"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintStart_toEndOf="@id/select_alone_button"
+        app:layout_constraintTop_toBottomOf="@+id/select_group_sub_type_text" />
 
     <TextView
-        android:id="@+id/text_groupComment"
-        android:layout_width="146dp"
-        android:layout_height="69dp"
-        android:layout_marginBottom="4dp"
-        android:lineSpacingExtra="8sp"
-        android:text="1인 이상의 가족 또는\n반려동물을 함께 케어하는\n분에게 적합한 유형이에요!"
+        android:id="@+id/group_comment_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/group_comment_text"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/light_black"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_selectGroup"
-        app:layout_constraintEnd_toEndOf="@+id/btn_selectGroup"
-        app:layout_constraintHorizontal_bias="0.428"
-        app:layout_constraintStart_toStartOf="@+id/btn_selectGroup" />
+        app:layout_constraintBottom_toBottomOf="@+id/select_group_button"
+        app:layout_constraintEnd_toEndOf="@+id/select_group_button"
+        app:layout_constraintStart_toStartOf="@+id/select_group_button" />
+
 
     <ImageView
-        android:id="@+id/img_alone"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:id="@+id/group_image_circle"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/btn_selectAlone"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="@+id/btn_selectAlone"
-        app:layout_constraintTop_toTopOf="@+id/btn_selectAlone"
-        app:srcCompat="@drawable/icon_greycircle" />
+        app:layout_constraintEnd_toEndOf="@+id/select_group_button"
+        app:layout_constraintStart_toStartOf="@+id/select_group_button"
+        app:layout_constraintTop_toTopOf="@+id/select_group_button"
+        app:srcCompat="@drawable/gray_circle_background" />
 
     <ImageView
-        android:id="@+id/img_group"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/btn_selectGroup"
-        app:layout_constraintHorizontal_bias="0.528"
-        app:layout_constraintStart_toStartOf="@+id/btn_selectGroup"
-        app:layout_constraintTop_toTopOf="@+id/btn_selectGroup"
-        app:srcCompat="@drawable/icon_greycircle" />
-
-    <ImageView
-        android:id="@+id/icon_alone"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="@+id/img_alone"
-        app:layout_constraintEnd_toEndOf="@+id/img_alone"
-        app:layout_constraintStart_toStartOf="@+id/img_alone"
-        app:layout_constraintTop_toTopOf="@+id/img_alone"
-        app:srcCompat="@drawable/icon_alone" />
-
-    <ImageView
-        android:id="@+id/icon_group"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="@+id/img_group"
-        app:layout_constraintEnd_toEndOf="@+id/img_group"
-        app:layout_constraintStart_toStartOf="@+id/img_group"
-        app:layout_constraintTop_toTopOf="@+id/img_group"
+        android:id="@+id/group_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/group_image_circle"
+        app:layout_constraintEnd_toEndOf="@+id/group_image_circle"
+        app:layout_constraintStart_toStartOf="@+id/group_image_circle"
+        app:layout_constraintTop_toTopOf="@+id/group_image_circle"
         app:srcCompat="@drawable/icon_group" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/choose_complete_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/grey_button"
+        android:text="@string/choose_complete_text"
+        android:textColor="@color/light_light_grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
