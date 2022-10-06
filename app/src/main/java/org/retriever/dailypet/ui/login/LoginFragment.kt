@@ -10,8 +10,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.gson.Gson
-import com.google.gson.JsonArray
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
@@ -145,40 +143,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun buttonClick() = with(binding) {
-        /* 카카오 로그인 버튼 */
-        btnKakaoLogin.setOnClickListener {
+
+        kakaoLoginButton.setOnClickListener {
             kakaoLogin()
         }
-        /* 네이버 로그인 버튼 */
-        btnNaverLogin.setOnClickListener {
+
+        naverLoginButton.setOnClickListener {
             naverLogin()
         }
-        /* 로그아웃 버튼 */
-        btnLogout.setOnClickListener {
-            GlobalApplication.prefs.initJwt()
-            // 카카오 로그아웃
-            if (com.kakao.sdk.auth.AuthApiClient.instance.hasToken()) {
-                UserApiClient.instance.logout { error ->
-                    if (error != null) {
-                        Log.e(TAG, "카카오 로그아웃 실패", error)
-                    } else {
-                        Toast.makeText(requireContext(), "로그아웃 되었습니다", Toast.LENGTH_SHORT).show()
-                        Log.d(TAG, "카카오 로그아웃 성공")
-                    }
-                }
-            }
-            // 네이버 로그아웃
-            NaverIdLoginSDK.logout()
-        }
 
-        /* 연동해제 버튼 */
-        btnUnlink.setOnClickListener {
-            GlobalApplication.prefs.initJwt()
-            // 카카오 연동해제
-            kakaoUnlink()
-            // 네이버 연동해제
-            naverUnlink()
-        }
     }
 
     private fun postIsMember(name: String, email: String, domain: String) {
