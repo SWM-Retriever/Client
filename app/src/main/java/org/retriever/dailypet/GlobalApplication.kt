@@ -3,11 +3,11 @@ package org.retriever.dailypet
 import android.app.Application
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import com.google.gson.JsonArray
 import com.kakao.sdk.common.KakaoSdk
 import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.HiltAndroidApp
 import org.json.JSONArray
+import org.retriever.dailypet.BuildConfig.*
 
 @HiltAndroidApp
 class GlobalApplication : Application() {
@@ -19,8 +19,8 @@ class GlobalApplication : Application() {
     override fun onCreate() {
         instance = this
         prefs = Prefs(applicationContext)
-        KakaoSdk.init(this, BuildConfig.KAKAO_NATIVE_APP_KEY)
-        NaverIdLoginSDK.initialize(this, BuildConfig.NAVER_CLIENT_ID, BuildConfig.NAVER_CLIENT_SECRET, "반려하루")
+        KakaoSdk.init(this, KAKAO_NATIVE_APP_KEY)
+        NaverIdLoginSDK.initialize(this, NAVER_CLIENT_ID, NAVER_CLIENT_SECRET, "반려하루")
         super.onCreate()
     }
 

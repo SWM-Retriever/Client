@@ -299,32 +299,32 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         }
     }
 
-    private fun initPetView() = with(binding){
-        petViewModel.petResponse.observe(viewLifecycleOwner){ response ->
-            when(response){
-                is Resource.Loading -> {
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success -> {
-                    hideProgressCircular(progressCircular)
-
-                    val petResponse = response.data?.let {
-                        PetResponse(
-                            familyId = it.familyId,
-                            familyName = response.data.familyName,
-                            familyRoleName = response.data.familyRoleName,
-                            petList = response.data.petList,
-                            invitationCode = response.data.invitationCode
-                        )
+    private fun initPetView() = with(binding) {
+        petViewModel.petResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
                     }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
 
-                    if(submit) {
+                        val petResponse = response.data?.let {
+                            PetResponse(
+                                familyId = it.familyId,
+                                familyName = response.data.familyName,
+                                familyRoleName = response.data.familyRoleName,
+                                petList = response.data.petList,
+                                invitationCode = response.data.invitationCode
+                            )
+                        }
+
                         val action = CreatePetFragmentDirections.actionCreatePetFragmentToCreationCompleteFragment(petResponse!!)
                         root.findNavController().navigate(action)
                     }
-                }
-                is Resource.Error -> {
-                    Toast.makeText(requireContext(), "반려동물 등록에 실패하였습니다", Toast.LENGTH_SHORT).show()
+                    is Resource.Error -> {
+                        Toast.makeText(requireContext(), "반려동물 등록에 실패하였습니다", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
