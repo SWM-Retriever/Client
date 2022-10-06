@@ -79,11 +79,11 @@ class TermOfServiceFragment : BaseFragment<FragmentTermOfServiceBinding>() {
             }
         }
         if (firstCheck.isChecked && secondCheck.isChecked) {
-            nextButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.main_blue))
-            nextButton.setTextColor(Color.WHITE)
+            nextButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
+            nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         } else {
-            nextButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.light_grey))
-            nextButton.setTextColor(Color.BLACK)
+            nextButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
+            nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_light_grey))
         }
     }
 

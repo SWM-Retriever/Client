@@ -16,169 +16,145 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/profile_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/icon_back"
+        app:layout_constraintStart_toStartOf="@id/profile_guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/profile_title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/profile_title_text"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_photo_imageview"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/img_default_profile"
+        app:civ_border_color="@color/main_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_title_text" />
+
+    <ImageButton
+        android:id="@+id/create_profile_photo_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/icon_camera"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_photo_imageview"
+        app:layout_constraintEnd_toEndOf="@+id/profile_photo_imageview" />
+
+
+    <TextView
+        android:id="@+id/profile_email_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/light_black"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_photo_imageview"
+        tools:text="dailypet@gmail.com" />
+
     <View
-        android:id="@+id/divide_createProfile"
-        android:layout_width="411dp"
+        android:id="@+id/divide_create_profile"
+        android:layout_width="0dp"
         android:layout_height="8dp"
         android:layout_marginTop="28dp"
         android:background="?android:attr/listDivider"
         android:backgroundTint="@color/dark_grey"
         android:backgroundTintMode="add"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_registerProfileEmail" />
-
-    <ImageButton
-        android:id="@+id/imgbtn_back"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.041"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/btn_arrow" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_email_text" />
 
     <TextView
-        android:id="@+id/text_title"
-        android:layout_width="166dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/noto_sans_kr_medium"
-        android:includeFontPadding="false"
-        android:text="프로필 등록"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/img_createProfilePhoto"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="32dp"
-        android:src="@drawable/img_default_profile"
-        app:civ_border_color="@color/main_blue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_title" />
-
-    <ImageButton
-        android:id="@+id/btn_createProfileLoad"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitCenter"
-        android:src="@drawable/img_camera"
-        app:layout_constraintBottom_toBottomOf="@+id/img_createProfilePhoto"
-        app:layout_constraintEnd_toEndOf="@+id/img_createProfilePhoto"
-        app:layout_constraintTop_toTopOf="@+id/img_createProfilePhoto"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/text_registerProfileEmail"
+        android:id="@+id/profile_nickname_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="dailypet@gmail.com"
-        android:textColor="#505050"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_registerProfileName" />
-
-    <TextView
-        android:id="@+id/text_profileNicknameValidate"
-        android:layout_width="197dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="20dp"
-        android:textColor="#505050"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.116"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_createProfileNickname" />
-
-    <TextView
-        android:id="@+id/text_registerProfileName"
-        android:layout_width="68dp"
-        android:layout_height="19dp"
         android:layout_marginTop="24dp"
-        android:text="이름"
-        android:textAlignment="center"
-        android:textColor="#505050"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_createProfilePhoto" />
-
+        android:text="@string/profile_nickname_text"
+        android:textColor="@color/light_black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/profile_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/divide_create_profile" />
 
     <EditText
-        android:id="@+id/text_createProfileNickname"
-        android:layout_width="358dp"
-        android:layout_height="61dp"
+        android:id="@+id/profile_nickname_edittext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/grey_blue_edittext"
-        android:hint="닉네임을 입력해주세요"
+        android:hint="@string/nickname_hint_text"
         android:maxLength="20"
+        android:padding="16dp"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.471"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_profileNickname" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_nickname_text" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_profileNicknameCheck"
-        android:layout_width="84dp"
-        android:layout_height="37dp"
+    <TextView
+        android:id="@+id/profile_nickname_check_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/light_blue_button"
-        android:text="중복확인"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="9dp"
+        android:text="@string/overlap_check_text"
         android:textColor="@color/main_blue"
         android:textSize="12sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/text_createProfileNickname"
-        app:layout_constraintEnd_toEndOf="@+id/text_createProfileNickname"
-        app:layout_constraintHorizontal_bias="0.948"
-        app:layout_constraintStart_toStartOf="@+id/text_createProfileNickname"
-        app:layout_constraintTop_toTopOf="@+id/text_createProfileNickname" />
+        app:layout_constraintBottom_toBottomOf="@+id/profile_nickname_edittext"
+        app:layout_constraintEnd_toEndOf="@+id/profile_nickname_edittext"
+        app:layout_constraintTop_toTopOf="@+id/profile_nickname_edittext" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_createProfileSubmit"
-        android:layout_width="328dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="28dp"
-        android:background="@drawable/grey_button"
-        android:text="등록완료"
-        android:textColor="#CCCCCC"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/text_profileNickname"
+        android:id="@+id/validate_nickname_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="닉네임"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.067"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divide_createProfile" />
+        android:layout_marginTop="20dp"
+        android:textColor="@color/validate_text_color"
+        app:layout_constraintStart_toStartOf="@id/profile_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/profile_nickname_edittext"
+        tools:text="올바른 닉네임을 입력해주세용" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline8"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/register_complete_button"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="775dp" />
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/grey_button"
+        android:text="@string/register_complete_text"
+        android:textColor="@color/light_light_grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
