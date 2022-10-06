@@ -101,6 +101,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
                     profileNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
                     registerCompleteButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
                     registerCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                    registerCompleteButton.isClickable = true
                     isValidNickname = true
                 }
                 is Resource.Error -> {
@@ -113,6 +114,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
                             profileNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
                             registerCompleteButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
                             registerCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_light_grey))
+                            registerCompleteButton.isClickable = false
                             isValidNickname = false
                         }
                         CODE_FAIL -> {

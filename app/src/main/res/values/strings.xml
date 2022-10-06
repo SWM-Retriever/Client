@@ -51,4 +51,9 @@
     <string name="select_group_text">\n함께 키워요</string>
     <string name="group_comment_text">1인 이상의 가족 또는\n반려동물을 함께 케어하는\n분에게 적합한 유형이에요!</string>
     <string name="choose_complete_text">선택하기</string>
+    <string name="create_family_title_text">그룹 생성하기</string>
+    <string name="group_name_text">그룹 이름</string>
+    <string name="group_name_hint">그룹 이름을 적어주세요</string>
+    <string name="group_nickname_text">그룹 내 닉네임</string>
+    <string name="group_nickname_hint">그룹 내 닉네임을 적어주세요</string>
 </resources>

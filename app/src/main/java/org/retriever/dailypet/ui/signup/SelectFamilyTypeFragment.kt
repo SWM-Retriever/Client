@@ -55,6 +55,7 @@ class SelectFamilyTypeFragment : BaseFragment<FragmentSelectFamilyTypeBinding>()
             groupImageCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey))
             chooseCompleteButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
             chooseCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            chooseCompleteButton.isClickable = true
         }
 
         selectGroupButton.setOnClickListener {
@@ -66,6 +67,7 @@ class SelectFamilyTypeFragment : BaseFragment<FragmentSelectFamilyTypeBinding>()
             groupImageCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.main_blue))
             chooseCompleteButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
             chooseCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            chooseCompleteButton.isClickable = true
         }
 
         chooseCompleteButton.setOnClickListener {

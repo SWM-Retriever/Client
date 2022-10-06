@@ -81,9 +81,11 @@ class TermOfServiceFragment : BaseFragment<FragmentTermOfServiceBinding>() {
         if (firstCheck.isChecked && secondCheck.isChecked) {
             nextButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
             nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            nextButton.isClickable = true
         } else {
             nextButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
             nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_light_grey))
+            nextButton.isClickable = false
         }
     }
 
