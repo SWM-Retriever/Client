@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
+import org.retriever.dailypet.Event
 import org.retriever.dailypet.data.repository.signup.PetRepository
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.signup.pet.BreedResponse
@@ -24,8 +25,8 @@ class PetViewModel @Inject constructor(private val petRepository: PetRepository)
     private val _petBreedList = MutableLiveData<Resource<BreedResponse>>()
     val petBreedList: LiveData<Resource<BreedResponse>> = _petBreedList
 
-    private val _petResponse = MutableLiveData<Resource<PetResponse>>()
-    val petResponse: LiveData<Resource<PetResponse>> = _petResponse
+    private val _petResponse = MutableLiveData<Event<Resource<PetResponse>>>()
+    val petResponse: LiveData<Event<Resource<PetResponse>>> = _petResponse
 
     fun postCheckPetName(familyId: Int, jwt: String, petName: String) = viewModelScope.launch {
         _petNameResponse.postValue(Resource.Loading())
@@ -40,9 +41,9 @@ class PetViewModel @Inject constructor(private val petRepository: PetRepository)
     }
 
     fun postPet(familyId: Int, jwt: String, petInfo: PetInfo, image: MultipartBody.Part?) = viewModelScope.launch {
-        _petResponse.postValue(Resource.Loading())
+        _petResponse.postValue(Event(Resource.Loading()))
 
-        _petResponse.postValue(petRepository.postPet(familyId, jwt, petInfo, image))
+        _petResponse.postValue(Event(petRepository.postPet(familyId, jwt, petInfo, image)))
     }
 
 }
