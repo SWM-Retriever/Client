@@ -55,10 +55,10 @@
         <entry key="app/src/main/res/layout/fragement_login.xml" value="0.24454895254382214" />
         <entry key="app/src/main/res/layout/fragment_calendar.xml" value="0.29713552800342025" />
         <entry key="app/src/main/res/layout/fragment_care.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_create_family.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_create_family.xml" value="0.24973602294921882" />
         <entry key="app/src/main/res/layout/fragment_create_pet.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_create_profile.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_creation_complete.xml" value="0.14322359982898675" />
+        <entry key="app/src/main/res/layout/fragment_creation_complete.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_diary.xml" value="0.20761559383499548" />
         <entry key="app/src/main/res/layout/fragment_family_entrance.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/layout/fragment_find_group.xml" value="0.14322359982898675" />

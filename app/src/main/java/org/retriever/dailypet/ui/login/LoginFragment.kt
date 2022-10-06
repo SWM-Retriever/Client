@@ -108,14 +108,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             jsonArray.put(id)
         }
         GlobalApplication.prefs.petIdList = jsonArray.toString()
-
-        //TODO  petIdList 가져오는 로직임
-        /*val abc = GlobalApplication.prefs.petIdList
-        val aaa = mutableListOf<Int>()
-        val test = JSONArray(abc)
-        for(i in 0 until test.length()){
-            aaa.add(test.optInt(i))
-        }*/
     }
 
     private fun initProgress(jwt: String) = with(binding) {

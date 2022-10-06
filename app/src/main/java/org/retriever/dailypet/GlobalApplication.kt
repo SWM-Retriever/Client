@@ -7,6 +7,7 @@ import com.google.gson.JsonArray
 import com.kakao.sdk.common.KakaoSdk
 import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.HiltAndroidApp
+import org.json.JSONArray
 
 @HiltAndroidApp
 class GlobalApplication : Application() {
@@ -49,7 +50,8 @@ class Prefs(context: Context) {
         }
 
     var petIdList: String?
-        get() = prefs.getString("petIdList", null)
+        get() = jsonToList(JSONArray(prefs.getString("petIdList", null))).toString()
+
         set(value) {
             prefs.edit().putString("petIdList", value).apply()
         }
@@ -68,6 +70,18 @@ class Prefs(context: Context) {
 
     fun initPetIdList() {
         prefs.edit().putString("petIdList", null).apply()
+    }
+
+    fun getPetIdList(): MutableList<Int> {
+        return jsonToList(JSONArray(prefs.getString("petIdList", null)))
+    }
+
+    private fun jsonToList(jsonArray: JSONArray): MutableList<Int> {
+        val list = mutableListOf<Int>()
+        for(i in 0 until jsonArray.length()){
+            list.add(jsonArray.optInt(i))
+        }
+        return list
     }
 
 }
