@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navigation_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="org.retriever.dailypet.ui.main.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/myPageFragment"
+        android:name="org.retriever.dailypet.ui.main.MyPageFragment"
+        android:label="MyPageFragment"
+        tools:layout="@layout/fragment_my_page" />
+
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="org.retriever.dailypet.ui.main.CalendarFragment"
+        android:label="CalendarFragment"
+        tools:layout="@layout/fragment_calendar" />
+
+    <fragment
+        android:id="@+id/diaryFragment"
+        android:name="org.retriever.dailypet.ui.main.DiaryFragment"
+        android:label="DiaryFragment"
+        tools:layout="@layout/fragment_diary" />
+
+</navigation>
