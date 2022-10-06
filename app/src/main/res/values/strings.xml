@@ -25,4 +25,8 @@
     <string name="input_pet_birth_text">반려동물의 생일을 선택해주세요.</string>
     <string name="breed_text">품종</string>
     <string name="breed_search_hint_text">품종을 검색하세요</string>
+    <string name="bottom_home_text">홈</string>
+    <string name="bottom_diary_text">반려일기</string>
+    <string name="bottom_calendar_text">반려일정</string>
+    <string name="bottom_mypage_text">마이페이지</string>
 </resources>
