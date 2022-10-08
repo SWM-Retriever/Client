@@ -30,10 +30,10 @@ class SelectFamilyTypeFragment : BaseFragment<FragmentSelectFamilyTypeBinding>()
         initCallBack()
     }
 
-    private fun initCallBack(){
-        onBackCallBack = object : OnBackPressedCallback(true){
+    private fun initCallBack() {
+        onBackCallBack = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                activity?.finish()
+                requireActivity().finish()
             }
         }
     }
@@ -44,44 +44,42 @@ class SelectFamilyTypeFragment : BaseFragment<FragmentSelectFamilyTypeBinding>()
         buttonClick()
     }
 
-    private fun buttonClick() = with(binding){
+    private fun buttonClick() = with(binding) {
 
-        btnSelectAlone.setOnClickListener{
+        selectAloneButton.setOnClickListener {
             alone = true
             group = false
-            btnSelectAlone.isSelected = true
-            btnSelectGroup.isSelected = false
-            imgAlone.setColorFilter(ContextCompat.getColor(requireContext(), R.color.main_blue))
-            imgGroup.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey))
-            btnSelectType.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
-            btnSelectType.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            selectAloneButton.isSelected = true
+            selectGroupButton.isSelected = false
+            aloneImageCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.main_blue))
+            groupImageCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey))
+            chooseCompleteButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
+            chooseCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            chooseCompleteButton.isClickable = true
         }
 
-        binding.btnSelectGroup.setOnClickListener{
+        selectGroupButton.setOnClickListener {
             alone = false
             group = true
-            btnSelectAlone.isSelected = false
-            btnSelectGroup.isSelected = true
-            imgAlone.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey))
-            imgGroup.setColorFilter(ContextCompat.getColor(requireContext(), R.color.main_blue))
-            btnSelectType.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
-            btnSelectType.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            selectAloneButton.isSelected = false
+            selectGroupButton.isSelected = true
+            aloneImageCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.grey))
+            groupImageCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.main_blue))
+            chooseCompleteButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
+            chooseCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            chooseCompleteButton.isClickable = true
         }
-        /* 선택 */
-        btnSelectType.setOnClickListener{
-            if(alone){
+
+        chooseCompleteButton.setOnClickListener {
+            if (alone) {
                 //TODO 가족생성 로직 처리하자
                 root.findNavController().navigate(R.id.action_selectFamilyTypeFragment_to_createPetFragment)
-            }
-            else if(group){
+            } else if (group) {
                 root.findNavController().navigate(R.id.action_selectFamilyTypeFragment_to_familyEntranceFragment)
-            }
-            else{
+            } else {
                 Toast.makeText(requireContext(), "양육 유형을 선택해주세요", Toast.LENGTH_SHORT).show()
             }
         }
-
-
 
     }
 

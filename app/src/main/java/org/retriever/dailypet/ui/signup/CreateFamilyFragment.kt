@@ -18,6 +18,7 @@ import org.retriever.dailypet.model.signup.family.FamilyInfo
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.signup.viewmodel.FamilyViewModel
 import org.retriever.dailypet.util.hideProgressCircular
+import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
 
 class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
@@ -55,9 +56,9 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
                 }
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
-                    textValidate.text = getString(R.string.valid_groupname_text)
-                    textValidate.setTextColor(ContextCompat.getColor(requireContext(), R.color.success_blue))
-                    editTextGroupName.background = ContextCompat.getDrawable(requireContext(), R.drawable.success_edittext)
+                    groupNameValidateText.text = getString(R.string.valid_groupname_text)
+                    groupNameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.success_blue))
+                    groupNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
                     isValidGroupName = true
                     submitCheck()
                 }
@@ -65,9 +66,9 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
                     hideProgressCircular(progressCircular)
                     when (response.code) {
                         INVALID_FAMILY_NAME -> {
-                            textValidate.text = getString(R.string.already_used_groupname_text)
-                            textValidate.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
-                            editTextGroupName.background = ContextCompat.getDrawable(requireContext(), R.drawable.fail_edittext)
+                            groupNameValidateText.text = getString(R.string.already_used_groupname_text)
+                            groupNameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
+                            groupNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
                             isValidGroupName = false
                             submitCheck()
                         }
@@ -111,17 +112,17 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
     }
 
     private fun initEditText() = with(binding) {
-        editTextGroupNickname.addTextChangedListener(object : TextWatcher {
+        groupNicknameEdittext.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
 
             override fun afterTextChanged(p0: Editable?) {
-                if (editTextGroupNickname.text.isNotBlank()) {
-                    editTextGroupNickname.background = ContextCompat.getDrawable(requireContext(), R.drawable.whiteblue_click_button)
-                    isValidRoleName = true
+                isValidRoleName = if (groupNicknameEdittext.text.isNotBlank()) {
+                    groupNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
+                    true
                 } else {
-                    editTextGroupNickname.background = ContextCompat.getDrawable(requireContext(), R.drawable.fail_edittext)
-                    isValidRoleName = true
+                    groupNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
+                    false
                 }
 
                 submitCheck()
@@ -132,13 +133,13 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
 
     private fun buttonClick() = with(binding) {
 
-        btnValidCheck.setOnClickListener {
-            val groupName = editTextGroupName.text.toString()
+        groupNameCheckText.setOnClickListener {
+            val groupName = groupNameEdittext.text.toString()
 
             if (groupName.isBlank()) {
-                textValidate.text = getString(R.string.invalid_nickname_text)
-                textValidate.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
-                editTextGroupName.background = ContextCompat.getDrawable(requireContext(), R.drawable.fail_edittext)
+                groupNameValidateText.text = getString(R.string.invalid_nickname_text)
+                groupNameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
+                groupNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
                 isValidGroupName = false
                 submitCheck()
             } else {
@@ -146,7 +147,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
             }
         }
 
-        btnCreate.setOnClickListener {
+        nextButton.setOnClickListener {
             if (submitCheck()) {
                 postFamilyInfo()
             } else {
@@ -154,7 +155,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
             }
         }
 
-        imgbtnBack.setOnClickListener {
+        backButton.setOnClickListener {
             root.findNavController().popBackStack()
         }
 
@@ -166,21 +167,21 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
 
     private fun submitCheck(): Boolean {
         return if (isValidGroupName && isValidRoleName) {
-            binding.btnCreate.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
-            binding.btnCreate.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            binding.btnCreate.isClickable = true
+            binding.nextButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
+            binding.nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.nextButton.isClickable = true
             true
         } else {
-            binding.btnCreate.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
-            binding.btnCreate.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
-            binding.btnCreate.isClickable = false
+            binding.nextButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
+            binding.nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_light_grey))
+            binding.nextButton.isClickable = false
             false
         }
     }
 
     private fun postFamilyInfo() = with(binding) {
-        val familyName = editTextGroupName.text.toString()
-        val roleName = editTextGroupNickname.text.toString()
+        val familyName = groupNameEdittext.text.toString()
+        val roleName = groupNicknameEdittext.text.toString()
         val familyInfo = FamilyInfo(familyName, roleName)
 
         familyViewModel.postFamily(jwt, familyInfo)

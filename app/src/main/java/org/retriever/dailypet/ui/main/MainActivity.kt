@@ -1,26 +1,30 @@
 package org.retriever.dailypet.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import dagger.hilt.android.AndroidEntryPoint
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.ActivityMainBinding
+import org.retriever.dailypet.ui.base.BaseActivity
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityMainBinding
+class MainActivity : BaseActivity<ActivityMainBinding>({ActivityMainBinding.inflate(it)}) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
-        navigationItemSelect()
+
+       // navigationItemSelect()
+        initBottomNavigation()
     }
 
-    private fun replaceFragment(id : Int, fragment: Fragment) {
+    private fun initBottomNavigation() {
+        NavigationUI.setupWithNavController(binding.bottomNavigation, findNavController(R.id.nav_host))
+    }
+
+   /* private fun replaceFragment(id : Int, fragment: Fragment) {
         val bundle = Bundle()
         val flag = intent.getIntExtra("flag", 0)
         bundle.putInt("flag",flag)
@@ -43,5 +47,5 @@ class MainActivity : AppCompatActivity() {
             }
             selectedItemId = R.id.action_home
         }
-    }
+    }*/
 }

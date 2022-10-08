@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.retriever.dailypet.Event
 import org.retriever.dailypet.data.repository.login.LoginRepository
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.login.LoginResponse
@@ -18,22 +19,22 @@ class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ) : ViewModel() {
 
-    private val _loginResponse = MutableLiveData<Resource<LoginResponse>>()
-    val loginResponse: LiveData<Resource<LoginResponse>> = _loginResponse
+    private val _loginResponse = MutableLiveData<Event<Resource<LoginResponse>>>()
+    val loginResponse: LiveData<Event<Resource<LoginResponse>>> = _loginResponse
 
-    private val _progressStatusResponse = MutableLiveData<Resource<ProgressStatusResponse>>()
-    val progressStatusResponse: LiveData<Resource<ProgressStatusResponse>> = _progressStatusResponse
+    private val _progressStatusResponse = MutableLiveData<Event<Resource<ProgressStatusResponse>>>()
+    val progressStatusResponse: LiveData<Event<Resource<ProgressStatusResponse>>> = _progressStatusResponse
 
     fun postIsMember(member: Member) = viewModelScope.launch {
-        _loginResponse.postValue(Resource.Loading())
+        _loginResponse.postValue(Event(Resource.Loading()))
 
-        _loginResponse.postValue(loginRepository.postIsMember(member))
+        _loginResponse.postValue(Event(loginRepository.postIsMember(member)))
     }
 
     fun getProgressStatus(jwt: String) = viewModelScope.launch {
-        _progressStatusResponse.postValue(Resource.Loading())
+        _progressStatusResponse.postValue(Event(Resource.Loading()))
 
-        _progressStatusResponse.postValue(loginRepository.getProgressStatus(jwt))
+        _progressStatusResponse.postValue(Event(loginRepository.getProgressStatus(jwt)))
     }
 
 }

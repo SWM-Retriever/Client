@@ -10,8 +10,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.gson.Gson
-import com.google.gson.JsonArray
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
@@ -57,41 +55,43 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private fun initLogin() = with(binding) {
         hideProgressCircular(binding.progressCircular)
 
-        loginViewModel.loginResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success -> {
-                    hideProgressCircular(progressCircular)
+        loginViewModel.loginResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
 
-                    val jwt = response.data?.jwtToken ?: ""
-                    val familyId = response.data?.familyId ?: -1
-                    val petIdList = response.data?.petIdList ?: listOf()
+                        val jwt = response.data?.jwtToken ?: ""
+                        val familyId = response.data?.familyId ?: -1
+                        val petIdList = response.data?.petIdList ?: listOf()
 
-                    saveSharedPreference(jwt, familyId, petIdList)
-                    initProgress(jwt)
-                }
-                is Resource.Error -> {
-                    hideProgressCircular(progressCircular)
-                    when (response.code) {
-                        CODE_NEW_MEMBER -> {
-                            val registerProfile = RegisterProfile(
-                                nickname = name,
-                                email = email,
-                                domain = domain,
-                                deviceToken = getDeviceToken()
-                            )
+                        saveSharedPreference(jwt, familyId, petIdList)
+                        initProgress(jwt)
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                        when (response.code) {
+                            CODE_NEW_MEMBER -> {
+                                val registerProfile = RegisterProfile(
+                                    nickname = name,
+                                    email = email,
+                                    domain = domain,
+                                    deviceToken = getDeviceToken()
+                                )
 
-                            val action = LoginFragmentDirections.actionLoginFragmentToTermOfServiceFragment(registerProfile)
-                            root.findNavController().navigate(action)
-                        }
-                        CODE_OTHER_DOMAIN -> {
-                            Toast.makeText(requireContext(), "다른 SNS로 가입된 이메일입니다\n가입된 SNS로 로그인해주세요", Toast.LENGTH_SHORT).show()
-                        }
-                        CODE_ERROR -> {
-                            Toast.makeText(requireContext(), "API 서버 에러", Toast.LENGTH_SHORT).show()
-                            Log.e(TAG, "SERVER ERROR")
+                                val action = LoginFragmentDirections.actionLoginFragmentToTermOfServiceFragment(registerProfile)
+                                root.findNavController().navigate(action)
+                            }
+                            CODE_OTHER_DOMAIN -> {
+                                Toast.makeText(requireContext(), "다른 SNS로 가입된 이메일입니다\n가입된 SNS로 로그인해주세요", Toast.LENGTH_SHORT).show()
+                            }
+                            CODE_ERROR -> {
+                                Toast.makeText(requireContext(), "API 서버 에러", Toast.LENGTH_SHORT).show()
+                                Log.e(TAG, "SERVER ERROR")
+                            }
                         }
                     }
                 }
@@ -99,7 +99,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
     }
 
-    private fun saveSharedPreference(jwt : String, familyId : Int, petIdList : List<Int>){
+    private fun saveSharedPreference(jwt: String, familyId: Int, petIdList: List<Int>) {
         GlobalApplication.prefs.jwt = jwt
         GlobalApplication.prefs.familyId = familyId
 
@@ -113,21 +113,23 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private fun initProgress(jwt: String) = with(binding) {
         loginViewModel.getProgressStatus(jwt)
 
-        loginViewModel.progressStatusResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success -> {
-                    hideProgressCircular(progressCircular)
-                    when (response.data?.status) {
-                        "PROFILE" -> root.findNavController().navigate(R.id.action_loginFragment_to_selectFamilyTypeFragment)
-                        "GROUP" -> root.findNavController().navigate(R.id.action_loginFragment_to_createPetFragment)
-                        else -> root.findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+        loginViewModel.progressStatusResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
                     }
-                }
-                is Resource.Error -> {
-                    hideProgressCircular(progressCircular)
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        when (response.data?.status) {
+                            "PROFILE" -> root.findNavController().navigate(R.id.action_loginFragment_to_selectFamilyTypeFragment)
+                            "GROUP" -> root.findNavController().navigate(R.id.action_loginFragment_to_createPetFragment)
+                            else -> root.findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+                        }
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                    }
                 }
             }
         }
@@ -145,40 +147,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun buttonClick() = with(binding) {
-        /* 카카오 로그인 버튼 */
-        btnKakaoLogin.setOnClickListener {
+
+        kakaoLoginButton.setOnClickListener {
             kakaoLogin()
         }
-        /* 네이버 로그인 버튼 */
-        btnNaverLogin.setOnClickListener {
+
+        naverLoginButton.setOnClickListener {
             naverLogin()
         }
-        /* 로그아웃 버튼 */
-        btnLogout.setOnClickListener {
-            GlobalApplication.prefs.initJwt()
-            // 카카오 로그아웃
-            if (com.kakao.sdk.auth.AuthApiClient.instance.hasToken()) {
-                UserApiClient.instance.logout { error ->
-                    if (error != null) {
-                        Log.e(TAG, "카카오 로그아웃 실패", error)
-                    } else {
-                        Toast.makeText(requireContext(), "로그아웃 되었습니다", Toast.LENGTH_SHORT).show()
-                        Log.d(TAG, "카카오 로그아웃 성공")
-                    }
-                }
-            }
-            // 네이버 로그아웃
-            NaverIdLoginSDK.logout()
-        }
 
-        /* 연동해제 버튼 */
-        btnUnlink.setOnClickListener {
-            GlobalApplication.prefs.initJwt()
-            // 카카오 연동해제
-            kakaoUnlink()
-            // 네이버 연동해제
-            naverUnlink()
-        }
     }
 
     private fun postIsMember(name: String, email: String, domain: String) {
