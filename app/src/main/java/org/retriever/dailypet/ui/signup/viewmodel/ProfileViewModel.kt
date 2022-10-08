@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
+import org.retriever.dailypet.Event
 import org.retriever.dailypet.data.repository.signup.ProfileRepository
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.signup.profile.RegisterProfile
@@ -20,8 +21,8 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
     private val _nickNameResponse = MutableLiveData<Resource<ResponseBody>>()
     val nickNameResponse: LiveData<Resource<ResponseBody>> = _nickNameResponse
 
-    private val _registerProfileResponse = MutableLiveData<Resource<RegisterProfileResponse>>()
-    val registerProfileResponse: LiveData<Resource<RegisterProfileResponse>> = _registerProfileResponse
+    private val _registerProfileResponse = MutableLiveData<Event<Resource<RegisterProfileResponse>>>()
+    val registerProfileResponse: LiveData<Event<Resource<RegisterProfileResponse>>> = _registerProfileResponse
 
     fun postCheckProfileNickname(nickName: String) = viewModelScope.launch {
         _nickNameResponse.postValue(Resource.Loading())
@@ -30,9 +31,9 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
     }
 
     fun postProfile(registerProfile: RegisterProfile, image: MultipartBody.Part?) = viewModelScope.launch {
-        _registerProfileResponse.postValue(Resource.Loading())
+        _registerProfileResponse.postValue(Event(Resource.Loading()))
 
-        _registerProfileResponse.postValue(profileRepository.postProfile(registerProfile, image))
+        _registerProfileResponse.postValue(Event(profileRepository.postProfile(registerProfile, image)))
     }
 
 }

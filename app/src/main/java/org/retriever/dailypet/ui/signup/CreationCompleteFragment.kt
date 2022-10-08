@@ -45,7 +45,6 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
     private fun buttonClick() = with(binding) {
 
         btnAdd.setOnClickListener {
-            //root.findNavController().navigate(R.id.action_creationCompleteFragment_to_createPetFragment)
             root.findNavController().popBackStack()
         }
 

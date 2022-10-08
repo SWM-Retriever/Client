@@ -1,6 +1,5 @@
 package org.retriever.dailypet.ui.signup
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,8 +23,8 @@ class SelectFamilyTypeFragment : BaseFragment<FragmentSelectFamilyTypeBinding>()
         return FragmentSelectFamilyTypeBinding.inflate(inflater, container, false)
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         initCallBack()
     }
@@ -83,8 +82,8 @@ class SelectFamilyTypeFragment : BaseFragment<FragmentSelectFamilyTypeBinding>()
 
     }
 
-    override fun onDetach() {
-        super.onDetach()
+    override fun onDestroy() {
+        super.onDestroy()
 
         onBackCallBack.remove()
     }
