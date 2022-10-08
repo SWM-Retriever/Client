@@ -30,17 +30,10 @@ class TermOfServiceFragment : BaseFragment<FragmentTermOfServiceBinding>() {
 
         nextButton.setOnClickListener {
             if (firstCheck.isChecked && secondCheck.isChecked) {
-                val args: TermOfServiceFragmentArgs by navArgs()
-                val registerProfile = args.registerProfile
-                registerProfile.isProfileInformationAgree = thirdCheck.isChecked
-                registerProfile.isPushAgree = fourthCheck.isChecked
-
-                val action = TermOfServiceFragmentDirections.actionTermOfServiceFragmentToCreateProfileFragment(registerProfile)
-                root.findNavController().navigate(action)
+                moveCreateProfileFragment()
             } else {
                 Toast.makeText(requireContext(), "필수 약관을 모두 동의해주세요", Toast.LENGTH_SHORT).show()
             }
-
         }
 
         checkAll.setOnClickListener { onCheckChanged(checkAll) }
@@ -56,19 +49,23 @@ class TermOfServiceFragment : BaseFragment<FragmentTermOfServiceBinding>() {
         }
     }
 
+    private fun moveCreateProfileFragment() = with(binding) {
+        val args: TermOfServiceFragmentArgs by navArgs()
+        val registerProfile = args.registerProfile
+        registerProfile.isProfileInformationAgree = thirdCheck.isChecked
+        registerProfile.isPushAgree = fourthCheck.isChecked
+
+        val action = TermOfServiceFragmentDirections.actionTermOfServiceFragmentToCreateProfileFragment(registerProfile)
+        root.findNavController().navigate(action)
+    }
+
     private fun onCheckChanged(checkBox: CheckBox) = with(binding) {
         when (checkBox.id) {
             checkAll.id -> {
                 if (checkAll.isChecked) {
-                    firstCheck.isChecked = true
-                    secondCheck.isChecked = true
-                    thirdCheck.isChecked = true
-                    fourthCheck.isChecked = true
+                    setAllCheckedTrue()
                 } else {
-                    firstCheck.isChecked = false
-                    secondCheck.isChecked = false
-                    thirdCheck.isChecked = false
-                    fourthCheck.isChecked = false
+                    setAllCheckedFalse()
                 }
             }
             else -> {
@@ -79,14 +76,36 @@ class TermOfServiceFragment : BaseFragment<FragmentTermOfServiceBinding>() {
             }
         }
         if (firstCheck.isChecked && secondCheck.isChecked) {
-            nextButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
-            nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            nextButton.isClickable = true
+            setNextButtonValid()
         } else {
-            nextButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
-            nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_light_grey))
-            nextButton.isClickable = false
+            setNextButtonInValid()
         }
+    }
+
+    private fun setAllCheckedTrue() = with(binding) {
+        firstCheck.isChecked = true
+        secondCheck.isChecked = true
+        thirdCheck.isChecked = true
+        fourthCheck.isChecked = true
+    }
+
+    private fun setAllCheckedFalse() = with(binding) {
+        firstCheck.isChecked = false
+        secondCheck.isChecked = false
+        thirdCheck.isChecked = false
+        fourthCheck.isChecked = false
+    }
+
+    private fun setNextButtonValid() = with(binding) {
+        nextButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
+        nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+        nextButton.isClickable = true
+    }
+
+    private fun setNextButtonInValid() = with(binding) {
+        nextButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
+        nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_light_grey))
+        nextButton.isClickable = false
     }
 
 }
