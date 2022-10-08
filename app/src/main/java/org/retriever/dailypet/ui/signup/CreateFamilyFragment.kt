@@ -58,6 +58,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
                     hideProgressCircular(progressCircular)
                     groupNameValidateText.text = getString(R.string.valid_groupname_text)
                     groupNameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.success_blue))
+                    groupNameValidateText.visibility = View.VISIBLE
                     groupNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
                     isValidGroupName = true
                     submitCheck()
@@ -68,6 +69,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
                         INVALID_FAMILY_NAME -> {
                             groupNameValidateText.text = getString(R.string.already_used_groupname_text)
                             groupNameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
+                            groupNameValidateText.visibility = View.VISIBLE
                             groupNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
                             isValidGroupName = false
                             submitCheck()
@@ -137,8 +139,9 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
             val groupName = groupNameEdittext.text.toString()
 
             if (groupName.isBlank()) {
-                groupNameValidateText.text = getString(R.string.invalid_nickname_text)
+                groupNameValidateText.text = getString(R.string.invalid_groupname_text)
                 groupNameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
+                groupNameValidateText.visibility = View.VISIBLE
                 groupNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
                 isValidGroupName = false
                 submitCheck()
