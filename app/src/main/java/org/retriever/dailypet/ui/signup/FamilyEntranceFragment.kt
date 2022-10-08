@@ -23,15 +23,15 @@ class FamilyEntranceFragment : BaseFragment<FragmentFamilyEntranceBinding>() {
 
     private fun buttonClick() = with(binding) {
 
-        btnCreate.setOnClickListener {
+        groupCreateButton.setOnClickListener {
             root.findNavController().navigate(R.id.action_familyEntranceFragment_to_createFamilyFragment)
         }
 
-        textInviteCode.setOnClickListener {
+        inviteCodeText.setOnClickListener {
             root.findNavController().navigate(R.id.action_familyEntranceFragment_to_findGroupFragment)
         }
 
-        imgbtnBack.setOnClickListener {
+        backButton.setOnClickListener {
             root.findNavController().popBackStack()
         }
 

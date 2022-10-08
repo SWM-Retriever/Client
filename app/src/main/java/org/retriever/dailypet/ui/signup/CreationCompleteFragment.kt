@@ -24,18 +24,18 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
         buttonClick()
     }
 
-    private fun initInfo() = with(binding){
-        val args : CreationCompleteFragmentArgs by navArgs()
+    private fun initInfo() = with(binding) {
+        val args: CreationCompleteFragmentArgs by navArgs()
         val petResponse = args.petResponse
-        textFamilyName.text = petResponse.familyName
-        textFamilyNickname.text = petResponse.familyRoleName
+        groupNameText.text = petResponse.familyName
+        groupNicknameText.text = petResponse.familyRoleName
         var petString = petResponse.petList[0].petName
-        if(petResponse.petList.size > 1){
-            for(i in 1 until petResponse.petList.size){
+        if (petResponse.petList.size > 1) {
+            for (i in 1 until petResponse.petList.size) {
                 petString += ", " + petResponse.petList[i].petName
             }
         }
-        textPetName.text = petString
+        groupPetNameText.text = petString
     }
 
     private fun initProgressCircular() {
@@ -44,14 +44,15 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
 
     private fun buttonClick() = with(binding) {
 
-        btnAdd.setOnClickListener {
-            //root.findNavController().navigate(R.id.action_creationCompleteFragment_to_createPetFragment)
+        petAddButton.setOnClickListener {
             root.findNavController().popBackStack()
         }
 
-        btnStart.setOnClickListener {
+        careStartButton.setOnClickListener {
             root.findNavController().navigate(R.id.action_creationCompleteFragment_to_mainActivity)
         }
+
+        //TODO 그룹초대 로직 구현
 
     }
 }

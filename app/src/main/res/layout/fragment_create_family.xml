@@ -100,6 +100,7 @@
         android:layout_marginTop="16dp"
         android:textAlignment="textStart"
         android:textColor="@color/validate_text_color"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/group_name_edittext"

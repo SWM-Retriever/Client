@@ -58,6 +58,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
                     hideProgressCircular(progressCircular)
                     groupNameValidateText.text = getString(R.string.valid_groupname_text)
                     groupNameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.success_blue))
+                    groupNameValidateText.visibility = View.VISIBLE
                     groupNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
                     isValidGroupName = true
                     submitCheck()
@@ -68,6 +69,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
                         INVALID_FAMILY_NAME -> {
                             groupNameValidateText.text = getString(R.string.already_used_groupname_text)
                             groupNameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
+                            groupNameValidateText.visibility = View.VISIBLE
                             groupNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
                             isValidGroupName = false
                             submitCheck()
@@ -84,28 +86,30 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
     }
 
     private fun initPostFamilyInfo() = with(binding) {
-        familyViewModel.registerFamilyResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success -> {
-                    hideProgressCircular(progressCircular)
-                    Toast.makeText(requireContext(), "그룹이 성공적으로 생성되었습니다", Toast.LENGTH_SHORT).show()
-                    GlobalApplication.prefs.familyId = response.data?.familyId ?: -1
-                    root.findNavController().navigate(R.id.action_createFamilyFragment_to_createPetFragment)
-                }
-                is Resource.Error -> {
-                    hideProgressCircular(progressCircular)
-                    when (response.code) {
-                        FAILED_FAMILY -> {
-                            Toast.makeText(requireContext(), "그룹 생성에 실패하였습니다", Toast.LENGTH_SHORT).show()
-                        }
-                        CODE_ERROR -> {
-                            Toast.makeText(requireContext(), "서버 오류가 발생하였습니다.", Toast.LENGTH_SHORT).show()
-                        }
+        familyViewModel.registerFamilyResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
                     }
-                    submitCheck()
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        Toast.makeText(requireContext(), "그룹이 성공적으로 생성되었습니다", Toast.LENGTH_SHORT).show()
+                        GlobalApplication.prefs.familyId = response.data?.familyId ?: -1
+                        root.findNavController().navigate(R.id.action_createFamilyFragment_to_createPetFragment)
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                        when (response.code) {
+                            FAILED_FAMILY -> {
+                                Toast.makeText(requireContext(), "그룹 생성에 실패하였습니다", Toast.LENGTH_SHORT).show()
+                            }
+                            CODE_ERROR -> {
+                                Toast.makeText(requireContext(), "서버 오류가 발생하였습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        submitCheck()
+                    }
                 }
             }
         }
@@ -137,8 +141,9 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
             val groupName = groupNameEdittext.text.toString()
 
             if (groupName.isBlank()) {
-                groupNameValidateText.text = getString(R.string.invalid_nickname_text)
+                groupNameValidateText.text = getString(R.string.invalid_groupname_text)
                 groupNameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
+                groupNameValidateText.visibility = View.VISIBLE
                 groupNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
                 isValidGroupName = false
                 submitCheck()

@@ -9,17 +9,18 @@ import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
@@ -30,7 +31,6 @@ import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreatePetBinding
 import org.retriever.dailypet.model.Resource
-import org.retriever.dailypet.model.signup.family.FamilyInfo
 import org.retriever.dailypet.model.signup.pet.PetInfo
 import org.retriever.dailypet.model.signup.pet.PetResponse
 import org.retriever.dailypet.ui.base.BaseFragment
@@ -38,6 +38,7 @@ import org.retriever.dailypet.ui.bottomsheet.BreedBottomSheet
 import org.retriever.dailypet.ui.bottomsheet.CameraBottomSheet
 import org.retriever.dailypet.ui.signup.viewmodel.PetViewModel
 import org.retriever.dailypet.util.hideProgressCircular
+import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
 import java.text.SimpleDateFormat
 import java.util.*
@@ -46,20 +47,17 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     private val petViewModel by activityViewModels<PetViewModel>()
 
+    private lateinit var onBackCallBack: OnBackPressedCallback
+
     private val jwt = GlobalApplication.prefs.jwt ?: ""
 
     private var bitmap: Bitmap? = null
 
     private var datePicker: MaterialDatePicker<Long>? = null
 
-    private var isValidPetName = false
-    private var dog = false
-    private var cat = false
-    private var male = false
-    private var female = false
     private var petKindId = -1
+
     private var dontKnow = false
-    private var submit = false
 
     private val galleryResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -73,7 +71,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
                     MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, it)
                 }
                 bitmap = Bitmap.createScaledBitmap(bitmap!!, 300, 300, true)
-                binding.imgPhoto.setImageBitmap(bitmap)
+                binding.petCircleImage.setImageBitmap(bitmap)
             }
         }
     }
@@ -84,7 +82,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         if (result.resultCode == Activity.RESULT_OK) {
             bitmap = result.data?.extras?.get("data") as Bitmap
             bitmap = Bitmap.createScaledBitmap(bitmap!!, 300, 300, true)
-            binding.imgPhoto.setImageBitmap(bitmap)
+            binding.petCircleImage.setImageBitmap(bitmap)
         }
     }
 
@@ -92,14 +90,30 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         return FragmentCreatePetBinding.inflate(inflater, container, false)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        initCallBack()
+    }
+
+    private fun initCallBack() {
+        onBackCallBack = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                requireActivity().finish()
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //TODO 넘어갈떄 백스택에 petfragment를 지우고 넘어가기
+        petViewModel.setInitial()
         initProgressCircular()
         buttonClick()
+        editTextWatch()
         initPetNameView()
         initPetView()
+        initSubmitButton()
     }
 
     private fun initProgressCircular() {
@@ -108,90 +122,67 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     private fun buttonClick() = with(binding) {
 
-        btnLoadCamera.setOnClickListener {
+        createPetPhotoButton.setOnClickListener {
             showCameraBottomSheetDialog()
         }
 
-        btnValidCheck.setOnClickListener {
-            val petName = edittextPetName.text.toString()
+        petNameCheckButton.setOnClickListener {
+            val petName = petNameEdittext.text.toString()
             if (petName.isBlank()) {
-                textPetNameValidate.text = getString(R.string.invalid_petname_text)
-                edittextPetName.background = ContextCompat.getDrawable(requireContext(), R.drawable.fail_edittext)
-                isValidPetName = false
-                submitCheck()
+                setInValidPetName(getString(R.string.invalid_petname_text))
             } else {
                 checkValidPetName(petName)
             }
         }
 
-        btnPetTypeDog.setOnClickListener {
-            btnPetTypeDog.isSelected = true
-            btnPetTypeCat.isSelected = false
-            dog = true
-            cat = false
-            submitCheck()
+        petTypeDogButton.setOnClickListener {
+            setDogType()
         }
 
-        btnPetTypeCat.setOnClickListener {
-            btnPetTypeDog.isSelected = false
-            btnPetTypeCat.isSelected = true
-            dog = false
-            cat = true
-            submitCheck()
+        petTypeCatButton.setOnClickListener {
+            setCatType()
         }
 
-        btnPetSexMale.setOnClickListener {
-            btnPetSexMale.isSelected = true
-            btnPetSexFemale.isSelected = false
-            male = true
-            female = false
-            submitCheck()
+        petSexMaleButton.setOnClickListener {
+            setMaleType()
         }
 
-        btnPetSexFemale.setOnClickListener {
-            btnPetSexFemale.isSelected = true
-            btnPetSexMale.isSelected = false
-            male = false
-            female = true
-            submitCheck()
+        petSexFemaleButton.setOnClickListener {
+            setFemaleType()
         }
 
-        editTextBirth.setOnClickListener {
+        petBirthDatePicker.setOnClickListener {
             showDatePicker()
         }
 
-        editTextBreed.setOnClickListener {
-            if (dog || cat) {
+        petBreedBottomSheet.setOnClickListener {
+            if (petViewModel.getPetTypeSelected()) {
                 showBreedBottomSheetDialog()
             } else {
                 Toast.makeText(requireContext(), "반려동물 종류를 선택해주세요.", Toast.LENGTH_SHORT).show()
             }
         }
 
-        btnDontknow.setOnClickListener {
-            dontKnow != dontKnow
-            btnDontknow.isSelected = dontKnow
-            submitCheck()
-        }
+        dontKnowButton.setOnClickListener {
+            dontKnow = !dontKnow
+            dontKnowButton.isSelected = dontKnow
 
-        btnPetSubmit.setOnClickListener {
-            if (submit) {
-                val name = edittextPetName.text.toString()
-                val type = if (dog) "DOG" else "CAT"
-                val sex = if (male) "MALE" else "FEMALE"
-                val birth = editTextBirth.text.toString()
-                val breed = editTextBreed.text.toString()
-                val weight = edittextWeight.text.toString().toFloat()
-                val neutral = radioNeutral.isChecked
-                val registerNum = edittextRegisterNum.text.toString()
-                postPetInfo(name, type, sex, birth, petKindId, weight, neutral, registerNum)
+            if (dontKnow) {
+                setTrueDontKnow()
             } else {
-                Toast.makeText(requireContext(), "필수항목을 모두 작성해주세요", Toast.LENGTH_SHORT).show()
+                setFalseDontKnow()
             }
         }
 
-        imgbtnBack.setOnClickListener {
-            root.findNavController().popBackStack()
+        petSubmitButton.setOnClickListener {
+            val name = petNameEdittext.text.toString()
+            val type = petViewModel.getPetType()
+            val sex = petViewModel.getSexType()
+            val birth = petBirthDatePicker.text.toString()
+            val weight = petWeightEdittext.text.toString().toFloat()
+            val neutral = neutralRadio.isChecked
+            val registerNum = petRegisterNumEdittext.text.toString()
+            postPetInfo(name, type, sex, birth, weight, neutral, registerNum)
         }
 
     }
@@ -204,21 +195,6 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
             }
         }
         cameraSheetFragment.show(childFragmentManager, cameraSheetFragment.tag)
-    }
-
-    private fun openGallery() {
-        val readPermission = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-
-        if (readPermission == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(
-                requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                REQUEST_GALLERY
-            )
-        } else {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/&")
-            galleryResult.launch(intent)
-        }
     }
 
     private fun takePicture() {
@@ -236,9 +212,56 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         }
     }
 
+    private fun openGallery() {
+        val readPermission = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+
+        if (readPermission == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(
+                requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                REQUEST_GALLERY
+            )
+        } else {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/&")
+            galleryResult.launch(intent)
+        }
+    }
+
+    private fun setInValidPetName(text: String) = with(binding) {
+        petNameValidate.text = text
+        petNameValidate.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
+        petNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
+        petNameValidate.visibility = View.VISIBLE
+        petViewModel.setValidPetName(false)
+    }
+
     private fun checkValidPetName(petName: String) {
         val familyId = GlobalApplication.prefs.familyId
         petViewModel.postCheckPetName(familyId, jwt, petName)
+    }
+
+    private fun setDogType() = with(binding) {
+        petTypeDogButton.isSelected = true
+        petTypeCatButton.isSelected = false
+        petViewModel.setDogTrue()
+    }
+
+    private fun setCatType() = with(binding) {
+        petTypeDogButton.isSelected = false
+        petTypeCatButton.isSelected = true
+        petViewModel.setCatTrue()
+    }
+
+    private fun setMaleType() = with(binding) {
+        petSexMaleButton.isSelected = true
+        petSexFemaleButton.isSelected = false
+        petViewModel.setMaleTrue()
+    }
+
+    private fun setFemaleType() = with(binding) {
+        petSexMaleButton.isSelected = false
+        petSexFemaleButton.isSelected = true
+        petViewModel.setFemaleTrue()
     }
 
     private fun showDatePicker() {
@@ -251,7 +274,8 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
             show(this@CreatePetFragment.requireActivity().supportFragmentManager, datePicker.toString())
             addOnPositiveButtonClickListener {
                 val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(it)
-                binding.editTextBirth.text = date
+                binding.petBirthDatePicker.text = date
+                petViewModel.setBirth()
             }
             addOnNegativeButtonClickListener {
                 dismiss()
@@ -261,42 +285,66 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     private fun showBreedBottomSheetDialog() {
         val breedSheetFragment = BreedBottomSheet { breed ->
-            binding.editTextBreed.text = breed.petKindName
+            binding.petBreedBottomSheet.text = breed.petKindName
             petKindId = breed.petKindId
         }
 
         val bundle = Bundle()
-        val petType = if (dog) "DOG" else "CAT"
+        val petType = petViewModel.getPetType()
         bundle.putString("petType", petType)
 
         breedSheetFragment.arguments = bundle
         breedSheetFragment.show(childFragmentManager, breedSheetFragment.tag)
     }
 
+    private fun setTrueDontKnow() = with(binding) {
+        petBreedBottomSheet.text = getString(R.string.dont_know_text)
+        petBreedBottomSheet.isClickable = false
+    }
+
+    private fun setFalseDontKnow() = with(binding) {
+        petBreedBottomSheet.text = getString(R.string.pet_breed_hint)
+        petBreedBottomSheet.isClickable = true
+    }
+
     private fun initPetNameView() = with(binding) {
-        petViewModel.petNameResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success -> {
-                    hideProgressCircular(progressCircular)
-                    textPetNameValidate.text = getString(R.string.valid_petname_text)
-                    textPetNameValidate.setTextColor(ContextCompat.getColor(requireContext(), R.color.success_blue))
-                    edittextPetName.background = ContextCompat.getDrawable(requireContext(), R.drawable.success_edittext)
-                    isValidPetName = true
-                    submitCheck()
-                }
-                is Resource.Error -> {
-                    hideProgressCircular(progressCircular)
-                    textPetNameValidate.text = getString(R.string.invalid_petname_text)
-                    textPetNameValidate.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
-                    edittextPetName.background = ContextCompat.getDrawable(requireContext(), R.drawable.fail_edittext)
-                    isValidPetName = false
-                    submitCheck()
+        petViewModel.petNameResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        setValidPetName()
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                        setInValidPetName(getString(R.string.already_used_petname_text))
+                    }
                 }
             }
         }
+    }
+
+    private fun setValidPetName() = with(binding) {
+        petNameValidate.text = getString(R.string.valid_petname_text)
+        petNameValidate.setTextColor(ContextCompat.getColor(requireContext(), R.color.success_blue))
+        petNameValidate.visibility = View.VISIBLE
+        petNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
+        petViewModel.setValidPetName(true)
+    }
+
+    private fun editTextWatch() {
+        binding.petWeightEdittext.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                petViewModel.setWeight(s.toString().isNotBlank())
+            }
+
+        })
     }
 
     private fun initPetView() = with(binding) {
@@ -323,6 +371,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
                         root.findNavController().navigate(action)
                     }
                     is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
                         Toast.makeText(requireContext(), "반려동물 등록에 실패하였습니다", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -330,30 +379,37 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         }
     }
 
-    private fun submitCheck() = with(binding) {
-        val name = isValidPetName
-        val type = dog || cat
-        val sex = male || female
-        val birth = editTextBirth.text.isNotBlank()
-        val weight = edittextWeight.text.isNotBlank()
-        submit = name && type && sex && birth && weight
-
-        if (submit) {
-            btnPetSubmit.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
-            btnPetSubmit.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            btnPetSubmit.isClickable = true
-        } else {
-            btnPetSubmit.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
-            btnPetSubmit.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
-            btnPetSubmit.isClickable = false
+    private fun initSubmitButton() {
+        petViewModel.submit.observe(viewLifecycleOwner) {
+            if (it) {
+                setTrueSubmitButton()
+            } else {
+                setFalseSubmitButton()
+            }
         }
     }
 
-    private fun postPetInfo(
-        name: String, type: String, sex: String, birth: String, petKindId: Int,
-        weight: Float, neutral: Boolean, registerNumber: String
-    ) {
+    private fun setTrueSubmitButton() = with(binding) {
+        petSubmitButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
+        petSubmitButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+        petSubmitButton.isClickable = true
+    }
 
+    private fun setFalseSubmitButton() = with(binding) {
+        petSubmitButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
+        petSubmitButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
+        petSubmitButton.isClickable = false
+    }
+
+    private fun postPetInfo(
+        name: String,
+        type: String,
+        sex: String,
+        birth: String,
+        weight: Float,
+        neutral: Boolean,
+        registerNumber: String
+    ) {
         val familyId = GlobalApplication.prefs.familyId
         val petInfo = PetInfo(name, type, sex, birth, petKindId, weight, neutral, registerNumber)
         val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
@@ -372,6 +428,12 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         super.onDestroyView()
 
         datePicker = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        onBackCallBack.remove()
     }
 
     companion object {

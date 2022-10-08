@@ -128,21 +128,23 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
     }
 
     private fun initProfileView() = with(binding) {
-        profileViewModel.registerProfileResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success -> {
-                    hideProgressCircular(progressCircular)
-                    val jwt = response.data?.jwtToken
-                    GlobalApplication.prefs.jwt = jwt
+        profileViewModel.registerProfileResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        val jwt = response.data?.jwtToken
+                        GlobalApplication.prefs.jwt = jwt
 
-                    Toast.makeText(requireContext(), "프로필 등록에 성공하였습니다", Toast.LENGTH_SHORT).show()
-                    root.findNavController().navigate(R.id.action_createProfileFragment_to_selectFamilyTypeFragment)
-                }
-                is Resource.Error -> {
-                    Toast.makeText(requireContext(), "프로필 등록에 실패하였습니다", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "프로필 등록에 성공하였습니다", Toast.LENGTH_SHORT).show()
+                        root.findNavController().navigate(R.id.action_createProfileFragment_to_selectFamilyTypeFragment)
+                    }
+                    is Resource.Error -> {
+                        Toast.makeText(requireContext(), "프로필 등록에 실패하였습니다", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

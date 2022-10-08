@@ -51,7 +51,7 @@
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_marginTop="40dp"
-        android:src="@drawable/img_default_profile"
+        android:src="@drawable/default_image"
         app:civ_border_color="@color/main_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +65,6 @@
         android:src="@drawable/icon_camera"
         app:layout_constraintBottom_toBottomOf="@+id/profile_photo_imageview"
         app:layout_constraintEnd_toEndOf="@+id/profile_photo_imageview" />
-
 
     <TextView
         android:id="@+id/profile_email_text"

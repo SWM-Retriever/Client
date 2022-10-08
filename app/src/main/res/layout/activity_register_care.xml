@@ -208,7 +208,7 @@
         app:layout_constraintEnd_toEndOf="@+id/edittext_number"
         app:layout_constraintTop_toTopOf="@+id/edittext_number"
         app:layout_constraintVertical_bias="0.463"
-        app:srcCompat="@drawable/btn_arrow_down" />
+        app:srcCompat="@drawable/arrow_down" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"
