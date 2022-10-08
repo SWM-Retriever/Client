@@ -86,28 +86,30 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
     }
 
     private fun initPostFamilyInfo() = with(binding) {
-        familyViewModel.registerFamilyResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success -> {
-                    hideProgressCircular(progressCircular)
-                    Toast.makeText(requireContext(), "그룹이 성공적으로 생성되었습니다", Toast.LENGTH_SHORT).show()
-                    GlobalApplication.prefs.familyId = response.data?.familyId ?: -1
-                    root.findNavController().navigate(R.id.action_createFamilyFragment_to_createPetFragment)
-                }
-                is Resource.Error -> {
-                    hideProgressCircular(progressCircular)
-                    when (response.code) {
-                        FAILED_FAMILY -> {
-                            Toast.makeText(requireContext(), "그룹 생성에 실패하였습니다", Toast.LENGTH_SHORT).show()
-                        }
-                        CODE_ERROR -> {
-                            Toast.makeText(requireContext(), "서버 오류가 발생하였습니다.", Toast.LENGTH_SHORT).show()
-                        }
+        familyViewModel.registerFamilyResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
                     }
-                    submitCheck()
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        Toast.makeText(requireContext(), "그룹이 성공적으로 생성되었습니다", Toast.LENGTH_SHORT).show()
+                        GlobalApplication.prefs.familyId = response.data?.familyId ?: -1
+                        root.findNavController().navigate(R.id.action_createFamilyFragment_to_createPetFragment)
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                        when (response.code) {
+                            FAILED_FAMILY -> {
+                                Toast.makeText(requireContext(), "그룹 생성에 실패하였습니다", Toast.LENGTH_SHORT).show()
+                            }
+                            CODE_ERROR -> {
+                                Toast.makeText(requireContext(), "서버 오류가 발생하였습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        submitCheck()
+                    }
                 }
             }
         }

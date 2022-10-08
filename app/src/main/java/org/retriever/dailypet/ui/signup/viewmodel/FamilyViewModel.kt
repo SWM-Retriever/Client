@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
+import org.retriever.dailypet.Event
 import org.retriever.dailypet.data.repository.signup.FamilyRepository
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.signup.family.FamilyInfo
@@ -19,8 +20,8 @@ class FamilyViewModel @Inject constructor(private val familyRepository: FamilyRe
     private val _familyNameResponse = MutableLiveData<Resource<ResponseBody>>()
     val familyNameResponse: LiveData<Resource<ResponseBody>> = _familyNameResponse
 
-    private val _registerFamilyResponse = MutableLiveData<Resource<FamilyResponse>>()
-    val registerFamilyResponse: LiveData<Resource<FamilyResponse>> = _registerFamilyResponse
+    private val _registerFamilyResponse = MutableLiveData<Event<Resource<FamilyResponse>>>()
+    val registerFamilyResponse: LiveData<Event<Resource<FamilyResponse>>> = _registerFamilyResponse
 
     fun postCheckFamilyName(jwt: String, familyName: String) = viewModelScope.launch {
         _familyNameResponse.postValue(Resource.Loading())
@@ -29,9 +30,9 @@ class FamilyViewModel @Inject constructor(private val familyRepository: FamilyRe
     }
 
     fun postFamily(jwt: String, familyInfo: FamilyInfo) = viewModelScope.launch {
-        _registerFamilyResponse.postValue(Resource.Loading())
+        _registerFamilyResponse.postValue(Event(Resource.Loading()))
 
-        _registerFamilyResponse.postValue(familyRepository.postFamily(jwt, familyInfo))
+        _registerFamilyResponse.postValue(Event(familyRepository.postFamily(jwt, familyInfo)))
     }
 
 }
