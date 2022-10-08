@@ -2,7 +2,6 @@ package org.retriever.dailypet.ui.signup
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -309,18 +308,20 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     }
 
     private fun initPetNameView() = with(binding) {
-        petViewModel.petNameResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success -> {
-                    hideProgressCircular(progressCircular)
-                    setValidPetName()
-                }
-                is Resource.Error -> {
-                    hideProgressCircular(progressCircular)
-                    setInValidPetName(getString(R.string.already_used_petname_text))
+        petViewModel.petNameResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        setValidPetName()
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                        setInValidPetName(getString(R.string.already_used_petname_text))
+                    }
                 }
             }
         }
@@ -378,7 +379,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         }
     }
 
-    private fun initSubmitButton()  {
+    private fun initSubmitButton() {
         petViewModel.submit.observe(viewLifecycleOwner) {
             if (it) {
                 setTrueSubmitButton()

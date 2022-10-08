@@ -19,8 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PetViewModel @Inject constructor(private val petRepository: PetRepository) : ViewModel() {
 
-    private val _petNameResponse = MutableLiveData<Resource<ResponseBody>>()
-    val petNameResponse: LiveData<Resource<ResponseBody>> = _petNameResponse
+    private val _petNameResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
+    val petNameResponse: LiveData<Event<Resource<ResponseBody>>> = _petNameResponse
 
     private val _petBreedList = MutableLiveData<Resource<BreedResponse>>()
     val petBreedList: LiveData<Resource<BreedResponse>> = _petBreedList
@@ -40,9 +40,9 @@ class PetViewModel @Inject constructor(private val petRepository: PetRepository)
     private var weight = false
 
     fun postCheckPetName(familyId: Int, jwt: String, petName: String) = viewModelScope.launch {
-        _petNameResponse.postValue(Resource.Loading())
+        _petNameResponse.postValue(Event(Resource.Loading()))
 
-        _petNameResponse.postValue(petRepository.postCheckPetName(familyId, jwt, petName))
+        _petNameResponse.postValue(Event(petRepository.postCheckPetName(familyId, jwt, petName)))
     }
 
     fun getPetBreedList(petType: String, jwt: String) = viewModelScope.launch {
