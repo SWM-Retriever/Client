@@ -1,6 +1,5 @@
 package org.retriever.dailypet.ui.signup
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +15,6 @@ import org.retriever.dailypet.databinding.FragmentFindGroupBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.bottomsheet.AddProfileBottomSheet
-import org.retriever.dailypet.ui.bottomsheet.BreedBottomSheet
-import org.retriever.dailypet.ui.main.MainActivity
 import org.retriever.dailypet.ui.signup.viewmodel.FindGroupViewModel
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
@@ -29,6 +26,7 @@ class FindGroupFragment : BaseFragment<FragmentFindGroupBinding>() {
     private var isValidCode = false
     private var groupName = ""
     private var groupCnt = 0
+    private var familyId = 0
 
     private val jwt = GlobalApplication.prefs.jwt ?: ""
 
@@ -49,7 +47,7 @@ class FindGroupFragment : BaseFragment<FragmentFindGroupBinding>() {
     }
 
     private fun initFindGroupView() = with(binding){
-        findGroupViewModel.findGroupResponse.observe(viewLifecycleOwner) { response ->
+        findGroupViewModel.getGroupInfoResponse.observe(viewLifecycleOwner) { response ->
             when(response){
                 is Resource.Loading -> {
                     showProgressCircular(progressCircular)
@@ -61,7 +59,8 @@ class FindGroupFragment : BaseFragment<FragmentFindGroupBinding>() {
                     inputCodeEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
                     isValidCode = true
                     groupName = response.data?.familyName.toString()
-                    groupCnt = response.data?.familyMemberCount!!
+                    groupCnt = response.data?.familyMemberCount ?: 0
+                    familyId = response.data?.familyId ?: 0
                     setVisibility()
                 }
                 is Resource.Error -> {
@@ -138,6 +137,7 @@ class FindGroupFragment : BaseFragment<FragmentFindGroupBinding>() {
         val bundle = Bundle()
         val invitationCode = binding.inputCodeEdittext.text.toString()
         bundle.putString("invitationCode", invitationCode)
+        bundle.putInt("familyId", familyId)
 
         addProfileSheetFragment.arguments = bundle
         addProfileSheetFragment.show(childFragmentManager, addProfileSheetFragment.tag)

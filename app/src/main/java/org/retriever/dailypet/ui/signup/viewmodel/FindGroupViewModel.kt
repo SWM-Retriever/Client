@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import org.retriever.dailypet.Event
+import okhttp3.ResponseBody
 import org.retriever.dailypet.data.repository.signup.FindGroupRepository
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.signup.family.FindGroupResponse
@@ -15,12 +15,31 @@ import javax.inject.Inject
 @HiltViewModel
 class FindGroupViewModel @Inject constructor(private val findGroupRepository: FindGroupRepository) : ViewModel() {
 
-    private val _findGroupResponse = MutableLiveData<Resource<FindGroupResponse>>()
-    val findGroupResponse: LiveData<Resource<FindGroupResponse>> = _findGroupResponse
+    private val _getGroupInfoResponse = MutableLiveData<Resource<FindGroupResponse>>()
+    val getGroupInfoResponse: LiveData<Resource<FindGroupResponse>> = _getGroupInfoResponse
+
+    private val _groupNameResponse = MutableLiveData<Resource<ResponseBody>>()
+    val groupNameResponse: LiveData<Resource<ResponseBody>> = _groupNameResponse
+
+    private val _enterGroupResponse = MutableLiveData<Resource<ResponseBody>>()
+    val enterGroupResponse: LiveData<Resource<ResponseBody>> = _enterGroupResponse
 
     fun getGroupInfo(invitationCode: String, jwt: String) = viewModelScope.launch {
-        _findGroupResponse.postValue(Resource.Loading())
+        _getGroupInfoResponse.postValue(Resource.Loading())
 
-        _findGroupResponse.postValue(findGroupRepository.getGroupInfo(invitationCode, jwt))
+        _getGroupInfoResponse.postValue(findGroupRepository.getGroupInfo(invitationCode, jwt))
     }
+
+    fun postCheckGroupNickname(familyId: Int, jwt: String, familyRoleName: String) = viewModelScope.launch {
+        _groupNameResponse.postValue(Resource.Loading())
+
+        _groupNameResponse.postValue(findGroupRepository.postCheckGroupNickname(familyId, jwt, familyRoleName))
+    }
+
+    fun postEnterGroup(familyId: Int, jwt: String, familyRoleName: String) = viewModelScope.launch {
+        _enterGroupResponse.postValue(Resource.Loading())
+
+        _enterGroupResponse.postValue(findGroupRepository.postCheckGroupNickname(familyId, jwt, familyRoleName))
+    }
+
 }
