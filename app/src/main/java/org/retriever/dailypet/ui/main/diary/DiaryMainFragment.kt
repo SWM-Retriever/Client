@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,12 +15,17 @@ import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.diary.DiaryItem
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.main.diary.adapter.DiaryAdapter
+import org.retriever.dailypet.util.hideProgressCircular
+import org.retriever.dailypet.util.showProgressCircular
 
 class DiaryMainFragment : BaseFragment<FragmentDiaryMainBinding>() {
 
     private val diaryViewModel by activityViewModels<DiaryViewModel>()
 
-    private lateinit var diaryAdapter : DiaryAdapter
+    private lateinit var diaryAdapter: DiaryAdapter
+
+    private val familyId = GlobalApplication.prefs.familyId
+    private val jwt = GlobalApplication.prefs.jwt ?: ""
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentDiaryMainBinding {
         return FragmentDiaryMainBinding.inflate(inflater, container, false)
@@ -33,33 +39,33 @@ class DiaryMainFragment : BaseFragment<FragmentDiaryMainBinding>() {
         floatingActionButtonClick()
     }
 
-    private fun getDiaryList(){
-        val familyId = GlobalApplication.prefs.familyId
-        val jwt = GlobalApplication.prefs.jwt ?: ""
+    private fun getDiaryList() {
         diaryViewModel.getDiaryList(familyId, jwt)
     }
 
     private fun observeDiaryListResponse() {
-        diaryViewModel.diaryListResponse.observe(viewLifecycleOwner){response ->
-            when(response){
-                is Resource.Loading ->{
-
+        diaryViewModel.diaryListResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showProgressCircular(binding.progressCircular)
                 }
-                is Resource.Success->{
+                is Resource.Success -> {
+                    hideProgressCircular(binding.progressCircular)
                     val diaryList = response.data?.diaryList ?: listOf()
                     checkDiaryList(diaryList)
                 }
-                is Resource.Error ->{
-
+                is Resource.Error -> {
+                    hideProgressCircular(binding.progressCircular)
+                    Toast.makeText(requireContext(), "다이어리를 읽어오는데 실패하였습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
-    private fun checkDiaryList(list : List<DiaryItem>){
-        if(list.isEmpty()){
+    private fun checkDiaryList(list: List<DiaryItem>) {
+        if (list.isEmpty()) {
             showEmptyDiaryLayout()
-        }else{
+        } else {
             showNotEmptyDiaryLayout()
             initDiaryAdapter()
             diaryAdapter.submitList(list)
@@ -67,12 +73,12 @@ class DiaryMainFragment : BaseFragment<FragmentDiaryMainBinding>() {
         }
     }
 
-    private fun showEmptyDiaryLayout() = with(binding){
+    private fun showEmptyDiaryLayout() = with(binding) {
         emptyDiaryLayout.root.visibility = View.VISIBLE
         notEmptyDiaryLayout.root.visibility = View.GONE
     }
 
-    private fun showNotEmptyDiaryLayout() = with(binding){
+    private fun showNotEmptyDiaryLayout() = with(binding) {
         emptyDiaryLayout.root.visibility = View.GONE
         notEmptyDiaryLayout.root.visibility = View.VISIBLE
     }
@@ -89,13 +95,13 @@ class DiaryMainFragment : BaseFragment<FragmentDiaryMainBinding>() {
         }
     }
 
-    private fun floatingActionButtonClick() = with(binding){
+    private fun floatingActionButtonClick() = with(binding) {
         floatingAddButton.setOnClickListener {
             root.findNavController().navigate(R.id.action_diaryMainFragment_to_diaryRegisterFragment)
         }
     }
 
-    private fun galleryButtonClick() = with(binding){
+    private fun galleryButtonClick() = with(binding) {
         notEmptyDiaryLayout.galleryButton.setOnClickListener {
             root.findNavController().navigate(R.id.action_diaryMainFragment_to_diaryGalleryFragment)
         }
