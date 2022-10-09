@@ -16,150 +16,142 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.widget.Button
-        android:id="@+id/btn_add_profile"
-        android:layout_width="320dp"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/right_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/icon_back"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/create_family_title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/find_group_text"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/find_group_comment_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/input_code_comment"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/create_family_title_text" />
+
+    <EditText
+        android:id="@+id/input_code_edittext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="38dp"
+        android:background="@drawable/grey_blue_edittext"
+        android:hint="@string/input_invitation_code_text"
+        android:maxLength="20"
+        android:padding="16dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/find_group_comment_text" />
+
+    <ImageButton
+        android:id="@+id/search_invite_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/input_code_edittext"
+        app:layout_constraintEnd_toEndOf="@+id/input_code_edittext"
+        app:layout_constraintTop_toTopOf="@+id/input_code_edittext"
+        app:layout_constraintVertical_bias="0.529"
+        app:srcCompat="@android:drawable/ic_menu_search"
+        app:tint="@color/main_blue" />
+
+    <TextView
+        android:id="@+id/invite_code_validate_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:padding="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/input_code_edittext" />
+
+    <TextView
+        android:id="@+id/group_name_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/invite_code_validate_text" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_FamilyPhoto"
+        android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
+        android:src="@color/browser_actions_bg_grey"
+        android:visibility="invisible"
+        app:civ_border_width="1dp"
+        app:civ_circle_background_color="@color/browser_actions_bg_grey"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/group_name_text" />
+
+    <TextView
+        android:id="@+id/find_group_invisible_comment_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="@string/find_group_confirm_text"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/enter_group_button"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline" />
+
+    <android.widget.Button
+        android:id="@+id/enter_group_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/blue_button"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
         android:shadowColor="@color/dark_grey"
-        android:text="그룹 들어가기"
+        android:text="@string/enter_group_text"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="16dp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_invisibleComment" />
-
-    <EditText
-        android:id="@+id/editText_code"
-        android:layout_width="358dp"
-        android:layout_height="61dp"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/grey_blue_edittext"
-        android:hint="초대코드를 입력해주세요"
-        android:maxLength="20"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_findGroupComment" />
-
-    <ImageButton
-        android:id="@+id/imgbtn_back"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.041"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/btn_arrow" />
-
-    <TextView
-        android:id="@+id/text_title"
-        android:layout_width="166dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/noto_sans_kr_medium"
-        android:includeFontPadding="false"
-        android:text="초대코드 입력"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/text_findGroupComment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="@string/input_code_comment"
-        android:textColor="#99A5A5"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/btn_searchInviteCode"
-        android:layout_width="50dp"
-        android:layout_height="44dp"
-        android:layout_marginEnd="8dp"
-        android:backgroundTint="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/editText_code"
-        app:layout_constraintEnd_toEndOf="@+id/editText_code"
-        app:layout_constraintTop_toTopOf="@+id/editText_code"
-        app:layout_constraintVertical_bias="0.529"
-        app:srcCompat="@android:drawable/ic_menu_search"
-        app:tint="#00BCD4" />
-
-    <TextView
-        android:id="@+id/text_inviteCodeValidate"
-        android:layout_width="244dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="12dp"
-        android:textColor="#505050"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.155"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_code" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/img_FamilyPhoto"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="24dp"
-        android:src="@color/browser_actions_bg_grey"
-        android:visibility="invisible"
-        app:civ_border_color="@color/main_blue"
-        app:civ_border_width="1dp"
-        app:civ_circle_background_color="@color/browser_actions_bg_grey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_familyName" />
-
-    <TextView
-        android:id="@+id/text_familyName"
-        android:layout_width="206dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="32dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_inviteCodeValidate" />
-
-    <TextView
-        android:id="@+id/text_invisibleComment"
-        android:layout_width="258dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="32dp"
-        android:text="찾고있는 그룹이 맞으신가요?"
-        android:textAlignment="center"
-        android:textSize="14sp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_FamilyPhoto" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="769dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
