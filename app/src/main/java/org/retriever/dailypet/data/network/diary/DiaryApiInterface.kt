@@ -1,10 +1,10 @@
 package org.retriever.dailypet.data.network.diary
 
+import okhttp3.ResponseBody
+import org.retriever.dailypet.model.diary.DiaryPost
 import org.retriever.dailypet.model.diary.DiaryResponse
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface DiaryApiInterface {
 
@@ -13,5 +13,12 @@ interface DiaryApiInterface {
         @Path("familyId") familyId: Int,
         @Header("X-AUTH-TOKEN") jwt: String,
     ): Response<DiaryResponse>
+
+    @POST("api/v1/families/{familyId}/diary")
+    suspend fun postDiary(
+        @Path("familyId") familyId: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
+        @Body diaryPost: DiaryPost
+    ): Response<ResponseBody>
 
 }
