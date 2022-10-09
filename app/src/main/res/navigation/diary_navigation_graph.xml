@@ -21,7 +21,11 @@
     <fragment
         android:id="@+id/diaryRegisterFragment"
         android:name="org.retriever.dailypet.ui.main.diary.DiaryRegisterFragment"
-        android:label="DiaryRegisterFragment" />
+        android:label="DiaryRegisterFragment" >
+        <argument
+            android:name="diaryItem"
+            app:argType="org.retriever.dailypet.model.diary.DiaryItem" />
+    </fragment>
     <fragment
         android:id="@+id/diaryGalleryFragment"
         android:name="org.retriever.dailypet.ui.main.diary.DiaryGalleryFragment"
@@ -33,5 +37,8 @@
         <argument
             android:name="diaryItem"
             app:argType="org.retriever.dailypet.model.diary.DiaryItem" />
+        <action
+            android:id="@+id/action_diaryDetailFragment_to_diaryRegisterFragment"
+            app:destination="@id/diaryRegisterFragment" />
     </fragment>
 </navigation>

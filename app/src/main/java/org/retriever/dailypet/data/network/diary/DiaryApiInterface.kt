@@ -21,4 +21,11 @@ interface DiaryApiInterface {
         @Body diaryPost: DiaryPost
     ): Response<ResponseBody>
 
+    @DELETE("api/v1/families/{familyId}/diaries/{diaryId}")
+    suspend fun deleteDiary(
+        @Path("familyId") familyId: Int,
+        @Path("diaryId") diaryId: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
+    ): Response<ResponseBody>
+
 }

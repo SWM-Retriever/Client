@@ -1,20 +1,30 @@
 package org.retriever.dailypet.ui.main.diary
 
-import android.app.ActionBar
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListPopupWindow
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentDiaryDetailBinding
+import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.diary.DiaryItem
 import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.util.hideProgressCircular
+import org.retriever.dailypet.util.showProgressCircular
 
 class DiaryDetailFragment : BaseFragment<FragmentDiaryDetailBinding>() {
+
+    private val diaryViewModel by activityViewModels<DiaryViewModel>()
+
+    private val familyId = GlobalApplication.prefs.familyId
+    private val jwt = GlobalApplication.prefs.jwt ?: ""
 
     private val args: DiaryDetailFragmentArgs by navArgs()
 
@@ -30,10 +40,16 @@ class DiaryDetailFragment : BaseFragment<FragmentDiaryDetailBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initProgressCircular()
         initItem()
         initView()
         initPopUp()
         moreButtonClick()
+        observeResponse()
+    }
+
+    private fun initProgressCircular() {
+        hideProgressCircular(binding.progressCircular)
     }
 
     private fun initItem() {
@@ -53,10 +69,10 @@ class DiaryDetailFragment : BaseFragment<FragmentDiaryDetailBinding>() {
         popUpWindow.setAdapter(adapter)
 
         popUpWindow.setOnItemClickListener { _, _, _, id ->
-            if(id == 0L){
-                
-            }else{
-
+            if (id == 0L) {
+                moveDiaryRegisterFragment()
+            } else {
+                deleteDiary()
             }
             popUpWindow.dismiss()
         }
@@ -66,6 +82,33 @@ class DiaryDetailFragment : BaseFragment<FragmentDiaryDetailBinding>() {
     private fun moreButtonClick() {
         binding.moreButton.setOnClickListener {
             popUpWindow.show()
+        }
+    }
+
+    private fun moveDiaryRegisterFragment() {
+        val action = DiaryDetailFragmentDirections.actionDiaryDetailFragmentToDiaryRegisterFragment(item)
+        binding.root.findNavController().navigate(action)
+    }
+
+    private fun deleteDiary() {
+        diaryViewModel.deleteDiary(familyId, item.diaryId ?: -1, jwt)
+    }
+
+    private fun observeResponse() = with(binding) {
+        diaryViewModel.diaryDeleteResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+                    root.findNavController().popBackStack()
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(progressCircular)
+                    Toast.makeText(requireContext(), "삭제에 실패하였습니다", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
