@@ -7,7 +7,8 @@ import org.retriever.dailypet.model.diary.Diary
 class DiaryViewHolder(private val binding : ItemDiaryBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item : Diary){
-        binding.viewtype.text = item.viewType
+        binding.writerNickNameText.text = item.writerNickName
+        binding.diaryContentText.text = item.diaryContent
     }
 
 }

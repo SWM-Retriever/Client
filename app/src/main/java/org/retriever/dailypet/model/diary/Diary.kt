@@ -6,7 +6,7 @@ import java.util.*
 @JsonClass(generateAdapter = true)
 data class Diary(
     val viewType : String,
-    val date : Date,
+    val date : String,
     val diaryId : Int,
     val writerImage : String,
     val writerNickName : String,
