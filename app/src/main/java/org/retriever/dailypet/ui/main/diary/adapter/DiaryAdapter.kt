@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.retriever.dailypet.databinding.ItemDateBinding
 import org.retriever.dailypet.databinding.ItemDiaryBinding
-import org.retriever.dailypet.model.diary.Diary
+import org.retriever.dailypet.model.diary.DiaryItem
 
-class DiaryAdapter : ListAdapter<Diary, RecyclerView.ViewHolder>(diffUtil) {
+class DiaryAdapter : ListAdapter<DiaryItem, RecyclerView.ViewHolder>(diffUtil) {
 
-    var onItemClick : ((Diary) -> Unit)? = null
+    var onItemClick : ((DiaryItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == ViewType.DATE.ordinal) {
@@ -40,12 +40,12 @@ class DiaryAdapter : ListAdapter<Diary, RecyclerView.ViewHolder>(diffUtil) {
     }
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<Diary>() {
-            override fun areItemsTheSame(oldItem: Diary, newItem: Diary): Boolean {
+        val diffUtil = object : DiffUtil.ItemCallback<DiaryItem>() {
+            override fun areItemsTheSame(oldItem: DiaryItem, newItem: DiaryItem): Boolean {
                 return oldItem.diaryId == newItem.diaryId
             }
 
-            override fun areContentsTheSame(oldItem: Diary, newItem: Diary): Boolean {
+            override fun areContentsTheSame(oldItem: DiaryItem, newItem: DiaryItem): Boolean {
                 return oldItem == newItem
             }
 

@@ -1,24 +1,23 @@
 package org.retriever.dailypet.ui.main.diary
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.squareup.moshi.Moshi
+import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentDiaryMainBinding
-import org.retriever.dailypet.model.diary.Diary
-import org.retriever.dailypet.model.diary.DiaryList
+import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.diary.DiaryItem
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.main.diary.adapter.DiaryAdapter
-import java.io.IOException
 
 class DiaryMainFragment : BaseFragment<FragmentDiaryMainBinding>() {
 
-    private lateinit var diaryList: List<Diary>
+    private val diaryViewModel by activityViewModels<DiaryViewModel>()
 
     private lateinit var diaryAdapter : DiaryAdapter
 
@@ -28,17 +27,44 @@ class DiaryMainFragment : BaseFragment<FragmentDiaryMainBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //diaryList = listOf()
-        getStoreItemList()
-        if(diaryList.isEmpty()){
-           showEmptyDiaryLayout()
+
+        getDiaryList()
+        observeDiaryListResponse()
+        floatingActionButtonClick()
+    }
+
+    private fun getDiaryList(){
+        val familyId = GlobalApplication.prefs.familyId
+        val jwt = GlobalApplication.prefs.jwt ?: ""
+        diaryViewModel.getDiaryList(familyId, jwt)
+    }
+
+    private fun observeDiaryListResponse() {
+        diaryViewModel.diaryListResponse.observe(viewLifecycleOwner){response ->
+            when(response){
+                is Resource.Loading ->{
+
+                }
+                is Resource.Success->{
+                    val diaryList = response.data?.diaryList ?: listOf()
+                    checkDiaryList(diaryList)
+                }
+                is Resource.Error ->{
+
+                }
+            }
+        }
+    }
+
+    private fun checkDiaryList(list : List<DiaryItem>){
+        if(list.isEmpty()){
+            showEmptyDiaryLayout()
         }else{
             showNotEmptyDiaryLayout()
             initDiaryAdapter()
-            diaryAdapter.submitList(diaryList)
+            diaryAdapter.submitList(list)
             galleryButtonClick()
         }
-        floatingActionButtonClick()
     }
 
     private fun showEmptyDiaryLayout() = with(binding){
@@ -73,27 +99,6 @@ class DiaryMainFragment : BaseFragment<FragmentDiaryMainBinding>() {
         notEmptyDiaryLayout.galleryButton.setOnClickListener {
             root.findNavController().navigate(R.id.action_diaryMainFragment_to_diaryGalleryFragment)
         }
-    }
-
-    private fun getStoreItemList() {
-        val json = getJsonDataFromAsset(requireContext()) ?: ""
-        val moshi = Moshi.Builder().build()
-        val adapter = moshi.adapter(DiaryList::class.java)
-        diaryList = adapter.fromJson(json)?.diaryList ?: listOf()
-    }
-
-    private fun getJsonDataFromAsset(context: Context): String? {
-        val jsonString: String
-        try {
-            jsonString = context.assets.open("test.json").bufferedReader().use {
-                it.readText()
-            }
-        } catch (ioException: IOException) {
-            ioException.printStackTrace()
-            return null
-        }
-
-        return jsonString
     }
 
 }

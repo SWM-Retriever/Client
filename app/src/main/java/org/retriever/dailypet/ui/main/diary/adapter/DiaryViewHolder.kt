@@ -2,13 +2,13 @@ package org.retriever.dailypet.ui.main.diary.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import org.retriever.dailypet.databinding.ItemDiaryBinding
-import org.retriever.dailypet.model.diary.Diary
+import org.retriever.dailypet.model.diary.DiaryItem
 
 class DiaryViewHolder(private val binding : ItemDiaryBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item : Diary){
-        binding.writerNickNameText.text = item.writerNickName
-        binding.diaryContentText.text = item.diaryContent
+    fun bind(item : DiaryItem){
+        binding.writerNickNameText.text = item.authorNickName
+        binding.diaryContentText.text = item.diaryText
     }
 
 }

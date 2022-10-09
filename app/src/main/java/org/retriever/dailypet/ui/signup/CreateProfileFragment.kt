@@ -236,10 +236,10 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
     private fun postProfileInfo(nickname: String) {
         val args: CreateProfileFragmentArgs by navArgs()
         val registerProfile = args.registerProfile
-        registerProfile.nickname = nickname
+        registerProfile.nickName = nickname
         val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
         val multiPartBody = MultipartBody.Part.createFormData("image", "image", bitmapRequestBody)
-
+        Log.d("ABC",registerProfile.toString())
         profileViewModel.postProfile(registerProfile, multiPartBody)
     }
 
