@@ -43,6 +43,12 @@ class Prefs(context: Context) {
             prefs.edit().putString("jwt", value).apply()
         }
 
+    var nickname: String?
+        get() = prefs.getString("nickname", null)
+        set(value) {
+            prefs.edit().putString("nickname", value).apply()
+        }
+
     var familyId: Int
         get() = prefs.getInt("familyId", -1)
         set(value) {
@@ -62,6 +68,10 @@ class Prefs(context: Context) {
 
     fun initJwt() {
         prefs.edit().putString("jwt", null).apply()
+    }
+
+    fun initNickname(){
+        prefs.edit().putString("nickname", null).apply()
     }
 
     fun initFamilyId() {

@@ -90,4 +90,5 @@
     <string name="pet_add_button_text">추가하기</string>
     <string name="group_invite_text">그룹 초대하기</string>
     <string name="care_start_text">케어 시작하기</string>
+    <string name="invitation_message_text">초대코드를 입력해서 그룹에 참여하세요!\n초대코드 : </string>
 </resources>

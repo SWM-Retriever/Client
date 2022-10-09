@@ -65,10 +65,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                         hideProgressCircular(progressCircular)
 
                         val jwt = response.data?.jwtToken ?: ""
+                        val nickname = response.data?.snsNickName ?: ""
                         val familyId = response.data?.familyId ?: -1
                         val petIdList = response.data?.petIdList ?: listOf()
 
-                        saveSharedPreference(jwt, familyId, petIdList)
+
+                        saveSharedPreference(jwt, nickname, familyId, petIdList)
                         initProgress(jwt)
                     }
                     is Resource.Error -> {
@@ -99,8 +101,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
     }
 
-    private fun saveSharedPreference(jwt: String, familyId: Int, petIdList: List<Int>) {
+    private fun saveSharedPreference(jwt: String, nickname: String, familyId: Int, petIdList: List<Int>) {
         GlobalApplication.prefs.jwt = jwt
+        GlobalApplication.prefs.nickname = nickname
         GlobalApplication.prefs.familyId = familyId
 
         val jsonArray = JSONArray()

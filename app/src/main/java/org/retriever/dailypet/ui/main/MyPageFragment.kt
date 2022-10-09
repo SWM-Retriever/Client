@@ -13,6 +13,8 @@ import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.AndroidEntryPoint
 import org.retriever.dailypet.GlobalApplication
+import org.retriever.dailypet.Prefs
+import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentMyPageBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
@@ -90,19 +92,28 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>() {
     }
 
     private fun withdrawal() {
-        val jwt = GlobalApplication.prefs.jwt ?: ""
-        GlobalApplication.prefs.initJwt()
-        Log.e("", jwt)
+        val prefs = GlobalApplication.prefs
+        val jwt = prefs.jwt ?: ""
+        prefs.initJwt()
+        prefs.initNickname()
+        prefs.initFamilyId()
+        prefs.initPetIdList()
+        prefs.initDeviceToken()
         myPageViewModel.deleteMemberWithdrawal(jwt)
     }
 
     private fun onShareClicked() {
-        val link = "https://dailypet.page.link/invite"
+        val nickname = GlobalApplication.prefs.nickname
+
+        Log.e("ABC", nickname.toString())
+
+        val message = "[반려하루]\n$nickname 님이 00그룹의 초대장을 보냈어요\n" + R.string.invitation_message_text.toString()
+        val code = message + "12345678"
 
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
-        intent.putExtra(Intent.EXTRA_TEXT, link)
-        startActivity(Intent.createChooser(intent, "Share Link"))
+        intent.putExtra(Intent.EXTRA_TEXT, code)
+        startActivity(Intent.createChooser(intent, "초대코드 공유하기"))
     }
 
 }

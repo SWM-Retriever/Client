@@ -43,6 +43,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
     private var bitmap: Bitmap? = null
     private var isValidNickname: Boolean = false
+    private var nickname: String = ""
 
     private val galleryResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -103,6 +104,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
                     registerCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
                     registerCompleteButton.isClickable = true
                     isValidNickname = true
+                    nickname = profileNicknameEdittext.text.toString()
                 }
                 is Resource.Error -> {
                     hideProgressCircular(progressCircular)
@@ -138,7 +140,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
                         hideProgressCircular(progressCircular)
                         val jwt = response.data?.jwtToken
                         GlobalApplication.prefs.jwt = jwt
-
+                        GlobalApplication.prefs.nickname = nickname
                         Toast.makeText(requireContext(), "프로필 등록에 성공하였습니다", Toast.LENGTH_SHORT).show()
                         root.findNavController().navigate(R.id.action_createProfileFragment_to_selectFamilyTypeFragment)
                     }

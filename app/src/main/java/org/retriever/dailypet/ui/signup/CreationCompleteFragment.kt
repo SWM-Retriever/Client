@@ -13,6 +13,7 @@ import com.google.firebase.dynamiclinks.DynamicLink
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
+import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreationCompleteBinding
 import org.retriever.dailypet.ui.base.BaseFragment
@@ -20,6 +21,11 @@ import org.retriever.dailypet.util.DynamicLinksUtil
 import org.retriever.dailypet.util.hideProgressCircular
 
 class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>() {
+
+    lateinit var invitationCode : String
+    lateinit var groupName : String
+    lateinit var nickname : String
+
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentCreationCompleteBinding {
         return FragmentCreationCompleteBinding.inflate(inflater, container, false)
     }
@@ -44,6 +50,9 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
             }
         }
         groupPetNameText.text = petString
+        invitationCode = petResponse.invitationCode
+        groupName = petResponse.familyName
+        nickname = GlobalApplication.prefs.nickname.toString()
     }
 
     private fun initProgressCircular() {
@@ -68,15 +77,13 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
     }
 
     private fun onShareClicked() {
-        val link = "https://dailypet.page.link/invite"
+        val message = "[반려하루]\n$nickname 님이 $groupName 그룹의 초대장을 보냈어요\n" + R.string.invitation_message_text.toString()
+        val code = message + invitationCode
 
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
-        intent.putExtra(Intent.EXTRA_TEXT, link)
-        startActivity(Intent.createChooser(intent, "Share Link"))
+        intent.putExtra(Intent.EXTRA_TEXT, code)
+        startActivity(Intent.createChooser(intent, "초대코드 공유하기"))
     }
-
-
-
 
 }
