@@ -11,6 +11,8 @@ import org.retriever.dailypet.model.diary.Diary
 
 class DiaryAdapter : ListAdapter<Diary, RecyclerView.ViewHolder>(diffUtil) {
 
+    var onItemClick : ((Diary) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == ViewType.DATE.ordinal) {
             DateViewHolder(ItemDateBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -26,6 +28,9 @@ class DiaryAdapter : ListAdapter<Diary, RecyclerView.ViewHolder>(diffUtil) {
             }
             ViewType.DIARY.name -> {
                 (holder as DiaryViewHolder).bind(currentList[position])
+                holder.itemView.setOnClickListener {
+                    onItemClick?.invoke(currentList[holder.adapterPosition])
+                }
             }
         }
     }

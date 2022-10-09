@@ -59,16 +59,6 @@
                 app:layout_constraintTop_toTopOf="@id/writer_circle_image"
                 tools:text="김시진" />
 
-            <ImageButton
-                android:id="@+id/more_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                app:layout_constraintBottom_toBottomOf="@id/writer_nick_name_text"
-                app:layout_constraintEnd_toEndOf="@id/right_guideline"
-                app:layout_constraintTop_toTopOf="@id/writer_nick_name_text"
-                app:srcCompat="@drawable/icon_more" />
-
             <androidx.cardview.widget.CardView
                 android:id="@+id/diary_image_card_view"
                 android:layout_width="0dp"
