@@ -29,5 +29,9 @@
     <fragment
         android:id="@+id/diaryDetailFragment"
         android:name="org.retriever.dailypet.ui.main.diary.DiaryDetailFragment"
-        android:label="DiaryDetailFragment" />
+        android:label="DiaryDetailFragment" >
+        <argument
+            android:name="diaryItem"
+            app:argType="org.retriever.dailypet.model.diary.DiaryItem" />
+    </fragment>
 </navigation>

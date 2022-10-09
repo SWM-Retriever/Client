@@ -1,8 +1,10 @@
 package org.retriever.dailypet.model.diary
 
+import android.os.Parcelable
 import com.squareup.moshi.JsonClass
-import java.util.*
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @JsonClass(generateAdapter = true)
 data class DiaryItem(
     val viewType: String,
@@ -12,4 +14,4 @@ data class DiaryItem(
     val authorNickName: String?,
     val diaryImageUrlList: List<String>?,
     val diaryText: String?,
-)
+) : Parcelable
