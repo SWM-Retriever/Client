@@ -65,7 +65,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                         hideProgressCircular(progressCircular)
 
                         val jwt = response.data?.jwtToken ?: ""
-                        val nickname = response.data?.snsNickName ?: ""
+                        val nickname = response.data?.nickName ?: ""
                         val familyId = response.data?.familyId ?: -1
                         val petIdList = response.data?.petIdList ?: listOf()
 
@@ -78,7 +78,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                         when (response.code) {
                             CODE_NEW_MEMBER -> {
                                 val registerProfile = RegisterProfile(
-                                    nickname = name,
+                                    nickName = name,
                                     email = email,
                                     domain = domain,
                                     deviceToken = getDeviceToken()

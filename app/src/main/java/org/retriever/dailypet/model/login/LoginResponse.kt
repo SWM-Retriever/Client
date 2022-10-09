@@ -4,9 +4,10 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class LoginResponse(
-    val snsNickName: String,
+    val nickName: String,
     val email: String,
     val jwtToken: String,
     val familyId : Int,
+    val invitationCode: String,
     val petIdList : List<Int>,
 )

@@ -95,4 +95,6 @@
     <string name="input_invitation_code_text">초대코드를 입력해주세요</string>
     <string name="find_group_confirm_text">찾고있는 그룹이 맞으신가요?</string>
     <string name="enter_group_text">프로필 추가</string>
+    <string name="add_profile_text">그룹 입장</string>
+    <string name="add_profile_submit_text">그룹 들어가기</string>
 </resources>
