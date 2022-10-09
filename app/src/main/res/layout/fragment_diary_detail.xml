@@ -1,16 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <TextView
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="디테일뷰"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/right_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/writer_circle_image"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/default_image"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/more_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/transparent"
+        android:paddingStart="60dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="12dp"
+        app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_more" />
+
+    <TextView
+        android:id="@+id/writer_nick_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/writer_circle_image"
+        app:layout_constraintStart_toEndOf="@id/writer_circle_image"
+        app:layout_constraintTop_toTopOf="@id/writer_circle_image"
+        tools:text="김시진" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/diary_image_card_view"
+        android:layout_width="0dp"
+        android:layout_height="240dp"
+        android:layout_marginTop="20dp"
+        android:elevation="3dp"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/writer_circle_image">
+
+        <ImageView
+            android:id="@+id/diary_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/light_blue_button" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/diary_content_text"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="12dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/diary_image_card_view"
+        tools:text="sadfjkldsajfklsdjfklsdjflksafj\nklsadfjlskd;fjsdkfsajfkl;sjn\nflk;sjflks;ajflksafjklsf" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
