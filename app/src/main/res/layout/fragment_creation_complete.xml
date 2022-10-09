@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".ui.signup.CreationCompleteFragment">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/right_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
+
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_circular"
         android:layout_width="wrap_content"
@@ -17,249 +31,217 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/img_creation_complete"
-        android:layout_width="220dp"
-        android:layout_height="146dp"
+        android:id="@+id/creation_complete_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icon_register_complete" />
+        app:srcCompat="@drawable/create_complete_img" />
 
     <TextView
-        android:id="@+id/text_creation_complete_subtitle"
-        android:layout_width="171dp"
-        android:layout_height="48dp"
+        android:id="@+id/creation_complete_subtitle_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="등록이 완료되었습니다\n반려하루를 시작해보세요"
+        android:text="@string/creation_complete_text_title"
         android:textAlignment="center"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_creation_complete" />
+        app:layout_constraintTop_toBottomOf="@+id/creation_complete_image" />
 
     <View
-        android:id="@+id/divider1_creation_complete"
-        android:layout_width="360dp"
-        android:layout_height="2px"
-        android:layout_marginTop="44dp"
-        android:background="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_creation_complete_subtitle" />
+        android:id="@+id/first_divide"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="45dp"
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/dark_grey"
+        android:backgroundTintMode="add"
+        app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/creation_complete_subtitle_text" />
 
     <TextView
-        android:id="@+id/text_creation_complete_content1"
-        android:layout_width="83dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="20dp"
-        android:text="가족 그룹명"
-        android:textAlignment="textStart"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.079"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1_creation_complete" />
-
-    <TextView
-        android:id="@+id/text_familyName"
-        android:layout_width="83dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="20dp"
-        android:text="그룹명"
-        android:textAlignment="textEnd"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.887"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1_creation_complete" />
-
-    <View
-        android:id="@+id/divider1_creation_complete2"
-        android:layout_width="360dp"
-        android:layout_height="1px"
-        android:layout_marginTop="68dp"
-        android:background="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1_creation_complete" />
-
-    <TextView
-        android:id="@+id/text_familyNickname"
-        android:layout_width="83dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="20dp"
-        android:text="닉네임명"
-        android:textAlignment="textEnd"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.887"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1_creation_complete2" />
-
-    <TextView
-        android:id="@+id/text_creation_complete_content2"
-        android:layout_width="90dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="20dp"
-        android:text="가족 내 닉네임"
-        android:textAlignment="textStart"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.079"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1_creation_complete2" />
-
-    <View
-        android:id="@+id/divider1_creation_complete3"
-        android:layout_width="360dp"
-        android:layout_height="1px"
-        android:layout_marginTop="68dp"
-        android:background="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1_creation_complete2" />
-
-    <TextView
-        android:id="@+id/text_petName"
-        android:layout_width="174dp"
-        android:layout_height="29dp"
-        android:layout_marginTop="20dp"
-        android:text="반려동물 이름"
-        android:textAlignment="textEnd"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.843"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1_creation_complete3" />
-
-    <TextView
-        android:id="@+id/text_creation_complete_content3"
-        android:layout_width="90dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="20dp"
-        android:text="반려동물"
-        android:textAlignment="textStart"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1_creation_complete3" />
-
-    <View
-        android:id="@+id/divider1_creation_complete4"
-        android:layout_width="360dp"
-        android:layout_height="1px"
-        android:layout_marginTop="68dp"
-        android:background="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1_creation_complete3" />
-
-    <TextView
-        android:id="@+id/text_creation_complete_subtitle2"
-        android:layout_width="205dp"
-        android:layout_height="21dp"
-        android:layout_marginTop="20dp"
-        android:text="반려동물을 추가 등록 하고싶다면?"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.126"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1_creation_complete4" />
-
-    <android.widget.Button
-        android:id="@+id/btn_add"
-        android:layout_width="75dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/grey_button"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:shadowColor="@color/dark_grey"
-        android:text="추가하기"
-        android:textAlignment="center"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.761"
-        app:layout_constraintStart_toEndOf="@+id/text_creation_complete_subtitle2"
-        app:layout_constraintTop_toBottomOf="@+id/divider1_creation_complete4" />
-
-    <android.widget.Button
-        android:id="@+id/btn_start"
-        android:layout_width="320dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/blue_button"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:shadowColor="@color/dark_grey"
-        android:text="케어 시작하기"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1_creation_complete4" />
-
-    <android.widget.Button
-        android:id="@+id/btn_invite"
-        android:layout_width="320dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/whiteblue_click_button"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:shadowColor="@color/dark_grey"
-        android:text="그룹 초대하기"
-        android:textAlignment="center"
-        android:textColor="@color/main_blue"
-        android:textSize="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_start" />
-
-    <TextView
-        android:id="@+id/text_inviteComment"
-        android:layout_width="313dp"
-        android:layout_height="27dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/invite_comment"
-        android:textAlignment="center"
-        android:textColor="@color/main_blue"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_invite" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
+        android:id="@+id/complete_group_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="757dp" />
+        android:layout_marginTop="20dp"
+        android:text="@string/complete_group_text"
+        android:textColor="@color/complete_light_gray"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/first_divide" />
+
+    <TextView
+        android:id="@+id/group_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textAlignment="textEnd"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/first_divide"
+        tools:text="율무네" />
+
+    <View
+        android:id="@+id/second_divide"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="20dp"
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/dark_grey"
+        android:backgroundTintMode="add"
+        app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/complete_group_text" />
+
+    <TextView
+        android:id="@+id/complete_nickname_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/complete_nickname_text"
+        android:textAlignment="textStart"
+        android:textColor="@color/complete_light_gray"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/second_divide" />
+
+    <TextView
+        android:id="@+id/group_nickname_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/complete_group_nickname_text"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/second_divide" />
+
+    <View
+        android:id="@+id/third_divide"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="20dp"
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/dark_grey"
+        android:backgroundTintMode="add"
+        app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/complete_nickname_text" />
+
+    <TextView
+        android:id="@+id/complete_pet_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/complete_pet_name_text"
+        android:textColor="@color/complete_light_gray"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/group_pet_name_text"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toTopOf="@id/group_pet_name_text" />
+
+    <TextView
+        android:id="@+id/group_pet_name_text"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:textAlignment="textEnd"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/fourth_divide"
+        app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/third_divide"
+        tools:text="fds" />
+
+    <View
+        android:id="@+id/fourth_divide"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="20dp"
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/dark_grey"
+        android:backgroundTintMode="add"
+        app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/group_pet_name_text" />
+
+    <TextView
+        android:id="@+id/pet_add_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/pet_add_text"
+        android:textColor="@color/black_500"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/fourth_divide" />
+
+    <TextView
+        android:id="@+id/pet_add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/grey_button"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:shadowColor="@color/dark_grey"
+        android:text="@string/pet_add_button_text"
+        android:textColor="@color/light_black"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/pet_add_text"
+        app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintTop_toTopOf="@id/pet_add_text" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/care_start_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/blue_button"
+        android:shadowColor="@color/dark_grey"
+        android:text="@string/care_start_text"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/group_invite_button"
+        app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintStart_toStartOf="@id/left_guideline" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/group_invite_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/whiteblue_click_button"
+        android:shadowColor="@color/dark_grey"
+        android:text="@string/group_invite_text"
+        android:textColor="@color/main_blue"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/invite_comment_text"
+        app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintStart_toStartOf="@id/left_guideline" />
+
+    <TextView
+        android:id="@+id/invite_comment_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="@string/invite_comment"
+        android:textColor="@color/main_blue"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
