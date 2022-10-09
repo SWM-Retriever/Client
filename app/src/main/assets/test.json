@@ -1,0 +1,22 @@
+{
+  "diaryList":[
+    {
+      "viewType":"DATE",
+      "date":"2022.07.01",
+      "diaryId":1,
+      "writerImage":"",
+      "writerNickName":"",
+      "diaryImage":"",
+      "diaryContent":""
+    },
+    {
+      "viewType":"DIARY",
+      "date":"2022.07.01",
+      "diaryId":2,
+      "writerImage":"abc",
+      "writerNickName":"김시진",
+      "diaryImage":"abc",
+      "diaryContent":"김시진 존잘"
+    }
+  ]
+}
