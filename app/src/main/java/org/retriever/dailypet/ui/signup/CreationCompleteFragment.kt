@@ -1,14 +1,22 @@
 package org.retriever.dailypet.ui.signup
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.firebase.dynamiclinks.DynamicLink
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.ktx.Firebase
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreationCompleteBinding
 import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.util.DynamicLinksUtil
 import org.retriever.dailypet.util.hideProgressCircular
 
 class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>() {
@@ -52,7 +60,23 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
             root.findNavController().navigate(R.id.action_creationCompleteFragment_to_mainActivity)
         }
 
-        //TODO 그룹초대 로직 구현
+        groupInviteButton.setOnClickListener {
+            //TODO 그룹초대 로직 구현
+            onShareClicked()
 
+        }
     }
+
+    private fun onShareClicked() {
+        val link = "https://dailypet.page.link/invite"
+
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT, link)
+        startActivity(Intent.createChooser(intent, "Share Link"))
+    }
+
+
+
+
 }

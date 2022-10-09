@@ -64,6 +64,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>() {
             val intent = Intent(requireContext(), LoginActivity::class.java)
             startActivity(intent)
         }
+
+        binding.btnInvite.setOnClickListener{
+            onShareClicked()
+        }
+
     }
 
 
@@ -89,6 +94,15 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>() {
         GlobalApplication.prefs.initJwt()
         Log.e("", jwt)
         myPageViewModel.deleteMemberWithdrawal(jwt)
+    }
+
+    private fun onShareClicked() {
+        val link = "https://dailypet.page.link/invite"
+
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT, link)
+        startActivity(Intent.createChooser(intent, "Share Link"))
     }
 
 }
