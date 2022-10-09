@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/diaryFragment"
-        android:name="org.retriever.dailypet.ui.main.DiaryFragment"
+        android:name="org.retriever.dailypet.ui.main.diary.DiaryFragment"
         android:label="DiaryFragment"
         tools:layout="@layout/fragment_diary" />
 

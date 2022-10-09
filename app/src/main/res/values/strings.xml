@@ -90,4 +90,5 @@
     <string name="pet_add_button_text">추가하기</string>
     <string name="group_invite_text">그룹 초대하기</string>
     <string name="care_start_text">케어 시작하기</string>
+    <string name="empty_diary_text">아직 작성된 반려일기가 없어요\n반려일기를 작성해보세요!</string>
 </resources>
