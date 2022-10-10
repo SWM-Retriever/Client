@@ -13,6 +13,7 @@ import org.retriever.dailypet.data.network.diary.DiaryApiInterface
 import org.retriever.dailypet.data.network.login.LoginApiService
 import org.retriever.dailypet.data.network.mypage.MyPageApiService
 import org.retriever.dailypet.data.network.signup.FamilyApiInterface
+import org.retriever.dailypet.data.network.signup.FindGroupApiInterface
 import org.retriever.dailypet.data.network.signup.PetApiService
 import org.retriever.dailypet.data.network.signup.ProfileApiService
 import retrofit2.Retrofit
@@ -87,6 +88,11 @@ object NetworkModule {
         return retrofit.create(MyPageApiService::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideFindGroupApiService(retrofit: Retrofit): FindGroupApiInterface {
+        return retrofit.create(FindGroupApiInterface::class.java)
+    
     @Provides
     @Singleton
     fun provideDiaryApiService(retrofit: Retrofit): DiaryApiInterface {

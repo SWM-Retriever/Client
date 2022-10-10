@@ -8,7 +8,7 @@ data class LoginResponse(
     val email: String,
     val jwtToken: String,
     val familyId : Int,
+    val invitationCode: String,
     val familyName : String,
-    val invitationCode : String,
     val petIdList : List<Int>,
 )
