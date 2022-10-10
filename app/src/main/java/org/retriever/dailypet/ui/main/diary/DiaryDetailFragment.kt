@@ -1,7 +1,6 @@
 package org.retriever.dailypet.ui.main.diary
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,6 +44,7 @@ class DiaryDetailFragment : BaseFragment<FragmentDiaryDetailBinding>() {
         initItem()
         initView()
         initPopUp()
+        backButtonClick()
         moreButtonClick()
         observeResponse()
     }
@@ -78,6 +78,12 @@ class DiaryDetailFragment : BaseFragment<FragmentDiaryDetailBinding>() {
             popUpWindow.dismiss()
         }
 
+    }
+
+    private fun backButtonClick() {
+        binding.backButton.setOnClickListener {
+            binding.root.findNavController().popBackStack()
+        }
     }
 
     private fun moreButtonClick() {

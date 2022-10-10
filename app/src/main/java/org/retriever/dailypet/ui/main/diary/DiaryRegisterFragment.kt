@@ -38,6 +38,7 @@ class DiaryRegisterFragment : BaseFragment<FragmentDiaryRegisterBinding>() {
         getItemFromArgs()
         initView()
         initCircularProgress()
+        backButtonClick()
         completeButtonClick()
         observePostResponse()
         observeUpdateResponse()
@@ -56,6 +57,12 @@ class DiaryRegisterFragment : BaseFragment<FragmentDiaryRegisterBinding>() {
 
     private fun initCircularProgress() {
         hideProgressCircular(binding.progressCircular)
+    }
+
+    private fun backButtonClick() {
+        binding.backButton.setOnClickListener {
+            binding.root.findNavController().popBackStack()
+        }
     }
 
     private fun completeButtonClick() = with(binding) {
