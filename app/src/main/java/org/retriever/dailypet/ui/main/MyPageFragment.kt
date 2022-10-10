@@ -87,6 +87,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>() {
     private fun withdrawal() {
         val jwt = GlobalApplication.prefs.jwt ?: ""
         GlobalApplication.prefs.initJwt()
+        GlobalApplication.prefs.initFamilyId()
+        GlobalApplication.prefs.initPetIdList()
         Log.e("", jwt)
         myPageViewModel.deleteMemberWithdrawal(jwt)
     }

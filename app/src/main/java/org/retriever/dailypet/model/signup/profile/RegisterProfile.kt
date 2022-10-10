@@ -8,8 +8,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @JsonClass(generateAdapter = true)
 data class RegisterProfile(
-    @Json(name = "snsNickName")
-    var nickname: String,
+    var nickName: String,
     val email: String,
     @Json(name = "providerType")
     val domain: String,

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/diary_navigation_graph"
+    app:startDestination="@id/diaryMainFragment">
+
+    <fragment
+        android:id="@+id/diaryMainFragment"
+        android:name="org.retriever.dailypet.ui.main.diary.DiaryMainFragment"
+        android:label="DiaryMainFragment" >
+        <action
+            android:id="@+id/action_diaryMainFragment_to_diaryRegisterFragment"
+            app:destination="@id/diaryRegisterFragment" />
+        <action
+            android:id="@+id/action_diaryMainFragment_to_diaryGalleryFragment"
+            app:destination="@id/diaryGalleryFragment" />
+        <action
+            android:id="@+id/action_diaryMainFragment_to_diaryDetailFragment"
+            app:destination="@id/diaryDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/diaryRegisterFragment"
+        android:name="org.retriever.dailypet.ui.main.diary.DiaryRegisterFragment"
+        android:label="DiaryRegisterFragment" >
+        <argument
+            android:name="diaryItem"
+            app:argType="org.retriever.dailypet.model.diary.DiaryItem" />
+        <action
+            android:id="@+id/action_diaryRegisterFragment_to_diaryMainFragment"
+            app:destination="@id/diaryMainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/diaryGalleryFragment"
+        android:name="org.retriever.dailypet.ui.main.diary.DiaryGalleryFragment"
+        android:label="DiaryGalleryFragment" />
+    <fragment
+        android:id="@+id/diaryDetailFragment"
+        android:name="org.retriever.dailypet.ui.main.diary.DiaryDetailFragment"
+        android:label="DiaryDetailFragment" >
+        <argument
+            android:name="diaryItem"
+            app:argType="org.retriever.dailypet.model.diary.DiaryItem" />
+        <action
+            android:id="@+id/action_diaryDetailFragment_to_diaryRegisterFragment"
+            app:destination="@id/diaryRegisterFragment" />
+    </fragment>
+</navigation>
