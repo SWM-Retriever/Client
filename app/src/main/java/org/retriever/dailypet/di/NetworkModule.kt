@@ -92,6 +92,7 @@ object NetworkModule {
     @Singleton
     fun provideFindGroupApiService(retrofit: Retrofit): FindGroupApiInterface {
         return retrofit.create(FindGroupApiInterface::class.java)
+    }
     
     @Provides
     @Singleton

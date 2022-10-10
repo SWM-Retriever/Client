@@ -38,6 +38,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@android:color/transparent"
+        android:paddingStart="0dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
         android:src="@drawable/icon_back"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toTopOf="parent" />
@@ -82,14 +85,13 @@
 
     <ImageButton
         android:id="@+id/search_invite_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:backgroundTint="#00FFFFFF"
+        android:backgroundTint="@color/transparent"
         app:layout_constraintBottom_toBottomOf="@+id/input_code_edittext"
         app:layout_constraintEnd_toEndOf="@+id/input_code_edittext"
         app:layout_constraintTop_toTopOf="@+id/input_code_edittext"
-        app:layout_constraintVertical_bias="0.529"
         app:srcCompat="@android:drawable/ic_menu_search"
         app:tint="@color/main_blue" />
 
@@ -105,51 +107,55 @@
 
     <TextView
         android:id="@+id/group_name_text"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:textAlignment="center"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/light_black"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@+id/invite_code_validate_text" />
+        app:layout_constraintTop_toBottomOf="@+id/invite_code_validate_text"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="그룹명 : 세훈이" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/family_group_recyclerview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/group_name_text" />
 
     <TextView
         android:id="@+id/find_group_invisible_comment_text"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="244dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/find_group_confirm_text"
-        android:textAlignment="center"
         android:textSize="14sp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintBottom_toTopOf="@id/enter_group_button"
+        app:layout_constraintEnd_toEndOf="@+id/right_guideline"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@+id/family_group_recyclerview" />
+        tools:visibility="visible" />
 
-    <android.widget.Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/enter_group_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/blue_button"
         android:shadowColor="@color/dark_grey"
         android:text="@string/enter_group_text"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@+id/find_group_invisible_comment_text" />
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

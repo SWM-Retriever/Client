@@ -105,4 +105,7 @@
     <string name="diary_register_sub_title_text">오늘의 일기에요</string>
     <string name="content_text">내용</string>
     <string name="diary_content_hint">반려동물과 함께했던 모든 순간을 기록해보세요</string>
+    <string name="find_group_name_text">그룹명 : %1s</string>
+    <string name="valid_invitation_code">유효한 초대코드입니다</string>
+    <string name="invalid_invitation_code">유효하지않은 초대코드입니다</string>
 </resources>
