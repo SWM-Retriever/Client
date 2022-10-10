@@ -93,6 +93,7 @@
     <string name="empty_diary_text">아직 작성된 반려일기가 없어요\n반려일기를 작성해보세요!</string>
     <string name="more_view_text">더보기</string>
     <string name="diary_register_title">작성하기</string>
+    <string name="diary_modify_title">수정하기</string>
     <string name="complete_text">완료</string>
     <string name="diary_register_sub_title_text">오늘의 일기에요</string>
     <string name="content_text">내용</string>

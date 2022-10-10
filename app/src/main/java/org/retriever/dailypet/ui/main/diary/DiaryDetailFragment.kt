@@ -1,6 +1,7 @@
 package org.retriever.dailypet.ui.main.diary
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -96,7 +97,7 @@ class DiaryDetailFragment : BaseFragment<FragmentDiaryDetailBinding>() {
 
     private fun observeResponse() = with(binding) {
         diaryViewModel.diaryDeleteResponse.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let{response->
+            event.getContentIfNotHandled()?.let { response ->
                 when (response) {
                     is Resource.Loading -> {
                         showProgressCircular(progressCircular)

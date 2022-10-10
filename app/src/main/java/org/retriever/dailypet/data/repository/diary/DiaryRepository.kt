@@ -19,4 +19,7 @@ class DiaryRepository @Inject constructor(private val diaryApiInterface: DiaryAp
     suspend fun deleteDiary(familyId: Int, diaryId: Int, jwt: String): Resource<ResponseBody> =
         safeApiCall { diaryApiInterface.deleteDiary(familyId, diaryId, jwt) }
 
+    suspend fun updateDiary(familyId: Int, diaryId: Int, jwt: String, diaryPost: DiaryPost): Resource<ResponseBody> =
+        safeApiCall { diaryApiInterface.updateDiary(familyId, diaryId, jwt, diaryPost) }
+
 }

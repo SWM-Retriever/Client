@@ -98,7 +98,17 @@ class DiaryMainFragment : BaseFragment<FragmentDiaryMainBinding>() {
 
     private fun floatingActionButtonClick() = with(binding) {
         floatingAddButton.setOnClickListener {
-            root.findNavController().navigate(R.id.action_diaryMainFragment_to_diaryRegisterFragment)
+            val emptyItem = DiaryItem(
+                viewType = "",
+                date = "",
+                diaryId = -1,
+                authorImageUrl = "",
+                authorNickName = "",
+                diaryImageUrlList = emptyList(),
+                diaryText = "",
+            )
+            val action = DiaryMainFragmentDirections.actionDiaryMainFragmentToDiaryRegisterFragment(emptyItem)
+            root.findNavController().navigate(action)
         }
     }
 

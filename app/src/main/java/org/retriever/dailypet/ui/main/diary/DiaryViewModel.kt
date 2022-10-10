@@ -26,6 +26,9 @@ class DiaryViewModel @Inject constructor(private val diaryRepository: DiaryRepos
     private val _diaryDeleteResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
     val diaryDeleteResponse: LiveData<Event<Resource<ResponseBody>>> = _diaryDeleteResponse
 
+    private val _diaryUpdateResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
+    val diaryUpdateResponse: LiveData<Event<Resource<ResponseBody>>> = _diaryUpdateResponse
+
     fun getDiaryList(familyId: Int, jwt: String) = viewModelScope.launch {
         _diaryListResponse.postValue(Resource.Loading())
 
@@ -42,6 +45,12 @@ class DiaryViewModel @Inject constructor(private val diaryRepository: DiaryRepos
         _diaryDeleteResponse.postValue(Event(Resource.Loading()))
 
         _diaryDeleteResponse.postValue(Event(diaryRepository.deleteDiary(familyId, diaryId, jwt)))
+    }
+
+    fun updateDiary(familyId: Int, diaryId: Int, jwt: String, diaryPost: DiaryPost) = viewModelScope.launch {
+        _diaryUpdateResponse.postValue(Event(Resource.Loading()))
+
+        _diaryUpdateResponse.postValue(Event(diaryRepository.updateDiary(familyId, diaryId, jwt, diaryPost)))
     }
 
 }

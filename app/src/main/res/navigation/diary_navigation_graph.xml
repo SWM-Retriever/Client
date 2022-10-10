@@ -25,6 +25,9 @@
         <argument
             android:name="diaryItem"
             app:argType="org.retriever.dailypet.model.diary.DiaryItem" />
+        <action
+            android:id="@+id/action_diaryRegisterFragment_to_diaryMainFragment"
+            app:destination="@id/diaryMainFragment" />
     </fragment>
     <fragment
         android:id="@+id/diaryGalleryFragment"
