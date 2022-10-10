@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.HomeFragment">
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -76,13 +86,13 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/text_Dday"
+            android:id="@+id/d_day_text"
             android:layout_width="358dp"
             android:layout_height="59dp"
             android:layout_marginTop="16dp"
-            android:text="{닉네임}님\n{반려동물 이름}와 {00}일 함께하고 있어요"
+            android:text="@string/home_pet_day_text"
             android:textColor="#000000"
-            android:textSize="20sp"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
@@ -92,11 +102,11 @@
             android:layout_width="241dp"
             android:layout_height="20dp"
             android:layout_marginTop="8dp"
-            android:text="이번주 기여도는 00%입니다"
+            android:text="@string/home_contribution_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.111"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_Dday" />
+            app:layout_constraintTop_toBottomOf="@+id/d_day_text" />
 
         <TextView
             android:id="@+id/text_empty_comment"
@@ -120,7 +130,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.566"
             app:layout_constraintStart_toEndOf="@+id/text_contribution"
-            app:layout_constraintTop_toBottomOf="@+id/text_Dday" />
+            app:layout_constraintTop_toBottomOf="@+id/d_day_text" />
 
         <ImageButton
             android:id="@+id/btn_contribution_detail"
@@ -133,7 +143,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.21"
             app:layout_constraintStart_toEndOf="@+id/text_contribution_detail"
-            app:layout_constraintTop_toBottomOf="@+id/text_Dday" />
+            app:layout_constraintTop_toBottomOf="@+id/d_day_text" />
 
         <TextView
             android:id="@+id/text_care_title"

@@ -6,21 +6,29 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import org.retriever.dailypet.GlobalApplication
+import org.retriever.dailypet.R
 import org.retriever.dailypet.RegisterCareActivity
 import org.retriever.dailypet.databinding.FragmentHomeBinding
 import org.retriever.dailypet.interfaces.CareAdapter
+import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.models.Care
 import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.ui.main.viewmodel.HomeViewModel
+import org.retriever.dailypet.util.hideProgressCircular
+import org.retriever.dailypet.util.showProgressCircular
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
-    private val TAG = "HOME_FRAGMENT"
+    private val homeViewModel by activityViewModels<HomeViewModel>()
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
-
+    private val jwt = GlobalApplication.prefs.jwt ?: ""
+    private val petIdList = GlobalApplication.prefs.getPetIdList()
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeBinding {
         return FragmentHomeBinding.inflate(inflater, container, false)
@@ -28,12 +36,48 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setOnClickListener()
 
+        initProgressCircular()
+        getDays()
+        initDaysView()
+        initCareTabView()
+        buttonClick()
+    }
+
+    private fun initProgressCircular() {
+        hideProgressCircular(binding.progressCircular)
+    }
+
+    private fun getDays(){
+        homeViewModel.getDays(petIdList[0], jwt)
+    }
+
+    private fun initDaysView() = with(binding) {
+        homeViewModel.getDaysResponse.observe(viewLifecycleOwner){ response ->
+            when(response){
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+                    val nickname = response.data?.userName ?: ""
+                    val petName = response.data?.petName ?: ""
+                    val dDay = response.data?.calculatedDay ?: 0
+                    dDayText.text = getString(R.string.home_pet_day_text, nickname, petName, dDay)
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(progressCircular)
+                }
+            }
+        }
+
+    }
+
+    private fun initCareTabView() = with(binding) {
         viewPager = binding.viewpagerMain
         tabLayout = binding.tabCareList
-        // Load Data
 
+        // Load Data
         val careList = ArrayList<Care>()
         careList.add(Care("식사", "월 수 금", 3, 1, "나"))
         careList.add(Care("산책", "월 화 수 목 금", 2, 0, ""))
@@ -68,7 +112,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                Log.d(TAG, "Page ${position + 1}")
             }
         })
 
@@ -78,12 +121,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }.attach()
     }
 
-    private fun setOnClickListener() {
-        binding.btnRegisterCare.setOnClickListener {
+    private fun buttonClick() = with(binding) {
+        btnRegisterCare.setOnClickListener {
             val intent = Intent(requireContext(), RegisterCareActivity::class.java)
             startActivity(intent)
         }
-        binding.btnAddCare.setOnClickListener {
+        btnAddCare.setOnClickListener {
             val intent = Intent(requireContext(), RegisterCareActivity::class.java)
             startActivity(intent)
         }
