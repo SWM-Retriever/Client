@@ -15,7 +15,6 @@ import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.diary.DiaryItem
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.main.diary.adapter.DiaryAdapter
-import org.retriever.dailypet.ui.signup.TermOfServiceFragmentDirections
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 
@@ -37,6 +36,8 @@ class DiaryMainFragment : BaseFragment<FragmentDiaryMainBinding>() {
 
         getDiaryList()
         observeDiaryListResponse()
+        initDiaryAdapter()
+        galleryButtonClick()
         floatingActionButtonClick()
     }
 
@@ -68,9 +69,7 @@ class DiaryMainFragment : BaseFragment<FragmentDiaryMainBinding>() {
             showEmptyDiaryLayout()
         } else {
             showNotEmptyDiaryLayout()
-            initDiaryAdapter()
             diaryAdapter.submitList(list)
-            galleryButtonClick()
         }
     }
 

@@ -55,18 +55,20 @@ class DiaryRegisterFragment : BaseFragment<FragmentDiaryRegisterBinding>() {
     }
 
     private fun observeResponse() = with(binding) {
-        diaryViewModel.diaryPostResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success -> {
-                    hideProgressCircular(progressCircular)
-                    root.findNavController().popBackStack()
-                }
-                is Resource.Error -> {
-                    hideProgressCircular(progressCircular)
-                    Toast.makeText(requireContext(), "등록에 실패하였습니다", Toast.LENGTH_SHORT).show()
+        diaryViewModel.diaryPostResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        root.findNavController().popBackStack()
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                        Toast.makeText(requireContext(), "등록에 실패하였습니다", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

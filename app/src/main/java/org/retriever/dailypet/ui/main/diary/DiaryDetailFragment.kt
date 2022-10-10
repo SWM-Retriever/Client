@@ -95,18 +95,20 @@ class DiaryDetailFragment : BaseFragment<FragmentDiaryDetailBinding>() {
     }
 
     private fun observeResponse() = with(binding) {
-        diaryViewModel.diaryDeleteResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success -> {
-                    hideProgressCircular(progressCircular)
-                    root.findNavController().popBackStack()
-                }
-                is Resource.Error -> {
-                    hideProgressCircular(progressCircular)
-                    Toast.makeText(requireContext(), "삭제에 실패하였습니다", Toast.LENGTH_SHORT).show()
+        diaryViewModel.diaryDeleteResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let{response->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        root.findNavController().popBackStack()
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                        Toast.makeText(requireContext(), "삭제에 실패하였습니다", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

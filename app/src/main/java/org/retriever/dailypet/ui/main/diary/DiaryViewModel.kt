@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
+import org.retriever.dailypet.Event
 import org.retriever.dailypet.data.repository.diary.DiaryRepository
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.diary.DiaryPost
@@ -19,11 +20,11 @@ class DiaryViewModel @Inject constructor(private val diaryRepository: DiaryRepos
     private val _diaryListResponse = MutableLiveData<Resource<DiaryResponse>>()
     val diaryListResponse: LiveData<Resource<DiaryResponse>> = _diaryListResponse
 
-    private val _diaryPostResponse = MutableLiveData<Resource<ResponseBody>>()
-    val diaryPostResponse: LiveData<Resource<ResponseBody>> = _diaryPostResponse
+    private val _diaryPostResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
+    val diaryPostResponse: LiveData<Event<Resource<ResponseBody>>> = _diaryPostResponse
 
-    private val _diaryDeleteResponse = MutableLiveData<Resource<ResponseBody>>()
-    val diaryDeleteResponse: LiveData<Resource<ResponseBody>> = _diaryDeleteResponse
+    private val _diaryDeleteResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
+    val diaryDeleteResponse: LiveData<Event<Resource<ResponseBody>>> = _diaryDeleteResponse
 
     fun getDiaryList(familyId: Int, jwt: String) = viewModelScope.launch {
         _diaryListResponse.postValue(Resource.Loading())
@@ -32,15 +33,15 @@ class DiaryViewModel @Inject constructor(private val diaryRepository: DiaryRepos
     }
 
     fun postDiary(familyId: Int, jwt: String, diaryPost: DiaryPost) = viewModelScope.launch {
-        _diaryPostResponse.postValue(Resource.Loading())
+        _diaryPostResponse.postValue(Event(Resource.Loading()))
 
-        _diaryPostResponse.postValue(diaryRepository.postDiary(familyId, jwt, diaryPost))
+        _diaryPostResponse.postValue(Event(diaryRepository.postDiary(familyId, jwt, diaryPost)))
     }
 
     fun deleteDiary(familyId: Int, diaryId: Int, jwt: String) = viewModelScope.launch {
-        _diaryDeleteResponse.postValue(Resource.Loading())
+        _diaryDeleteResponse.postValue(Event(Resource.Loading()))
 
-        _diaryDeleteResponse.postValue(diaryRepository.deleteDiary(familyId, diaryId, jwt))
+        _diaryDeleteResponse.postValue(Event(diaryRepository.deleteDiary(familyId, diaryId, jwt)))
     }
 
 }
