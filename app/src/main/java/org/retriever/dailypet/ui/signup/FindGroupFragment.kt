@@ -1,20 +1,26 @@
 package org.retriever.dailypet.ui.signup
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginStart
+import androidx.core.view.setPadding
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentFindGroupBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.bottomsheet.AddProfileBottomSheet
+import org.retriever.dailypet.ui.signup.adapter.FindGroupAdapter
 import org.retriever.dailypet.ui.signup.viewmodel.FindGroupViewModel
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
@@ -29,6 +35,8 @@ class FindGroupFragment : BaseFragment<FragmentFindGroupBinding>() {
     private var familyId = 0
 
     private val jwt = GlobalApplication.prefs.jwt ?: ""
+
+    private lateinit var familyAdapter: FindGroupAdapter
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentFindGroupBinding {
         return FragmentFindGroupBinding.inflate(inflater, container, false)
@@ -61,6 +69,7 @@ class FindGroupFragment : BaseFragment<FragmentFindGroupBinding>() {
                     groupName = response.data?.familyName.toString()
                     groupCnt = response.data?.familyMemberCount ?: 0
                     familyId = response.data?.familyId ?: 0
+                    initRecyclerAdapter()
                     setVisibility()
                 }
                 is Resource.Error -> {
@@ -80,6 +89,16 @@ class FindGroupFragment : BaseFragment<FragmentFindGroupBinding>() {
                 }
             }
 
+        }
+    }
+
+    private fun initRecyclerAdapter() {
+        val list = listOf("김시진", "안세훈", "김시진", "안세훈", "김시진", "안세훈", "김시진", "안세훈", "김시진", "안세훈")
+        familyAdapter = FindGroupAdapter(list)
+
+        binding.familyGroupRecyclerview.apply {
+            adapter = familyAdapter
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
     }
 
@@ -118,17 +137,21 @@ class FindGroupFragment : BaseFragment<FragmentFindGroupBinding>() {
 
     private fun setVisibility() = with(binding) {
         if (isValidCode) {
-            imgFamilyPhoto.visibility = View.VISIBLE
+            familyGroupRecyclerview.visibility = View.VISIBLE
             groupNameText.visibility = View.VISIBLE
             enterGroupButton.visibility = Button.VISIBLE
             findGroupInvisibleCommentText.visibility = View.VISIBLE
             groupNameText.text = groupName
         } else {
-            imgFamilyPhoto.visibility = View.INVISIBLE
+            familyGroupRecyclerview.visibility = View.INVISIBLE
             groupNameText.visibility = View.INVISIBLE
             enterGroupButton.visibility = Button.INVISIBLE
             findGroupInvisibleCommentText.visibility = View.INVISIBLE
         }
+    }
+
+    private fun dpToPx(dp: Float): Int{
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, requireContext().resources.displayMetrics).toInt()
     }
 
     private fun showAddProfileBottomSheetDialog() {

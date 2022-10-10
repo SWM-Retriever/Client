@@ -70,7 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.057"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scroll_actvity" />
+        app:layout_constraintTop_toBottomOf="@+id/scroll_view" />
 
     <TextView
         android:id="@+id/text_number"
@@ -100,7 +100,7 @@
         app:layout_constraintTop_toBottomOf="@+id/text_number" />
 
     <HorizontalScrollView
-        android:id="@+id/scroll_actvity"
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
