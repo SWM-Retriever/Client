@@ -76,7 +76,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                         when (response.code) {
                             CODE_NEW_MEMBER -> {
                                 val registerProfile = RegisterProfile(
-                                    nickname = name,
+                                    nickName = name,
                                     email = email,
                                     domain = domain,
                                     deviceToken = getDeviceToken()
@@ -140,6 +140,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 deviceToken = task.result
+                Log.d("ABC", deviceToken)
             }
         }
 

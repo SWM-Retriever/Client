@@ -1,8 +1,8 @@
 package org.retriever.dailypet.data.network.login
 
-import okhttp3.MultipartBody
-import okhttp3.ResponseBody
-import org.retriever.dailypet.model.login.*
+import org.retriever.dailypet.model.login.LoginResponse
+import org.retriever.dailypet.model.login.Member
+import org.retriever.dailypet.model.login.ProgressStatusResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -14,10 +14,5 @@ interface LoginApiService {
 
     @GET("api/v1/progress-status")
     suspend fun getProgressStatus(@Header("X-AUTH-TOKEN") jwt : String) : Response<ProgressStatusResponse>
-
-
-
-
-
 
 }
