@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.main
+package org.retriever.dailypet.ui.mypage
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,28 +13,27 @@ import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.AndroidEntryPoint
 import org.retriever.dailypet.GlobalApplication
-import org.retriever.dailypet.Prefs
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentMyPageBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.login.LoginActivity
-import org.retriever.dailypet.ui.mypage.MyPageViewModel
 
 @AndroidEntryPoint
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>() {
 
-    private val myPageViewModel by activityViewModels<MyPageViewModel>()
+    // private val myPageViewModel by activityViewModels<MyPageViewModel>()
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentMyPageBinding {
         return FragmentMyPageBinding.inflate(inflater, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+/*    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListener()
         init()
-    }
+    }*/
+/*
 
     private fun init() {
         myPageViewModel.withdrawalResponse.observe(viewLifecycleOwner) { response ->
@@ -115,5 +114,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>() {
         intent.putExtra(Intent.EXTRA_TEXT, code)
         startActivity(Intent.createChooser(intent, "초대코드 공유하기"))
     }
+*/
 
 }
