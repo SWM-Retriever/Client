@@ -57,9 +57,26 @@ class Prefs(context: Context) {
 
     var petIdList: String?
         get() = jsonToList(JSONArray(prefs.getString("petIdList", null))).toString()
-
         set(value) {
             prefs.edit().putString("petIdList", value).apply()
+        }
+
+    var inivitationCode: String?
+        get() = prefs.getString("invitationCode", null)
+        set(value) {
+            prefs.edit().putString("invitationCode", value).apply()
+        }
+
+    var familyType: String?
+        get() = prefs.getString("familyType", null)
+        set(value) {
+            prefs.edit().putString("familyType", value).apply()
+        }
+
+    var groupName: String?
+        get() = prefs.getString("groupName", null)
+        set(value) {
+            prefs.edit().putString("groupName", value).apply()
         }
 
     fun initDeviceToken() {
@@ -70,7 +87,7 @@ class Prefs(context: Context) {
         prefs.edit().putString("jwt", null).apply()
     }
 
-    fun initNickname(){
+    fun initNickname() {
         prefs.edit().putString("nickname", null).apply()
     }
 
@@ -82,13 +99,25 @@ class Prefs(context: Context) {
         prefs.edit().putString("petIdList", null).apply()
     }
 
+    fun initInvitationCode() {
+        prefs.edit().putString("invitationCode", null).apply()
+    }
+
+    fun initFamilyType() {
+        prefs.edit().putString("familyType", null).apply()
+    }
+
+    fun initGroupName() {
+        prefs.edit().putString("groupName", null).apply()
+    }
+
     fun getPetIdList(): MutableList<Int> {
         return jsonToList(JSONArray(prefs.getString("petIdList", null)))
     }
 
     private fun jsonToList(jsonArray: JSONArray): MutableList<Int> {
         val list = mutableListOf<Int>()
-        for(i in 0 until jsonArray.length()){
+        for (i in 0 until jsonArray.length()) {
             list.add(jsonArray.optInt(i))
         }
         return list

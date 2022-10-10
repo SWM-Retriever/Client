@@ -68,7 +68,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                         val nickname = response.data?.nickName ?: ""
                         val familyId = response.data?.familyId ?: -1
                         val petIdList = response.data?.petIdList ?: listOf()
-
+                        // TODO Response 수정되면 저장하자
 
                         saveSharedPreference(jwt, nickname, familyId, petIdList)
                         initProgress(jwt)
@@ -105,7 +105,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         GlobalApplication.prefs.jwt = jwt
         GlobalApplication.prefs.nickname = nickname
         GlobalApplication.prefs.familyId = familyId
-
+        // TODO Response 수정되면 저장하자
         val jsonArray = JSONArray()
         petIdList.forEach { id ->
             jsonArray.put(id)

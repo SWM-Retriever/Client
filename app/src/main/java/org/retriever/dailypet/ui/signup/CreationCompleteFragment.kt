@@ -16,15 +16,19 @@ import com.google.firebase.ktx.Firebase
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreationCompleteBinding
+import org.retriever.dailypet.model.signup.pet.Pet
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.util.DynamicLinksUtil
 import org.retriever.dailypet.util.hideProgressCircular
 
 class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>() {
 
-    lateinit var invitationCode : String
-    lateinit var groupName : String
-    lateinit var nickname : String
+    private var invitationCode = ""
+    private var nickname =""
+    private var groupName =""
+    private var familyId = -1
+    private var familyType =""
+    private lateinit var petIdList : List<Pet>
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentCreationCompleteBinding {
         return FragmentCreationCompleteBinding.inflate(inflater, container, false)
@@ -41,18 +45,27 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
     private fun initInfo() = with(binding) {
         val args: CreationCompleteFragmentArgs by navArgs()
         val petResponse = args.petResponse
+
         groupNameText.text = petResponse.familyName
         groupNicknameText.text = petResponse.familyRoleName
+
         var petString = petResponse.petList[0].petName
         if (petResponse.petList.size > 1) {
             for (i in 1 until petResponse.petList.size) {
                 petString += ", " + petResponse.petList[i].petName
             }
         }
+
         groupPetNameText.text = petString
-        invitationCode = petResponse.invitationCode
-        groupName = petResponse.familyName
-        nickname = GlobalApplication.prefs.nickname.toString()
+// TODO Response 수정되면 저장하자
+        //nickname = petResponse.nickName
+        //familyId = petResponse.familyId
+        petIdList = petResponse.petList
+         invitationCode = petResponse.invitationCode
+        //familyType = petResponse.familyType
+         groupName = petResponse.familyName
+
+
     }
 
     private fun initProgressCircular() {
@@ -84,6 +97,15 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
         intent.type = "text/plain"
         intent.putExtra(Intent.EXTRA_TEXT, code)
         startActivity(Intent.createChooser(intent, "초대코드 공유하기"))
+    }
+
+    private fun saveSharedReference(){
+        // TODO Response 수정되면 저장하자
+//nickname = petResponse.ickName
+        //familyId = petResponse.familyId
+        //petIdList = petResponse.petIdList
+        //invitationCode = petResponse.invitationCode
+        //familyType = petResponse.familyType
     }
 
 }
