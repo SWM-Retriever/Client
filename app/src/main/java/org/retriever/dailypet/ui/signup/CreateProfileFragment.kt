@@ -241,7 +241,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
         registerProfile.nickName = nickname
         val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
         val multiPartBody = MultipartBody.Part.createFormData("image", "image", bitmapRequestBody)
-
+        Log.d("ABC",registerProfile.toString())
         profileViewModel.postProfile(registerProfile, multiPartBody)
     }
 

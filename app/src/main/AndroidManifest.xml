@@ -43,6 +43,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.MainActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name="org.retriever.dailypet.ui.login.LoginActivity"

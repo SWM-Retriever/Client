@@ -143,6 +143,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 deviceToken = task.result
+                Log.d("ABC", deviceToken)
             }
         }
 

@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.retriever.dailypet.BuildConfig.BASE_URL
+import org.retriever.dailypet.data.network.diary.DiaryApiInterface
 import org.retriever.dailypet.data.network.login.LoginApiService
 import org.retriever.dailypet.data.network.mypage.MyPageApiService
 import org.retriever.dailypet.data.network.signup.FamilyApiInterface
@@ -91,6 +92,11 @@ object NetworkModule {
     @Singleton
     fun provideFindGroupApiService(retrofit: Retrofit): FindGroupApiInterface {
         return retrofit.create(FindGroupApiInterface::class.java)
+    
+    @Provides
+    @Singleton
+    fun provideDiaryApiService(retrofit: Retrofit): DiaryApiInterface {
+        return retrofit.create(DiaryApiInterface::class.java)
     }
 
 }
