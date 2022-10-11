@@ -88,17 +88,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         careList.add(Care("양치", "월 화 수 목 금 토 일", 2, 1, "엄마 동생"))
 
         if (careList.isEmpty()) {
-            binding.btnRegisterCare.visibility = View.VISIBLE
+            binding.emptyAddCareButton.visibility = View.VISIBLE
             binding.textEmptyComment.visibility = View.VISIBLE
             binding.tabCareList.visibility = View.GONE
             binding.viewpagerMain.visibility = View.GONE
-            binding.btnAddCare.visibility = View.GONE
+            binding.addCareButton.visibility = View.GONE
         } else {
-            binding.btnRegisterCare.visibility = View.GONE
+            binding.emptyAddCareButton.visibility = View.GONE
             binding.textEmptyComment.visibility = View.GONE
             binding.tabCareList.visibility = View.VISIBLE
             binding.viewpagerMain.visibility = View.VISIBLE
-            binding.btnAddCare.visibility = View.VISIBLE
+            binding.addCareButton.visibility = View.VISIBLE
         }
 
         val pagerAdapter = CareAdapter(requireActivity())
@@ -122,11 +122,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun buttonClick() = with(binding) {
-        btnRegisterCare.setOnClickListener {
+        emptyAddCareButton.setOnClickListener {
             val intent = Intent(requireContext(), RegisterCareActivity::class.java)
             startActivity(intent)
         }
-        btnAddCare.setOnClickListener {
+        addCareButton.setOnClickListener {
             val intent = Intent(requireContext(), RegisterCareActivity::class.java)
             startActivity(intent)
         }
