@@ -7,10 +7,12 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @JsonClass(generateAdapter = true)
 data class PetResponse(
-    var familyId : Int,
-    var familyName : String,
-    var familyRoleName : String,
-    var petList : List<Pet>,
-    var invitationCode : String,
+    var familyId: Int,
+    val familyName: String,
+    val nickName: String,
+    val invitationCode: String,
+    val groupType: String,
+    val profileImageUrl: String,
+    val petList: List<Pet>,
 ) : Parcelable
 

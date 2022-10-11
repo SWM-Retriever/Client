@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/myPageFragment"
-        android:name="org.retriever.dailypet.ui.main.MyPageFragment"
+        android:name="org.retriever.dailypet.ui.mypage.MyPageFragment"
         android:label="MyPageFragment"
         tools:layout="@layout/fragment_my_page" />
 
