@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -361,10 +360,12 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
                         val petResponse = response.data?.let {
                             PetResponse(
                                 familyId = it.familyId,
-                                familyName = response.data.familyName,
-                                familyRoleName = response.data.familyRoleName,
-                                petList = response.data.petList,
-                                invitationCode = response.data.invitationCode
+                                familyName = it.familyName,
+                                nickName = it.nickName,
+                                invitationCode = it.invitationCode,
+                                groupType = it.groupType,
+                                profileImageUrl = it.profileImageUrl,
+                                petList = it.petList
                             )
                         }
 

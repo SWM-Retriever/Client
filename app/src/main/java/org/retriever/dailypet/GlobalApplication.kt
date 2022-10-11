@@ -37,16 +37,16 @@ class Prefs(context: Context) {
             prefs.edit().putString("deviceToken", value).apply()
         }
 
-    var jwt: String?
-        get() = prefs.getString("jwt", null)
-        set(value) {
-            prefs.edit().putString("jwt", value).apply()
-        }
-
     var nickname: String?
         get() = prefs.getString("nickname", null)
         set(value) {
             prefs.edit().putString("nickname", value).apply()
+        }
+
+    var jwt: String?
+        get() = prefs.getString("jwt", null)
+        set(value) {
+            prefs.edit().putString("jwt", value).apply()
         }
 
     var familyId: Int
@@ -55,29 +55,36 @@ class Prefs(context: Context) {
             prefs.edit().putInt("familyId", value).apply()
         }
 
+    var groupName: String?
+        get() = prefs.getString("groupName", null)
+        set(value) {
+            prefs.edit().putString("groupName", value).apply()
+        }
+
+    var invitationCode: String?
+        get() = prefs.getString("invitationCode", null)
+        set(value) {
+            prefs.edit().putString("invitationCode", value).apply()
+        }
+
+    var groupType: String?
+        get() = prefs.getString("groupType", null)
+        set(value) {
+            prefs.edit().putString("groupType", value).apply()
+        }
+
+    var profileImageUrl: String?
+        get() = prefs.getString("profileImageUrl", null)
+        set(value) {
+            prefs.edit().putString("profileImageUrl", value).apply()
+        }
+
     var petIdList: String?
         get() = jsonToList(JSONArray(prefs.getString("petIdList", null))).toString()
         set(value) {
             prefs.edit().putString("petIdList", value).apply()
         }
 
-    var inivitationCode: String?
-        get() = prefs.getString("invitationCode", null)
-        set(value) {
-            prefs.edit().putString("invitationCode", value).apply()
-        }
-
-    var familyType: String?
-        get() = prefs.getString("familyType", null)
-        set(value) {
-            prefs.edit().putString("familyType", value).apply()
-        }
-
-    var groupName: String?
-        get() = prefs.getString("groupName", null)
-        set(value) {
-            prefs.edit().putString("groupName", value).apply()
-        }
 
     fun initDeviceToken() {
         prefs.edit().putString("deviceToken", null).apply()
@@ -95,20 +102,24 @@ class Prefs(context: Context) {
         prefs.edit().putInt("familyId", -1).apply()
     }
 
-    fun initPetIdList() {
-        prefs.edit().putString("petIdList", null).apply()
+    fun initGroupName() {
+        prefs.edit().putString("groupName", null).apply()
     }
 
     fun initInvitationCode() {
         prefs.edit().putString("invitationCode", null).apply()
     }
 
-    fun initFamilyType() {
-        prefs.edit().putString("familyType", null).apply()
+    fun initGroupType() {
+        prefs.edit().putString("groupType", null).apply()
     }
 
-    fun initGroupName() {
-        prefs.edit().putString("groupName", null).apply()
+    fun initProfileImageUrl() {
+        prefs.edit().putString("profileImageUrl", null).apply()
+    }
+
+    fun initPetIdList() {
+        prefs.edit().putString("petIdList", null).apply()
     }
 
     fun getPetIdList(): MutableList<Int> {

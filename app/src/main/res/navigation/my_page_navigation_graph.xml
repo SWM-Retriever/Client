@@ -7,5 +7,17 @@
     <fragment
         android:id="@+id/myPageMainFragment"
         android:name="org.retriever.dailypet.ui.mypage.MyPageMainFragment"
-        android:label="MyPageMainFragment" />
+        android:label="MyPageMainFragment" >
+        <action
+            android:id="@+id/action_myPageMainFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="org.retriever.dailypet.ui.mypage.WebViewFragment"
+        android:label="WebViewFragment" >
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
 </navigation>
