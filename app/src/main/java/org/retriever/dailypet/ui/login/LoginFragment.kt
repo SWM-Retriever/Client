@@ -27,6 +27,7 @@ import org.retriever.dailypet.databinding.FragmentLoginBinding
 import org.retriever.dailypet.loginWithKakao
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.login.Member
+import org.retriever.dailypet.model.signup.pet.Pet
 import org.retriever.dailypet.model.signup.profile.RegisterProfile
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.util.hideProgressCircular
@@ -64,13 +65,25 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                     is Resource.Success -> {
                         hideProgressCircular(progressCircular)
 
+                        val nickName = response.data?.nickName ?: ""
                         val jwt = response.data?.jwtToken ?: ""
-                        val nickname = response.data?.nickName ?: ""
                         val familyId = response.data?.familyId ?: -1
-                        val petIdList = response.data?.petIdList ?: listOf()
+                        val groupName = response.data?.familyName ?: ""
+                        val invitationCode = response.data?.invitationCode ?: ""
+                        val groupType = response.data?.groupType ?: ""
+                        val profileImageUrl = response.data?.profileImageUrl ?: ""
+                        val petIdList = response.data?.petList ?: emptyList()
 
-
-                        saveSharedPreference(jwt, nickname, familyId, petIdList)
+                        saveSharedPreference(
+                            nickName,
+                            jwt,
+                            familyId,
+                            groupName,
+                            invitationCode,
+                            groupType,
+                            profileImageUrl,
+                            petIdList
+                        )
                         initProgress(jwt)
                     }
                     is Resource.Error -> {
@@ -101,16 +114,31 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
     }
 
-    private fun saveSharedPreference(jwt: String, nickname: String, familyId: Int, petIdList: List<Int>) {
-        GlobalApplication.prefs.jwt = jwt
-        GlobalApplication.prefs.nickname = nickname
-        GlobalApplication.prefs.familyId = familyId
-
-        val jsonArray = JSONArray()
+    private fun saveSharedPreference(
+        nickName: String,
+        jwt: String,
+        familyId: Int,
+        familyName: String,
+        invitationCode: String,
+        groupType: String,
+        profileImageUrl: String,
+        petIdList: List<Pet>
+    ) {
+        val petIdListJsonArray = JSONArray()
         petIdList.forEach { id ->
-            jsonArray.put(id)
+            petIdListJsonArray.put(id)
         }
-        GlobalApplication.prefs.petIdList = jsonArray.toString()
+
+        GlobalApplication.prefs.apply {
+            this.nickname = nickName
+            this.jwt = jwt
+            this.familyId = familyId
+            this.groupName = familyName
+            this.invitationCode = invitationCode
+            this.groupType = groupType
+            this.profileImageUrl = profileImageUrl
+            this.petIdList = petIdListJsonArray.toString()
+        }
     }
 
     private fun initProgress(jwt: String) = with(binding) {

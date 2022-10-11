@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/my_page_navigation_graph"
+    app:startDestination="@id/myPageMainFragment">
+
+    <fragment
+        android:id="@+id/myPageMainFragment"
+        android:name="org.retriever.dailypet.ui.mypage.MyPageMainFragment"
+        android:label="MyPageMainFragment" >
+        <action
+            android:id="@+id/action_myPageMainFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="org.retriever.dailypet.ui.mypage.WebViewFragment"
+        android:label="WebViewFragment" >
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
+</navigation>
