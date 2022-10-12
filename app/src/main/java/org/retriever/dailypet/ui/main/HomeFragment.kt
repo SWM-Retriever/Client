@@ -1,6 +1,7 @@
 package org.retriever.dailypet.ui.main
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
@@ -8,8 +9,11 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -21,6 +25,7 @@ import org.retriever.dailypet.RegisterCareActivity
 import org.retriever.dailypet.databinding.FragmentHomeBinding
 import org.retriever.dailypet.interfaces.CareAdapter
 import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.signup.pet.Pet
 import org.retriever.dailypet.models.Care
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.main.viewmodel.HomeViewModel
@@ -34,6 +39,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private lateinit var tabLayout: TabLayout
     private val jwt = GlobalApplication.prefs.jwt ?: ""
     private val petIdList = GlobalApplication.prefs.getPetIdList()
+    private val petNameList = GlobalApplication.prefs.getPetNameList()
+    private val groupType = GlobalApplication.prefs.groupType ?: ""
+    private var petList : MutableList<Pet> = mutableListOf()
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeBinding {
         return FragmentHomeBinding.inflate(inflater, container, false)
@@ -43,7 +51,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initProgressCircular()
-        getDays()
+        initPetList()
+        initGroupType()
+        getDays(petIdList[0])
         initDaysView()
         initCareTabView()
         buttonClick()
@@ -53,8 +63,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         hideProgressCircular(binding.progressCircular)
     }
 
-    private fun getDays() {
-        homeViewModel.getDays(petIdList[0], jwt)
+    private fun initPetList(){
+        petList.clear()
+        val petNum = petIdList.size
+        for(i in 0 until petNum){
+            petList.add(Pet(petIdList[i], petNameList[i]))
+        }
+    }
+
+    private fun initGroupType() = with(binding){
+        // TODO 1인가구 뷰 변경 로직 추가
+        if(groupType == "FAMILY"){
+            statisticsButton.visibility = View.VISIBLE
+            contributionText.visibility = View.VISIBLE
+        }
+        else{
+            statisticsButton.visibility = View.INVISIBLE
+            contributionText.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun getDays(petId : Int) {
+        homeViewModel.getDays(petId, jwt)
     }
 
     private fun initDaysView() = with(binding) {
@@ -140,6 +170,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun buttonClick() = with(binding) {
+
+        changePetButton.setOnClickListener {
+            showPetList()
+        }
+
         emptyAddCareButton.setOnClickListener {
             val intent = Intent(requireContext(), RegisterCareActivity::class.java)
             startActivity(intent)
@@ -148,6 +183,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             val intent = Intent(requireContext(), RegisterCareActivity::class.java)
             startActivity(intent)
         }
+
+    }
+
+    private fun showPetList(){
+        val popup = PopupMenu(requireContext(), binding.changePetButton)
+        val menu = popup.menu
+        petList.forEach { pet->
+            menu.add(pet.petName)
+        }
+
+        popup.menuInflater.inflate(R.menu.pet_list_menu, menu)
+        popup.setOnMenuItemClickListener { item->
+                changePet(item.title as String)
+            false
+        }
+        popup.show()
+    }
+
+    private fun changePet(petName: String){
+        val idx = petNameList.indexOf(petName)
+        val petId = petIdList[idx]
+        getDays(petId)
+        initDaysView()
+        initCareTabView()
     }
 
 }
