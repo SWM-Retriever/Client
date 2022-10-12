@@ -91,7 +91,7 @@
     <string name="group_invite_text">그룹 초대하기</string>
     <string name="find_group_text">초대코드 입력</string>
     <string name="care_start_text">케어 시작하기</string>
-    <string name="invitation_message_text">초대코드를 입력해서 그룹에 참여하세요!\n초대코드 : </string>
+    <string name="invitation_message_text">[반려하루]\n\'%1$s\'님이 %2$s 그룹의 초대장을 보냈습니다\n하단의 초대코드를 입력해서 그룹에 참여하세요!\n\n초대코드 : %3$s\n앱 실행하기 : https://dailypet.page.link/invite</string>
     <string name="input_invitation_code_text">초대코드를 입력해주세요</string>
     <string name="find_group_confirm_text">찾고있는 그룹이 맞으신가요?</string>
     <string name="enter_group_text">프로필 추가</string>

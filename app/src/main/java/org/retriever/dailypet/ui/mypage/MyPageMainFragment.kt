@@ -14,6 +14,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.AndroidEntryPoint
 import org.retriever.dailypet.GlobalApplication
+import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentMyPageMainBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
@@ -25,6 +26,9 @@ import org.retriever.dailypet.util.showProgressCircular
 class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
 
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
+    private val nickname = GlobalApplication.prefs.nickname ?: ""
+    private val groupName = GlobalApplication.prefs.groupName ?: ""
+    private val invitationCode = GlobalApplication.prefs.invitationCode ?: ""
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentMyPageMainBinding {
         return FragmentMyPageMainBinding.inflate(inflater, container, false)
@@ -43,6 +47,10 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     }
 
     private fun buttonClick() = with(binding) {
+        groupInviteText.setOnClickListener {
+            onShareClicked()
+        }
+
         appReviewText.setOnClickListener {
             val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewFragment("https://play.google.com/store/apps/details?id=com.dxx.firenow")
             root.findNavController().navigate(action)
@@ -96,6 +104,14 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         }
         // 네이버 로그아웃
         NaverIdLoginSDK.logout()
+    }
+
+    private fun onShareClicked() {
+        val code = getString(R.string.invitation_message_text, nickname, groupName, invitationCode)
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT, code)
+        startActivity(Intent.createChooser(intent, "초대코드 공유하기"))
     }
 
     private fun withdrawal() {

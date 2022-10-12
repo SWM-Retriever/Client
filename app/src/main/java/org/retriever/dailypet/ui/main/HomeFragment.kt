@@ -7,12 +7,9 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.text.style.TypefaceSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -56,13 +53,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         hideProgressCircular(binding.progressCircular)
     }
 
-    private fun getDays(){
+    private fun getDays() {
         homeViewModel.getDays(petIdList[0], jwt)
     }
 
     private fun initDaysView() = with(binding) {
-        homeViewModel.getDaysResponse.observe(viewLifecycleOwner){ response ->
-            when(response){
+        homeViewModel.getDaysResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
                 is Resource.Loading -> {
                     showProgressCircular(progressCircular)
                 }
@@ -78,11 +75,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     val spannableString = SpannableString(content)
                     val start = content.indexOf(dDay.toString())
                     val end = start + dDay.toString().length + 1
-                    spannableString.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.main_pink)),
-                        start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    spannableString.setSpan(
+                        ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.main_pink)),
+                        start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
                     spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     dDayText.text = spannableString
-
 
                 }
                 is Resource.Error -> {
