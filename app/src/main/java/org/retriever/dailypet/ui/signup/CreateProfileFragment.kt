@@ -242,7 +242,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
         val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
         val multiPartBody = MultipartBody.Part.createFormData("image", "image", bitmapRequestBody)
 
-        profileViewModel.postProfile(registerProfile, multiPartBody)
+        profileViewModel.postProfile(registerProfile)
     }
 
     companion object {

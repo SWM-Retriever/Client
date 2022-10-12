@@ -49,6 +49,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun getDays(){
+        Log.e("ABC",petIdList.toString())
         homeViewModel.getDays(petIdList[0], jwt)
     }
 
@@ -63,6 +64,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     val nickname = response.data?.userName ?: ""
                     val petName = response.data?.petName ?: ""
                     val dDay = response.data?.calculatedDay ?: 0
+                    petNameText.text = getString(R.string.home_pet_name_text, petName)
                     dDayText.text = getString(R.string.home_pet_day_text, nickname, petName, dDay)
                 }
                 is Resource.Error -> {

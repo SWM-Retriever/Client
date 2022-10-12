@@ -123,4 +123,5 @@
     <string name="privacy_text">개인정보 처리방침</string>
     <string name="open_source_license_text">오픈소스 라이선스 확인하기</string>
     <string name="withdrawal_text">회원탈퇴</string>
+    <string name="home_pet_name_text">%s</string>
 </resources>

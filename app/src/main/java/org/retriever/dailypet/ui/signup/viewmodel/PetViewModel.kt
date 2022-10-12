@@ -51,10 +51,10 @@ class PetViewModel @Inject constructor(private val petRepository: PetRepository)
         _petBreedList.postValue(petRepository.getPetBreedList(petType, jwt))
     }
 
-    fun postPet(familyId: Int, jwt: String, petInfo: PetInfo, image: MultipartBody.Part?) = viewModelScope.launch {
+    fun postPet(familyId: Int, jwt: String, petInfo: PetInfo) = viewModelScope.launch {
         _petResponse.postValue(Event(Resource.Loading()))
 
-        _petResponse.postValue(Event(petRepository.postPet(familyId, jwt, petInfo, image)))
+        _petResponse.postValue(Event(petRepository.postPet(familyId, jwt, petInfo)))
     }
 
     fun setInitial() {

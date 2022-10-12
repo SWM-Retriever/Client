@@ -73,7 +73,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                         val groupType = response.data?.groupType ?: ""
                         val profileImageUrl = response.data?.profileImageUrl ?: ""
                         val petIdList = response.data?.petList ?: emptyList()
-
                         saveSharedPreference(
                             nickName,
                             jwt,
@@ -94,7 +93,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                                     nickName = name,
                                     email = email,
                                     domain = domain,
-                                    deviceToken = getDeviceToken()
+                                    deviceToken = getDeviceToken(),
+                                    profileImageUrl = ""
                                 )
 
                                 val action = LoginFragmentDirections.actionLoginFragmentToTermOfServiceFragment(registerProfile)
@@ -125,10 +125,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         petIdList: List<Pet>
     ) {
         val petIdListJsonArray = JSONArray()
-        petIdList.forEach { id ->
-            petIdListJsonArray.put(id)
+        val petNameListJsonArray = JSONArray()
+        petIdList.forEach { item ->
+            petIdListJsonArray.put(item.petId)
         }
-
+        petIdList.forEach { item ->
+            petNameListJsonArray.put(item.petName)
+        }
         GlobalApplication.prefs.apply {
             this.nickname = nickName
             this.jwt = jwt
@@ -138,6 +141,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             this.groupType = groupType
             this.profileImageUrl = profileImageUrl
             this.petIdList = petIdListJsonArray.toString()
+            this.petNameList = petNameListJsonArray.toString()
         }
     }
 

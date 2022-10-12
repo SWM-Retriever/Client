@@ -13,11 +13,17 @@ interface ProfileApiService {
     @POST("/api/v1/validation/nickname")
     suspend fun postCheckProfileNickname(@Body nickName: String): Response<ResponseBody>
 
-    @Multipart
     @POST("api/v1/auth/sign-up")
     suspend fun postProfile(
-        @Part("dto") registerProfile: RegisterProfile,
-        @Part image: MultipartBody.Part?,
-    ): Response<RegisterProfileResponse>
+        @Body registerProfile: RegisterProfile,
+        ): Response<RegisterProfileResponse>
+
+    // TODO Mulipart로 URL 받아오기
+//    @Multipart
+//    @POST("api/v1/auth/sign-up")
+//    suspend fun postProfile(
+//        @Part("dto") registerProfile: RegisterProfile,
+//        @Part image: MultipartBody.Part?,
+//    ): Response<RegisterProfileResponse>
 
 }

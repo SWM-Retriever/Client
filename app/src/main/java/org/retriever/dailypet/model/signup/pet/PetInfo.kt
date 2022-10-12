@@ -12,5 +12,6 @@ data class PetInfo(
     val weight : Float,
     val isNeutered : Boolean,
     val registerNumber: String,
+    val profileImageUrl: String,
 )
 
