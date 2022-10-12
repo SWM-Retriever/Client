@@ -15,4 +15,5 @@ data class RegisterProfile(
     val deviceToken: String,
     var isPushAgree: Boolean = false,
     var isProfileInformationAgree: Boolean = false,
+    var profileImageUrl: String,
 ) : Parcelable

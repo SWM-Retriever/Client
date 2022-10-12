@@ -1,26 +1,39 @@
 package org.retriever.dailypet.ui.main
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import org.retriever.dailypet.GlobalApplication
+import org.retriever.dailypet.R
 import org.retriever.dailypet.RegisterCareActivity
 import org.retriever.dailypet.databinding.FragmentHomeBinding
 import org.retriever.dailypet.interfaces.CareAdapter
+import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.models.Care
 import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.ui.main.viewmodel.HomeViewModel
+import org.retriever.dailypet.util.hideProgressCircular
+import org.retriever.dailypet.util.showProgressCircular
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
-    private val TAG = "HOME_FRAGMENT"
+    private val homeViewModel by activityViewModels<HomeViewModel>()
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
-
+    private val jwt = GlobalApplication.prefs.jwt ?: ""
+    private val petIdList = GlobalApplication.prefs.getPetIdList()
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeBinding {
         return FragmentHomeBinding.inflate(inflater, container, false)
@@ -28,12 +41,61 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setOnClickListener()
 
+        initProgressCircular()
+        getDays()
+        initDaysView()
+        initCareTabView()
+        buttonClick()
+    }
+
+    private fun initProgressCircular() {
+        hideProgressCircular(binding.progressCircular)
+    }
+
+    private fun getDays() {
+        homeViewModel.getDays(petIdList[0], jwt)
+    }
+
+    private fun initDaysView() = with(binding) {
+        homeViewModel.getDaysResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+                    val nickname = response.data?.userName ?: ""
+                    val petName = response.data?.petName ?: ""
+                    val dDay = response.data?.calculatedDay ?: 0
+                    petNameText.text = getString(R.string.home_pet_name_text, petName)
+                    dDayText.text = getString(R.string.home_pet_day_text, nickname, petName, dDay)
+
+                    val content = dDayText.text.toString()
+                    val spannableString = SpannableString(content)
+                    val start = content.indexOf(dDay.toString())
+                    val end = start + dDay.toString().length + 1
+                    spannableString.setSpan(
+                        ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.main_pink)),
+                        start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    dDayText.text = spannableString
+
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(progressCircular)
+                }
+            }
+        }
+
+    }
+
+    private fun initCareTabView() = with(binding) {
         viewPager = binding.viewpagerMain
         tabLayout = binding.tabCareList
-        // Load Data
 
+        // Load Data
         val careList = ArrayList<Care>()
         careList.add(Care("식사", "월 수 금", 3, 1, "나"))
         careList.add(Care("산책", "월 화 수 목 금", 2, 0, ""))
@@ -44,17 +106,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         careList.add(Care("양치", "월 화 수 목 금 토 일", 2, 1, "엄마 동생"))
 
         if (careList.isEmpty()) {
-            binding.btnRegisterCare.visibility = View.VISIBLE
+            binding.emptyAddCareButton.visibility = View.VISIBLE
             binding.textEmptyComment.visibility = View.VISIBLE
             binding.tabCareList.visibility = View.GONE
             binding.viewpagerMain.visibility = View.GONE
-            binding.btnAddCare.visibility = View.GONE
+            binding.addCareButton.visibility = View.GONE
         } else {
-            binding.btnRegisterCare.visibility = View.GONE
+            binding.emptyAddCareButton.visibility = View.GONE
             binding.textEmptyComment.visibility = View.GONE
             binding.tabCareList.visibility = View.VISIBLE
             binding.viewpagerMain.visibility = View.VISIBLE
-            binding.btnAddCare.visibility = View.VISIBLE
+            binding.addCareButton.visibility = View.VISIBLE
         }
 
         val pagerAdapter = CareAdapter(requireActivity())
@@ -68,7 +130,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                Log.d(TAG, "Page ${position + 1}")
             }
         })
 
@@ -78,12 +139,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }.attach()
     }
 
-    private fun setOnClickListener() {
-        binding.btnRegisterCare.setOnClickListener {
+    private fun buttonClick() = with(binding) {
+        emptyAddCareButton.setOnClickListener {
             val intent = Intent(requireContext(), RegisterCareActivity::class.java)
             startActivity(intent)
         }
-        binding.btnAddCare.setOnClickListener {
+        addCareButton.setOnClickListener {
             val intent = Intent(requireContext(), RegisterCareActivity::class.java)
             startActivity(intent)
         }

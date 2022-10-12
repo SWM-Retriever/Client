@@ -14,7 +14,7 @@ class ProfileRepository @Inject constructor(private val profileApiService: Profi
     suspend fun postCheckProfileNickname(nickname: String): Resource<ResponseBody> =
         safeApiCall { profileApiService.postCheckProfileNickname(nickname) }
 
-    suspend fun postProfile(registerProfile: RegisterProfile, image: MultipartBody.Part?): Resource<RegisterProfileResponse> =
-        safeApiCall { profileApiService.postProfile(registerProfile, image) }
+    suspend fun postProfile(registerProfile: RegisterProfile): Resource<RegisterProfileResponse> =
+        safeApiCall { profileApiService.postProfile(registerProfile) }
 
 }
