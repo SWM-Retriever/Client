@@ -1,11 +1,19 @@
 package org.retriever.dailypet.ui.main
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
+import android.text.style.TypefaceSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -49,7 +57,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun getDays(){
-        Log.e("ABC",petIdList.toString())
         homeViewModel.getDays(petIdList[0], jwt)
     }
 
@@ -66,6 +73,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     val dDay = response.data?.calculatedDay ?: 0
                     petNameText.text = getString(R.string.home_pet_name_text, petName)
                     dDayText.text = getString(R.string.home_pet_day_text, nickname, petName, dDay)
+
+                    val content = dDayText.text.toString()
+                    val spannableString = SpannableString(content)
+                    val start = content.indexOf(dDay.toString())
+                    val end = start + dDay.toString().length + 1
+                    spannableString.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.main_pink)),
+                        start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    dDayText.text = spannableString
+
+
                 }
                 is Resource.Error -> {
                     hideProgressCircular(progressCircular)
