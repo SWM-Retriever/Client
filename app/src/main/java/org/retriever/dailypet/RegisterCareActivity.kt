@@ -39,12 +39,12 @@ class RegisterCareActivity : AppCompatActivity() {
         setContentView(view)
 
         /* Text Listener */
-        binding.edittextNumber.addTextChangedListener(object : TextWatcher {
+        binding.careCountEdittext.addTextChangedListener(object : TextWatcher {
             @SuppressLint("UseCompatLoadingForDrawables")
             override fun afterTextChanged(p0: Editable?) {
                 submitCheck()
-                if(binding.edittextNumber.text.isNotBlank()){
-                    binding.edittextNumber.background = applicationContext.getDrawable(R.drawable.whiteblue_click_button)
+                if(binding.careCountEdittext.text.isNotBlank()){
+                    binding.careCountEdittext.background = applicationContext.getDrawable(R.drawable.whiteblue_click_button)
                 }
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -57,7 +57,7 @@ class RegisterCareActivity : AppCompatActivity() {
     }
 
     private fun init() = with(binding){
-        btnCareRegisterSubmit.setOnClickListener{
+        addCareSubmitButton.setOnClickListener{
             Toast.makeText(applicationContext, "챙겨주기 항목이 등록되었습니다", Toast.LENGTH_SHORT).show()
             val nextIntent = Intent(applicationContext, MainActivity::class.java)
             var flag = intent.getIntExtra("flag", 0)
@@ -138,7 +138,7 @@ class RegisterCareActivity : AppCompatActivity() {
 
 
         /* Previous button */
-        btnX.setOnClickListener{
+        backButton.setOnClickListener{
             onBackPressed()
         }
     }
@@ -180,14 +180,14 @@ class RegisterCareActivity : AppCompatActivity() {
     private fun submitCheck(){
         val day = mon || tue || wed || thu || fri || sat || sun
         val care = food || walk || wash || play || teeth || snack
-        val number = binding.edittextNumber.text.isNotBlank()
+        val number = binding.careCountEdittext.text.isNotBlank()
         SUBMIT = day && care && number
         if(SUBMIT){
-            binding.btnCareRegisterSubmit.background = applicationContext.getDrawable(R.drawable.blue_button)
-            binding.btnCareRegisterSubmit.setTextColor(applicationContext.getColor(R.color.white))
+            binding.addCareSubmitButton.background = applicationContext.getDrawable(R.drawable.blue_button)
+            binding.addCareSubmitButton.setTextColor(applicationContext.getColor(R.color.white))
         } else{
-            binding.btnCareRegisterSubmit.background = applicationContext.getDrawable(R.drawable.grey_button)
-            binding.btnCareRegisterSubmit.setTextColor(applicationContext.getColor(R.color.grey))
+            binding.addCareSubmitButton.background = applicationContext.getDrawable(R.drawable.grey_button)
+            binding.addCareSubmitButton.setTextColor(applicationContext.getColor(R.color.grey))
         }
     }
 }

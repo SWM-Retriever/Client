@@ -127,13 +127,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         // Load Data
         val careList = ArrayList<Care>()
-        careList.add(Care("식사", "월 수 금", 3, 1, "나"))
-        careList.add(Care("산책", "월 화 수 목 금", 2, 0, ""))
-        careList.add(Care("간식", "월 화 수 목 금 토 일", 5, 4, "나 아빠 엄마 동생"))
-        careList.add(Care("놀이", "화 목 토", 10, 6, "나 아빠 나 아빠 나 아빠"))
-        careList.add(Care("목욕", "일", 1, 1, "엄마"))
-        careList.add(Care("병원", "토", 1, 0, "나 아빠 엄마 동생"))
-        careList.add(Care("양치", "월 화 수 목 금 토 일", 2, 1, "엄마 동생"))
+//        careList.add(Care("식사", "월 수 금", 3, 1, "나"))
+//        careList.add(Care("산책", "월 화 수 목 금", 2, 0, ""))
+//        careList.add(Care("간식", "월 화 수 목 금 토 일", 5, 4, "나 아빠 엄마 동생"))
+//        careList.add(Care("놀이", "화 목 토", 10, 6, "나 아빠 나 아빠 나 아빠"))
+//        careList.add(Care("목욕", "일", 1, 1, "엄마"))
+//        careList.add(Care("병원", "토", 1, 0, "나 아빠 엄마 동생"))
+//        careList.add(Care("양치", "월 화 수 목 금 토 일", 2, 1, "엄마 동생"))
 
         if (careList.isEmpty()) {
             binding.emptyAddCareButton.visibility = View.VISIBLE
