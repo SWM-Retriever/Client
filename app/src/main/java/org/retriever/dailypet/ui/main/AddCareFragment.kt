@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -16,10 +17,13 @@ import androidx.navigation.fragment.navArgs
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentAddCareBinding
+import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.main.CareInfo
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.main.viewmodel.HomeViewModel
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
+import org.retriever.dailypet.util.showProgressCircular
 
 class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
 
@@ -27,7 +31,9 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
     private val jwt = GlobalApplication.prefs.jwt ?: ""
     private var petId = -1
     private var petName = ""
-    private val dayList: MutableList<Boolean> = mutableListOf(false, false, false, false, false, false, false)
+    private var dayList: MutableList<Boolean> = mutableListOf(false, false, false, false, false, false, false)
+    private val dayName : List<String> = listOf("SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT")
+    private var careName = ""
     private var food = false
     private var walk = false
     private var play = false
@@ -41,6 +47,7 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initProgressCircular()
+        initPostCare()
         initInfo()
         buttonClick()
         initCheckbox()
@@ -49,6 +56,26 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
 
     private fun initProgressCircular() {
         hideProgressCircular(binding.progressCircular)
+    }
+
+    private fun initPostCare() = with(binding){
+        homeViewModel.postCareResponse.observe(viewLifecycleOwner){ response ->
+            when(response){
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+                    Toast.makeText(requireContext(), "케어가 등록되었습니다", Toast.LENGTH_SHORT).show()
+                    root.findNavController().navigate(AddCareFragmentDirections.actionAddCareFragmentToHomeFragment())
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(progressCircular)
+                    Toast.makeText(requireContext(), "케어 등록에 실패하였습니다", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -62,28 +89,44 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
 
     private fun buttonClick() = with(binding) {
         btnFood.setOnClickListener {
-            select(btnFood)
+            selectCare(btnFood)
             food = true
             submitCheck()
         }
         btnWalk.setOnClickListener {
-            select(btnWalk)
+            selectCare(btnWalk)
             walk = true
             submitCheck()
         }
         addCareSubmitButton.setOnClickListener {
-
+            postCare()
         }
         backButton.setOnClickListener {
             root.findNavController().popBackStack()
         }
     }
 
-    private fun select(selectedBtn: AppCompatButton) = with(binding) {
+    private fun postCare(){
+        val list : MutableList<String> = mutableListOf()
+        for(i in 0 until 7){
+            if(dayList[i]){
+                list.add(dayName[i])
+            }
+        }
+        val careInfo = CareInfo(
+            careName = careName,
+            dayOfWeeks = list,
+            totalCountPerDay = binding.careCountEdittext.text.toString().toInt()
+        )
+        homeViewModel.postCare(petId, jwt, careInfo)
+    }
+
+    private fun selectCare(selectedBtn: AppCompatButton) = with(binding) {
         btnFood.isSelected = false
         btnWalk.isSelected = false
         btnPlay.isSelected = false
         selectedBtn.isSelected = true
+        careName = selectedBtn.text.toString()
     }
 
     private fun initCheckbox() = with(binding) {
@@ -201,6 +244,4 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
             binding.addCareSubmitButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
         }
     }
-
-
 }

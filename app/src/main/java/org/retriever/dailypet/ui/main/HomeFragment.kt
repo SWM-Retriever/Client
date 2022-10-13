@@ -1,6 +1,5 @@
 package org.retriever.dailypet.ui.main
 
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
@@ -11,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
@@ -19,8 +19,6 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
-import org.retriever.dailypet.RegisterCareActivity
-import org.retriever.dailypet.databinding.FragmentAddCareBinding
 import org.retriever.dailypet.databinding.FragmentHomeBinding
 import org.retriever.dailypet.interfaces.CareAdapter
 import org.retriever.dailypet.model.Resource
@@ -28,7 +26,6 @@ import org.retriever.dailypet.model.signup.pet.Pet
 import org.retriever.dailypet.models.Care
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.main.viewmodel.HomeViewModel
-import org.retriever.dailypet.ui.signup.TermOfServiceFragmentDirections
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 
