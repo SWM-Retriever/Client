@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="org.retriever.dailypet.ui.main.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_addCareFragment"
+            app:destination="@id/addCareFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/myPageFragment"
@@ -28,5 +32,20 @@
         android:name="org.retriever.dailypet.ui.main.diary.DiaryFragment"
         android:label="DiaryFragment"
         tools:layout="@layout/fragment_diary" />
+    <fragment
+        android:id="@+id/addCareFragment"
+        android:name="org.retriever.dailypet.ui.main.AddCareFragment"
+        android:label="fragment_add_care"
+        tools:layout="@layout/fragment_add_care" >
+        <argument
+            android:name="petId"
+            app:argType="integer" />
+        <argument
+            android:name="petName"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_addCareFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 
 </navigation>

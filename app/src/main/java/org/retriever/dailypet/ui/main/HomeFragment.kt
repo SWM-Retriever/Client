@@ -1,7 +1,6 @@
 package org.retriever.dailypet.ui.main
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
@@ -9,19 +8,19 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.RegisterCareActivity
+import org.retriever.dailypet.databinding.FragmentAddCareBinding
 import org.retriever.dailypet.databinding.FragmentHomeBinding
 import org.retriever.dailypet.interfaces.CareAdapter
 import org.retriever.dailypet.model.Resource
@@ -29,6 +28,7 @@ import org.retriever.dailypet.model.signup.pet.Pet
 import org.retriever.dailypet.models.Care
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.main.viewmodel.HomeViewModel
+import org.retriever.dailypet.ui.signup.TermOfServiceFragmentDirections
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 
@@ -42,6 +42,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val petNameList = GlobalApplication.prefs.getPetNameList()
     private val groupType = GlobalApplication.prefs.groupType ?: ""
     private var petList : MutableList<Pet> = mutableListOf()
+    private var curPetId = petIdList[0]
+    private var curPetName = ""
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeBinding {
         return FragmentHomeBinding.inflate(inflater, container, false)
@@ -53,7 +55,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         initProgressCircular()
         initPetList()
         initGroupType()
-        getDays(petIdList[0])
+        getDays()
         initDaysView()
         initCareTabView()
         buttonClick()
@@ -83,8 +85,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-    private fun getDays(petId : Int) {
-        homeViewModel.getDays(petId, jwt)
+    private fun getDays() {
+        homeViewModel.getDays(curPetId, jwt)
     }
 
     private fun initDaysView() = with(binding) {
@@ -96,10 +98,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
                     val nickname = response.data?.userName ?: ""
-                    val petName = response.data?.petName ?: ""
+                    curPetName = response.data?.petName ?: ""
                     val dDay = response.data?.calculatedDay ?: 0
-                    petNameText.text = getString(R.string.home_pet_name_text, petName)
-                    dDayText.text = getString(R.string.home_pet_day_text, nickname, petName, dDay)
+                    petNameText.text = getString(R.string.home_pet_name_text, curPetName)
+                    dDayText.text = getString(R.string.home_pet_day_text, nickname, curPetName, dDay)
 
                     val content = dDayText.text.toString()
                     val spannableString = SpannableString(content)
@@ -176,12 +178,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
 
         emptyAddCareButton.setOnClickListener {
-            val intent = Intent(requireContext(), RegisterCareActivity::class.java)
-            startActivity(intent)
+            addCare()
         }
         addCareButton.setOnClickListener {
-            val intent = Intent(requireContext(), RegisterCareActivity::class.java)
-            startActivity(intent)
+            addCare()
         }
 
     }
@@ -201,10 +201,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         popup.show()
     }
 
+    private fun addCare(){
+        val action = HomeFragmentDirections.actionHomeFragmentToAddCareFragment(curPetId, curPetName)
+        binding.root.findNavController().navigate(action)
+    }
+
     private fun changePet(petName: String){
         val idx = petNameList.indexOf(petName)
-        val petId = petIdList[idx]
-        getDays(petId)
+        curPetId = petIdList[idx]
+        getDays()
         initDaysView()
         initCareTabView()
     }

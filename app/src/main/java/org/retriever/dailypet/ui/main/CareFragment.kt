@@ -56,7 +56,6 @@ class CareFragment : Fragment(), View.OnClickListener{
         textCareTitle.text = name
         textCareCnt.text = curCnt.toString() + "회/" + totalCnt.toString() + "회"
         textLog.text = log
-        textPeriod.text = period
         val percent = curCnt.toDouble() / totalCnt.toDouble()
         binding.progressbar.progress = (percent * 100).toInt()
 

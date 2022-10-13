@@ -27,7 +27,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="org.retriever.dailypet.ui.login.LoginActivity"
             android:windowSoftInputMode="adjustPan"
