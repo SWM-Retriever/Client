@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
@@ -22,10 +21,11 @@ import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentHomeBinding
 import org.retriever.dailypet.interfaces.CareAdapter
 import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.main.Care
 import org.retriever.dailypet.model.signup.pet.Pet
-import org.retriever.dailypet.models.Care
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.main.viewmodel.HomeViewModel
+import org.retriever.dailypet.util.ArrayListAdapter
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 
@@ -38,7 +38,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val petIdList = GlobalApplication.prefs.getPetIdList()
     private val petNameList = GlobalApplication.prefs.getPetNameList()
     private val groupType = GlobalApplication.prefs.groupType ?: ""
-    private var petList : MutableList<Pet> = mutableListOf()
+    private var petList: MutableList<Pet> = mutableListOf()
     private var curPetId = petIdList[0]
     private var curPetName = ""
 
@@ -53,8 +53,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         initPetList()
         initGroupType()
         getDays()
+        getCareList()
         initDaysView()
-        initCareTabView()
+        initCareList()
         buttonClick()
     }
 
@@ -62,21 +63,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         hideProgressCircular(binding.progressCircular)
     }
 
-    private fun initPetList(){
+    private fun initPetList() {
         petList.clear()
         val petNum = petIdList.size
-        for(i in 0 until petNum){
+        for (i in 0 until petNum) {
             petList.add(Pet(petIdList[i], petNameList[i]))
         }
     }
 
-    private fun initGroupType() = with(binding){
+    private fun initGroupType() = with(binding) {
         // TODO 1인가구 뷰 변경 로직 추가
-        if(groupType == "FAMILY"){
+        if (groupType == "FAMILY") {
             statisticsButton.visibility = View.VISIBLE
             contributionText.visibility = View.VISIBLE
-        }
-        else{
+        } else {
             statisticsButton.visibility = View.INVISIBLE
             contributionText.visibility = View.INVISIBLE
         }
@@ -84,6 +84,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun getDays() {
         homeViewModel.getDays(curPetId, jwt)
+    }
+
+    private fun getCareList() {
+        homeViewModel.getCareList(curPetId, jwt)
     }
 
     private fun initDaysView() = with(binding) {
@@ -117,22 +121,31 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }
         }
-
     }
 
-    private fun initCareTabView() = with(binding) {
+    private fun initCareList() = with(binding){
+        homeViewModel.getCareListResponse.observe(viewLifecycleOwner){ response->
+            when(response){
+                is Resource.Loading ->{
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success ->{
+                    hideProgressCircular(progressCircular)
+                    val arrayListAdapter = ArrayListAdapter()
+                    val careList = response.data?.caresInfoList ?: ArrayList()
+                    initCareTabView(arrayListAdapter.careListFromJson(careList))
+                }
+                is Resource.Error ->{
+                    hideProgressCircular(progressCircular)
+                }
+            }
+
+        }
+    }
+
+    private fun initCareTabView(careList: ArrayList<Care>) = with(binding) {
         viewPager = binding.viewpagerMain
         tabLayout = binding.careListTab
-
-        // Load Data
-        val careList = ArrayList<Care>()
-//        careList.add(Care("식사", "월 수 금", 3, 1, "나"))
-//        careList.add(Care("산책", "월 화 수 목 금", 2, 0, ""))
-//        careList.add(Care("간식", "월 화 수 목 금 토 일", 5, 4, "나 아빠 엄마 동생"))
-//        careList.add(Care("놀이", "화 목 토", 10, 6, "나 아빠 나 아빠 나 아빠"))
-//        careList.add(Care("목욕", "일", 1, 1, "엄마"))
-//        careList.add(Care("병원", "토", 1, 0, "나 아빠 엄마 동생"))
-//        careList.add(Care("양치", "월 화 수 목 금 토 일", 2, 1, "엄마 동생"))
 
         if (careList.isEmpty()) {
             binding.emptyAddCareButton.visibility = View.VISIBLE
@@ -149,12 +162,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
 
         val pagerAdapter = CareAdapter(requireActivity())
-        // Fragment Add
         for (care in careList) {
             pagerAdapter.addFragment(CareFragment().newInstance(care))
         }
 
-        // Adapter 연결
         viewPager.adapter = pagerAdapter
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -162,9 +173,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         })
 
-        // TabLayout attach
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = careList[position].name
+            tab.text = careList[position].careName
         }.attach()
     }
 
@@ -183,32 +193,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     }
 
-    private fun showPetList(){
+    private fun showPetList() {
         val popup = PopupMenu(requireContext(), binding.changePetButton)
         val menu = popup.menu
-        petList.forEach { pet->
+        petList.forEach { pet ->
             menu.add(pet.petName)
         }
 
         popup.menuInflater.inflate(R.menu.pet_list_menu, menu)
-        popup.setOnMenuItemClickListener { item->
-                changePet(item.title as String)
+        popup.setOnMenuItemClickListener { item ->
+            changePet(item.title as String)
             false
         }
         popup.show()
     }
 
-    private fun addCare(){
+    private fun addCare() {
         val action = HomeFragmentDirections.actionHomeFragmentToAddCareFragment(curPetId, curPetName)
         binding.root.findNavController().navigate(action)
     }
 
-    private fun changePet(petName: String){
+    private fun changePet(petName: String) {
         val idx = petNameList.indexOf(petName)
         curPetId = petIdList[idx]
         getDays()
         initDaysView()
-        initCareTabView()
+        getCareList()
     }
 
 }

@@ -32,7 +32,7 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
     private var petId = -1
     private var petName = ""
     private var dayList: MutableList<Boolean> = mutableListOf(false, false, false, false, false, false, false)
-    private val dayName : List<String> = listOf("SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT")
+    private val dayName: List<String> = listOf("SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT")
     private var careName = ""
     private var food = false
     private var walk = false
@@ -58,9 +58,9 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
         hideProgressCircular(binding.progressCircular)
     }
 
-    private fun initPostCare() = with(binding){
-        homeViewModel.postCareResponse.observe(viewLifecycleOwner){ response ->
-            when(response){
+    private fun initPostCare() = with(binding) {
+        homeViewModel.postCareResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
                 is Resource.Loading -> {
                     showProgressCircular(progressCircular)
                 }
@@ -98,18 +98,25 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
             walk = true
             submitCheck()
         }
+        btnPlay.setOnClickListener {
+            selectCare(btnPlay)
+            play = true
+            submitCheck()
+        }
         addCareSubmitButton.setOnClickListener {
-            postCare()
+            if(SUBMIT){
+                postCare()
+            }
         }
         backButton.setOnClickListener {
             root.findNavController().popBackStack()
         }
     }
 
-    private fun postCare(){
-        val list : MutableList<String> = mutableListOf()
-        for(i in 0 until 7){
-            if(dayList[i]){
+    private fun postCare() {
+        val list: MutableList<String> = mutableListOf()
+        for (i in 0 until 7) {
+            if (dayList[i]) {
                 list.add(dayName[i])
             }
         }
@@ -228,7 +235,6 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
     }
 
     private fun submitCheck() {
-
         var day = false
         for (i in 0 until 7) {
             day = day || dayList[i]

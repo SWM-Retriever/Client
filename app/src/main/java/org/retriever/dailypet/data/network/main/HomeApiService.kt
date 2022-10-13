@@ -2,6 +2,7 @@ package org.retriever.dailypet.data.network.main
 
 import okhttp3.ResponseBody
 import org.retriever.dailypet.model.main.CareInfo
+import org.retriever.dailypet.model.main.CareList
 import org.retriever.dailypet.model.main.PetDaysResponse
 import retrofit2.Response
 import retrofit2.http.*
@@ -12,6 +13,12 @@ interface HomeApiService {
         @Path("petId") petId: Int,
         @Header("X-AUTH-TOKEN") jwt: String,
     ): Response<PetDaysResponse>
+
+    @GET("api/v1/pets/{petId}/cares")
+    suspend fun getCareList(
+        @Path("petId") petId: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
+    ): Response<CareList>
 
     @POST("api/v1/pets/{petId}/care")
     suspend fun postPetCare(
