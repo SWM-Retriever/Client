@@ -123,7 +123,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun initCareTabView() = with(binding) {
         viewPager = binding.viewpagerMain
-        tabLayout = binding.tabCareList
+        tabLayout = binding.careListTab
 
         // Load Data
         val careList = ArrayList<Care>()
@@ -137,14 +137,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         if (careList.isEmpty()) {
             binding.emptyAddCareButton.visibility = View.VISIBLE
-            binding.textEmptyComment.visibility = View.VISIBLE
-            binding.tabCareList.visibility = View.GONE
+            binding.emptyCommentText.visibility = View.VISIBLE
+            binding.careListTab.visibility = View.GONE
             binding.viewpagerMain.visibility = View.GONE
             binding.addCareButton.visibility = View.GONE
         } else {
             binding.emptyAddCareButton.visibility = View.GONE
-            binding.textEmptyComment.visibility = View.GONE
-            binding.tabCareList.visibility = View.VISIBLE
+            binding.emptyCommentText.visibility = View.GONE
+            binding.careListTab.visibility = View.VISIBLE
             binding.viewpagerMain.visibility = View.VISIBLE
             binding.addCareButton.visibility = View.VISIBLE
         }

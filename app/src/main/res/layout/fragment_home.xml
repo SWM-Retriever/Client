@@ -136,18 +136,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/text_empty_comment"
-        android:layout_width="359dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="12dp"
-        android:text="아직 챙겨주기 항목이 없어요\n등록하기 버튼을 눌러 반려동물을 챙겨주세요!"
-        android:textAlignment="center"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/empty_add_care_button" />
-
-    <TextView
         android:id="@+id/care_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -169,8 +157,21 @@
         android:textColor="@color/light_black"
         android:textSize="12sp"
         android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintTop_toBottomOf="@+id/d_day_text" />
+
+    <TextView
+        android:id="@+id/empty_comment_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/care_empty_comment_text"
+        android:textAlignment="center"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/empty_add_care_button" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/empty_add_care_button"
@@ -184,18 +185,16 @@
         android:textStyle="bold"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/care_title_text" />
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_careList"
-        android:layout_width="398dp"
+        android:id="@+id/care_list_tab"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/care_title_text"
         app:tabIndicatorColor="@color/black"
@@ -207,12 +206,11 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager_main"
-        android:layout_width="404dp"
-        android:layout_height="479dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tab_careList" />
-
+        app:layout_constraintTop_toBottomOf="@+id/care_list_tab" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
