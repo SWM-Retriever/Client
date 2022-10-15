@@ -1,6 +1,5 @@
 package org.retriever.dailypet.ui.main
 
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
@@ -10,20 +9,23 @@ import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
-import org.retriever.dailypet.RegisterCareActivity
 import org.retriever.dailypet.databinding.FragmentHomeBinding
 import org.retriever.dailypet.interfaces.CareAdapter
 import org.retriever.dailypet.model.Resource
-import org.retriever.dailypet.models.Care
+import org.retriever.dailypet.model.main.Care
+import org.retriever.dailypet.model.signup.pet.Pet
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.main.viewmodel.HomeViewModel
+import org.retriever.dailypet.util.ArrayListAdapter
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 
@@ -34,6 +36,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private lateinit var tabLayout: TabLayout
     private val jwt = GlobalApplication.prefs.jwt ?: ""
     private val petIdList = GlobalApplication.prefs.getPetIdList()
+    private val petNameList = GlobalApplication.prefs.getPetNameList()
+    private val groupType = GlobalApplication.prefs.groupType ?: ""
+    private var petList: MutableList<Pet> = mutableListOf()
+    private var curPetId = petIdList[0]
+    private var curPetName = ""
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeBinding {
         return FragmentHomeBinding.inflate(inflater, container, false)
@@ -43,9 +50,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initProgressCircular()
+        initPetList()
+        initGroupType()
         getDays()
+        getCareList()
         initDaysView()
-        initCareTabView()
+        initCareList()
         buttonClick()
     }
 
@@ -53,8 +63,31 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         hideProgressCircular(binding.progressCircular)
     }
 
+    private fun initPetList() {
+        petList.clear()
+        val petNum = petIdList.size
+        for (i in 0 until petNum) {
+            petList.add(Pet(petIdList[i], petNameList[i]))
+        }
+    }
+
+    private fun initGroupType() = with(binding) {
+        // TODO 1인가구 뷰 변경 로직 추가
+        if (groupType == "FAMILY") {
+            statisticsButton.visibility = View.VISIBLE
+            contributionText.visibility = View.VISIBLE
+        } else {
+            statisticsButton.visibility = View.INVISIBLE
+            contributionText.visibility = View.INVISIBLE
+        }
+    }
+
     private fun getDays() {
-        homeViewModel.getDays(petIdList[0], jwt)
+        homeViewModel.getDays(curPetId, jwt)
+    }
+
+    private fun getCareList() {
+        homeViewModel.getCareList(curPetId, jwt)
     }
 
     private fun initDaysView() = with(binding) {
@@ -66,10 +99,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
                     val nickname = response.data?.userName ?: ""
-                    val petName = response.data?.petName ?: ""
+                    curPetName = response.data?.petName ?: ""
                     val dDay = response.data?.calculatedDay ?: 0
-                    petNameText.text = getString(R.string.home_pet_name_text, petName)
-                    dDayText.text = getString(R.string.home_pet_day_text, nickname, petName, dDay)
+                    petNameText.text = getString(R.string.home_pet_name_text, curPetName)
+                    dDayText.text = getString(R.string.home_pet_day_text, nickname, curPetName, dDay)
 
                     val content = dDayText.text.toString()
                     val spannableString = SpannableString(content)
@@ -88,44 +121,51 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }
         }
-
     }
 
-    private fun initCareTabView() = with(binding) {
-        viewPager = binding.viewpagerMain
-        tabLayout = binding.tabCareList
+    private fun initCareList() = with(binding){
+        homeViewModel.getCareListResponse.observe(viewLifecycleOwner){ response->
+            when(response){
+                is Resource.Loading ->{
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success ->{
+                    hideProgressCircular(progressCircular)
+                    val arrayListAdapter = ArrayListAdapter()
+                    val careList = response.data?.caresInfoList ?: ArrayList()
+                    initCareTabView(arrayListAdapter.careListFromJson(careList))
+                }
+                is Resource.Error ->{
+                    hideProgressCircular(progressCircular)
+                }
+            }
 
-        // Load Data
-        val careList = ArrayList<Care>()
-        careList.add(Care("식사", "월 수 금", 3, 1, "나"))
-        careList.add(Care("산책", "월 화 수 목 금", 2, 0, ""))
-        careList.add(Care("간식", "월 화 수 목 금 토 일", 5, 4, "나 아빠 엄마 동생"))
-        careList.add(Care("놀이", "화 목 토", 10, 6, "나 아빠 나 아빠 나 아빠"))
-        careList.add(Care("목욕", "일", 1, 1, "엄마"))
-        careList.add(Care("병원", "토", 1, 0, "나 아빠 엄마 동생"))
-        careList.add(Care("양치", "월 화 수 목 금 토 일", 2, 1, "엄마 동생"))
+        }
+    }
+
+    private fun initCareTabView(careList: ArrayList<Care>) = with(binding) {
+        viewPager = binding.viewpagerMain
+        tabLayout = binding.careListTab
 
         if (careList.isEmpty()) {
             binding.emptyAddCareButton.visibility = View.VISIBLE
-            binding.textEmptyComment.visibility = View.VISIBLE
-            binding.tabCareList.visibility = View.GONE
+            binding.emptyCommentText.visibility = View.VISIBLE
+            binding.careListTab.visibility = View.GONE
             binding.viewpagerMain.visibility = View.GONE
             binding.addCareButton.visibility = View.GONE
         } else {
             binding.emptyAddCareButton.visibility = View.GONE
-            binding.textEmptyComment.visibility = View.GONE
-            binding.tabCareList.visibility = View.VISIBLE
+            binding.emptyCommentText.visibility = View.GONE
+            binding.careListTab.visibility = View.VISIBLE
             binding.viewpagerMain.visibility = View.VISIBLE
             binding.addCareButton.visibility = View.VISIBLE
         }
 
         val pagerAdapter = CareAdapter(requireActivity())
-        // Fragment Add
         for (care in careList) {
             pagerAdapter.addFragment(CareFragment().newInstance(care))
         }
 
-        // Adapter 연결
         viewPager.adapter = pagerAdapter
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -133,21 +173,52 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         })
 
-        // TabLayout attach
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = careList[position].name
+            tab.text = careList[position].careName
         }.attach()
     }
 
     private fun buttonClick() = with(binding) {
+
+        changePetButton.setOnClickListener {
+            showPetList()
+        }
+
         emptyAddCareButton.setOnClickListener {
-            val intent = Intent(requireContext(), RegisterCareActivity::class.java)
-            startActivity(intent)
+            addCare()
         }
         addCareButton.setOnClickListener {
-            val intent = Intent(requireContext(), RegisterCareActivity::class.java)
-            startActivity(intent)
+            addCare()
         }
+
+    }
+
+    private fun showPetList() {
+        val popup = PopupMenu(requireContext(), binding.changePetButton)
+        val menu = popup.menu
+        petList.forEach { pet ->
+            menu.add(pet.petName)
+        }
+
+        popup.menuInflater.inflate(R.menu.pet_list_menu, menu)
+        popup.setOnMenuItemClickListener { item ->
+            changePet(item.title as String)
+            false
+        }
+        popup.show()
+    }
+
+    private fun addCare() {
+        val action = HomeFragmentDirections.actionHomeFragmentToAddCareFragment(curPetId, curPetName)
+        binding.root.findNavController().navigate(action)
+    }
+
+    private fun changePet(petName: String) {
+        val idx = petNameList.indexOf(petName)
+        curPetId = petIdList[idx]
+        getDays()
+        initDaysView()
+        getCareList()
     }
 
 }

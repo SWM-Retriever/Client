@@ -14,7 +14,7 @@ import org.retriever.dailypet.data.network.signup.PetApiService
 import org.retriever.dailypet.data.network.signup.ProfileApiService
 import org.retriever.dailypet.data.repository.diary.DiaryRepository
 import org.retriever.dailypet.data.repository.login.LoginRepository
-import org.retriever.dailypet.data.repository.mypage.HomeRepository
+import org.retriever.dailypet.data.repository.main.HomeRepository
 import org.retriever.dailypet.data.repository.mypage.MyPageRepository
 import org.retriever.dailypet.data.repository.signup.FamilyRepository
 import org.retriever.dailypet.data.repository.signup.FindGroupRepository

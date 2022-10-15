@@ -14,19 +14,20 @@ import org.retriever.dailypet.ui.base.BaseActivity
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>({ActivityMainBinding.inflate(it)}) {
+    private val TAG = "MAIN_ACTIVITY"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         GlobalApplication.prefs.apply {
-            Log.d("ABC", this.nickname.toString())
-            Log.d("ABC", this.jwt.toString())
-            Log.d("ABC", this.familyId.toString())
-            Log.d("ABC", this.groupName.toString())
-            Log.d("ABC", this.invitationCode.toString())
-            Log.d("ABC", this.groupType.toString())
-            Log.d("ABC", this.profileImageUrl.toString())
-            Log.d("ABC", this.petIdList.toString())
+            Log.d(TAG, this.nickname.toString())
+            Log.d(TAG, this.jwt.toString())
+            Log.d(TAG, this.familyId.toString())
+            Log.d(TAG, this.groupName.toString())
+            Log.d(TAG, this.invitationCode.toString())
+            Log.d(TAG, this.groupType.toString())
+            Log.d(TAG, this.profileImageUrl.toString())
+            Log.d(TAG, this.petIdList.toString())
         }
         initBottomNavigation()
     }

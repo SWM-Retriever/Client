@@ -39,30 +39,40 @@
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/pet_name_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        android:text="@string/home_pet_name_text"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/home_profile_image"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/change_pet_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="20dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/arrow_down"
-        app:layout_constraintStart_toEndOf="@+id/pet_name_text"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/black" />
+        android:layout_marginTop="12dp"
+        android:padding="2dp"
+        app:layout_constraintStart_toEndOf="@+id/home_profile_image"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/pet_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:text="@string/home_pet_name_text"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/arrow_down"
+            app:layout_constraintStart_toEndOf="@+id/pet_name_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/black" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <ImageButton
         android:id="@+id/alarm_button"
@@ -92,45 +102,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
-        android:visibility="invisible"
         android:text="@string/home_contribution_text"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/d_day_text" />
 
-    <TextView
-        android:id="@+id/statistics_text"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/statistics_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/statistics_text"
-        android:textColor="@color/black"
-        android:padding="5dp"
-        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-        app:layout_constraintTop_toBottomOf="@+id/d_day_text" />
-
-    <ImageButton
-        android:id="@+id/statistics_button"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginTop="14dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitXY"
-        android:src="@drawable/btn_arrow_right"
-        app:layout_constraintStart_toEndOf="@+id/statistics_text"
-        app:layout_constraintTop_toBottomOf="@+id/d_day_text" />
-
-    <TextView
-        android:id="@+id/text_empty_comment"
-        android:layout_width="359dp"
-        android:layout_height="45dp"
         android:layout_marginTop="12dp"
-        android:text="아직 챙겨주기 항목이 없어요\n등록하기 버튼을 눌러 반려동물을 챙겨주세요!"
-        android:textAlignment="center"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/empty_add_care_button" />
+        app:layout_constraintEnd_toStartOf="@id/right_guideline"
+        app:layout_constraintTop_toBottomOf="@id/d_day_text">
+
+        <TextView
+            android:id="@+id/statistics_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/statistics_text"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="6dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/btn_arrow_right"
+            app:layout_constraintStart_toEndOf="@+id/statistics_text"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/care_title_text"
@@ -154,6 +157,7 @@
         android:textColor="@color/light_black"
         android:textSize="12sp"
         android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintTop_toBottomOf="@+id/d_day_text" />
 
@@ -161,26 +165,36 @@
         android:id="@+id/empty_add_care_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/whiteblue_click_button"
         android:text="@string/init_add_care_button_text"
         android:textColor="@color/main_blue"
         android:textSize="16sp"
         android:textStyle="bold"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintEnd_toEndOf="@+id/right_guideline"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/care_title_text" />
 
+    <TextView
+        android:id="@+id/empty_comment_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/care_empty_comment_text"
+        android:textAlignment="center"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/empty_add_care_button" />
+
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_careList"
-        android:layout_width="398dp"
+        android:id="@+id/care_list_tab"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/care_title_text"
         app:tabIndicatorColor="@color/black"
@@ -192,12 +206,11 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager_main"
-        android:layout_width="404dp"
-        android:layout_height="479dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tab_careList" />
-
+        app:layout_constraintTop_toBottomOf="@+id/care_list_tab" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

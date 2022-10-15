@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.AddCareFragment">
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="288dp"
+        android:indeterminate="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/right_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
+
+    <TextView
+        android:id="@+id/add_care_title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/add_care_title_text"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/btn_x" />
+
+    <TextView
+        android:id="@+id/care_name_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/care_name_title"
+        android:textColor="@color/light_black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/add_care_title_text" />
+
+    <HorizontalScrollView
+        android:id="@+id/care_name_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="4dp"
+        android:layout_marginTop="16dp"
+        android:scrollbarSize="1dp"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbarThumbHorizontal="@color/main_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/care_name_title">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_food"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="24dp"
+                android:background="@drawable/small_button_click"
+                android:text="식사"
+                android:textColor="@drawable/text_click"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_walk"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/small_button_click"
+                android:text="산책"
+                android:textColor="@drawable/text_click"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn_food"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_play"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/small_button_click"
+                android:text="놀이"
+                android:textColor="@drawable/text_click"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn_walk"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/period_title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="@string/care_period_text"
+        android:textColor="@color/light_black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/care_name_scroll_view" />
+
+    <CheckBox
+        android:id="@+id/check_everyday"
+        android:layout_width="38dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="12dp"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
+        android:text="매일"
+
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/period_title_text" />
+
+    <CheckBox
+        android:id="@+id/check_mon"
+        android:layout_width="38dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
+
+        android:text="월"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/care_count_title_text"
+        app:layout_constraintStart_toEndOf="@+id/check_everyday"
+        app:layout_constraintTop_toBottomOf="@+id/period_title_text"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <CheckBox
+        android:id="@+id/check_tue"
+        android:layout_width="38dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
+
+        android:text="화"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/care_count_title_text"
+        app:layout_constraintStart_toEndOf="@+id/check_mon"
+        app:layout_constraintTop_toBottomOf="@+id/period_title_text"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <CheckBox
+        android:id="@+id/check_wed"
+        android:layout_width="38dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:button="@null"
+
+        android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
+        android:text="수"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/care_count_title_text"
+        app:layout_constraintStart_toEndOf="@+id/check_tue"
+        app:layout_constraintTop_toBottomOf="@+id/period_title_text"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <CheckBox
+        android:id="@+id/check_thu"
+        android:layout_width="38dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
+        android:text="목"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/care_count_title_text"
+        app:layout_constraintStart_toEndOf="@+id/check_wed"
+        app:layout_constraintTop_toBottomOf="@+id/period_title_text"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <CheckBox
+        android:id="@+id/check_fri"
+        android:layout_width="38dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="12dp"
+
+        android:layout_marginBottom="12dp"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
+        android:text="금"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/care_count_title_text"
+        app:layout_constraintStart_toEndOf="@+id/check_thu"
+        app:layout_constraintTop_toBottomOf="@+id/period_title_text"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <CheckBox
+        android:id="@+id/check_sat"
+        android:layout_width="38dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="5dp"
+
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
+        android:text="토"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/care_count_title_text"
+        app:layout_constraintStart_toEndOf="@+id/check_fri"
+        app:layout_constraintTop_toBottomOf="@+id/period_title_text"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <CheckBox
+        android:id="@+id/check_sun"
+        android:layout_width="38dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
+        android:text="일"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/care_count_title_text"
+        app:layout_constraintStart_toEndOf="@+id/check_sat"
+        app:layout_constraintTop_toBottomOf="@+id/period_title_text"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/care_count_title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="@string/care_count_title_text"
+        android:textColor="@color/light_black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/check_everyday" />
+
+    <EditText
+        android:id="@+id/care_count_edittext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingVertical="20dp"
+        android:background="@drawable/grey_blue_edittext"
+        android:hint="@string/care_count_comment_text"
+        android:inputType="number"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/care_count_title_text" />
+
+    <ImageView
+        android:id="@+id/care_count_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/care_count_edittext"
+        app:layout_constraintEnd_toEndOf="@+id/care_count_edittext"
+        app:layout_constraintTop_toTopOf="@+id/care_count_edittext"
+        app:srcCompat="@drawable/arrow_down" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/add_care_submit_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:paddingVertical="16dp"
+        android:background="@drawable/grey_button"
+        android:text="@string/add_care_submit_text"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline" />
+</androidx.constraintlayout.widget.ConstraintLayout>

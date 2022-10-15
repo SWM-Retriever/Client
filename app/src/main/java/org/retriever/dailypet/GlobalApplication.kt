@@ -135,6 +135,10 @@ class Prefs(context: Context) {
         return jsonToIntList(JSONArray(prefs.getString("petIdList", null)))
     }
 
+    fun getPetNameList(): MutableList<String> {
+        return jsonToStringList(JSONArray(prefs.getString("petNameList", null)))
+    }
+
     private fun jsonToIntList(jsonArray: JSONArray): MutableList<Int> {
         val list = mutableListOf<Int>()
         for (i in 0 until jsonArray.length()) {

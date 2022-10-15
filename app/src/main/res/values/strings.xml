@@ -124,4 +124,12 @@
     <string name="open_source_license_text">오픈소스 라이선스 확인하기</string>
     <string name="withdrawal_text">회원탈퇴</string>
     <string name="home_pet_name_text">%s</string>
+    <string name="care_empty_comment_text">아직 챙겨주기 항목이 없어요\n등록하기 버튼을 눌러 반려동물을 챙겨주세요!</string>
+    <string name="add_care_title_text">챙겨주기 등록하기</string>
+    <string name="care_name_title">케어 항목</string>
+    <string name="care_period_text">케어 요일</string>
+    <string name="care_count_title_text">케어 횟수</string>
+    <string name="care_count_comment_text">케어 횟수를 입력해주세요</string>
+    <string name="add_care_submit_text">등록하기</string>
+    <string name="care_card_title">케어항목</string>
 </resources>
