@@ -140,11 +140,11 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     }
 
     companion object {
-        private const val NOTIFICATION_URL = "https://low-pony-bb5.notion.site/fdsaf-6e43b70e58c145e7aaba9f478a4505b6"
+        private const val NOTIFICATION_URL = "https://showy-king-303.notion.site/2b97d48c4a434e019c1058800f7a48fe"
         private const val REPORT_URL = "https://the-form.io/forms/survey/response/fe418f0f-0ab2-46ce-80d1-d5a8188e5247"
-        private const val TERMS_URL = "https://showy-king-303.notion.site/f14d2debbac04fdea89fd664e080f0a7"
-        private const val PRIVACY_URL = "https://showy-king-303.notion.site/5de2154dbe5c4a158070946e69adfc30"
-        private const val OPENSOURCE_URL = "https://showy-king-303.notion.site/5fb9d08478d642969dbdc0de0974b537"
+        private const val TERMS_URL = "https://showy-king-303.notion.site/2b97d48c4a434e019c1058800f7a48fe"
+        private const val PRIVACY_URL = "https://showy-king-303.notion.site/457fcbd6d0f84beb8367394d7f92094a"
+        private const val OPENSOURCE_URL = "https://showy-king-303.notion.site/2074dab89c564325b7cba36291ce60f2"
     }
 
 }
