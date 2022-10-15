@@ -49,6 +49,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.mypage.WebViewActivity"
+            android:exported="false" />
+              <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:theme="@style/Splash">
@@ -73,7 +76,6 @@
                     android:scheme="${KAKAO_NATIVE_APP_KEY}" />
             </intent-filter>
         </activity>
-
         <service
             android:name=".interfaces.MyFirebaseMessagingService"
             android:exported="true">

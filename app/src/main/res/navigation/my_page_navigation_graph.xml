@@ -9,15 +9,15 @@
         android:name="org.retriever.dailypet.ui.mypage.MyPageMainFragment"
         android:label="MyPageMainFragment" >
         <action
-            android:id="@+id/action_myPageMainFragment_to_webViewFragment"
-            app:destination="@id/webViewFragment" />
+            android:id="@+id/action_myPageMainFragment_to_webViewActivity"
+            app:destination="@id/webViewActivity" />
     </fragment>
-    <fragment
-        android:id="@+id/webViewFragment"
-        android:name="org.retriever.dailypet.ui.mypage.WebViewFragment"
-        android:label="WebViewFragment" >
+    <activity
+        android:id="@+id/webViewActivity"
+        android:name="org.retriever.dailypet.ui.mypage.WebViewActivity"
+        android:label="WebViewActivity" >
         <argument
             android:name="url"
             app:argType="string" />
-    </fragment>
+    </activity>
 </navigation>

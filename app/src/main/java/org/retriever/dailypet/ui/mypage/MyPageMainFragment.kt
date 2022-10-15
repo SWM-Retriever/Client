@@ -52,27 +52,32 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         }
 
         appReviewText.setOnClickListener {
-            val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewFragment("https://play.google.com/store/apps/details?id=com.dxx.firenow")
+            val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewActivity("https://play.google.com/store/apps/details?id=com.dxx.firenow")
             root.findNavController().navigate(action)
         }
 
         notificationText.setOnClickListener {
-            val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewFragment("https://www.naver.com")
+            val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewActivity(NOTIFICATION_URL)
+            root.findNavController().navigate(action)
+        }
+
+        reportText.setOnClickListener {
+            val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewActivity(REPORT_URL)
             root.findNavController().navigate(action)
         }
 
         termsOfServiceText.setOnClickListener {
-            val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewFragment("https://www.yahoo.com")
+            val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewActivity(TERMS_URL)
             root.findNavController().navigate(action)
         }
 
         privacyText.setOnClickListener {
-            val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewFragment("https://www.nexon.com")
+            val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewActivity(PRIVACY_URL)
             root.findNavController().navigate(action)
         }
 
         openSourceLicenseText.setOnClickListener {
-            val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewFragment("https://www.google.com")
+            val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewActivity(OPENSOURCE_URL)
             root.findNavController().navigate(action)
         }
 
@@ -149,6 +154,14 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
             }
 
         }
+    }
+
+    companion object {
+        private const val NOTIFICATION_URL = "https://showy-king-303.notion.site/2b97d48c4a434e019c1058800f7a48fe"
+        private const val REPORT_URL = "https://the-form.io/forms/survey/response/fe418f0f-0ab2-46ce-80d1-d5a8188e5247"
+        private const val TERMS_URL = "https://showy-king-303.notion.site/2b97d48c4a434e019c1058800f7a48fe"
+        private const val PRIVACY_URL = "https://showy-king-303.notion.site/457fcbd6d0f84beb8367394d7f92094a"
+        private const val OPENSOURCE_URL = "https://showy-king-303.notion.site/2074dab89c564325b7cba36291ce60f2"
     }
 
 }
