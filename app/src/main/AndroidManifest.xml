@@ -20,8 +20,17 @@
         android:theme="@style/Theme.DailyPet"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <activity
-            android:name=".ui.mypage.InviteLinkActivity"
+            android:name=".RegisterCareActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="org.retriever.dailypet.ui.login.LoginActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -33,7 +42,6 @@
                     android:host="dailypet.org"
                     android:path="/invite"
                     android:scheme="https" />
-
                 <data
                     android:host="dailypet.org"
                     android:path="/invite"
@@ -43,18 +51,7 @@
         <activity
             android:name=".ui.mypage.WebViewActivity"
             android:exported="false" />
-        <activity
-            android:name=".RegisterCareActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.main.MainActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name="org.retriever.dailypet.ui.login.LoginActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
+              <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:theme="@style/Splash">
@@ -79,7 +76,6 @@
                     android:scheme="${KAKAO_NATIVE_APP_KEY}" />
             </intent-filter>
         </activity>
-
         <service
             android:name=".interfaces.MyFirebaseMessagingService"
             android:exported="true">

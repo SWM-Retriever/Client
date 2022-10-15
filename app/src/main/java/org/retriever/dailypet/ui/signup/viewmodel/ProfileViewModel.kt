@@ -30,10 +30,10 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
         _nickNameResponse.postValue(profileRepository.postCheckProfileNickname(nickName))
     }
 
-    fun postProfile(registerProfile: RegisterProfile, image: MultipartBody.Part?) = viewModelScope.launch {
+    fun postProfile(registerProfile: RegisterProfile) = viewModelScope.launch {
         _registerProfileResponse.postValue(Event(Resource.Loading()))
 
-        _registerProfileResponse.postValue(Event(profileRepository.postProfile(registerProfile, image)))
+        _registerProfileResponse.postValue(Event(profileRepository.postProfile(registerProfile)))
     }
 
 }

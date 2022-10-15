@@ -18,7 +18,7 @@ class PetRepository @Inject constructor(private val petApiService: PetApiService
     suspend fun getPetBreedList(petType: String, jwt: String): Resource<BreedResponse> =
         safeApiCall { petApiService.getPetBreedList(petType, jwt) }
 
-    suspend fun postPet(familyId: Int, jwt : String, petInfo: PetInfo, image: MultipartBody.Part?): Resource<PetResponse> =
-        safeApiCall { petApiService.postPet(familyId, jwt, petInfo, image) }
+    suspend fun postPet(familyId: Int, jwt : String, petInfo: PetInfo): Resource<PetResponse> =
+        safeApiCall { petApiService.postPet(familyId, jwt, petInfo) }
 
 }

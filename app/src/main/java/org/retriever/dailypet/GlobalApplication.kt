@@ -80,11 +80,16 @@ class Prefs(context: Context) {
         }
 
     var petIdList: String?
-        get() = jsonToList(JSONArray(prefs.getString("petIdList", null))).toString()
+        get() = jsonToIntList(JSONArray(prefs.getString("petIdList", null))).toString()
         set(value) {
             prefs.edit().putString("petIdList", value).apply()
         }
 
+    var petNameList: String?
+        get() = jsonToStringList(JSONArray(prefs.getString("petNameList", null))).toString()
+        set(value) {
+            prefs.edit().putString("petNameList", value).apply()
+        }
 
     fun initDeviceToken() {
         prefs.edit().putString("deviceToken", null).apply()
@@ -122,14 +127,30 @@ class Prefs(context: Context) {
         prefs.edit().putString("petIdList", null).apply()
     }
 
-    fun getPetIdList(): MutableList<Int> {
-        return jsonToList(JSONArray(prefs.getString("petIdList", null)))
+    fun initPetNameList() {
+        prefs.edit().putString("petNameList", null).apply()
     }
 
-    private fun jsonToList(jsonArray: JSONArray): MutableList<Int> {
+    fun getPetIdList(): MutableList<Int> {
+        return jsonToIntList(JSONArray(prefs.getString("petIdList", null)))
+    }
+
+    fun getPetNameList(): MutableList<String> {
+        return jsonToStringList(JSONArray(prefs.getString("petNameList", null)))
+    }
+
+    private fun jsonToIntList(jsonArray: JSONArray): MutableList<Int> {
         val list = mutableListOf<Int>()
         for (i in 0 until jsonArray.length()) {
             list.add(jsonArray.optInt(i))
+        }
+        return list
+    }
+
+    private fun jsonToStringList(jsonArray: JSONArray): MutableList<String> {
+        val list = mutableListOf<String>()
+        for (i in 0 until jsonArray.length()) {
+            list.add(jsonArray.optString(i))
         }
         return list
     }

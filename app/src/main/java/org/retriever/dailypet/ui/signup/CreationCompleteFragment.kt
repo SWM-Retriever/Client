@@ -18,8 +18,8 @@ import org.retriever.dailypet.util.hideProgressCircular
 class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>() {
 
     private var invitationCode = ""
-    private var nickname =""
-    private var groupName =""
+    private val nickname = GlobalApplication.prefs.nickname ?: ""
+    private val groupName = GlobalApplication.prefs.groupName ?: ""
     private var familyId = -1
     private var familyType =""
     private lateinit var petIdList : List<Pet>
@@ -76,16 +76,12 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
         }
 
         groupInviteButton.setOnClickListener {
-            //TODO 그룹초대 로직 구현
             onShareClicked()
-
         }
     }
 
     private fun onShareClicked() {
-        val message = "[반려하루]\n$nickname 님이 $groupName 그룹의 초대장을 보냈어요\n" + R.string.invitation_message_text.toString()
-        val code = message + invitationCode
-
+        val code = getString(R.string.invitation_message_text, nickname, groupName, invitationCode)
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
         intent.putExtra(Intent.EXTRA_TEXT, code)

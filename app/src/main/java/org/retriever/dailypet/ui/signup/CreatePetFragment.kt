@@ -410,13 +410,13 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         birth: String,
         weight: Float,
         neutral: Boolean,
-        registerNumber: String
-    ) {
+        registerNumber: String,
+        ) {
         val familyId = GlobalApplication.prefs.familyId
-        val petInfo = PetInfo(name, type, sex, birth, petKindId, weight, neutral, registerNumber)
+        val petInfo = PetInfo(name, type, sex, birth, petKindId, weight, neutral, registerNumber, "")
         val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
         val multiPartBody = MultipartBody.Part.createFormData("image", "image", bitmapRequestBody)
-        petViewModel.postPet(familyId, jwt, petInfo, multiPartBody)
+        petViewModel.postPet(familyId, jwt, petInfo)
     }
 
     inner class BitmapRequestBody(private val bitmap: Bitmap) : RequestBody() {

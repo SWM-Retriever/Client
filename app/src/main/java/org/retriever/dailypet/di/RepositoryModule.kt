@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.retriever.dailypet.data.network.diary.DiaryApiInterface
 import org.retriever.dailypet.data.network.login.LoginApiService
+import org.retriever.dailypet.data.network.main.HomeApiService
 import org.retriever.dailypet.data.network.mypage.MyPageApiService
 import org.retriever.dailypet.data.network.signup.FamilyApiInterface
 import org.retriever.dailypet.data.network.signup.FindGroupApiInterface
@@ -13,6 +14,7 @@ import org.retriever.dailypet.data.network.signup.PetApiService
 import org.retriever.dailypet.data.network.signup.ProfileApiService
 import org.retriever.dailypet.data.repository.diary.DiaryRepository
 import org.retriever.dailypet.data.repository.login.LoginRepository
+import org.retriever.dailypet.data.repository.main.HomeRepository
 import org.retriever.dailypet.data.repository.mypage.MyPageRepository
 import org.retriever.dailypet.data.repository.signup.FamilyRepository
 import org.retriever.dailypet.data.repository.signup.FindGroupRepository
@@ -52,5 +54,8 @@ class RepositoryModule {
     @Singleton
     fun provideDiaryRepository(diaryApiInterface: DiaryApiInterface): DiaryRepository = DiaryRepository(diaryApiInterface)
 
+    @Provides
+    @Singleton
+    fun provideHomeRepository(homeApiService: HomeApiService): HomeRepository = HomeRepository(homeApiService)
 
 }
