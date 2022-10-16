@@ -7,22 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import org.json.JSONArray
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreationCompleteBinding
-import org.retriever.dailypet.model.signup.pet.Pet
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.util.hideProgressCircular
 
 class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>() {
 
+    private var nickName = ""
+    private var groupName = ""
     private var invitationCode = ""
-    private val nickname = GlobalApplication.prefs.nickname ?: ""
-    private val groupName = GlobalApplication.prefs.groupName ?: ""
-    private var familyId = -1
-    private var familyType =""
-    private lateinit var petIdList : List<Pet>
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentCreationCompleteBinding {
         return FragmentCreationCompleteBinding.inflate(inflater, container, false)
@@ -50,6 +45,10 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
         }
         groupPetNameText.text = petString
 
+        nickName = petResponse.nickName
+        groupName = petResponse.familyName
+        invitationCode = petResponse.invitationCode
+
         saveSharedPreference(
             petResponse.nickName,
             petResponse.familyId,
@@ -57,7 +56,6 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
             petResponse.invitationCode,
             petResponse.groupType,
             petResponse.profileImageUrl,
-            petResponse.petList
         )
     }
 
@@ -81,7 +79,7 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
     }
 
     private fun onShareClicked() {
-        val code = getString(R.string.invitation_message_text, nickname, groupName, invitationCode)
+        val code = getString(R.string.invitation_message_text, nickName, groupName, invitationCode)
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
         intent.putExtra(Intent.EXTRA_TEXT, code)
@@ -95,13 +93,7 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
         invitationCode: String,
         groupType: String,
         profileImageUrl: String,
-        petIdList: List<Pet>
     ) {
-        val petIdListJsonArray = JSONArray()
-        petIdList.forEach { id ->
-            petIdListJsonArray.put(id)
-        }
-
         GlobalApplication.prefs.apply {
             this.nickname = nickName
             this.familyId = familyId
@@ -109,7 +101,6 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
             this.invitationCode = invitationCode
             this.groupType = groupType
             this.profileImageUrl = profileImageUrl
-            this.petIdList = petIdListJsonArray.toString()
         }
     }
 

@@ -132,8 +132,6 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
             this.initInvitationCode()
             this.initGroupType()
             this.initProfileImageUrl()
-            this.initPetIdList()
-            this.initPetNameList()
         }
         myPageViewModel.deleteMemberWithdrawal(jwt)
     }

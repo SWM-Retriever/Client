@@ -2,8 +2,6 @@ package org.retriever.dailypet.ui.main
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +25,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>({ActivityMainBinding.infl
             Log.d(TAG, this.invitationCode.toString())
             Log.d(TAG, this.groupType.toString())
             Log.d(TAG, this.profileImageUrl.toString())
-            Log.d(TAG, this.petIdList.toString())
         }
         initBottomNavigation()
     }
