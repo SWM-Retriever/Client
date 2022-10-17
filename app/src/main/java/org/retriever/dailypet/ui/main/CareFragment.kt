@@ -1,6 +1,7 @@
 package org.retriever.dailypet.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,8 +23,6 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
 
     private val homeViewModel by activityViewModels<HomeViewModel>()
 
-    private var TOTAL = 1
-    private var CUR = 0
     private val eDay: List<String> = listOf("SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT")
     private val kDay: List<String> = listOf("일", "월", "화", "수", "목", "금", "토")
     private var name = ""
@@ -142,15 +141,12 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         periodTitleText.text = weekdays
         val percent = curCnt.toDouble() / totalCnt.toDouble()
         progressbar.progress = (percent * 100).toInt()
-
-        TOTAL = totalCnt
-        CUR = curCnt
     }
 
     private fun buttonClick() = with(binding) {
 
         checkButton.setOnClickListener {
-            if (CUR != TOTAL){
+            if (curCnt != totalCnt){
                 postCareCheck()
             }
             else{
@@ -159,7 +155,8 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
 
         }
         cancelText.setOnClickListener {
-            if(CUR != 0){
+            if(curCnt != 0){
+                Log.e("AB",careId.toString())
                 postCareCancel()
             }
             else{
@@ -180,17 +177,18 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     }
 
     private fun increaseProgress() = with(binding) {
-        CUR++
-        if (CUR > TOTAL) CUR = TOTAL
-        val percent = CUR.toDouble() / TOTAL.toDouble()
+        curCnt++
+        if (curCnt > totalCnt) curCnt = totalCnt
+        val percent = curCnt.toDouble() / totalCnt.toDouble()
         careCountText.text = getString(R.string.care_count, curCnt, totalCnt)
         progressbar.progress = (percent * 100).toInt()
     }
 
     private fun decreaseProgress() = with(binding) {
-        CUR--
-        if (CUR < 0) CUR = 0
-        val percent = CUR.toDouble() / TOTAL.toDouble()
+        Log.e("ABC",careId.toString())
+        curCnt--
+        if (curCnt < 0) curCnt = 0
+        val percent = curCnt.toDouble() / totalCnt.toDouble()
         careCountText.text = getString(R.string.care_count, curCnt, totalCnt)
         progressbar.progress = (percent * 100).toInt()
     }
