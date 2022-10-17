@@ -22,7 +22,6 @@ import org.retriever.dailypet.databinding.FragmentHomeBinding
 import org.retriever.dailypet.interfaces.CareAdapter
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.main.Care
-import org.retriever.dailypet.model.signup.pet.Pet
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.main.viewmodel.HomeViewModel
 import org.retriever.dailypet.util.ArrayListAdapter
@@ -32,14 +31,14 @@ import org.retriever.dailypet.util.showProgressCircular
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val homeViewModel by activityViewModels<HomeViewModel>()
+
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
+
+
     private val jwt = GlobalApplication.prefs.jwt ?: ""
-    private val petIdList = GlobalApplication.prefs.getPetIdList()
-    private val petNameList = GlobalApplication.prefs.getPetNameList()
     private val groupType = GlobalApplication.prefs.groupType ?: ""
-    private var petList: MutableList<Pet> = mutableListOf()
-    private var curPetId = petIdList[0]
+    private var curPetId = 0
     private var curPetName = ""
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeBinding {
@@ -50,7 +49,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initProgressCircular()
-        initPetList()
+        //initPetList()
         initGroupType()
         getDays()
         getCareList()
@@ -63,13 +62,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         hideProgressCircular(binding.progressCircular)
     }
 
-    private fun initPetList() {
+    /*private fun initPetList() {
         petList.clear()
         val petNum = petIdList.size
         for (i in 0 until petNum) {
             petList.add(Pet(petIdList[i], petNameList[i]))
         }
-    }
+    }*/
 
     private fun initGroupType() = with(binding) {
         // TODO 1인가구 뷰 변경 로직 추가
@@ -181,7 +180,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun buttonClick() = with(binding) {
 
         changePetButton.setOnClickListener {
-            showPetList()
+            //showPetList()
         }
 
         emptyAddCareButton.setOnClickListener {
@@ -193,7 +192,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     }
 
-    private fun showPetList() {
+   /* private fun showPetList() {
         val popup = PopupMenu(requireContext(), binding.changePetButton)
         val menu = popup.menu
         petList.forEach { pet ->
@@ -206,19 +205,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             false
         }
         popup.show()
-    }
+    }*/
 
     private fun addCare() {
         val action = HomeFragmentDirections.actionHomeFragmentToAddCareFragment(curPetId, curPetName)
         binding.root.findNavController().navigate(action)
     }
 
-    private fun changePet(petName: String) {
+    /*private fun changePet(petName: String) {
         val idx = petNameList.indexOf(petName)
         curPetId = petIdList[idx]
         getDays()
         initDaysView()
         getCareList()
-    }
+    }*/
 
 }

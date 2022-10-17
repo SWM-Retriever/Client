@@ -20,14 +20,12 @@ import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import org.json.JSONArray
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentLoginBinding
 import org.retriever.dailypet.loginWithKakao
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.login.Member
-import org.retriever.dailypet.model.signup.pet.Pet
 import org.retriever.dailypet.model.signup.profile.RegisterProfile
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.util.hideProgressCircular
@@ -72,7 +70,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                         val invitationCode = response.data?.invitationCode ?: ""
                         val groupType = response.data?.groupType ?: ""
                         val profileImageUrl = response.data?.profileImageUrl ?: ""
-                        val petIdList = response.data?.petList ?: emptyList()
+
                         saveSharedPreference(
                             nickName,
                             jwt,
@@ -81,7 +79,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                             invitationCode,
                             groupType,
                             profileImageUrl,
-                            petIdList
                         )
                         initProgress(jwt)
                     }
@@ -121,17 +118,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         familyName: String,
         invitationCode: String,
         groupType: String,
-        profileImageUrl: String,
-        petIdList: List<Pet>
+        profileImageUrl: String
     ) {
-        val petIdListJsonArray = JSONArray()
-        val petNameListJsonArray = JSONArray()
-        petIdList.forEach { item ->
-            petIdListJsonArray.put(item.petId)
-        }
-        petIdList.forEach { item ->
-            petNameListJsonArray.put(item.petName)
-        }
         GlobalApplication.prefs.apply {
             this.nickname = nickName
             this.jwt = jwt
@@ -140,8 +128,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             this.invitationCode = invitationCode
             this.groupType = groupType
             this.profileImageUrl = profileImageUrl
-            this.petIdList = petIdListJsonArray.toString()
-            this.petNameList = petNameListJsonArray.toString()
         }
     }
 

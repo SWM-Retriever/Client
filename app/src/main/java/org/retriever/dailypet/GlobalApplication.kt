@@ -6,7 +6,6 @@ import android.content.Context.MODE_PRIVATE
 import com.kakao.sdk.common.KakaoSdk
 import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.HiltAndroidApp
-import org.json.JSONArray
 import org.retriever.dailypet.BuildConfig.*
 
 @HiltAndroidApp
@@ -79,18 +78,6 @@ class Prefs(context: Context) {
             prefs.edit().putString("profileImageUrl", value).apply()
         }
 
-    var petIdList: String?
-        get() = jsonToIntList(JSONArray(prefs.getString("petIdList", null))).toString()
-        set(value) {
-            prefs.edit().putString("petIdList", value).apply()
-        }
-
-    var petNameList: String?
-        get() = jsonToStringList(JSONArray(prefs.getString("petNameList", null))).toString()
-        set(value) {
-            prefs.edit().putString("petNameList", value).apply()
-        }
-
     fun initDeviceToken() {
         prefs.edit().putString("deviceToken", null).apply()
     }
@@ -121,38 +108,6 @@ class Prefs(context: Context) {
 
     fun initProfileImageUrl() {
         prefs.edit().putString("profileImageUrl", null).apply()
-    }
-
-    fun initPetIdList() {
-        prefs.edit().putString("petIdList", null).apply()
-    }
-
-    fun initPetNameList() {
-        prefs.edit().putString("petNameList", null).apply()
-    }
-
-    fun getPetIdList(): MutableList<Int> {
-        return jsonToIntList(JSONArray(prefs.getString("petIdList", null)))
-    }
-
-    fun getPetNameList(): MutableList<String> {
-        return jsonToStringList(JSONArray(prefs.getString("petNameList", null)))
-    }
-
-    private fun jsonToIntList(jsonArray: JSONArray): MutableList<Int> {
-        val list = mutableListOf<Int>()
-        for (i in 0 until jsonArray.length()) {
-            list.add(jsonArray.optInt(i))
-        }
-        return list
-    }
-
-    private fun jsonToStringList(jsonArray: JSONArray): MutableList<String> {
-        val list = mutableListOf<String>()
-        for (i in 0 until jsonArray.length()) {
-            list.add(jsonArray.optString(i))
-        }
-        return list
     }
 
 }
