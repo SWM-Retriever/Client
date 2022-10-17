@@ -61,9 +61,9 @@ class CareFragment : Fragment(), View.OnClickListener{
 
     @SuppressLint("SetTextI18n")
     private fun init(name: String, weekdays: String, log: String, totalCnt: Int, curCnt: Int) = with(binding){
-        textCareTitle.text = name
-        textCareCnt.text = curCnt.toString() + "회/" + totalCnt.toString() + "회"
-        textLog.text = log
+        careTitleText.text = name
+        careCountText.text = curCnt.toString() + "회/" + totalCnt.toString() + "회"
+        logText.text = log
         periodTitleText.text = weekdays
         val percent = curCnt.toDouble() / totalCnt.toDouble()
         binding.progressbar.progress = (percent * 100).toInt()
@@ -77,7 +77,7 @@ class CareFragment : Fragment(), View.OnClickListener{
         CUR++
         if(CUR > TOTAL) CUR = TOTAL
         val percent = CUR.toDouble() / TOTAL.toDouble()
-        binding.textCareCnt.text = CUR.toString() + "회/" + TOTAL.toString() + "회"
+        binding.careCountText.text = CUR.toString() + "회/" + TOTAL.toString() + "회"
         binding.progressbar.progress = (percent * 100).toInt()
     }
 
@@ -86,13 +86,13 @@ class CareFragment : Fragment(), View.OnClickListener{
         CUR--
         if(CUR < 0) CUR = 0
         val percent = CUR.toDouble() / TOTAL.toDouble()
-        binding.textCareCnt.text = CUR.toString() + "회/" + TOTAL.toString() + "회"
+        binding.careCountText.text = CUR.toString() + "회/" + TOTAL.toString() + "회"
         binding.progressbar.progress = (percent * 100).toInt()
     }
 
     private fun setOnClickListener() {
-        binding.btnCheck.setOnClickListener(this)
-        binding.btnCancel.setOnClickListener(this)
+        binding.checkButton.setOnClickListener(this)
+        binding.cancelText.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {

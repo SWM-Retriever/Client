@@ -7,6 +7,7 @@ import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.main.CareInfo
 import org.retriever.dailypet.model.main.CareList
 import org.retriever.dailypet.model.main.PetDaysResponse
+import org.retriever.dailypet.model.signup.pet.PetList
 import javax.inject.Inject
 
 class HomeRepository @Inject constructor(private val homeApiService: HomeApiService) : BaseRepo() {
@@ -16,6 +17,9 @@ class HomeRepository @Inject constructor(private val homeApiService: HomeApiServ
 
     suspend fun getCareList(petId: Int, jwt: String): Resource<CareList> =
         safeApiCall { homeApiService.getCareList(petId, jwt) }
+
+    suspend fun getPetList(familyId: Int, jwt: String): Resource<PetList> =
+        safeApiCall { homeApiService.getPetList(familyId, jwt) }
 
     suspend fun postPetCare(petId: Int, jwt: String, careInfo: CareInfo): Resource<ResponseBody> =
         safeApiCall { homeApiService.postPetCare(petId, jwt, careInfo) }
