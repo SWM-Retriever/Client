@@ -4,6 +4,7 @@ import okhttp3.ResponseBody
 import org.retriever.dailypet.data.network.main.HomeApiService
 import org.retriever.dailypet.data.repository.BaseRepo
 import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.main.Care
 import org.retriever.dailypet.model.main.CareInfo
 import org.retriever.dailypet.model.main.CareList
 import org.retriever.dailypet.model.main.PetDaysResponse
@@ -26,4 +27,10 @@ class HomeRepository @Inject constructor(private val homeApiService: HomeApiServ
 
     suspend fun deletePetCare(petId: Int, careId: Int, jwt: String): Resource<ResponseBody> =
         safeApiCall { homeApiService.deletePetCare(petId, careId, jwt) }
+
+    suspend fun postCareCheck(petId: Int, careId: Int, jwt: String): Resource<Care> =
+        safeApiCall { homeApiService.postCareCheck(petId, careId, jwt) }
+
+    suspend fun postCareCancel(petId: Int, careId: Int, jwt: String): Resource<Care> =
+        safeApiCall { homeApiService.postCareCancel(petId, careId, jwt) }
 }

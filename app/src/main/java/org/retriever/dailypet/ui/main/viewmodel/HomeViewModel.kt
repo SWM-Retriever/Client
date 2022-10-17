@@ -10,6 +10,7 @@ import okhttp3.ResponseBody
 import org.retriever.dailypet.Event
 import org.retriever.dailypet.data.repository.main.HomeRepository
 import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.main.Care
 import org.retriever.dailypet.model.main.CareInfo
 import org.retriever.dailypet.model.main.CareList
 import org.retriever.dailypet.model.main.PetDaysResponse
@@ -35,6 +36,12 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _deletePetCareResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
     val deletePetCareResponse: LiveData<Event<Resource<ResponseBody>>> = _deletePetCareResponse
 
+    private val _postCareCheckResponse = MutableLiveData<Event<Resource<Care>>>()
+    val postCareCheckResponse: LiveData<Event<Resource<Care>>> = _postCareCheckResponse
+
+    private val _postCareCancelResponse = MutableLiveData<Event<Resource<Care>>>()
+    val postCareCancelResponse: LiveData<Event<Resource<Care>>> = _postCareCancelResponse
+
     fun getDays(petId: Int, jwt: String) = viewModelScope.launch {
         _getDaysResponse.postValue(Event(Resource.Loading()))
 
@@ -59,10 +66,21 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
         _postCareResponse.postValue(Event(homeRepository.postPetCare(petId, jwt, careInfo)))
     }
 
-    fun deletePetCare(petId: Int, careId: Int ,jwt: String) = viewModelScope.launch {
+    fun deletePetCare(petId: Int, careId: Int, jwt: String) = viewModelScope.launch {
         _deletePetCareResponse.postValue(Event(Resource.Loading()))
 
         _deletePetCareResponse.postValue(Event(homeRepository.deletePetCare(petId, careId, jwt)))
     }
 
+    fun postCareCheck(petId: Int, careId: Int, jwt: String) = viewModelScope.launch {
+        _postCareCheckResponse.postValue(Event(Resource.Loading()))
+
+        _postCareCheckResponse.postValue(Event(homeRepository.postCareCheck(petId, careId, jwt)))
+    }
+
+    fun postCareCancel(petId: Int, careId: Int, jwt: String) = viewModelScope.launch {
+        _postCareCancelResponse.postValue(Event(Resource.Loading()))
+
+        _postCareCancelResponse.postValue(Event(Resource.Loading()))
+    }
 }

@@ -1,6 +1,7 @@
 package org.retriever.dailypet.data.network.main
 
 import okhttp3.ResponseBody
+import org.retriever.dailypet.model.main.Care
 import org.retriever.dailypet.model.main.CareInfo
 import org.retriever.dailypet.model.main.CareList
 import org.retriever.dailypet.model.main.PetDaysResponse
@@ -41,4 +42,17 @@ interface HomeApiService {
         @Header("X-AUTH-TOKEN") jwt: String,
     ): Response<ResponseBody>
 
+    @POST("api/v1/pets/{petId}/cares/{careId}/check")
+    suspend fun postCareCheck(
+        @Path("petId") petId: Int,
+        @Path("careId") careId: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
+    ): Response<Care>
+
+    @POST("api/v1/pets/{petId}/cares/{careId}/cancel")
+    suspend fun postCareCancel(
+        @Path("petId") petId: Int,
+        @Path("careId") careId: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
+    ): Response<Care>
 }
