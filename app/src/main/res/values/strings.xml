@@ -132,4 +132,8 @@
     <string name="care_count_comment_text">케어 횟수를 입력해주세요</string>
     <string name="add_care_submit_text">등록하기</string>
     <string name="care_card_title">케어항목</string>
+    <string name="care_count_text">0회</string>
+    <string name="check_cancel_text">체크 취소</string>
+    <string name="check_text">1회 체크</string>
+    <string name="period_text">주기</string>
 </resources>

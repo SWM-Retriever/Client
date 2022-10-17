@@ -10,7 +10,6 @@ import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCareBinding
 import org.retriever.dailypet.model.main.Care
 import org.retriever.dailypet.util.ArrayListAdapter
-import java.io.Serializable
 
 class CareFragment : Fragment(), View.OnClickListener{
     private lateinit var binding: FragmentCareBinding
@@ -98,12 +97,12 @@ class CareFragment : Fragment(), View.OnClickListener{
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.btn_check -> {
+            R.id.check_button -> {
                 activity?.let{
                     increaseProgress()
                 }
             }
-            R.id.btn_cancel -> {
+            R.id.cancel_text -> {
                 activity?.let{
                     decreaseProgress()
                 }
