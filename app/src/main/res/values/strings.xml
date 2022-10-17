@@ -136,4 +136,5 @@
     <string name="check_cancel_text">체크 취소</string>
     <string name="check_text">1회 체크</string>
     <string name="period_text">주기</string>
+    <string name="care_count">%1$d회/%2$d회</string>
 </resources>

@@ -1,25 +1,39 @@
 package org.retriever.dailypet.ui.main
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.fragment.app.activityViewModels
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCareBinding
 import org.retriever.dailypet.model.main.Care
+import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.ui.main.viewmodel.HomeViewModel
 import org.retriever.dailypet.util.ArrayListAdapter
+import org.retriever.dailypet.util.hideProgressCircular
 
-class CareFragment : Fragment(){
-    private lateinit var binding: FragmentCareBinding
+class CareFragment : BaseFragment<FragmentCareBinding>() {
+
+    private val homeViewModel by activityViewModels<HomeViewModel>()
+
     private var TOTAL = 1
     private var CUR = 0
-    private val eDay : List<String> = listOf("SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT")
-    private val kDay : List<String> = listOf("일", "월", "화", "수", "목", "금", "토")
+    private val eDay: List<String> = listOf("SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT")
+    private val kDay: List<String> = listOf("일", "월", "화", "수", "목", "금", "토")
+    private val name = arguments?.getString("name") ?: ""
+    private val period = (arguments?.getStringArrayList("period") ?: "") as ArrayList<String>
+    private val log = arguments?.getStringArrayList("log") ?: ""
+    private val totalCnt = arguments?.getInt("totalCnt") ?: 0
+    private val curCnt = arguments?.getInt("curCnt") ?: 0
+    private var weekdays = ""
 
-    fun newInstance(newCare : Care) : CareFragment {
+    override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentCareBinding {
+        return FragmentCareBinding.inflate(inflater, container, false)
+    }
+
+    fun newInstance(newCare: Care): CareFragment {
         val fragment = CareFragment()
         val arrayListAdapter = ArrayListAdapter()
         val args = Bundle()
@@ -31,64 +45,42 @@ class CareFragment : Fragment(){
         fragment.arguments = args
         return fragment
     }
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentCareBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val name = arguments?.getString("name") ?: ""
-        val period = (arguments?.getStringArrayList("period") ?: "") as ArrayList<String>
-        val log = arguments?.getStringArrayList("log") ?: ""
-        val totalCnt = arguments?.getInt("totalCnt") ?: 0
-        val curCnt = arguments?.getInt("curCnt") ?: 0
-        var weekdays = ""
-        for(i in 0 until 7){
+
+        initProgressCircular()
+        initWeekdays()
+        initCare()
+        buttonClick()
+    }
+
+    private fun initProgressCircular() {
+        hideProgressCircular(binding.progressCircular)
+    }
+
+    private fun initWeekdays() {
+        for (i in 0 until 7) {
             val day = eDay[i]
-            for(j in 0 until period.size){
-                if(day == period[j]){
+            for (j in 0 until period.size) {
+                if (day == period[j]) {
                     weekdays += "${kDay[i]} "
                 }
             }
         }
-        init(name, weekdays, "", totalCnt, curCnt)
-        buttonClick()
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun init(name: String, weekdays: String, log: String, totalCnt: Int, curCnt: Int) = with(binding){
+    private fun initCare() = with(binding) {
         careTitleText.text = name
-        careCountText.text = curCnt.toString() + "회/" + totalCnt.toString() + "회"
-        logText.text = log
+        careCountText.text = getString(R.string.care_count, curCnt, totalCnt)
+
+        logText.text = "" // TODO 로그뷰 수정
         periodTitleText.text = weekdays
         val percent = curCnt.toDouble() / totalCnt.toDouble()
-        binding.progressbar.progress = (percent * 100).toInt()
+        progressbar.progress = (percent * 100).toInt()
 
         TOTAL = totalCnt
         CUR = curCnt
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun increaseProgress(){
-        CUR++
-        if(CUR > TOTAL) CUR = TOTAL
-        val percent = CUR.toDouble() / TOTAL.toDouble()
-        binding.careCountText.text = CUR.toString() + "회/" + TOTAL.toString() + "회"
-        binding.progressbar.progress = (percent * 100).toInt()
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun decreaseProgress(){
-        CUR--
-        if(CUR < 0) CUR = 0
-        val percent = CUR.toDouble() / TOTAL.toDouble()
-        binding.careCountText.text = CUR.toString() + "회/" + TOTAL.toString() + "회"
-        binding.progressbar.progress = (percent * 100).toInt()
     }
 
     private fun buttonClick() = with(binding) {
@@ -102,6 +94,22 @@ class CareFragment : Fragment(){
         careMoreButton.setOnClickListener {
             showPopup()
         }
+    }
+
+    private fun increaseProgress() = with(binding) {
+        CUR++
+        if (CUR > TOTAL) CUR = TOTAL
+        val percent = CUR.toDouble() / TOTAL.toDouble()
+        careCountText.text = getString(R.string.care_count, curCnt, totalCnt)
+        progressbar.progress = (percent * 100).toInt()
+    }
+
+    private fun decreaseProgress() = with(binding) {
+        CUR--
+        if (CUR < 0) CUR = 0
+        val percent = CUR.toDouble() / TOTAL.toDouble()
+        careCountText.text = getString(R.string.care_count, curCnt, totalCnt)
+        progressbar.progress = (percent * 100).toInt()
     }
 
     private fun showPopup() {
@@ -118,5 +126,6 @@ class CareFragment : Fragment(){
         }
         popup.show()
     }
+
 
 }

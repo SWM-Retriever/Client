@@ -81,6 +81,6 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     fun postCareCancel(petId: Int, careId: Int, jwt: String) = viewModelScope.launch {
         _postCareCancelResponse.postValue(Event(Resource.Loading()))
 
-        _postCareCancelResponse.postValue(Event(Resource.Loading()))
+        _postCareCancelResponse.postValue(Event(homeRepository.postCareCancel(petId, careId, jwt)))
     }
 }
