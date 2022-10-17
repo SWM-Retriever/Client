@@ -196,7 +196,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         val pagerAdapter = CareAdapter(requireActivity())
         for (care in careList) {
-            pagerAdapter.addFragment(CareFragment().newInstance(care))
+            pagerAdapter.addFragment(CareFragment().newInstance(jwt, curPetId, care))
         }
 
         viewPager.adapter = pagerAdapter
@@ -216,7 +216,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         changePetButton.setOnClickListener {
             showPetList()
         }
-
         emptyAddCareButton.setOnClickListener {
             addCare()
         }

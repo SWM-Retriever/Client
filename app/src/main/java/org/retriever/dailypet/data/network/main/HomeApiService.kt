@@ -47,12 +47,12 @@ interface HomeApiService {
         @Path("petId") petId: Int,
         @Path("careId") careId: Int,
         @Header("X-AUTH-TOKEN") jwt: String,
-    ): Response<Care>
+    ): Response<ResponseBody>
 
     @POST("api/v1/pets/{petId}/cares/{careId}/cancel")
     suspend fun postCareCancel(
         @Path("petId") petId: Int,
         @Path("careId") careId: Int,
         @Header("X-AUTH-TOKEN") jwt: String,
-    ): Response<Care>
+    ): Response<ResponseBody>
 }
