@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_myPageMainFragment_to_webViewActivity"
             app:destination="@id/webViewActivity" />
+        <action
+            android:id="@+id/action_myPageMainFragment_to_myPagePetFragment"
+            app:destination="@id/myPagePetFragment" />
     </fragment>
     <activity
         android:id="@+id/webViewActivity"
@@ -20,4 +23,8 @@
             android:name="url"
             app:argType="string" />
     </activity>
+    <fragment
+        android:id="@+id/myPagePetFragment"
+        android:name="org.retriever.dailypet.ui.mypage.MyPagePetFragment"
+        android:label="MyPagePetFragment" />
 </navigation>
