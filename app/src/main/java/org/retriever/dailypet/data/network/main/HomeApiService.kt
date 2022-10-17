@@ -34,4 +34,11 @@ interface HomeApiService {
         @Body careInfo: CareInfo
     ): Response<ResponseBody>
 
+    @DELETE("api/v1/pets/{petId}/cares/{careId}")
+    suspend fun deletePetCare(
+        @Path("petId") petId: Int,
+        @Path("careId") careId: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
+    ): Response<ResponseBody>
+
 }

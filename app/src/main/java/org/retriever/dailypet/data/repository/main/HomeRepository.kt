@@ -23,4 +23,7 @@ class HomeRepository @Inject constructor(private val homeApiService: HomeApiServ
 
     suspend fun postPetCare(petId: Int, jwt: String, careInfo: CareInfo): Resource<ResponseBody> =
         safeApiCall { homeApiService.postPetCare(petId, jwt, careInfo) }
+
+    suspend fun deletePetCare(petId: Int, careId: Int, jwt: String): Resource<ResponseBody> =
+        safeApiCall { homeApiService.deletePetCare(petId, careId, jwt) }
 }
