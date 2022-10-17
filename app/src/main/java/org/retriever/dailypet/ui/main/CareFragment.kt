@@ -6,12 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCareBinding
 import org.retriever.dailypet.model.main.Care
 import org.retriever.dailypet.util.ArrayListAdapter
 
-class CareFragment : Fragment(), View.OnClickListener{
+class CareFragment : Fragment(){
     private lateinit var binding: FragmentCareBinding
     private var TOTAL = 1
     private var CUR = 0
@@ -56,7 +57,7 @@ class CareFragment : Fragment(), View.OnClickListener{
             }
         }
         init(name, weekdays, "", totalCnt, curCnt)
-        setOnClickListener()
+        buttonClick()
     }
 
     @SuppressLint("SetTextI18n")
@@ -90,23 +91,32 @@ class CareFragment : Fragment(), View.OnClickListener{
         binding.progressbar.progress = (percent * 100).toInt()
     }
 
-    private fun setOnClickListener() {
-        binding.checkButton.setOnClickListener(this)
-        binding.cancelText.setOnClickListener(this)
-    }
+    private fun buttonClick() = with(binding) {
 
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.check_button -> {
-                activity?.let{
-                    increaseProgress()
-                }
-            }
-            R.id.cancel_text -> {
-                activity?.let{
-                    decreaseProgress()
-                }
-            }
+        checkButton.setOnClickListener {
+            increaseProgress()
+        }
+        cancelText.setOnClickListener {
+            decreaseProgress()
+        }
+        careMoreButton.setOnClickListener {
+            showPopup()
         }
     }
+
+    private fun showPopup() {
+        val popup = PopupMenu(requireContext(), binding.careMoreButton)
+        val menu = popup.menu
+
+        menu.add("삭제하기")
+        menu.add("수정하기")
+
+        popup.menuInflater.inflate(R.menu.pet_list_menu, menu)
+        popup.setOnMenuItemClickListener { item ->
+
+            false
+        }
+        popup.show()
+    }
+
 }

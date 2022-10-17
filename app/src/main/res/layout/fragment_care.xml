@@ -2,14 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="40dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="@color/light_grey"
     tools:context=".ui.main.CareFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="350dp"
         android:layout_height="280dp"
+        android:padding="50dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,7 +61,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/care_title_text" />
 
             <ImageView
-                android:id="@+id/care_more_image"
+                android:id="@+id/care_more_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
