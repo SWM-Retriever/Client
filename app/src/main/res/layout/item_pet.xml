@@ -5,59 +5,89 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/pet_profile_image"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_marginVertical="8dp"
-        android:layout_marginStart="8dp"
-        android:src="@drawable/default_image"
-        app:civ_border_color="@color/main_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/pet_name_text"
+    <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        android:maxLength="20"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginVertical="6dp"
+        android:elevation="3dp"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/pet_profile_image"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="율무" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/pet_birth_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:maxLength="20"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@id/pet_name_text"
-        app:layout_constraintStart_toStartOf="@+id/pet_name_text"
-        app:layout_constraintTop_toBottomOf="@+id/pet_name_text"
-        tools:text="2020-10-29" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/pet_breed_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:maxLength="20"
-        android:layout_marginVertical="8dp"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/pet_birth_text"
-        app:layout_constraintStart_toStartOf="@+id/pet_birth_text"
-        app:layout_constraintTop_toBottomOf="@+id/pet_birth_text"
-        tools:text="시베리안 허스키" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/pet_profile_image"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginVertical="8dp"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/default_image"
+                app:civ_border_color="@color/main_blue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/pet_name_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:maxLength="20"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/enter_item_button"
+                app:layout_constraintStart_toEndOf="@id/pet_profile_image"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="율무" />
+
+            <TextView
+                android:id="@+id/pet_birth_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:maxLength="20"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/pet_name_text"
+                app:layout_constraintStart_toStartOf="@+id/pet_name_text"
+                app:layout_constraintTop_toBottomOf="@+id/pet_name_text"
+                tools:text="2020-10-29" />
+
+            <TextView
+                android:id="@+id/pet_breed_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:maxLength="20"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/pet_birth_text"
+                app:layout_constraintStart_toStartOf="@+id/pet_birth_text"
+                app:layout_constraintTop_toBottomOf="@+id/pet_birth_text"
+                tools:text="시베리안 허스키" />
+
+            <ImageButton
+                android:id="@+id/enter_item_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:background="@color/transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/arrow_right" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
