@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
@@ -58,6 +59,8 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     private var petKindId = -1
 
     private var dontKnow = false
+
+    private val args : CreatePetFragmentArgs by navArgs()
 
     private val galleryResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -369,8 +372,12 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
                             )
                         }
 
-                        val action = CreatePetFragmentDirections.actionCreatePetFragmentToCreationCompleteFragment(petResponse!!)
-                        root.findNavController().navigate(action)
+                        if(args.isFromMyPage){
+                            root.findNavController().popBackStack()
+                        }else{
+                            val action = CreatePetFragmentDirections.actionCreatePetFragmentToCreationCompleteFragment(petResponse!!)
+                            root.findNavController().navigate(action)
+                        }
                     }
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)

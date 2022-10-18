@@ -9,4 +9,5 @@ import kotlinx.parcelize.Parcelize
 data class Pet(
     val petId : Int,
     val petName : String,
+    val petImage : String = "",
 ):Parcelable

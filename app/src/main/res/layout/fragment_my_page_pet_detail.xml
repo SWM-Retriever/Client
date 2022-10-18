@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/start_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/end_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/middle_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@android:color/transparent"
+        android:paddingStart="0dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
+        android:src="@drawable/icon_back"
+        app:layout_constraintStart_toStartOf="@id/start_guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/pet_detail_title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/pet_detail_title_text"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/pet_more_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@android:color/transparent"
+        android:paddingStart="60dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="16dp"
+        android:src="@drawable/icon_more"
+        app:layout_constraintEnd_toEndOf="@id/end_guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/pet_circle_image"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/default_image"
+        app:civ_border_color="@color/main_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pet_detail_title_text" />
+
+    <TextView
+        android:id="@+id/pet_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/pet_circle_image"
+        app:layout_constraintStart_toStartOf="@+id/pet_circle_image"
+        app:layout_constraintTop_toBottomOf="@id/pet_circle_image"
+        tools:text="율무" />
+
+    <TextView
+        android:id="@+id/pet_breed_title_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/whitegrey_click_button"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="@string/pet_breed_text"
+        android:textColor="@color/light_black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/middle_guideline"
+        app:layout_constraintStart_toStartOf="@+id/start_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/pet_name_text" />
+
+    <TextView
+        android:id="@+id/pet_breed_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/whiteblue_click_button"
+        android:gravity="center"
+        android:padding="12dp"
+        android:textColor="@color/main_blue"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pet_breed_title_text"
+        app:layout_constraintEnd_toEndOf="@+id/end_guideline"
+        app:layout_constraintStart_toStartOf="@+id/middle_guideline"
+        app:layout_constraintTop_toTopOf="@+id/pet_breed_title_text"
+        tools:text="리트리버" />
+
+    <TextView
+        android:id="@+id/pet_sex_title_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/whitegrey_click_button"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="@string/pet_sex_text"
+        android:textColor="@color/light_black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/middle_guideline"
+        app:layout_constraintStart_toStartOf="@id/start_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/pet_breed_text" />
+
+    <TextView
+        android:id="@+id/pet_sex_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/whiteblue_click_button"
+        android:gravity="center"
+        android:padding="12dp"
+        android:textColor="@color/main_blue"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pet_sex_title_text"
+        app:layout_constraintEnd_toEndOf="@+id/end_guideline"
+        app:layout_constraintStart_toStartOf="@+id/middle_guideline"
+        app:layout_constraintTop_toTopOf="@+id/pet_sex_title_text"
+        tools:text="수컷" />
+
+    <TextView
+        android:id="@+id/pet_birth_title_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/whitegrey_click_button"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="@string/pet_birth_text"
+        android:textColor="@color/light_black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/middle_guideline"
+        app:layout_constraintStart_toStartOf="@id/start_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/pet_sex_text" />
+
+    <TextView
+        android:id="@+id/pet_birth_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/whiteblue_click_button"
+        android:gravity="center"
+        android:padding="12dp"
+        android:textColor="@color/main_blue"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pet_birth_title_text"
+        app:layout_constraintEnd_toEndOf="@+id/end_guideline"
+        app:layout_constraintStart_toStartOf="@+id/middle_guideline"
+        app:layout_constraintTop_toTopOf="@+id/pet_birth_title_text"
+        tools:text="2021-10-10" />
+
+    <TextView
+        android:id="@+id/pet_weight_title_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/whitegrey_click_button"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="@string/pet_weight_text"
+        android:textColor="@color/light_black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/middle_guideline"
+        app:layout_constraintStart_toStartOf="@id/start_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/pet_birth_text" />
+
+    <TextView
+        android:id="@+id/pet_weight_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/whiteblue_click_button"
+        android:gravity="center"
+        android:padding="12dp"
+        android:textColor="@color/main_blue"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pet_weight_title_text"
+        app:layout_constraintEnd_toEndOf="@+id/end_guideline"
+        app:layout_constraintStart_toStartOf="@+id/middle_guideline"
+        app:layout_constraintTop_toTopOf="@+id/pet_weight_title_text"
+        tools:text="13kg" />
+
+    <TextView
+        android:id="@+id/pet_neutral_title_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/whitegrey_click_button"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="@string/pet_neutral_text"
+        android:textColor="@color/light_black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/middle_guideline"
+        app:layout_constraintStart_toStartOf="@id/start_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/pet_weight_text" />
+
+    <TextView
+        android:id="@+id/pet_neutral_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/whiteblue_click_button"
+        android:gravity="center"
+        android:padding="12dp"
+        android:textColor="@color/main_blue"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pet_neutral_title_text"
+        app:layout_constraintEnd_toEndOf="@+id/end_guideline"
+        app:layout_constraintStart_toStartOf="@+id/middle_guideline"
+        app:layout_constraintTop_toTopOf="@+id/pet_neutral_title_text"
+        tools:text="완료" />
+
+    <TextView
+        android:id="@+id/pet_register_num_title_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/whitegrey_click_button"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="@string/pet_register_num_title_text"
+        android:textColor="@color/light_black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/middle_guideline"
+        app:layout_constraintStart_toStartOf="@id/start_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/pet_neutral_text" />
+
+    <TextView
+        android:id="@+id/pet_register_num_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/whiteblue_click_button"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:padding="12dp"
+        android:textColor="@color/main_blue"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pet_register_num_title_text"
+        app:layout_constraintEnd_toEndOf="@+id/end_guideline"
+        app:layout_constraintStart_toStartOf="@+id/middle_guideline"
+        app:layout_constraintTop_toTopOf="@+id/pet_register_num_title_text"
+        tools:text="123456789012345" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
