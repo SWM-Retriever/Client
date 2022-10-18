@@ -1,7 +1,6 @@
 package org.retriever.dailypet.ui.mypage
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.retriever.dailypet.GlobalApplication
+import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentMyPagePetBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
@@ -35,6 +35,7 @@ class MyPagePetFragment : BaseFragment<FragmentMyPagePetBinding>() {
         initCircularProgress()
         initAdapter()
         observePetDetailResponse()
+        buttonClick()
     }
 
     private fun initCircularProgress() {
@@ -71,6 +72,17 @@ class MyPagePetFragment : BaseFragment<FragmentMyPagePetBinding>() {
                     hideProgressCircular(progressCircular)
                 }
             }
+        }
+    }
+
+    private fun buttonClick() = with(binding) {
+        backButton.setOnClickListener {
+            root.findNavController().popBackStack()
+        }
+
+        petAddButton.setOnClickListener {
+            val action = MyPagePetFragmentDirections.actionMyPagePetFragmentToCreatePetFragment2(true)
+            root.findNavController().navigate(action)
         }
     }
 

@@ -82,7 +82,7 @@ class MyPagePetDetailFragment : BaseFragment<FragmentMyPagePetDetailBinding>() {
 
         popUpWindow.setOnItemClickListener { _, _, _, id ->
             if (id == 0L) {
-                //moveDiaryRegisterFragment()
+                binding.root.findNavController().navigate(R.id.action_myPagePetDetailFragment_to_createPetFragment2)
             } else {
                 deletePet()
             }
