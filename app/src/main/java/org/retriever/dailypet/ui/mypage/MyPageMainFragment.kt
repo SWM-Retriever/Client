@@ -47,6 +47,10 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     }
 
     private fun buttonClick() = with(binding) {
+        managePetText.setOnClickListener {
+            root.findNavController().navigate(R.id.action_myPageMainFragment_to_myPagePetFragment)
+        }
+
         groupInviteText.setOnClickListener {
             onShareClicked()
         }
@@ -157,8 +161,8 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     companion object {
         private const val NOTIFICATION_URL = "https://showy-king-303.notion.site/2b97d48c4a434e019c1058800f7a48fe"
         private const val REPORT_URL = "https://the-form.io/forms/survey/response/fe418f0f-0ab2-46ce-80d1-d5a8188e5247"
-        private const val TERMS_URL = "https://showy-king-303.notion.site/2b97d48c4a434e019c1058800f7a48fe"
-        private const val PRIVACY_URL = "https://showy-king-303.notion.site/457fcbd6d0f84beb8367394d7f92094a"
+        private const val TERMS_URL = "https://showy-king-303.notion.site/457fcbd6d0f84beb8367394d7f92094a"
+        private const val PRIVACY_URL = "https://showy-king-303.notion.site/3288e7bbe0ad4c788f48a7b39ba94aca"
         private const val OPENSOURCE_URL = "https://showy-king-303.notion.site/2074dab89c564325b7cba36291ce60f2"
     }
 

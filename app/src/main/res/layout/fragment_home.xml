@@ -130,7 +130,7 @@
             android:layout_marginTop="6dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
-            android:src="@drawable/btn_arrow_right"
+            app:srcCompat="@drawable/arrow_right"
             app:layout_constraintStart_toEndOf="@+id/statistics_text"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

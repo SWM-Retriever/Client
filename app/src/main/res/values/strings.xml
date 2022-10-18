@@ -132,6 +132,15 @@
     <string name="care_count_comment_text">케어 횟수를 입력해주세요</string>
     <string name="add_care_submit_text">등록하기</string>
     <string name="care_card_title">케어항목</string>
+    <string name="manage_group_text">그룹 관리</string>
+    <string name="select_pet_text">반려동물 조회</string>
+    <string name="modify_text">수정하기</string>
+    <string name="delete_text">삭제하기</string>
+    <string name="cancel_text">취소</string>
+    <string name="pet_dialog_message">%1s의 정보를 수정하거나 삭제하시겠습니까?</string>
+    <string name="pet_detail_title_text">반려동물 정보</string>
+    <string name="pet_register_num_title_text">반려동물 등록번호</string>
+    <string name="weight_text">%2dkg</string>
     <string name="care_count_text">0회</string>
     <string name="check_cancel_text">체크 취소</string>
     <string name="check_text">1회 체크</string>
