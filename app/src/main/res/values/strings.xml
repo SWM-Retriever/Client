@@ -138,4 +138,7 @@
     <string name="delete_text">삭제하기</string>
     <string name="cancel_text">취소</string>
     <string name="pet_dialog_message">%1s의 정보를 수정하거나 삭제하시겠습니까?</string>
+    <string name="pet_detail_title_text">반려동물 정보</string>
+    <string name="pet_register_num_title_text">반려동물 등록번호</string>
+    <string name="weight_text">%2dkg</string>
 </resources>

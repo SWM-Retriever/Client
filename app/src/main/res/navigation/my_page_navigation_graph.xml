@@ -26,5 +26,17 @@
     <fragment
         android:id="@+id/myPagePetFragment"
         android:name="org.retriever.dailypet.ui.mypage.MyPagePetFragment"
-        android:label="MyPagePetFragment" />
+        android:label="MyPagePetFragment" >
+        <action
+            android:id="@+id/action_myPagePetFragment_to_myPagePetDetailFragment"
+            app:destination="@id/myPagePetDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myPagePetDetailFragment"
+        android:name="org.retriever.dailypet.ui.mypage.MyPagePetDetailFragment"
+        android:label="MyPagePetDetailFragment" >
+        <argument
+            android:name="petDetailItem"
+            app:argType="org.retriever.dailypet.model.mypage.PetDetailItem" />
+    </fragment>
 </navigation>
