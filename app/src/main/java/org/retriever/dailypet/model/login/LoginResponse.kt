@@ -9,9 +9,9 @@ data class LoginResponse(
     val email: String,
     val jwtToken: String,
     val familyId: Int,
-    val familyName: String,
-    val invitationCode: String,
-    val groupType: String,
+    val familyName: String? = "",
+    val invitationCode: String? = "",
+    val groupType: String? = "",
     val profileImageUrl: String,
     val petList: List<Pet>,
 )

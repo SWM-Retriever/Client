@@ -1,9 +1,11 @@
 package org.retriever.dailypet.data.network.main
 
 import okhttp3.ResponseBody
+import org.retriever.dailypet.model.main.Care
 import org.retriever.dailypet.model.main.CareInfo
 import org.retriever.dailypet.model.main.CareList
 import org.retriever.dailypet.model.main.PetDaysResponse
+import org.retriever.dailypet.model.signup.pet.PetList
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -20,6 +22,12 @@ interface HomeApiService {
         @Header("X-AUTH-TOKEN") jwt: String,
     ): Response<CareList>
 
+    @GET("api/v1/families/{familyId}/pets")
+    suspend fun getPetList(
+        @Path("familyId") familyId: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
+    ): Response<PetList>
+
     @POST("api/v1/pets/{petId}/care")
     suspend fun postPetCare(
         @Path("petId") petId: Int,
@@ -27,4 +35,24 @@ interface HomeApiService {
         @Body careInfo: CareInfo
     ): Response<ResponseBody>
 
+    @DELETE("api/v1/pets/{petId}/cares/{careId}")
+    suspend fun deletePetCare(
+        @Path("petId") petId: Int,
+        @Path("careId") careId: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
+    ): Response<ResponseBody>
+
+    @POST("api/v1/pets/{petId}/cares/{careId}/check")
+    suspend fun postCareCheck(
+        @Path("petId") petId: Int,
+        @Path("careId") careId: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
+    ): Response<ResponseBody>
+
+    @POST("api/v1/pets/{petId}/cares/{careId}/cancel")
+    suspend fun postCareCancel(
+        @Path("petId") petId: Int,
+        @Path("careId") careId: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
+    ): Response<ResponseBody>
 }
