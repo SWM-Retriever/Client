@@ -10,6 +10,8 @@ import org.retriever.dailypet.model.mypage.PetDetailItem
 
 class PetAdapter : ListAdapter<PetDetailItem, PetAdapter.ViewHolder>(diffUtil) {
 
+    var onItemClick: ((PetDetailItem) -> Unit)? = null
+
     class ViewHolder(val binding: ItemPetBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: PetDetailItem) {
             binding.petNameText.text = item.petName
@@ -24,6 +26,9 @@ class PetAdapter : ListAdapter<PetDetailItem, PetAdapter.ViewHolder>(diffUtil) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
+        holder.itemView.setOnClickListener {
+            onItemClick?.invoke(currentList[holder.adapterPosition])
+        }
     }
 
     companion object {
