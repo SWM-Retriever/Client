@@ -21,4 +21,11 @@ interface MyPageApiService {
         @Header("X-AUTH-TOKEN") jwt: String,
     ): Response<PetDetailResponse>
 
+    @DELETE("api/v1/families/{familyId}/pets/{petId}")
+    suspend fun deletePet(
+        @Header("X-AUTH-TOKEN") jwt: String,
+        @Path("familyId") familyId: Int,
+        @Path("petId") petId: Int,
+    ): Response<ResponseBody>
+
 }

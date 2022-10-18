@@ -15,4 +15,7 @@ class MyPageRepository @Inject constructor(private val myPageApiService: MyPageA
     suspend fun getPetList(familyId: Int, jwt: String): Resource<PetDetailResponse> =
         safeApiCall { myPageApiService.getPetList(familyId, jwt) }
 
+    suspend fun deletePet(jwt : String, familyId : Int,petId : Int ) : Resource<ResponseBody> =
+        safeApiCall { myPageApiService.deletePet(jwt, familyId, petId) }
+
 }
