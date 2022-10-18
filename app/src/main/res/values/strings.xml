@@ -141,4 +141,9 @@
     <string name="pet_detail_title_text">반려동물 정보</string>
     <string name="pet_register_num_title_text">반려동물 등록번호</string>
     <string name="weight_text">%2dkg</string>
+    <string name="care_count_text">0회</string>
+    <string name="check_cancel_text">체크 취소</string>
+    <string name="check_text">1회 체크</string>
+    <string name="period_text">주기</string>
+    <string name="care_count">%1$d회/%2$d회</string>
 </resources>

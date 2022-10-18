@@ -13,7 +13,7 @@ interface FindGroupApiInterface {
         @Header("X-AUTH-TOKEN") jwt: String,
     ): Response<FindGroupResponse>
 
-    @POST("api/v1/validation/family-role-name")
+    @POST("api/v1/validation/families/{familyId}/family-role-name")
     suspend fun postCheckGroupNickname(
         @Path("familyId") familyId: Int,
         @Header("X-AUTH-TOKEN") jwt: String,

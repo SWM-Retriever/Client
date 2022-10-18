@@ -59,22 +59,23 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
     }
 
     private fun initPostCare() = with(binding) {
-        homeViewModel.postCareResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success -> {
-                    hideProgressCircular(progressCircular)
-                    Toast.makeText(requireContext(), "케어가 등록되었습니다", Toast.LENGTH_SHORT).show()
-                    root.findNavController().navigate(AddCareFragmentDirections.actionAddCareFragmentToHomeFragment())
-                }
-                is Resource.Error -> {
-                    hideProgressCircular(progressCircular)
-                    Toast.makeText(requireContext(), "케어 등록에 실패하였습니다", Toast.LENGTH_SHORT).show()
+        homeViewModel.postCareResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        Toast.makeText(requireContext(), "케어가 등록되었습니다", Toast.LENGTH_SHORT).show()
+                        root.findNavController().navigate(AddCareFragmentDirections.actionAddCareFragmentToHomeFragment())
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                        Toast.makeText(requireContext(), "케어 등록에 실패하였습니다", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
-
         }
     }
 
@@ -104,7 +105,7 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
             submitCheck()
         }
         addCareSubmitButton.setOnClickListener {
-            if(SUBMIT){
+            if (SUBMIT) {
                 postCare()
             }
         }
@@ -226,6 +227,7 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
                     binding.careCountEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.whiteblue_click_button)
                 }
             }
+
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 

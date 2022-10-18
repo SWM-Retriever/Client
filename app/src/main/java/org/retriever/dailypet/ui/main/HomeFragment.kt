@@ -6,6 +6,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import org.retriever.dailypet.databinding.FragmentHomeBinding
 import org.retriever.dailypet.interfaces.CareAdapter
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.main.Care
+import org.retriever.dailypet.model.signup.pet.Pet
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.main.viewmodel.HomeViewModel
 import org.retriever.dailypet.util.ArrayListAdapter
@@ -34,9 +36,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
-
-
+    private var petList: MutableList<Pet> = mutableListOf()
+    private var petIdList: MutableList<Int> = mutableListOf()
+    private var petNameList: MutableList<String> = mutableListOf()
     private val jwt = GlobalApplication.prefs.jwt ?: ""
+    private val familyId = GlobalApplication.prefs.familyId
     private val groupType = GlobalApplication.prefs.groupType ?: ""
     private var curPetId = 0
     private var curPetName = ""
@@ -49,10 +53,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initProgressCircular()
-        //initPetList()
+        initPetList()
         initGroupType()
-        getDays()
-        getCareList()
+        getPetList()
+
         initDaysView()
         initCareList()
         buttonClick()
@@ -62,13 +66,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         hideProgressCircular(binding.progressCircular)
     }
 
-    /*private fun initPetList() {
-        petList.clear()
-        val petNum = petIdList.size
-        for (i in 0 until petNum) {
-            petList.add(Pet(petIdList[i], petNameList[i]))
+    private fun initPetList() = with(binding) {
+        homeViewModel.getPetListResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        val petResponse = response.data?.petInfoDetailList
+                        petList.clear()
+
+                        petResponse?.forEach { pet ->
+                            petList.add(Pet(pet.petId, pet.petName))
+                            petIdList.add(pet.petId)
+                            petNameList.add(pet.petName)
+                        }
+                        curPetId = petIdList[0]
+                        getDays()
+                        getCareList()
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                    }
+                }
+            }
         }
-    }*/
+
+
+    }
 
     private fun initGroupType() = with(binding) {
         // TODO 1인가구 뷰 변경 로직 추가
@@ -81,6 +108,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
+    private fun getPetList() {
+        homeViewModel.getPetList(familyId, jwt)
+    }
+
     private fun getDays() {
         homeViewModel.getDays(curPetId, jwt)
     }
@@ -90,55 +121,58 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun initDaysView() = with(binding) {
-        homeViewModel.getDaysResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success -> {
-                    hideProgressCircular(progressCircular)
-                    val nickname = response.data?.userName ?: ""
-                    curPetName = response.data?.petName ?: ""
-                    val dDay = response.data?.calculatedDay ?: 0
-                    petNameText.text = getString(R.string.home_pet_name_text, curPetName)
-                    dDayText.text = getString(R.string.home_pet_day_text, nickname, curPetName, dDay)
+        homeViewModel.getDaysResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        val nickname = response.data?.userName ?: ""
+                        curPetName = response.data?.petName ?: ""
+                        val dDay = response.data?.calculatedDay ?: 0
+                        petNameText.text = getString(R.string.home_pet_name_text, curPetName)
+                        dDayText.text = getString(R.string.home_pet_day_text, nickname, curPetName, dDay)
 
-                    val content = dDayText.text.toString()
-                    val spannableString = SpannableString(content)
-                    val start = content.indexOf(dDay.toString())
-                    val end = start + dDay.toString().length + 1
-                    spannableString.setSpan(
-                        ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.main_pink)),
-                        start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                    spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    dDayText.text = spannableString
+                        val content = dDayText.text.toString()
+                        val spannableString = SpannableString(content)
+                        val start = content.indexOf(dDay.toString())
+                        val end = start + dDay.toString().length + 1
+                        spannableString.setSpan(
+                            ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.main_pink)),
+                            start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                        spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        dDayText.text = spannableString
 
-                }
-                is Resource.Error -> {
-                    hideProgressCircular(progressCircular)
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                    }
                 }
             }
         }
     }
 
-    private fun initCareList() = with(binding){
-        homeViewModel.getCareListResponse.observe(viewLifecycleOwner){ response->
-            when(response){
-                is Resource.Loading ->{
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success ->{
-                    hideProgressCircular(progressCircular)
-                    val arrayListAdapter = ArrayListAdapter()
-                    val careList = response.data?.caresInfoList ?: ArrayList()
-                    initCareTabView(arrayListAdapter.careListFromJson(careList))
-                }
-                is Resource.Error ->{
-                    hideProgressCircular(progressCircular)
+    private fun initCareList() = with(binding) {
+        homeViewModel.getCareListResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        val arrayListAdapter = ArrayListAdapter()
+                        val careList = response.data?.caresInfoList ?: ArrayList()
+                        initCareTabView(arrayListAdapter.careListFromJson(careList))
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                    }
                 }
             }
-
         }
     }
 
@@ -162,7 +196,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         val pagerAdapter = CareAdapter(requireActivity())
         for (care in careList) {
-            pagerAdapter.addFragment(CareFragment().newInstance(care))
+            pagerAdapter.addFragment(CareFragment().newInstance(jwt, curPetId, care))
         }
 
         viewPager.adapter = pagerAdapter
@@ -180,9 +214,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun buttonClick() = with(binding) {
 
         changePetButton.setOnClickListener {
-            //showPetList()
+            showPetList()
         }
-
         emptyAddCareButton.setOnClickListener {
             addCare()
         }
@@ -192,7 +225,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     }
 
-   /* private fun showPetList() {
+    private fun showPetList() {
         val popup = PopupMenu(requireContext(), binding.changePetButton)
         val menu = popup.menu
         petList.forEach { pet ->
@@ -205,19 +238,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             false
         }
         popup.show()
-    }*/
+    }
 
     private fun addCare() {
         val action = HomeFragmentDirections.actionHomeFragmentToAddCareFragment(curPetId, curPetName)
         binding.root.findNavController().navigate(action)
     }
 
-    /*private fun changePet(petName: String) {
+    private fun changePet(petName: String) {
         val idx = petNameList.indexOf(petName)
         curPetId = petIdList[idx]
         getDays()
         initDaysView()
         getCareList()
-    }*/
+    }
 
 }
