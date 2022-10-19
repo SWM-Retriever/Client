@@ -51,7 +51,13 @@
         android:name="org.retriever.dailypet.ui.signup.CreatePetFragment"
         android:label="CreatePetFragment" >
         <argument
-            android:name="isFromMyPage"
-            app:argType="boolean" />
+            android:name="petDetailItem"
+            app:argType="org.retriever.dailypet.model.mypage.PetDetailItem"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="isFromPetFragment"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
 </navigation>

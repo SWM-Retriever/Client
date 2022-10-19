@@ -82,7 +82,8 @@ class MyPagePetDetailFragment : BaseFragment<FragmentMyPagePetDetailBinding>() {
 
         popUpWindow.setOnItemClickListener { _, _, _, id ->
             if (id == 0L) {
-                binding.root.findNavController().navigate(R.id.action_myPagePetDetailFragment_to_createPetFragment2)
+                val action = MyPagePetDetailFragmentDirections.actionMyPagePetDetailFragmentToCreatePetFragment2(petDetailItem, false)
+                binding.root.findNavController().navigate(action)
             } else {
                 deletePet()
             }

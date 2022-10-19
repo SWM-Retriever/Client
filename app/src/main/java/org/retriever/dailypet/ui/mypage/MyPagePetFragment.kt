@@ -81,7 +81,7 @@ class MyPagePetFragment : BaseFragment<FragmentMyPagePetBinding>() {
         }
 
         petAddButton.setOnClickListener {
-            val action = MyPagePetFragmentDirections.actionMyPagePetFragmentToCreatePetFragment2(true)
+            val action = MyPagePetFragmentDirections.actionMyPagePetFragmentToCreatePetFragment2(null, true)
             root.findNavController().navigate(action)
         }
     }
