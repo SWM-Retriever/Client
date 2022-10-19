@@ -46,14 +46,18 @@
 
     <ImageButton
         android:id="@+id/back_button"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:paddingBottom="6dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="6dp"
+        android:paddingStart="0dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/btn_x" />
+        app:srcCompat="@drawable/icon_exit" />
 
     <TextView
         android:id="@+id/care_name_title"

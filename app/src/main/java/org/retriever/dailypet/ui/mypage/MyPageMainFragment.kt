@@ -18,6 +18,7 @@ import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentMyPageMainBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.ui.bottomsheet.GroupBottomSheet
 import org.retriever.dailypet.ui.login.LoginActivity
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
@@ -49,6 +50,10 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     private fun buttonClick() = with(binding) {
         managePetText.setOnClickListener {
             root.findNavController().navigate(R.id.action_myPageMainFragment_to_myPagePetFragment)
+        }
+
+        manageGroupText.setOnClickListener {
+            showGroupBottomSheet()
         }
 
         groupInviteText.setOnClickListener {
@@ -96,6 +101,11 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
             val intent = Intent(requireContext(), LoginActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun showGroupBottomSheet() {
+        val groupBottomSheet = GroupBottomSheet()
+        groupBottomSheet.show(childFragmentManager, groupBottomSheet.tag)
     }
 
     private fun logout() {
