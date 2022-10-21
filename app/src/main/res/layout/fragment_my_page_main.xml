@@ -50,7 +50,7 @@
                 android:background="@color/transparent"
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/icon_exit" />
+                app:srcCompat="@drawable/icon_logout" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/user_circle_image"
@@ -97,31 +97,6 @@
                 app:layout_constraintTop_toBottomOf="@id/user_nick_name" />
 
             <TextView
-                android:id="@+id/manage_pet_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:drawablePadding="12dp"
-                android:paddingVertical="16dp"
-                android:text="@string/manage_pet_text"
-                android:textColor="@color/light_black"
-                android:textSize="16sp"
-                app:drawableStartCompat="@drawable/icon_pets"
-                app:layout_constraintEnd_toEndOf="@id/right_guideline"
-                app:layout_constraintStart_toStartOf="@id/left_guideline"
-                app:layout_constraintTop_toBottomOf="@id/first_divide" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                android:backgroundTint="@color/dark_grey"
-                android:backgroundTintMode="add"
-                app:layout_constraintBottom_toBottomOf="@id/manage_group_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/manage_pet_text" />
-
-            <TextView
                 android:id="@+id/manage_group_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -133,7 +108,7 @@
                 app:drawableStartCompat="@drawable/icon_groups"
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
-                app:layout_constraintTop_toBottomOf="@id/manage_pet_text" />
+                app:layout_constraintTop_toBottomOf="@id/first_divide" />
 
             <View
                 android:layout_width="0dp"

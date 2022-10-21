@@ -29,7 +29,7 @@
         android:background="@android:color/transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icon_back" />
+        app:srcCompat="@drawable/arrow_left" />
 
     <TextView
         android:id="@+id/agree_terms_text"

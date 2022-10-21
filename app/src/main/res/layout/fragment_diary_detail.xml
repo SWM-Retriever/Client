@@ -47,7 +47,7 @@
         android:paddingStart="0dp"
         android:paddingEnd="16dp"
         android:paddingBottom="16dp"
-        android:src="@drawable/icon_back"
+        app:srcCompat="@drawable/arrow_left"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toTopOf="parent" />
 

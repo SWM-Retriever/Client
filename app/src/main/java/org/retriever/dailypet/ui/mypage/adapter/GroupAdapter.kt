@@ -7,15 +7,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.retriever.dailypet.databinding.ItemMyPageDetailBinding
 import org.retriever.dailypet.databinding.ItemProfileBinding
-import org.retriever.dailypet.model.mypage.PetDetailItem
+import org.retriever.dailypet.model.mypage.GroupDetailItem
 
-class PetAdapter : ListAdapter<PetDetailItem, PetAdapter.ViewHolder>(diffUtil) {
-
-    var onItemClick: ((PetDetailItem) -> Unit)? = null
+class GroupAdapter : ListAdapter<GroupDetailItem, GroupAdapter.ViewHolder>(diffUtil) {
 
     class ViewHolder(val binding: ItemMyPageDetailBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: PetDetailItem) {
-            binding.profileNickName.text = item.petName
+        fun bind(item: GroupDetailItem) {
+            binding.profileNickName.text = item.groupRoleName
         }
     }
 
@@ -25,18 +23,15 @@ class PetAdapter : ListAdapter<PetDetailItem, PetAdapter.ViewHolder>(diffUtil) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
-        holder.itemView.setOnClickListener {
-            onItemClick?.invoke(currentList[holder.adapterPosition])
-        }
     }
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<PetDetailItem>() {
-            override fun areItemsTheSame(oldItem: PetDetailItem, newItem: PetDetailItem): Boolean {
-                return oldItem.petId == newItem.petId
+        val diffUtil = object : DiffUtil.ItemCallback<GroupDetailItem>() {
+            override fun areItemsTheSame(oldItem: GroupDetailItem, newItem: GroupDetailItem): Boolean {
+                return oldItem.groupRoleName == newItem.groupRoleName
             }
 
-            override fun areContentsTheSame(oldItem: PetDetailItem, newItem: PetDetailItem): Boolean {
+            override fun areContentsTheSame(oldItem: GroupDetailItem, newItem: GroupDetailItem): Boolean {
                 return oldItem == newItem
             }
 

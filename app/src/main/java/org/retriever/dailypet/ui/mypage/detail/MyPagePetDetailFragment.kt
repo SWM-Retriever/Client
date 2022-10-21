@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.mypage
+package org.retriever.dailypet.ui.mypage.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -29,7 +29,7 @@ class MyPagePetDetailFragment : BaseFragment<FragmentMyPagePetDetailBinding>() {
     private val familyId = GlobalApplication.prefs.familyId
     private val jwt = GlobalApplication.prefs.jwt ?: ""
 
-    private val myPageViewModel by activityViewModels<MyPageViewModel>()
+    private val myPageDetailViewModel by activityViewModels<MyPageDetailViewModel>()
 
     private lateinit var petDetailItem: PetDetailItem
 
@@ -82,7 +82,8 @@ class MyPagePetDetailFragment : BaseFragment<FragmentMyPagePetDetailBinding>() {
 
         popUpWindow.setOnItemClickListener { _, _, _, id ->
             if (id == 0L) {
-                binding.root.findNavController().navigate(R.id.action_myPagePetDetailFragment_to_createPetFragment2)
+                val action = MyPagePetDetailFragmentDirections.actionMyPagePetDetailFragmentToCreatePetFragment2(false, petDetailItem)
+                binding.root.findNavController().navigate(action)
             } else {
                 deletePet()
             }
@@ -92,11 +93,11 @@ class MyPagePetDetailFragment : BaseFragment<FragmentMyPagePetDetailBinding>() {
     }
 
     private fun deletePet() {
-        myPageViewModel.deletePet(jwt, familyId, petDetailItem.petId)
+        myPageDetailViewModel.deletePet(jwt, familyId, petDetailItem.petId)
     }
 
     private fun observeDeleteResponse() = with(binding) {
-        myPageViewModel.deletePetResponse.observe(viewLifecycleOwner) { response ->
+        myPageDetailViewModel.deletePetResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
                     showProgressCircular(progressCircular)
