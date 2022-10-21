@@ -5,23 +5,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import org.retriever.dailypet.databinding.ItemPetBinding
+import org.retriever.dailypet.databinding.ItemMyPageDetailBinding
+import org.retriever.dailypet.databinding.ItemProfileBinding
 import org.retriever.dailypet.model.mypage.PetDetailItem
 
 class PetAdapter : ListAdapter<PetDetailItem, PetAdapter.ViewHolder>(diffUtil) {
 
     var onItemClick: ((PetDetailItem) -> Unit)? = null
 
-    class ViewHolder(val binding: ItemPetBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: ItemMyPageDetailBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: PetDetailItem) {
-            binding.petNameText.text = item.petName
-            binding.petBirthText.text = item.birthDate
-            binding.petBreedText.text = item.petKind
+            binding.profileNickName.text = item.petName
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemPetBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(ItemMyPageDetailBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

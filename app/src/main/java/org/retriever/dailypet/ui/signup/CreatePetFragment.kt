@@ -408,9 +408,9 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
                             )
                         }
 
-                        if (args.isFromPetFragment) {
+                        if (args.isAdd) {
                             root.findNavController().popBackStack()
-                        } else if (args.petDetailItem != null) {
+                        } else if (!args.isAdd) {
                             root.findNavController().popBackStack()
                         } else {
                             val action = CreatePetFragmentDirections.actionCreatePetFragmentToCreationCompleteFragment(petResponse!!)

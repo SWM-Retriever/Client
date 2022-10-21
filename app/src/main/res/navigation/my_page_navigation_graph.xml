@@ -13,51 +13,19 @@
             android:id="@+id/action_myPageMainFragment_to_webViewActivity"
             app:destination="@id/webViewActivity" />
         <action
-            android:id="@+id/action_myPageMainFragment_to_myPagePetFragment"
-            app:destination="@id/myPagePetFragment" />
+            android:id="@+id/action_myPageMainFragment_to_myPageDetailActivity"
+            app:destination="@id/myPageDetailActivity" />
     </fragment>
     <activity
         android:id="@+id/webViewActivity"
-        android:name="org.retriever.dailypet.ui.mypage.WebViewActivity"
+        android:name="org.retriever.dailypet.ui.mypage.webview.WebViewActivity"
         android:label="WebViewActivity" >
         <argument
             android:name="url"
             app:argType="string" />
     </activity>
-    <fragment
-        android:id="@+id/myPagePetFragment"
-        android:name="org.retriever.dailypet.ui.mypage.MyPagePetFragment"
-        android:label="MyPagePetFragment" >
-        <action
-            android:id="@+id/action_myPagePetFragment_to_myPagePetDetailFragment"
-            app:destination="@id/myPagePetDetailFragment" />
-        <action
-            android:id="@+id/action_myPagePetFragment_to_createPetFragment2"
-            app:destination="@id/createPetFragment2" />
-    </fragment>
-    <fragment
-        android:id="@+id/myPagePetDetailFragment"
-        android:name="org.retriever.dailypet.ui.mypage.MyPagePetDetailFragment"
-        android:label="MyPagePetDetailFragment" >
-        <argument
-            android:name="petDetailItem"
-            app:argType="org.retriever.dailypet.model.mypage.PetDetailItem" />
-        <action
-            android:id="@+id/action_myPagePetDetailFragment_to_createPetFragment2"
-            app:destination="@id/createPetFragment2" />
-    </fragment>
-    <fragment
-        android:id="@+id/createPetFragment2"
-        android:name="org.retriever.dailypet.ui.signup.CreatePetFragment"
-        android:label="CreatePetFragment" >
-        <argument
-            android:name="petDetailItem"
-            app:argType="org.retriever.dailypet.model.mypage.PetDetailItem"
-            app:nullable="true"
-            android:defaultValue="@null" />
-        <argument
-            android:name="isFromPetFragment"
-            app:argType="boolean"
-            android:defaultValue="false" />
-    </fragment>
+    <activity
+        android:id="@+id/myPageDetailActivity"
+        android:name="org.retriever.dailypet.ui.mypage.detail.MyPageDetailActivity"
+        android:label="MyPageDetailActivity" />
 </navigation>

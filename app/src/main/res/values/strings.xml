@@ -149,4 +149,8 @@
     <string name="pet_modify_title">반려동물 수정</string>
     <string name="my_page_group_title_text">그룹 정보 조회</string>
     <string name="group_title_text">그룹원</string>
+    <string name="my_page_detail_title_text">그룹 상세 정보</string>
+    <string name="group_member_title_text">그룹 구성원</string>
+    <string name="pet_title_text">반려동물</string>
+    <string name="recent_activity_title_text">최근 활동</string>
 </resources>
