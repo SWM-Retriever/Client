@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
@@ -56,10 +57,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         initPetList()
         initGroupType()
         getPetList()
-
+        initCareCheck() //
         initDaysView()
         initCareList()
         buttonClick()
+    }
+
+    private fun initCareCheck() = with(binding){
+        homeViewModel.postCareCheckResponse.observe(viewLifecycleOwner){ event->
+            event.getContentIfNotHandled()?.let{ response ->
+                when(response){
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        Toast.makeText(requireContext(),"케어 체크", Toast.LENGTH_SHORT).show()
+                        getCareList()
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                    }
+                }
+            }
+        }
     }
 
     private fun initProgressCircular() {
@@ -199,6 +220,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             pagerAdapter.addFragment(CareFragment().newInstance(jwt, curPetId, care))
         }
 
+        tabLayout.setScrollPosition(2, 0f, true)
+        viewPager.currentItem = 2
+
         viewPager.adapter = pagerAdapter
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -209,6 +233,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = careList[position].careName
         }.attach()
+
     }
 
     private fun buttonClick() = with(binding) {

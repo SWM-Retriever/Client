@@ -61,7 +61,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
 
         initProgressCircular()
         initCareInfo()
-        initCareCheck()
+        //initCareCheck()
         initCareCancel()
         initWeekdays()
         initCare()
