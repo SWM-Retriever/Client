@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@color/transparent"
-        android:src="@drawable/exit"
+        app:srcCompat="@drawable/icon_exit"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintTop_toTopOf="parent" />
 

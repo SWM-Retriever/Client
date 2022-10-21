@@ -145,5 +145,12 @@
     <string name="check_cancel_text">체크 취소</string>
     <string name="check_text">1회 체크</string>
     <string name="period_text">주기</string>
-    <string name="care_count">%1$d회/%2$d회</string>
+    <string name="care_count">%1$d회/%2$d회</string>정
+    <string name="pet_modify_title">반려동물 수정</string>
+    <string name="my_page_group_title_text">그룹 정보 조회</string>
+    <string name="group_title_text">그룹원</string>
+    <string name="my_page_detail_title_text">그룹 상세 정보</string>
+    <string name="group_member_title_text">그룹 구성원</string>
+    <string name="pet_title_text">반려동물</string>
+    <string name="recent_activity_title_text">최근 활동</string>
 </resources>

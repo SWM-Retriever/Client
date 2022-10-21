@@ -47,8 +47,8 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     }
 
     private fun buttonClick() = with(binding) {
-        managePetText.setOnClickListener {
-            root.findNavController().navigate(R.id.action_myPageMainFragment_to_myPagePetFragment)
+        manageGroupText.setOnClickListener {
+            root.findNavController().navigate(R.id.action_myPageMainFragment_to_myPageDetailActivity)
         }
 
         groupInviteText.setOnClickListener {
