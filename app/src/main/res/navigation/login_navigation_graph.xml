@@ -116,5 +116,14 @@
         <action
             android:id="@+id/action_createPetFragment_to_creationCompleteFragment"
             app:destination="@id/creationCompleteFragment" />
+        <argument
+            android:name="isAdd"
+            app:argType="boolean"
+            android:defaultValue="false"/>
+        <argument
+            android:name="petDetailItem"
+            app:argType="org.retriever.dailypet.model.mypage.PetDetailItem"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>

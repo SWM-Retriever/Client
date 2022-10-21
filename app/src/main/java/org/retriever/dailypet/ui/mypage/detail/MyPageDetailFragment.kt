@@ -83,7 +83,7 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
 
     private fun buttonClick() = with(binding) {
         petAddButton.setOnClickListener {
-            val action = MyPageDetailFragmentDirections.actionMyPageDetailFragmentToCreatePetFragment2(true, null)
+            val action = MyPageDetailFragmentDirections.actionMyPageDetailFragmentToCreatePetFragment2(true)
             binding.root.findNavController().navigate(action)
         }
 
