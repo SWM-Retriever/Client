@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.databinding.FragmentMyPageDetailBinding
 import org.retriever.dailypet.model.Resource
-import org.retriever.dailypet.model.mypage.GroupDetailItem
+import org.retriever.dailypet.model.diary.DiaryItem
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.mypage.adapter.GroupAdapter
 import org.retriever.dailypet.ui.mypage.adapter.PetAdapter
@@ -39,11 +39,15 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
         initGroupAdapter()
         initPetAdapter()
         buttonClick()
+        observeGroupResponse()
         observePetDetailResponse()
+        observeRecentDiaryResponse()
     }
 
     private fun callApi() {
         myPageDetailViewModel.getPetList(familyId, jwt)
+        myPageDetailViewModel.getGroupInfo(familyId, jwt)
+        myPageDetailViewModel.getRecentDiary(familyId, jwt)
     }
 
     private fun initCircularProgress() {
@@ -57,14 +61,6 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
             adapter = groupAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
-
-        groupAdapter.submitList(
-            listOf(
-                GroupDetailItem("abc", "김시진"),
-                GroupDetailItem("abc", "김시훈"),
-                GroupDetailItem("abc", "김시존"),
-            )
-        )
     }
 
     private fun initPetAdapter() {
@@ -92,6 +88,23 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
         }
     }
 
+    private fun observeGroupResponse() = with(binding) {
+        myPageDetailViewModel.groupResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+                    groupAdapter.submitList(response.data?.familyMemberList)
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(progressCircular)
+                }
+            }
+        }
+    }
+
     private fun observePetDetailResponse() = with(binding) {
         myPageDetailViewModel.petDetailResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
@@ -106,6 +119,34 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
                     hideProgressCircular(progressCircular)
                 }
             }
+        }
+    }
+
+    private fun observeRecentDiaryResponse() = with(binding) {
+        myPageDetailViewModel.getRecentDiaryResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+                    itemRecentDiary.root.visibility = View.VISIBLE
+                    itemNotRecentDiary.root.visibility = View.INVISIBLE
+                    initRecentDiaryCardView(response.data)
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(progressCircular)
+                    itemRecentDiary.root.visibility = View.INVISIBLE
+                    itemNotRecentDiary.root.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
+    private fun initRecentDiaryCardView(diaryItem: DiaryItem?) = with(binding.itemRecentDiary) {
+        diaryItem?.let {
+            writerNickNameText.text = it.authorNickName
+            diaryContentText.text = it.diaryText
         }
     }
 

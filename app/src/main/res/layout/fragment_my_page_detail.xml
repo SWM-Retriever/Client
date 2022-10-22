@@ -5,8 +5,8 @@
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -173,16 +173,30 @@
                 app:layout_constraintStart_toStartOf="@id/start_guideline"
                 app:layout_constraintTop_toBottomOf="@id/pet_member_cardview" />
 
-            <ImageView
+            <androidx.cardview.widget.CardView
+                android:id="@+id/diary_card_view"
                 android:layout_width="0dp"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="50dp"
-                android:src="@color/light_black"
+                android:layout_marginBottom="36dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/end_guideline"
                 app:layout_constraintStart_toStartOf="@id/start_guideline"
-                app:layout_constraintTop_toBottomOf="@id/recent_activity_title_text" />
+                app:layout_constraintTop_toBottomOf="@id/recent_activity_title_text">
+
+                <include
+                    android:id="@+id/item_recent_diary"
+                    layout="@layout/item_recent_diary"
+                    android:visibility="invisible" />
+
+                <include
+                    android:id="@+id/item_not_recent_diary"
+                    layout="@layout/layout_empty_diary"
+                    android:visibility="visible" />
+
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
