@@ -66,7 +66,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="10dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/arrow_down"
+            app:srcCompat="@drawable/arrow_down"
             app:layout_constraintStart_toEndOf="@+id/pet_name_text"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/black" />
@@ -130,7 +130,7 @@
             android:layout_marginTop="6dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
-            android:src="@drawable/btn_arrow_right"
+            app:srcCompat="@drawable/arrow_right"
             app:layout_constraintStart_toEndOf="@+id/statistics_text"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

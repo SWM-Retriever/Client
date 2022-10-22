@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.mypage
+package org.retriever.dailypet.ui.mypage.webview
 
 import android.os.Bundle
 import android.webkit.WebViewClient

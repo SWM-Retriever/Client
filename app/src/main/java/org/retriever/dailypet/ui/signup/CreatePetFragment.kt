@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
@@ -58,6 +60,8 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     private var petKindId = -1
 
     private var dontKnow = false
+
+    private val args: CreatePetFragmentArgs by navArgs()
 
     private val galleryResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -114,6 +118,41 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         initPetNameView()
         initPetView()
         initSubmitButton()
+        initArgsView()
+    }
+
+    private fun initArgsView() = with(binding) {
+        args.petDetailItem?.let {
+            //TODO 이미지 설정
+
+            createPetTitleText.text = getString(R.string.pet_modify_title)
+            petSubmitButton.text = getString(R.string.modify_text)
+
+            petNameEdittext.setText(it.petName)
+            setValidPetName()
+
+            if (it.gender == "MALE") {
+                setMaleType()
+            } else {
+                setFemaleType()
+            }
+
+            petBirthDatePicker.text = it.birthDate
+            petViewModel.setBirth()
+
+            petBreedBottomSheet.text = it.petKind
+
+            petWeightEdittext.setText(it.weight.toString())
+            petViewModel.setWeight(true)
+
+            petRegisterNumEdittext.setText(it.registerNumber)
+
+            if (it.isNeutered) {
+                neutralRadio.isChecked = true
+            } else {
+                notNeutralRadio.isChecked = true
+            }
+        }
     }
 
     private fun initProgressCircular() {
@@ -369,8 +408,14 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
                             )
                         }
 
-                        val action = CreatePetFragmentDirections.actionCreatePetFragmentToCreationCompleteFragment(petResponse!!)
-                        root.findNavController().navigate(action)
+                        if (args.isAdd) {
+                            root.findNavController().popBackStack()
+                        } else if (!args.isAdd) {
+                            root.findNavController().popBackStack()
+                        } else {
+                            val action = CreatePetFragmentDirections.actionCreatePetFragmentToCreationCompleteFragment(petResponse!!)
+                            root.findNavController().navigate(action)
+                        }
                     }
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)
@@ -411,7 +456,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         weight: Float,
         neutral: Boolean,
         registerNumber: String,
-        ) {
+    ) {
         val familyId = GlobalApplication.prefs.familyId
         val petInfo = PetInfo(name, type, sex, birth, petKindId, weight, neutral, registerNumber, "")
         val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
@@ -441,6 +486,8 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     companion object {
         private const val REQUEST_GALLERY = 1
         private const val REQUEST_CAMERA = 2
+        private const val MALE = "MALE"
+        private const val FEMALE = "FEMALE"
     }
 
 }

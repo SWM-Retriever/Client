@@ -1,5 +1,6 @@
 package org.retriever.dailypet.ui.signup.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -119,7 +120,12 @@ class PetViewModel @Inject constructor(private val petRepository: PetRepository)
     private fun submitCheck() {
         val type = dog || cat
         val sex = male || female
-
+        Log.d("ABC", isValidPetName.toString())
+        Log.d("ABC", type.toString())
+        Log.d("ABC", sex.toString())
+        Log.d("ABC", birth.toString())
+        Log.d("ABC", weight.toString())
+        Log.d("ABC", "")
         _submit.value = isValidPetName
                 && type
                 && sex

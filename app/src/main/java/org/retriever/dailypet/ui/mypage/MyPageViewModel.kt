@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import org.retriever.dailypet.data.repository.mypage.MyPageRepository
 import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.mypage.PetDetailResponse
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,7 +20,7 @@ class MyPageViewModel @Inject constructor(
     private val _withdrawalResponse = MutableLiveData<Resource<ResponseBody>>()
     val withdrawalResponse: LiveData<Resource<ResponseBody>> = _withdrawalResponse
 
-    fun deleteMemberWithdrawal(jwt : String) = viewModelScope.launch{
+    fun deleteMemberWithdrawal(jwt: String) = viewModelScope.launch {
         _withdrawalResponse.postValue(Resource.Loading())
 
         _withdrawalResponse.postValue(myPageRepository.deleteMemberWithdrawal(jwt))
