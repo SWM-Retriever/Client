@@ -15,5 +15,6 @@ data class PetDetailItem(
     val registerNumber: String,
     val isNeutered: Boolean,
     val gender: String,
+    val petType: String,
     val petKind: String,
 ) : Parcelable

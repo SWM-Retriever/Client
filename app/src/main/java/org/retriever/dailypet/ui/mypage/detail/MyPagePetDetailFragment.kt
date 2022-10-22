@@ -55,12 +55,13 @@ class MyPagePetDetailFragment : BaseFragment<FragmentMyPagePetDetailBinding>() {
         petDetailItem = args.petDetailItem
 
         petNameText.text = petDetailItem.petName
+        petKindText.text = if (petDetailItem.petType == "DOG") "강아지" else "고양이"
         petSexText.text = if (petDetailItem.gender == "MALE") "수컷" else "암컷"
         petBirthText.text = petDetailItem.birthDate
         petBreedText.text = petDetailItem.petKind
         petWeightText.text = getString(R.string.weight_text, petDetailItem.weight)
         petNeutralText.text = if (petDetailItem.isNeutered) "완료" else "미실시"
-        petRegisterNumText.text = petDetailItem.registerNumber
+        petRegisterNumText.text = petDetailItem.registerNumber.ifBlank { "없음" }
     }
 
     private fun buttonClick() = with(binding) {

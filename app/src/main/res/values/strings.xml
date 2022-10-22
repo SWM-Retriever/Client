@@ -154,4 +154,6 @@
     <string name="pet_title_text">반려동물</string>
     <string name="recent_activity_title_text">최근 활동</string>
     <string name="marketing_text">마케팅 수신 정보 동의</string>
+    <string name="kind_text">종류</string>
+    <string name="not_registernum_text">없음</string>
 </resources>
