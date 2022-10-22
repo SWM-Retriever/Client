@@ -33,6 +33,9 @@
         <argument
             android:name="registerProfile"
             app:argType="org.retriever.dailypet.model.signup.profile.RegisterProfile" />
+        <action
+            android:id="@+id/action_termOfServiceFragment_to_webViewActivity2"
+            app:destination="@id/webViewActivity2" />
     </fragment>
     <fragment
         android:id="@+id/createProfileFragment"
@@ -126,4 +129,12 @@
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
+    <activity
+        android:id="@+id/webViewActivity2"
+        android:name="org.retriever.dailypet.ui.mypage.webview.WebViewActivity"
+        android:label="WebViewActivity" >
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </activity>
 </navigation>

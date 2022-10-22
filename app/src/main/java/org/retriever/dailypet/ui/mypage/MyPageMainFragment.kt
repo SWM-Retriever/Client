@@ -80,6 +80,11 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
             root.findNavController().navigate(action)
         }
 
+        marketingText.setOnClickListener {
+            val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewActivity(MARKETING_URL)
+            root.findNavController().navigate(action)
+        }
+
         openSourceLicenseText.setOnClickListener {
             val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewActivity(OPENSOURCE_URL)
             root.findNavController().navigate(action)
@@ -163,6 +168,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         private const val REPORT_URL = "https://the-form.io/forms/survey/response/fe418f0f-0ab2-46ce-80d1-d5a8188e5247"
         private const val TERMS_URL = "https://showy-king-303.notion.site/df847ac24e894e4a837717776a7dd4b7"
         private const val PRIVACY_URL = "https://showy-king-303.notion.site/c3dd318460424ae5ae0d13ebef8cdc48"
+        private const val MARKETING_URL = "https://showy-king-303.notion.site/25ae8e794dc44c6a801adcfb8850ea0f"
         private const val OPENSOURCE_URL = "https://showy-king-303.notion.site/719843c38acb40efb8efab7059a38564"
     }
 

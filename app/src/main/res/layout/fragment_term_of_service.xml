@@ -90,19 +90,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="@string/third_check_text"
-        app:layout_constraintStart_toStartOf="@id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@+id/second_check" />
-
-    <CheckBox
-        android:id="@+id/fourth_check"
-        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:text="@string/fourth_check_text"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@+id/third_check" />
+        app:layout_constraintTop_toBottomOf="@+id/second_check" />
 
     <TextView
         android:id="@+id/first_see_text"
@@ -130,15 +120,6 @@
         app:layout_constraintBottom_toBottomOf="@id/third_check"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintTop_toTopOf="@id/third_check" />
-
-    <TextView
-        android:id="@+id/fourth_see_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/more_see_text"
-        app:layout_constraintBottom_toBottomOf="@id/fourth_check"
-        app:layout_constraintEnd_toEndOf="@id/right_guideline"
-        app:layout_constraintTop_toTopOf="@id/fourth_check" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/next_button"

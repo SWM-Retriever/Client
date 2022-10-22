@@ -153,4 +153,5 @@
     <string name="group_member_title_text">그룹 구성원</string>
     <string name="pet_title_text">반려동물</string>
     <string name="recent_activity_title_text">최근 활동</string>
+    <string name="marketing_text">마케팅 수신 정보 동의</string>
 </resources>

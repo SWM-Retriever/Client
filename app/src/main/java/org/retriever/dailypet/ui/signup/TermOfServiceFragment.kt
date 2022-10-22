@@ -39,9 +39,19 @@ class TermOfServiceFragment : BaseFragment<FragmentTermOfServiceBinding>() {
         firstCheck.setOnClickListener { onCheckChanged(firstCheck) }
         secondCheck.setOnClickListener { onCheckChanged(secondCheck) }
         thirdCheck.setOnClickListener { onCheckChanged(thirdCheck) }
-        fourthCheck.setOnClickListener { onCheckChanged(fourthCheck) }
 
-        //TODO 약관보기 나중에 해야함
+        firstSeeText.setOnClickListener {
+            val action = TermOfServiceFragmentDirections.actionTermOfServiceFragmentToWebViewActivity2(TERMS_URL)
+            root.findNavController().navigate(action)
+        }
+        secondSeeText.setOnClickListener {
+            val action = TermOfServiceFragmentDirections.actionTermOfServiceFragmentToWebViewActivity2(PRIVACY_URL)
+            root.findNavController().navigate(action)
+        }
+        thirdSeeText.setOnClickListener {
+            val action = TermOfServiceFragmentDirections.actionTermOfServiceFragmentToWebViewActivity2(MARKETING_URL)
+            root.findNavController().navigate(action)
+        }
 
         backButton.setOnClickListener {
             root.findNavController().popBackStack()
@@ -51,8 +61,9 @@ class TermOfServiceFragment : BaseFragment<FragmentTermOfServiceBinding>() {
     private fun moveCreateProfileFragment() = with(binding) {
         val args: TermOfServiceFragmentArgs by navArgs()
         val registerProfile = args.registerProfile
+        // TODO 백엔드보고 프로필정보 추가수집 지우기
         registerProfile.isProfileInformationAgree = thirdCheck.isChecked
-        registerProfile.isPushAgree = fourthCheck.isChecked
+        registerProfile.isPushAgree = thirdCheck.isChecked
 
         val action = TermOfServiceFragmentDirections.actionTermOfServiceFragmentToCreateProfileFragment(registerProfile)
         root.findNavController().navigate(action)
@@ -69,9 +80,8 @@ class TermOfServiceFragment : BaseFragment<FragmentTermOfServiceBinding>() {
             }
             else -> {
                 checkAll.isChecked = (firstCheck.isChecked
-                        && secondCheck.isChecked
-                        && thirdCheck.isChecked
-                        && fourthCheck.isChecked)
+                                && secondCheck.isChecked
+                                && thirdCheck.isChecked)
             }
         }
         if (firstCheck.isChecked && secondCheck.isChecked) {
@@ -85,14 +95,12 @@ class TermOfServiceFragment : BaseFragment<FragmentTermOfServiceBinding>() {
         firstCheck.isChecked = true
         secondCheck.isChecked = true
         thirdCheck.isChecked = true
-        fourthCheck.isChecked = true
     }
 
     private fun setAllCheckedFalse() = with(binding) {
         firstCheck.isChecked = false
         secondCheck.isChecked = false
         thirdCheck.isChecked = false
-        fourthCheck.isChecked = false
     }
 
     private fun setNextButtonValid() = with(binding) {
@@ -105,6 +113,12 @@ class TermOfServiceFragment : BaseFragment<FragmentTermOfServiceBinding>() {
         nextButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
         nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_light_grey))
         nextButton.isClickable = false
+    }
+
+    companion object{
+        private const val TERMS_URL = "https://showy-king-303.notion.site/df847ac24e894e4a837717776a7dd4b7"
+        private const val PRIVACY_URL = "https://showy-king-303.notion.site/c3dd318460424ae5ae0d13ebef8cdc48"
+        private const val MARKETING_URL = "https://showy-king-303.notion.site/25ae8e794dc44c6a801adcfb8850ea0f"
     }
 
 }

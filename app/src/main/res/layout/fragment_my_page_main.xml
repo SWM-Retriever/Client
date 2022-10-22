@@ -291,10 +291,35 @@
                 android:background="?android:attr/listDivider"
                 android:backgroundTint="@color/dark_grey"
                 android:backgroundTintMode="add"
-                app:layout_constraintBottom_toBottomOf="@id/open_source_license_text"
+                app:layout_constraintBottom_toBottomOf="@id/marketing_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/privacy_text" />
+
+            <TextView
+                android:id="@+id/marketing_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawablePadding="12dp"
+                android:paddingVertical="16dp"
+                android:text="@string/marketing_text"
+                android:textColor="@color/light_black"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/icon_mail"
+                app:layout_constraintEnd_toEndOf="@id/right_guideline"
+                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/privacy_text" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:backgroundTint="@color/dark_grey"
+                android:backgroundTintMode="add"
+                app:layout_constraintBottom_toBottomOf="@id/open_source_license_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/marketing_text" />
 
             <TextView
                 android:id="@+id/open_source_license_text"
@@ -308,7 +333,7 @@
                 app:drawableStartCompat="@drawable/icon_public"
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
-                app:layout_constraintTop_toBottomOf="@id/privacy_text" />
+                app:layout_constraintTop_toBottomOf="@id/marketing_text" />
 
             <TextView
                 android:id="@+id/withdrawal_button"
