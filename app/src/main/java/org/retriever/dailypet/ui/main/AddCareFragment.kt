@@ -45,7 +45,6 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initProgressCircular()
         initPostCare()
         initInfo()
@@ -141,57 +140,25 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
         val listener = CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 when (buttonView.id) {
-                    R.id.check_everyday -> {
-                        allCheck(true)
-                    }
-                    R.id.check_sun -> {
-                        dayList[0] = true
-                    }
-                    R.id.check_mon -> {
-                        dayList[1] = true
-                    }
-                    R.id.check_tue -> {
-                        dayList[2] = true
-                    }
-                    R.id.check_wed -> {
-                        dayList[3] = true
-                    }
-                    R.id.check_thu -> {
-                        dayList[4] = true
-                    }
-                    R.id.check_fri -> {
-                        dayList[5] = true
-                    }
-                    R.id.check_sat -> {
-                        dayList[6] = true
-                    }
+                    R.id.check_everyday -> allCheck(true)
+                    R.id.check_sun -> dayList[0] = true
+                    R.id.check_mon -> dayList[1] = true
+                    R.id.check_tue -> dayList[2] = true
+                    R.id.check_wed -> dayList[3] = true
+                    R.id.check_thu -> dayList[4] = true
+                    R.id.check_fri -> dayList[5] = true
+                    R.id.check_sat -> dayList[6] = true
                 }
             } else {
                 when (buttonView.id) {
-                    R.id.check_everyday -> {
-                        allCheck(false)
-                    }
-                    R.id.check_sun -> {
-                        dayList[0] = false
-                    }
-                    R.id.check_mon -> {
-                        dayList[1] = false
-                    }
-                    R.id.check_tue -> {
-                        dayList[2] = false
-                    }
-                    R.id.check_wed -> {
-                        dayList[3] = false
-                    }
-                    R.id.check_thu -> {
-                        dayList[4] = false
-                    }
-                    R.id.check_fri -> {
-                        dayList[5] = false
-                    }
-                    R.id.check_sat -> {
-                        dayList[6] = false
-                    }
+                    R.id.check_everyday -> allCheck(false)
+                    R.id.check_sun -> dayList[0] = false
+                    R.id.check_mon -> dayList[1] = false
+                    R.id.check_tue -> dayList[2] = false
+                    R.id.check_wed -> dayList[3] = false
+                    R.id.check_thu -> dayList[4] = false
+                    R.id.check_fri -> dayList[5] = false
+                    R.id.check_sat -> dayList[6] = false
                 }
             }
             submitCheck()

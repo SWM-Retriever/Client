@@ -10,10 +10,7 @@ import okhttp3.ResponseBody
 import org.retriever.dailypet.Event
 import org.retriever.dailypet.data.repository.main.HomeRepository
 import org.retriever.dailypet.model.Resource
-import org.retriever.dailypet.model.main.Care
-import org.retriever.dailypet.model.main.CareInfo
-import org.retriever.dailypet.model.main.CareList
-import org.retriever.dailypet.model.main.PetDaysResponse
+import org.retriever.dailypet.model.main.*
 import org.retriever.dailypet.model.signup.pet.PetList
 import javax.inject.Inject
 
@@ -35,6 +32,9 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     private val _deletePetCareResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
     val deletePetCareResponse: LiveData<Event<Resource<ResponseBody>>> = _deletePetCareResponse
+
+    private val _patchPetCareResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
+    val patchPetCareResponse: LiveData<Event<Resource<ResponseBody>>> = _patchPetCareResponse
 
     private val _postCareCheckResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
     val postCareCheckResponse: LiveData<Event<Resource<ResponseBody>>> = _postCareCheckResponse
@@ -70,6 +70,12 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
         _deletePetCareResponse.postValue(Event(Resource.Loading()))
 
         _deletePetCareResponse.postValue(Event(homeRepository.deletePetCare(petId, careId, jwt)))
+    }
+
+    fun patchPetCare(petId: Int, careId: Int, jwt: String, careModifyInfo: CareModifyInfo) = viewModelScope.launch {
+        _patchPetCareResponse.postValue(Event(Resource.Loading()))
+
+        _patchPetCareResponse.postValue(Event(homeRepository.patchPetCare(petId, careId, jwt, careModifyInfo)))
     }
 
     fun postCareCheck(petId: Int, careId: Int, jwt: String) = viewModelScope.launch {
