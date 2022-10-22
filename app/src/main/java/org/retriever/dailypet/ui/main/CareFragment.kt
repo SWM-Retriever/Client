@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCareBinding
@@ -62,7 +63,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         initProgressCircular()
         initCareInfo()
         //initCareCheck()
-        initCareCancel()
+        //initCareCancel()
         initWeekdays()
         initCare()
         buttonClick()
@@ -156,7 +157,6 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         }
         cancelText.setOnClickListener {
             if(curCnt != 0){
-                Log.e("AB",careId.toString())
                 postCareCancel()
             }
             else{
@@ -208,5 +208,10 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         popup.show()
     }
 
+    fun update(){
+        initCareInfo()
+        initWeekdays()
+        initCare()
+    }
 
 }
