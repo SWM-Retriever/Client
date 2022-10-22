@@ -60,9 +60,66 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         getPetList()
         initCareCheck()
         initCareCancel()
+        initDeleteCare()
         initDaysView()
         initCareList()
         buttonClick()
+    }
+
+    private fun initProgressCircular() {
+        hideProgressCircular(binding.progressCircular)
+    }
+
+    private fun initPetList() = with(binding) {
+        homeViewModel.getPetListResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        val petResponse = response.data?.petInfoDetailList
+                        petList.clear()
+
+                        petResponse?.forEach { pet ->
+                            petList.add(Pet(pet.petId, pet.petName))
+                            petIdList.add(pet.petId)
+                            petNameList.add(pet.petName)
+                        }
+                        curPetId = petIdList[0]
+                        getDays()
+                        getCareList()
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initGroupType() = with(binding) {
+        // TODO 1인가구 뷰 변경 로직 추가
+        if (groupType == "FAMILY") {
+            statisticsButton.visibility = View.VISIBLE
+            contributionText.visibility = View.VISIBLE
+        } else {
+            statisticsButton.visibility = View.INVISIBLE
+            contributionText.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun getPetList() {
+        homeViewModel.getPetList(familyId, jwt)
+    }
+
+    private fun getDays() {
+        homeViewModel.getDays(curPetId, jwt)
+    }
+
+    private fun getCareList() {
+        homeViewModel.getCareList(curPetId, jwt)
     }
 
     private fun initCareCheck() = with(binding) {
@@ -103,12 +160,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-    private fun initProgressCircular() {
-        hideProgressCircular(binding.progressCircular)
-    }
-
-    private fun initPetList() = with(binding) {
-        homeViewModel.getPetListResponse.observe(viewLifecycleOwner) { event ->
+    private fun initDeleteCare() = with(binding) {
+        homeViewModel.deletePetCareResponse.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { response ->
                 when (response) {
                     is Resource.Loading -> {
@@ -116,16 +169,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
                     is Resource.Success -> {
                         hideProgressCircular(progressCircular)
-                        val petResponse = response.data?.petInfoDetailList
-                        petList.clear()
-
-                        petResponse?.forEach { pet ->
-                            petList.add(Pet(pet.petId, pet.petName))
-                            petIdList.add(pet.petId)
-                            petNameList.add(pet.petName)
-                        }
-                        curPetId = petIdList[0]
-                        getDays()
                         getCareList()
                     }
                     is Resource.Error -> {
@@ -134,31 +177,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }
         }
-
-
-    }
-
-    private fun initGroupType() = with(binding) {
-        // TODO 1인가구 뷰 변경 로직 추가
-        if (groupType == "FAMILY") {
-            statisticsButton.visibility = View.VISIBLE
-            contributionText.visibility = View.VISIBLE
-        } else {
-            statisticsButton.visibility = View.INVISIBLE
-            contributionText.visibility = View.INVISIBLE
-        }
-    }
-
-    private fun getPetList() {
-        homeViewModel.getPetList(familyId, jwt)
-    }
-
-    private fun getDays() {
-        homeViewModel.getDays(curPetId, jwt)
-    }
-
-    private fun getCareList() {
-        homeViewModel.getCareList(curPetId, jwt)
     }
 
     private fun initDaysView() = with(binding) {

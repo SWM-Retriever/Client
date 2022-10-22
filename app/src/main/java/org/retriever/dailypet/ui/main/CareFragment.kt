@@ -193,6 +193,10 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         homeViewModel.postCareCancel(petId, careId, jwt)
     }
 
+    private fun deleteCare() {
+        homeViewModel.deletePetCare(careId, careId, jwt)
+    }
+
     private fun increaseProgress() = with(binding) {
         curCnt++
         if (curCnt > totalCnt) curCnt = totalCnt
@@ -219,7 +223,9 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
 
         popup.menuInflater.inflate(R.menu.pet_list_menu, menu)
         popup.setOnMenuItemClickListener { item ->
-
+            when(item.title){
+                "삭제하기" -> deleteCare()
+            }
             false
         }
         popup.show()
