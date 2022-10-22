@@ -1,12 +1,18 @@
 package org.retriever.dailypet.ui.main
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCareBinding
@@ -18,6 +24,8 @@ import org.retriever.dailypet.ui.main.viewmodel.HomeViewModel
 import org.retriever.dailypet.util.ArrayListAdapter
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CareFragment : BaseFragment<FragmentCareBinding>() {
 
@@ -64,7 +72,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         //initCareCheck()
         //initCareCancel()
         initWeekdays()
-        initCare()
+        initView()
         buttonClick()
     }
 
@@ -133,12 +141,24 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         }
     }
 
-    private fun initCare() = with(binding) {
+    private fun initView() = with(binding) {
         careTitleText.text = name
         careCountText.text = getString(R.string.care_count, curCnt, totalCnt)
 
         logText.text = "" // TODO 로그뷰 수정
         periodTitleText.text = weekdays
+        val content = periodTitleText.text.toString()
+        val spannableString = SpannableString(content)
+        val curWeek = getWeek()
+        val start = content.indexOf(curWeek.toString())
+        val end = start + curWeek.toString().length + 1
+        spannableString.setSpan(
+            ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.main_pink)),
+            start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        periodTitleText.text = spannableString
+
         val percent = curCnt.toDouble() / totalCnt.toDouble()
         progressbar.progress = (percent * 100).toInt()
     }
@@ -205,10 +225,25 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         popup.show()
     }
 
+    private fun getWeek(): String? {
+        val cal: Calendar = Calendar.getInstance()
+        var strWeek: String? = null
+        when(cal.get(Calendar.DAY_OF_WEEK)){
+            1 -> strWeek = "일"
+            2 -> strWeek = "월"
+            3 -> strWeek = "화"
+            4 -> strWeek = "수"
+            5 -> strWeek = "목"
+            6 -> strWeek = "금"
+            7 -> strWeek = "토"
+        }
+        return strWeek
+    }
+
     fun update() {
         initCareInfo()
         initWeekdays()
-        initCare()
+        initView()
     }
 
 }

@@ -6,6 +6,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ import org.retriever.dailypet.ui.main.viewmodel.HomeViewModel
 import org.retriever.dailypet.util.ArrayListAdapter
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
+import java.util.*
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
@@ -209,7 +211,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         initCareTabView(arrayListAdapter.careListFromJson(careList))
                         redraw = false
                         //}
-                        refreshCareTab(arrayListAdapter.careListFromJson(careList))
+                        //refreshCareTab(arrayListAdapter.careListFromJson(careList))
                     }
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)
@@ -237,7 +239,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         tabLayout = careListTab
         pagerAdapter = CareAdapter(requireActivity())
         for (care in careList) {
-            pagerAdapter.addFragment(CareFragment().newInstance(jwt, curPetId, care))
+            if(getWeek() in care.dayOfWeeks){
+                pagerAdapter.addFragment(CareFragment().newInstance(jwt, curPetId, care))
+            }
         }
 
 //        tabLayout.setScrollPosition(2, 0f, true)
@@ -260,6 +264,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             pagerAdapter.refreshFragment(i, CareFragment().newInstance(jwt, curPetId, careList[i]))
         }
         pagerAdapter.notifyDataSetChanged()
+    }
+
+    private fun getWeek(): String? {
+        val cal: Calendar = Calendar.getInstance()
+        var strWeek: String? = null
+        when(cal.get(Calendar.DAY_OF_WEEK)){
+            1 -> strWeek = "SUN"
+            2 -> strWeek = "MON"
+            3 -> strWeek = "TUE"
+            4 -> strWeek = "WED"
+            5 -> strWeek = "THU"
+            6 -> strWeek = "FRI"
+            7 -> strWeek = "SAT"
+        }
+        return strWeek
     }
 
 
