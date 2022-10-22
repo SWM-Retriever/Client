@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCareBinding
@@ -27,8 +26,8 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     private val eDay: List<String> = listOf("SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT")
     private val kDay: List<String> = listOf("일", "월", "화", "수", "목", "금", "토")
     private var name = ""
-    private var period : ArrayList<String> = arrayListOf()
-    private var log : ArrayList<CheckList> = arrayListOf()
+    private var period: ArrayList<String> = arrayListOf()
+    private var log: ArrayList<CheckList> = arrayListOf()
     private var totalCnt = 0
     private var curCnt = 0
     private var weekdays = ""
@@ -69,7 +68,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         buttonClick()
     }
 
-    private fun initCareInfo(){
+    private fun initCareInfo() {
         jwt = arguments?.getString("jwt") ?: ""
         petId = arguments?.getInt("petId") ?: -1
         careId = arguments?.getInt("careId") ?: -1
@@ -85,10 +84,10 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         hideProgressCircular(binding.progressCircular)
     }
 
-    private fun initCareCheck() = with(binding){
-        homeViewModel.postCareCheckResponse.observe(viewLifecycleOwner){ event->
-            event.getContentIfNotHandled()?.let{ response ->
-                when(response){
+    private fun initCareCheck() = with(binding) {
+        homeViewModel.postCareCheckResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
                     is Resource.Loading -> {
                         showProgressCircular(progressCircular)
                     }
@@ -104,10 +103,10 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         }
     }
 
-    private fun initCareCancel() = with(binding){
-        homeViewModel.postCareCancelResponse.observe(viewLifecycleOwner){ event->
-            event.getContentIfNotHandled()?.let{ response ->
-                when(response){
+    private fun initCareCancel() = with(binding) {
+        homeViewModel.postCareCancelResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
                     is Resource.Loading -> {
                         showProgressCircular(progressCircular)
                     }
@@ -147,20 +146,18 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     private fun buttonClick() = with(binding) {
 
         checkButton.setOnClickListener {
-            if (curCnt != totalCnt){
+            if (curCnt != totalCnt) {
                 postCareCheck()
-            }
-            else{
-                Toast.makeText(requireContext(),"케어 최대 횟수입니다",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "케어 최대 횟수입니다", Toast.LENGTH_SHORT).show()
             }
 
         }
         cancelText.setOnClickListener {
-            if(curCnt != 0){
+            if (curCnt != 0) {
                 postCareCancel()
-            }
-            else{
-                Toast.makeText(requireContext(),"케어 최소 횟수입니다",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "케어 최소 횟수입니다", Toast.LENGTH_SHORT).show()
             }
         }
         careMoreButton.setOnClickListener {
@@ -168,11 +165,11 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         }
     }
 
-    private fun postCareCheck(){
+    private fun postCareCheck() {
         homeViewModel.postCareCheck(petId, careId, jwt)
     }
 
-    private fun postCareCancel(){
+    private fun postCareCancel() {
         homeViewModel.postCareCancel(petId, careId, jwt)
     }
 
@@ -185,7 +182,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     }
 
     private fun decreaseProgress() = with(binding) {
-        Log.e("ABC",careId.toString())
+        Log.e("ABC", careId.toString())
         curCnt--
         if (curCnt < 0) curCnt = 0
         val percent = curCnt.toDouble() / totalCnt.toDouble()
@@ -208,7 +205,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         popup.show()
     }
 
-    fun update(){
+    fun update() {
         initCareInfo()
         initWeekdays()
         initCare()

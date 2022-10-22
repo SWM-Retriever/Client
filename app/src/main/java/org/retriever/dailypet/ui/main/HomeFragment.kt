@@ -2,13 +2,10 @@ package org.retriever.dailypet.ui.main
 
 import android.graphics.Typeface
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,10 +63,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         buttonClick()
     }
 
-    private fun initCareCheck() = with(binding){
-        homeViewModel.postCareCheckResponse.observe(viewLifecycleOwner){ event->
-            event.getContentIfNotHandled()?.let{ response ->
-                when(response){
+    private fun initCareCheck() = with(binding) {
+        homeViewModel.postCareCheckResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
                     is Resource.Loading -> {
                         showProgressCircular(progressCircular)
                     }
@@ -85,10 +82,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-    private fun initCareCancel() = with(binding){
-        homeViewModel.postCareCancelResponse.observe(viewLifecycleOwner){ event->
-            event.getContentIfNotHandled()?.let{ response ->
-                when(response){
+    private fun initCareCancel() = with(binding) {
+        homeViewModel.postCareCancelResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
                     is Resource.Loading -> {
                         showProgressCircular(progressCircular)
                     }
@@ -208,10 +205,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         hideProgressCircular(progressCircular)
                         val arrayListAdapter = ArrayListAdapter()
                         val careList = response.data?.caresInfoList ?: ArrayList()
-                        if(redraw){
-                            initCareTabView(arrayListAdapter.careListFromJson(careList))
-                            redraw = false
-                        }
+                        //if(redraw){
+                        initCareTabView(arrayListAdapter.careListFromJson(careList))
+                        redraw = false
+                        //}
                         refreshCareTab(arrayListAdapter.careListFromJson(careList))
                     }
                     is Resource.Error -> {
@@ -258,9 +255,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }.attach()
     }
 
-    private fun refreshCareTab(careList: ArrayList<Care>) = with(binding){
-        for(i in 0 until careList.size){
-                pagerAdapter.refreshFragment(i, CareFragment().newInstance(jwt, curPetId, careList[i]))
+    private fun refreshCareTab(careList: ArrayList<Care>) = with(binding) {
+        for (i in 0 until careList.size) {
+            pagerAdapter.refreshFragment(i, CareFragment().newInstance(jwt, curPetId, careList[i]))
         }
         pagerAdapter.notifyDataSetChanged()
     }

@@ -1,16 +1,15 @@
 package org.retriever.dailypet.ui.main
-import android.annotation.SuppressLint
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.adapter.FragmentViewHolder
 
 class CareAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
 
-    var fragments : ArrayList<Fragment> = ArrayList()
+    var fragments: ArrayList<Fragment> = ArrayList()
 
-    fun getItem(position: Int): Fragment{
+    fun getItem(position: Int): Fragment {
         return fragments[position]
     }
 
@@ -23,12 +22,12 @@ class CareAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
         position: Int,
         payloads: MutableList<Any>
     ) {
-        val fragment  = fragments[position]
-        fragment.let{
-            if(it is CareFragment){
-                it.update()
-            }
-        }
+//        val fragment  = fragments[position]
+//        fragment.let{
+//            if(it is CareFragment){
+//                it.update()
+//            }
+//        }
         super.onBindViewHolder(holder, position, payloads)
     }
 
@@ -42,7 +41,7 @@ class CareAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
 
     fun addFragment(fragment: Fragment) {
         fragments.add(fragment)
-        notifyItemInserted(fragments.size-1)
+        notifyItemInserted(fragments.size - 1)
     }
 
     fun removeFragment() {
