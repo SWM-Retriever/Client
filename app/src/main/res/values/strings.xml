@@ -156,4 +156,5 @@
     <string name="marketing_text">마케팅 수신 정보 동의</string>
     <string name="kind_text">종류</string>
     <string name="not_registernum_text">없음</string>
+    <string name="member_statistics_title_text">구성원 기여도</string>
 </resources>
