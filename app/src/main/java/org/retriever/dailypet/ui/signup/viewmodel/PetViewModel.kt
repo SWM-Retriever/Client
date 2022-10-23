@@ -7,14 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import org.retriever.dailypet.Event
 import org.retriever.dailypet.data.repository.signup.PetRepository
 import org.retriever.dailypet.model.Resource
-import org.retriever.dailypet.model.signup.pet.BreedResponse
-import org.retriever.dailypet.model.signup.pet.PetInfo
-import org.retriever.dailypet.model.signup.pet.PetResponse
+import org.retriever.dailypet.model.signup.pet.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,6 +25,9 @@ class PetViewModel @Inject constructor(private val petRepository: PetRepository)
 
     private val _petResponse = MutableLiveData<Event<Resource<PetResponse>>>()
     val petResponse: LiveData<Event<Resource<PetResponse>>> = _petResponse
+
+    private val _modifyPetResponse = MutableLiveData<Resource<ModifyPetResponse>>()
+    val modifyPetResponse: LiveData<Resource<ModifyPetResponse>> = _modifyPetResponse
 
     private var _submit = MutableLiveData(false)
     val submit: LiveData<Boolean> = _submit
@@ -58,14 +58,22 @@ class PetViewModel @Inject constructor(private val petRepository: PetRepository)
         _petResponse.postValue(Event(petRepository.postPet(familyId, jwt, petInfo)))
     }
 
+    fun modifyPet(familyId: Int, petId: Int, jwt: String, modifyPetRequest: ModifyPetRequest) {
+        viewModelScope.launch {
+            _modifyPetResponse.postValue(Resource.Loading())
+
+            _modifyPetResponse.postValue(petRepository.modifyPet(familyId, petId, jwt, modifyPetRequest))
+        }
+    }
+
     fun setInitial() {
-         isValidPetName = false
-         dog = false
-         cat = false
-         male = false
-         female = false
-         birth = false
-         weight = false
+        isValidPetName = false
+        dog = false
+        cat = false
+        male = false
+        female = false
+        birth = false
+        weight = false
         submitCheck()
     }
 
@@ -108,7 +116,7 @@ class PetViewModel @Inject constructor(private val petRepository: PetRepository)
         submitCheck()
     }
 
-    fun getPetTypeSelected() : Boolean =
+    fun getPetTypeSelected(): Boolean =
         dog || cat
 
     fun getPetType(): String =

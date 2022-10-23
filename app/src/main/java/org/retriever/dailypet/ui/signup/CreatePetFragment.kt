@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +32,7 @@ import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreatePetBinding
 import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.signup.pet.ModifyPetRequest
 import org.retriever.dailypet.model.signup.pet.PetInfo
 import org.retriever.dailypet.model.signup.pet.PetResponse
 import org.retriever.dailypet.ui.base.BaseFragment
@@ -52,6 +52,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     private lateinit var onBackCallBack: OnBackPressedCallback
 
     private val jwt = GlobalApplication.prefs.jwt ?: ""
+    private val familyId = GlobalApplication.prefs.familyId
 
     private var bitmap: Bitmap? = null
 
@@ -119,6 +120,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         initPetView()
         initSubmitButton()
         initArgsView()
+        observeModifyPet()
     }
 
     private fun initArgsView() = with(binding) {
@@ -131,16 +133,27 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
             petNameEdittext.setText(it.petName)
             setValidPetName()
 
+            if (it.petKind == "DOG") {
+                setDogType()
+            } else {
+                setCatType()
+            }
+            petTypeDogButton.isClickable = false
+            petTypeCatButton.isClickable = false
+
             if (it.gender == "MALE") {
                 setMaleType()
             } else {
                 setFemaleType()
             }
+            petSexMaleButton.isClickable = false
+            petSexFemaleButton.isClickable = false
 
             petBirthDatePicker.text = it.birthDate
             petViewModel.setBirth()
 
             petBreedBottomSheet.text = it.petKind
+            petBreedBottomSheet.isClickable = false
 
             petWeightEdittext.setText(it.weight.toString())
             petViewModel.setWeight(true)
@@ -218,10 +231,16 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
             val type = petViewModel.getPetType()
             val sex = petViewModel.getSexType()
             val birth = petBirthDatePicker.text.toString()
-            val weight = petWeightEdittext.text.toString().toFloat()
+            val weight = petWeightEdittext.text.toString().toInt()
             val neutral = neutralRadio.isChecked
             val registerNum = petRegisterNumEdittext.text.toString()
-            postPetInfo(name, type, sex, birth, weight, neutral, registerNum)
+
+            if (args.petDetailItem == null) {
+                postPetInfo(name, type, sex, birth, weight, neutral, registerNum)
+            } else {
+                modifyPet(args.petDetailItem?.petId ?: -1, ModifyPetRequest(name, birth, weight, neutral, registerNum, ""))
+            }
+
         }
 
     }
@@ -275,7 +294,6 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     }
 
     private fun checkValidPetName(petName: String) {
-        val familyId = GlobalApplication.prefs.familyId
         petViewModel.postCheckPetName(familyId, jwt, petName)
     }
 
@@ -408,10 +426,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
                             )
                         }
 
-                        if (args.petDetailItem == null && args.isAdd) {
-                            root.findNavController().popBackStack()
-                        } else if (args.petDetailItem != null && !args.isAdd) {
-                            // TODO 수정 API로 변경
+                        if (args.isAdd) {
                             root.findNavController().popBackStack()
                         } else {
                             val action = CreatePetFragmentDirections.actionCreatePetFragmentToCreationCompleteFragment(petResponse!!)
@@ -454,15 +469,38 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         type: String,
         sex: String,
         birth: String,
-        weight: Float,
+        weight: Int,
         neutral: Boolean,
         registerNumber: String,
     ) {
-        val familyId = GlobalApplication.prefs.familyId
         val petInfo = PetInfo(name, type, sex, birth, petKindId, weight, neutral, registerNumber, "")
         val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
         val multiPartBody = MultipartBody.Part.createFormData("image", "image", bitmapRequestBody)
         petViewModel.postPet(familyId, jwt, petInfo)
+    }
+
+    private fun modifyPet(
+        petId: Int,
+        modifyPetRequest: ModifyPetRequest
+    ) {
+        petViewModel.modifyPet(familyId, petId, jwt, modifyPetRequest)
+    }
+
+    private fun observeModifyPet()= with(binding){
+        petViewModel.modifyPetResponse.observe(viewLifecycleOwner){response ->
+            when(response) {
+                is Resource.Loading ->{
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success ->{
+                    hideProgressCircular( progressCircular)
+                    root.findNavController().popBackStack()
+                }
+                is Resource.Error ->{
+                    hideProgressCircular(progressCircular)
+                }
+            }
+        }
     }
 
     inner class BitmapRequestBody(private val bitmap: Bitmap) : RequestBody() {
