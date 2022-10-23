@@ -22,12 +22,6 @@
         tools:layout="@layout/fragment_my_page" />
 
     <fragment
-        android:id="@+id/calendarFragment"
-        android:name="org.retriever.dailypet.ui.main.CalendarFragment"
-        android:label="CalendarFragment"
-        tools:layout="@layout/fragment_calendar" />
-
-    <fragment
         android:id="@+id/diaryFragment"
         android:name="org.retriever.dailypet.ui.main.diary.DiaryFragment"
         android:label="DiaryFragment"

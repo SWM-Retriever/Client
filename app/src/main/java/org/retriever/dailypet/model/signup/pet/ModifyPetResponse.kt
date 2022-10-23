@@ -3,15 +3,15 @@ package org.retriever.dailypet.model.signup.pet
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class PetInfo(
+data class ModifyPetResponse(
+    val petId : Int,
     val petName : String,
-    val petType : String,
-    val gender : String,
+    val profileImageUrl : String,
     val birthDate : String,
-    val petKindId : Int,
     val weight : Int,
+    val registerNumber : String,
     val isNeutered : Boolean,
-    val registerNumber: String,
-    val profileImageUrl: String,
+    val gender : String,
+    val petKind : String,
+    val petType : String,
 )
-
