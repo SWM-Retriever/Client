@@ -24,7 +24,8 @@ class FamilyEntranceFragment : BaseFragment<FragmentFamilyEntranceBinding>() {
     private fun buttonClick() = with(binding) {
 
         groupCreateButton.setOnClickListener {
-            root.findNavController().navigate(R.id.action_familyEntranceFragment_to_createFamilyFragment)
+            val action = FamilyEntranceFragmentDirections.actionFamilyEntranceFragmentToCreateFamilyFragment(false)
+            root.findNavController().navigate(action)
         }
 
         inviteCodeText.setOnClickListener {

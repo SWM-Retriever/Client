@@ -141,18 +141,18 @@
                 android:background="?android:attr/listDivider"
                 android:backgroundTint="@color/dark_grey"
                 android:backgroundTintMode="add"
-                app:layout_constraintBottom_toBottomOf="@id/group_enter_text"
+                app:layout_constraintBottom_toBottomOf="@id/group_make_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/group_invite_text" />
 
             <TextView
-                android:id="@+id/group_enter_text"
+                android:id="@+id/group_make_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:drawablePadding="12dp"
                 android:paddingVertical="16dp"
-                android:text="@string/group_enter_text"
+                android:text="@string/group_make_text"
                 android:textColor="@color/light_black"
                 android:textSize="16sp"
                 app:drawableStartCompat="@drawable/icon_group_add"
@@ -169,7 +169,7 @@
                 android:backgroundTintMode="add"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/group_enter_text" />
+                app:layout_constraintTop_toBottomOf="@id/group_make_text" />
 
             <TextView
                 android:id="@+id/app_review_text"

@@ -26,9 +26,11 @@ import org.retriever.dailypet.util.showProgressCircular
 class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
 
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
+
     private val nickname = GlobalApplication.prefs.nickname ?: ""
     private val groupName = GlobalApplication.prefs.groupName ?: ""
     private val invitationCode = GlobalApplication.prefs.invitationCode ?: ""
+    private val groupType = GlobalApplication.prefs.groupType ?: ""
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentMyPageMainBinding {
         return FragmentMyPageMainBinding.inflate(inflater, container, false)
@@ -37,9 +39,14 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initProfile()
         initProgressCircular()
         buttonClick()
         observeWithdrawalResponse()
+    }
+
+    private fun initProfile() = with(binding){
+        userNickName.text = nickname
     }
 
     private fun initProgressCircular() {
@@ -52,7 +59,20 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         }
 
         groupInviteText.setOnClickListener {
-            onShareClicked()
+            if (groupType == FAMILY) {
+                onShareClicked()
+            } else {
+                Toast.makeText(requireContext(), "그룹을 먼저 만들고 시도해주세요!!", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        groupMakeText.setOnClickListener {
+            if (groupType == FAMILY) {
+                Toast.makeText(requireContext(), "이미 그룹이 존재합니다!!", Toast.LENGTH_SHORT).show()
+            } else {
+                val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToCreateFamilyFragment2(true)
+                root.findNavController().navigate(action)
+            }
         }
 
         appReviewText.setOnClickListener {
@@ -170,6 +190,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         private const val PRIVACY_URL = "https://showy-king-303.notion.site/c3dd318460424ae5ae0d13ebef8cdc48"
         private const val MARKETING_URL = "https://showy-king-303.notion.site/25ae8e794dc44c6a801adcfb8850ea0f"
         private const val OPENSOURCE_URL = "https://showy-king-303.notion.site/719843c38acb40efb8efab7059a38564"
+        private const val FAMILY = "FAMILY"
     }
 
 }

@@ -486,18 +486,20 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         petViewModel.modifyPet(familyId, petId, jwt, modifyPetRequest)
     }
 
-    private fun observeModifyPet()= with(binding){
-        petViewModel.modifyPetResponse.observe(viewLifecycleOwner){response ->
-            when(response) {
-                is Resource.Loading ->{
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success ->{
-                    hideProgressCircular( progressCircular)
-                    root.findNavController().popBackStack()
-                }
-                is Resource.Error ->{
-                    hideProgressCircular(progressCircular)
+    private fun observeModifyPet() = with(binding) {
+        petViewModel.modifyPetResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        root.findNavController().popBackStack()
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                    }
                 }
             }
         }
@@ -525,8 +527,6 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     companion object {
         private const val REQUEST_GALLERY = 1
         private const val REQUEST_CAMERA = 2
-        private const val MALE = "MALE"
-        private const val FEMALE = "FEMALE"
     }
 
 }
