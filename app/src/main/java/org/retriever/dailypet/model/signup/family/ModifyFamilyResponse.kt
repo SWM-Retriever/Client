@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ModifyFamilyResponse(
     val familyId: Int,
-    val familyName: Int,
-    val invitationCode: Int,
+    val familyName: String,
+    val invitationCode: String,
     val groupType: String,
 )

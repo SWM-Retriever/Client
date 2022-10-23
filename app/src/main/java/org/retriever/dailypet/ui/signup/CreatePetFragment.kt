@@ -231,7 +231,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
             val type = petViewModel.getPetType()
             val sex = petViewModel.getSexType()
             val birth = petBirthDatePicker.text.toString()
-            val weight = petWeightEdittext.text.toString().toInt()
+            val weight = petWeightEdittext.text.toString().toFloat()
             val neutral = neutralRadio.isChecked
             val registerNum = petRegisterNumEdittext.text.toString()
 
@@ -469,7 +469,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         type: String,
         sex: String,
         birth: String,
-        weight: Int,
+        weight: Float,
         neutral: Boolean,
         registerNumber: String,
     ) {

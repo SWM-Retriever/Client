@@ -8,7 +8,7 @@ data class ModifyPetResponse(
     val petName : String,
     val profileImageUrl : String,
     val birthDate : String,
-    val weight : Int,
+    val weight : Float,
     val registerNumber : String,
     val isNeutered : Boolean,
     val gender : String,
