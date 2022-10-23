@@ -1,10 +1,7 @@
 package org.retriever.dailypet.data.network.main
 
 import okhttp3.ResponseBody
-import org.retriever.dailypet.model.main.Care
-import org.retriever.dailypet.model.main.CareInfo
-import org.retriever.dailypet.model.main.CareList
-import org.retriever.dailypet.model.main.PetDaysResponse
+import org.retriever.dailypet.model.main.*
 import org.retriever.dailypet.model.signup.pet.PetList
 import retrofit2.Response
 import retrofit2.http.*
@@ -40,6 +37,14 @@ interface HomeApiService {
         @Path("petId") petId: Int,
         @Path("careId") careId: Int,
         @Header("X-AUTH-TOKEN") jwt: String,
+    ): Response<ResponseBody>
+
+    @PATCH("api/v1/pets/{petId}/cares/{careId}")
+    suspend fun patchPetCare(
+        @Path("petId") petId: Int,
+        @Path("careId") careId: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
+        @Body careModifyInfo: CareModifyInfo
     ): Response<ResponseBody>
 
     @POST("api/v1/pets/{petId}/cares/{careId}/check")

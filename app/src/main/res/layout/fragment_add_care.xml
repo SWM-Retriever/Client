@@ -74,14 +74,15 @@
         android:id="@+id/care_name_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="4dp"
         android:layout_marginTop="16dp"
+        android:paddingVertical="4dp"
         android:scrollbarSize="1dp"
         android:scrollbarStyle="outsideInset"
         android:scrollbarThumbHorizontal="@color/main_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/care_name_title">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
@@ -125,19 +126,59 @@
                 app:layout_constraintStart_toEndOf="@+id/btn_walk"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_wash"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/small_button_click"
+                android:text="목욕"
+                android:textColor="@drawable/text_click"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn_play"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_inputCare"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/small_button_click"
+                android:text="직접 입력하기"
+                android:textColor="@drawable/text_click"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn_wash"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </HorizontalScrollView>
+
+    <EditText
+        android:id="@+id/care_input_edittext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/grey_blue_edittext"
+        android:hint="@string/input_care_text"
+        android:paddingVertical="20dp"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/care_name_scroll_view" />
 
     <TextView
         android:id="@+id/period_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="24dp"
         android:text="@string/care_period_text"
         android:textColor="@color/light_black"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@+id/care_name_scroll_view" />
+        app:layout_constraintTop_toBottomOf="@+id/care_input_edittext" />
 
     <CheckBox
         android:id="@+id/check_everyday"
@@ -286,10 +327,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:paddingVertical="20dp"
         android:background="@drawable/grey_blue_edittext"
         android:hint="@string/care_count_comment_text"
         android:inputType="number"
+        android:paddingVertical="20dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
@@ -310,8 +351,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:paddingVertical="16dp"
         android:background="@drawable/grey_button"
+        android:paddingVertical="16dp"
         android:text="@string/add_care_submit_text"
         android:textColor="@color/grey"
         android:textSize="16sp"

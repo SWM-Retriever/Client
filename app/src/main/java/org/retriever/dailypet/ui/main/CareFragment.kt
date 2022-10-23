@@ -1,12 +1,18 @@
 package org.retriever.dailypet.ui.main
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCareBinding
@@ -18,6 +24,8 @@ import org.retriever.dailypet.ui.main.viewmodel.HomeViewModel
 import org.retriever.dailypet.util.ArrayListAdapter
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CareFragment : BaseFragment<FragmentCareBinding>() {
 
@@ -26,8 +34,8 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     private val eDay: List<String> = listOf("SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT")
     private val kDay: List<String> = listOf("일", "월", "화", "수", "목", "금", "토")
     private var name = ""
-    private var period : ArrayList<String> = arrayListOf()
-    private var log : ArrayList<CheckList> = arrayListOf()
+    private var period: ArrayList<String> = arrayListOf()
+    private var log: ArrayList<CheckList> = arrayListOf()
     private var totalCnt = 0
     private var curCnt = 0
     private var weekdays = ""
@@ -61,14 +69,14 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
 
         initProgressCircular()
         initCareInfo()
-        initCareCheck()
-        initCareCancel()
+        //initCareCheck()
+        //initCareCancel()
         initWeekdays()
-        initCare()
+        initView()
         buttonClick()
     }
 
-    private fun initCareInfo(){
+    private fun initCareInfo() {
         jwt = arguments?.getString("jwt") ?: ""
         petId = arguments?.getInt("petId") ?: -1
         careId = arguments?.getInt("careId") ?: -1
@@ -84,10 +92,10 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         hideProgressCircular(binding.progressCircular)
     }
 
-    private fun initCareCheck() = with(binding){
-        homeViewModel.postCareCheckResponse.observe(viewLifecycleOwner){ event->
-            event.getContentIfNotHandled()?.let{ response ->
-                when(response){
+    private fun initCareCheck() = with(binding) {
+        homeViewModel.postCareCheckResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
                     is Resource.Loading -> {
                         showProgressCircular(progressCircular)
                     }
@@ -103,10 +111,10 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         }
     }
 
-    private fun initCareCancel() = with(binding){
-        homeViewModel.postCareCancelResponse.observe(viewLifecycleOwner){ event->
-            event.getContentIfNotHandled()?.let{ response ->
-                when(response){
+    private fun initCareCancel() = with(binding) {
+        homeViewModel.postCareCancelResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
                     is Resource.Loading -> {
                         showProgressCircular(progressCircular)
                     }
@@ -133,12 +141,24 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         }
     }
 
-    private fun initCare() = with(binding) {
+    private fun initView() = with(binding) {
         careTitleText.text = name
         careCountText.text = getString(R.string.care_count, curCnt, totalCnt)
 
         logText.text = "" // TODO 로그뷰 수정
         periodTitleText.text = weekdays
+        val content = periodTitleText.text.toString()
+        val spannableString = SpannableString(content)
+        val curWeek = getWeek()
+        val start = content.indexOf(curWeek.toString())
+        val end = start + curWeek.toString().length + 1
+        spannableString.setSpan(
+            ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.main_pink)),
+            start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        periodTitleText.text = spannableString
+
         val percent = curCnt.toDouble() / totalCnt.toDouble()
         progressbar.progress = (percent * 100).toInt()
     }
@@ -146,21 +166,18 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     private fun buttonClick() = with(binding) {
 
         checkButton.setOnClickListener {
-            if (curCnt != totalCnt){
+            if (curCnt != totalCnt) {
                 postCareCheck()
-            }
-            else{
-                Toast.makeText(requireContext(),"케어 최대 횟수입니다",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "케어 최대 횟수입니다", Toast.LENGTH_SHORT).show()
             }
 
         }
         cancelText.setOnClickListener {
-            if(curCnt != 0){
-                Log.e("AB",careId.toString())
+            if (curCnt != 0) {
                 postCareCancel()
-            }
-            else{
-                Toast.makeText(requireContext(),"케어 최소 횟수입니다",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "케어 최소 횟수입니다", Toast.LENGTH_SHORT).show()
             }
         }
         careMoreButton.setOnClickListener {
@@ -168,12 +185,16 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         }
     }
 
-    private fun postCareCheck(){
+    private fun postCareCheck() {
         homeViewModel.postCareCheck(petId, careId, jwt)
     }
 
-    private fun postCareCancel(){
+    private fun postCareCancel() {
         homeViewModel.postCareCancel(petId, careId, jwt)
+    }
+
+    private fun deleteCare() {
+        homeViewModel.deletePetCare(careId, careId, jwt)
     }
 
     private fun increaseProgress() = with(binding) {
@@ -185,7 +206,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     }
 
     private fun decreaseProgress() = with(binding) {
-        Log.e("ABC",careId.toString())
+        Log.e("ABC", careId.toString())
         curCnt--
         if (curCnt < 0) curCnt = 0
         val percent = curCnt.toDouble() / totalCnt.toDouble()
@@ -202,11 +223,33 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
 
         popup.menuInflater.inflate(R.menu.pet_list_menu, menu)
         popup.setOnMenuItemClickListener { item ->
-
+            when(item.title){
+                "삭제하기" -> deleteCare()
+            }
             false
         }
         popup.show()
     }
 
+    private fun getWeek(): String? {
+        val cal: Calendar = Calendar.getInstance()
+        var strWeek: String? = null
+        when(cal.get(Calendar.DAY_OF_WEEK)){
+            1 -> strWeek = "일"
+            2 -> strWeek = "월"
+            3 -> strWeek = "화"
+            4 -> strWeek = "수"
+            5 -> strWeek = "목"
+            6 -> strWeek = "금"
+            7 -> strWeek = "토"
+        }
+        return strWeek
+    }
+
+    fun update() {
+        initCareInfo()
+        initWeekdays()
+        initView()
+    }
 
 }

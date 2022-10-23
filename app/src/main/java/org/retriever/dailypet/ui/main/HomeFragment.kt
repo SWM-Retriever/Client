@@ -20,7 +20,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentHomeBinding
-import org.retriever.dailypet.interfaces.CareAdapter
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.main.Care
 import org.retriever.dailypet.model.signup.pet.Pet
@@ -29,6 +28,7 @@ import org.retriever.dailypet.ui.main.viewmodel.HomeViewModel
 import org.retriever.dailypet.util.ArrayListAdapter
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
+import java.util.*
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
@@ -36,6 +36,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
+    private lateinit var pagerAdapter: CareAdapter
     private var petList: MutableList<Pet> = mutableListOf()
     private var petIdList: MutableList<Int> = mutableListOf()
     private var petNameList: MutableList<String> = mutableListOf()
@@ -44,6 +45,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val groupType = GlobalApplication.prefs.groupType ?: ""
     private var curPetId = 0
     private var curPetName = ""
+    private var redraw = true
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeBinding {
         return FragmentHomeBinding.inflate(inflater, container, false)
@@ -51,12 +53,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        redraw = true
         initProgressCircular()
         initPetList()
         initGroupType()
         getPetList()
-
+        initCareCheck()
+        initCareCancel()
+        initDeleteCare()
         initDaysView()
         initCareList()
         buttonClick()
@@ -93,8 +97,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }
         }
-
-
     }
 
     private fun initGroupType() = with(binding) {
@@ -118,6 +120,63 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun getCareList() {
         homeViewModel.getCareList(curPetId, jwt)
+    }
+
+    private fun initCareCheck() = with(binding) {
+        homeViewModel.postCareCheckResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        getCareList()
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initCareCancel() = with(binding) {
+        homeViewModel.postCareCancelResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        getCareList()
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initDeleteCare() = with(binding) {
+        homeViewModel.deletePetCareResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        getCareList()
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                    }
+                }
+            }
+        }
     }
 
     private fun initDaysView() = with(binding) {
@@ -166,7 +225,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         hideProgressCircular(progressCircular)
                         val arrayListAdapter = ArrayListAdapter()
                         val careList = response.data?.caresInfoList ?: ArrayList()
+                        //if(redraw){
                         initCareTabView(arrayListAdapter.careListFromJson(careList))
+                        redraw = false
+                        //}
+                        //refreshCareTab(arrayListAdapter.careListFromJson(careList))
                     }
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)
@@ -177,27 +240,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun initCareTabView(careList: ArrayList<Care>) = with(binding) {
-        viewPager = binding.viewpagerMain
-        tabLayout = binding.careListTab
-
         if (careList.isEmpty()) {
-            binding.emptyAddCareButton.visibility = View.VISIBLE
-            binding.emptyCommentText.visibility = View.VISIBLE
-            binding.careListTab.visibility = View.GONE
-            binding.viewpagerMain.visibility = View.GONE
-            binding.addCareButton.visibility = View.GONE
+            emptyAddCareButton.visibility = View.VISIBLE
+            emptyCommentText.visibility = View.VISIBLE
+            careListTab.visibility = View.GONE
+            viewpagerMain.visibility = View.GONE
+            addCareButton.visibility = View.GONE
         } else {
-            binding.emptyAddCareButton.visibility = View.GONE
-            binding.emptyCommentText.visibility = View.GONE
-            binding.careListTab.visibility = View.VISIBLE
-            binding.viewpagerMain.visibility = View.VISIBLE
-            binding.addCareButton.visibility = View.VISIBLE
+            emptyAddCareButton.visibility = View.GONE
+            emptyCommentText.visibility = View.GONE
+            careListTab.visibility = View.VISIBLE
+            viewpagerMain.visibility = View.VISIBLE
+            addCareButton.visibility = View.VISIBLE
+        }
+        viewPager = viewpagerMain
+        tabLayout = careListTab
+        pagerAdapter = CareAdapter(requireActivity())
+        for (care in careList) {
+            if(getWeek() in care.dayOfWeeks){
+                pagerAdapter.addFragment(CareFragment().newInstance(jwt, curPetId, care))
+            }
         }
 
-        val pagerAdapter = CareAdapter(requireActivity())
-        for (care in careList) {
-            pagerAdapter.addFragment(CareFragment().newInstance(jwt, curPetId, care))
-        }
+//        tabLayout.setScrollPosition(2, 0f, true)
+//        viewPager.currentItem = 2
 
         viewPager.adapter = pagerAdapter
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -210,6 +276,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             tab.text = careList[position].careName
         }.attach()
     }
+
+    private fun refreshCareTab(careList: ArrayList<Care>) = with(binding) {
+        for (i in 0 until careList.size) {
+            pagerAdapter.refreshFragment(i, CareFragment().newInstance(jwt, curPetId, careList[i]))
+        }
+        pagerAdapter.notifyDataSetChanged()
+    }
+
+    private fun getWeek(): String? {
+        val cal: Calendar = Calendar.getInstance()
+        var strWeek: String? = null
+        when(cal.get(Calendar.DAY_OF_WEEK)){
+            1 -> strWeek = "SUN"
+            2 -> strWeek = "MON"
+            3 -> strWeek = "TUE"
+            4 -> strWeek = "WED"
+            5 -> strWeek = "THU"
+            6 -> strWeek = "FRI"
+            7 -> strWeek = "SAT"
+        }
+        return strWeek
+    }
+
 
     private fun buttonClick() = with(binding) {
 
@@ -248,6 +337,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun changePet(petName: String) {
         val idx = petNameList.indexOf(petName)
         curPetId = petIdList[idx]
+        redraw = true
         getDays()
         initDaysView()
         getCareList()
