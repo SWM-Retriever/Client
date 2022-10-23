@@ -15,6 +15,18 @@
         <action
             android:id="@+id/action_myPageMainFragment_to_myPageDetailActivity"
             app:destination="@id/myPageDetailActivity" />
+        <action
+            android:id="@+id/action_myPageMainFragment_to_createFamilyFragment2"
+            app:destination="@id/createFamilyFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/createFamilyFragment2"
+        android:name="org.retriever.dailypet.ui.signup.CreateFamilyFragment"
+        android:label="fragment_create_family"
+        tools:layout="@layout/fragment_create_family">
+        <argument
+            android:name="isFromMyPage"
+            app:argType="boolean" />
     </fragment>
     <activity
         android:id="@+id/webViewActivity"

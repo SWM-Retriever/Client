@@ -1,6 +1,8 @@
 package org.retriever.dailypet.data.network.mypage
 
 import okhttp3.ResponseBody
+import org.retriever.dailypet.model.diary.DiaryItem
+import org.retriever.dailypet.model.mypage.GroupResponse
 import org.retriever.dailypet.model.mypage.PetDetailResponse
 import retrofit2.Response
 import retrofit2.http.DELETE
@@ -27,5 +29,17 @@ interface MyPageApiService {
         @Path("familyId") familyId: Int,
         @Path("petId") petId: Int,
     ): Response<ResponseBody>
+
+    @GET("api/v1/families/{familyId}")
+    suspend fun getGroupInfo(
+        @Path("familyId") familyId: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
+    ): Response<GroupResponse>
+
+    @GET("api/v1/families/{familyId}/diaries/recent")
+    suspend fun getRecentDiary(
+        @Path("familyId") familyId: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
+    ): Response<DiaryItem>
 
 }

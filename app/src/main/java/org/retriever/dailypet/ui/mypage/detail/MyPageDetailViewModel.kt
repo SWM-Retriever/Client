@@ -9,6 +9,8 @@ import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import org.retriever.dailypet.data.repository.mypage.MyPageRepository
 import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.diary.DiaryItem
+import org.retriever.dailypet.model.mypage.GroupResponse
 import org.retriever.dailypet.model.mypage.PetDetailResponse
 import javax.inject.Inject
 
@@ -23,6 +25,12 @@ class MyPageDetailViewModel @Inject constructor(
     private val _deletePetResponse = MutableLiveData<Resource<ResponseBody>>()
     val deletePetResponse: LiveData<Resource<ResponseBody>> = _deletePetResponse
 
+    private val _groupResponse = MutableLiveData<Resource<GroupResponse>>()
+    val groupResponse: LiveData<Resource<GroupResponse>> = _groupResponse
+
+    private val _getRecentDiaryResponse = MutableLiveData<Resource<DiaryItem>>()
+    val getRecentDiaryResponse: LiveData<Resource<DiaryItem>> = _getRecentDiaryResponse
+
     fun getPetList(familyId: Int, jwt: String) {
         viewModelScope.launch {
             _petDetailResponse.postValue(Resource.Loading())
@@ -36,6 +44,22 @@ class MyPageDetailViewModel @Inject constructor(
             _deletePetResponse.postValue(Resource.Loading())
 
             _deletePetResponse.postValue(myPageRepository.deletePet(jwt, familyId, petId))
+        }
+    }
+
+    fun getGroupInfo(familyId: Int, jwt: String) {
+        viewModelScope.launch {
+            _groupResponse.postValue(Resource.Loading())
+
+            _groupResponse.postValue(myPageRepository.getGroupInfo(familyId, jwt))
+        }
+    }
+
+    fun getRecentDiary(familyId: Int, jwt: String) {
+        viewModelScope.launch {
+            _getRecentDiaryResponse.postValue(Resource.Loading())
+
+            _getRecentDiaryResponse.postValue(myPageRepository.getRecentDiary(familyId, jwt))
         }
     }
 

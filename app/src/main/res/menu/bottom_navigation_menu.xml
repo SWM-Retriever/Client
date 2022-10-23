@@ -9,10 +9,6 @@
         android:icon="@drawable/icon_diary"
         android:title="@string/bottom_diary_text" />
     <item
-        android:id="@+id/calendarFragment"
-        android:icon="@drawable/icon_calendar"
-        android:title="@string/bottom_calendar_text" />
-    <item
         android:id="@+id/myPageFragment"
         android:icon="@drawable/icon_my_page"
         android:title="@string/bottom_mypage_text" />

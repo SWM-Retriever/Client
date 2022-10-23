@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreateFamilyBinding
@@ -26,6 +27,9 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
     private val familyViewModel by activityViewModels<FamilyViewModel>()
 
     private val jwt = GlobalApplication.prefs.jwt ?: ""
+    private val familyId = GlobalApplication.prefs.familyId
+
+    private val args : CreateFamilyFragmentArgs by navArgs()
 
     private var isValidGroupName = false
     private var isValidRoleName = false
@@ -40,6 +44,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
         initProgressCircular()
         initCheckFamilyName()
         initPostFamilyInfo()
+        initModifyFamily()
         initEditText()
         buttonClick()
     }
@@ -96,7 +101,9 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
                         hideProgressCircular(progressCircular)
                         Toast.makeText(requireContext(), "그룹이 성공적으로 생성되었습니다", Toast.LENGTH_SHORT).show()
                         GlobalApplication.prefs.familyId = response.data?.familyId ?: -1
-                        root.findNavController().navigate(R.id.action_createFamilyFragment_to_createPetFragment)
+
+                        val action = CreateFamilyFragmentDirections.actionCreateFamilyFragmentToCreatePetFragment(false)
+                        root.findNavController().navigate(action)
                     }
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)
@@ -110,6 +117,23 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
                         }
                         submitCheck()
                     }
+                }
+            }
+        }
+    }
+
+    private fun initModifyFamily() = with(binding){
+        familyViewModel.modifyFamilyResponse.observe(viewLifecycleOwner){response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+                    root.findNavController().popBackStack()
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(progressCircular)
                 }
             }
         }
@@ -154,7 +178,11 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
 
         nextButton.setOnClickListener {
             if (submitCheck()) {
-                postFamilyInfo()
+                if(args.isFromMyPage){
+                    modifyFamily()
+                }else{
+                    postFamilyInfo()
+                }
             } else {
                 Toast.makeText(requireContext(), "모두 입력하여 주세요.", Toast.LENGTH_SHORT).show()
             }
@@ -182,6 +210,14 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
             binding.nextButton.isClickable = false
             false
         }
+    }
+
+    private fun modifyFamily() = with(binding){
+        val familyName = groupNameEdittext.text.toString()
+        val roleName = groupNicknameEdittext.text.toString()
+        val familyInfo = FamilyInfo(familyName, roleName)
+
+        familyViewModel.modifyFamily(familyId, jwt, familyInfo)
     }
 
     private fun postFamilyInfo() = with(binding) {

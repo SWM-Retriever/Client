@@ -6,14 +6,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.retriever.dailypet.databinding.ItemMyPageDetailBinding
-import org.retriever.dailypet.databinding.ItemProfileBinding
-import org.retriever.dailypet.model.mypage.GroupDetailItem
+import org.retriever.dailypet.model.mypage.GroupMember
 
-class GroupAdapter : ListAdapter<GroupDetailItem, GroupAdapter.ViewHolder>(diffUtil) {
+class GroupAdapter : ListAdapter<GroupMember, GroupAdapter.ViewHolder>(diffUtil) {
 
     class ViewHolder(val binding: ItemMyPageDetailBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: GroupDetailItem) {
-            binding.profileNickName.text = item.groupRoleName
+        fun bind(item: GroupMember) {
+            binding.profileNickName.text = item.familyRoleName
         }
     }
 
@@ -26,12 +25,12 @@ class GroupAdapter : ListAdapter<GroupDetailItem, GroupAdapter.ViewHolder>(diffU
     }
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<GroupDetailItem>() {
-            override fun areItemsTheSame(oldItem: GroupDetailItem, newItem: GroupDetailItem): Boolean {
-                return oldItem.groupRoleName == newItem.groupRoleName
+        val diffUtil = object : DiffUtil.ItemCallback<GroupMember>() {
+            override fun areItemsTheSame(oldItem: GroupMember, newItem: GroupMember): Boolean {
+                return oldItem.memberId == newItem.memberId
             }
 
-            override fun areContentsTheSame(oldItem: GroupDetailItem, newItem: GroupDetailItem): Boolean {
+            override fun areContentsTheSame(oldItem: GroupMember, newItem: GroupMember): Boolean {
                 return oldItem == newItem
             }
 
