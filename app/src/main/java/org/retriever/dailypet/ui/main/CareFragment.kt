@@ -14,6 +14,7 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCareBinding
 import org.retriever.dailypet.model.Resource
@@ -225,10 +226,16 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         popup.setOnMenuItemClickListener { item ->
             when(item.title){
                 "삭제하기" -> deleteCare()
+                "수정하기" -> modifyCare()
             }
             false
         }
         popup.show()
+    }
+
+    private fun modifyCare(){
+        val action = HomeFragmentDirections.actionHomeFragmentToModifyCareFragment(petId, name, careId)
+        binding.root.findNavController().navigate(action)
     }
 
     private fun getWeek(): String? {

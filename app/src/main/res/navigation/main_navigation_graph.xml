@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_addCareFragment"
             app:destination="@id/addCareFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_modifyCareFragment"
+            app:destination="@id/modifyCareFragment" />
     </fragment>
 
     <fragment
@@ -47,5 +50,28 @@
             android:id="@+id/action_addCareFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/modifyCareFragment"
+        android:name="org.retriever.dailypet.ui.main.ModifyCareFragment"
+        android:label="fragment_modify_care"
+        tools:layout="@layout/fragment_modify_care" >
+        <argument
+            android:name="petId"
+            app:argType="integer" />
+        <argument
+            android:name="careName"
+            app:argType="string" />
+        <argument
+            android:name="careId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_modifyCareFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/careFragment"
+        android:name="org.retriever.dailypet.ui.main.CareFragment"
+        android:label="fragment_care"
+        tools:layout="@layout/fragment_care" />
 
 </navigation>
