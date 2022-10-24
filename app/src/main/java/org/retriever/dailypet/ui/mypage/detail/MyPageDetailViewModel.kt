@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
+import org.retriever.dailypet.Event
 import org.retriever.dailypet.data.repository.mypage.MyPageRepository
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.diary.DiaryItem
@@ -22,8 +23,8 @@ class MyPageDetailViewModel @Inject constructor(
     private val _petDetailResponse = MutableLiveData<Resource<PetDetailResponse>>()
     val petDetailResponse: LiveData<Resource<PetDetailResponse>> = _petDetailResponse
 
-    private val _deletePetResponse = MutableLiveData<Resource<ResponseBody>>()
-    val deletePetResponse: LiveData<Resource<ResponseBody>> = _deletePetResponse
+    private val _deletePetResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
+    val deletePetResponse: LiveData<Event<Resource<ResponseBody>>> = _deletePetResponse
 
     private val _groupResponse = MutableLiveData<Resource<GroupResponse>>()
     val groupResponse: LiveData<Resource<GroupResponse>> = _groupResponse
@@ -41,9 +42,9 @@ class MyPageDetailViewModel @Inject constructor(
 
     fun deletePet(jwt: String, familyId: Int, petId: Int) {
         viewModelScope.launch {
-            _deletePetResponse.postValue(Resource.Loading())
+            _deletePetResponse.postValue(Event(Resource.Loading()))
 
-            _deletePetResponse.postValue(myPageRepository.deletePet(jwt, familyId, petId))
+            _deletePetResponse.postValue(Event(myPageRepository.deletePet(jwt, familyId, petId)))
         }
     }
 

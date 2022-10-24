@@ -8,9 +8,9 @@ import kotlinx.parcelize.Parcelize
 @JsonClass(generateAdapter = true)
 data class PetResponse(
     var familyId: Int,
-    val familyName: String,
+    val familyName: String?,
     val nickName: String,
-    val invitationCode: String,
+    val invitationCode: String?,
     val groupType: String,
     val profileImageUrl: String,
     val petList: List<Pet>,

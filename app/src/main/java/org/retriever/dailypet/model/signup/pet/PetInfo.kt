@@ -9,7 +9,7 @@ data class PetInfo(
     val gender : String,
     val birthDate : String,
     val petKindId : Int,
-    val weight : Int,
+    val weight : Float,
     val isNeutered : Boolean,
     val registerNumber: String,
     val profileImageUrl: String,

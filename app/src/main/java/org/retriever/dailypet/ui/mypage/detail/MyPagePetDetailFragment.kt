@@ -98,18 +98,20 @@ class MyPagePetDetailFragment : BaseFragment<FragmentMyPagePetDetailBinding>() {
     }
 
     private fun observeDeleteResponse() = with(binding) {
-        myPageDetailViewModel.deletePetResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showProgressCircular(progressCircular)
-                }
-                is Resource.Success -> {
-                    hideProgressCircular(progressCircular)
-                    root.findNavController().popBackStack()
-                }
-                is Resource.Error -> {
-                    hideProgressCircular(progressCircular)
-                    Toast.makeText(requireContext(), response.message.toString(), Toast.LENGTH_SHORT).show()
+        myPageDetailViewModel.deletePetResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        root.findNavController().popBackStack()
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                        Toast.makeText(requireContext(), response.message.toString(), Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

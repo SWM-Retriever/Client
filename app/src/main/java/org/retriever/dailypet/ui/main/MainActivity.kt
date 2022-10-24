@@ -9,8 +9,7 @@ import org.retriever.dailypet.databinding.ActivityMainBinding
 import org.retriever.dailypet.ui.base.BaseActivity
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>({ActivityMainBinding.inflate(it)}) {
-    private val TAG = "MAIN_ACTIVITY"
+class MainActivity : BaseActivity<ActivityMainBinding>({ ActivityMainBinding.inflate(it) }) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

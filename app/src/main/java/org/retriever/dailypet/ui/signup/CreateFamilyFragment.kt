@@ -29,7 +29,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
     private val jwt = GlobalApplication.prefs.jwt ?: ""
     private val familyId = GlobalApplication.prefs.familyId
 
-    private val args : CreateFamilyFragmentArgs by navArgs()
+    private val args: CreateFamilyFragmentArgs by navArgs()
 
     private var isValidGroupName = false
     private var isValidRoleName = false
@@ -122,20 +122,35 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
         }
     }
 
-    private fun initModifyFamily() = with(binding){
-        familyViewModel.modifyFamilyResponse.observe(viewLifecycleOwner){response ->
+    private fun initModifyFamily() = with(binding) {
+        familyViewModel.modifyFamilyResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
                     showProgressCircular(progressCircular)
                 }
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
+                    response.data?.let { saveSharedPreferences(it.familyId, it.familyName, it.invitationCode, it.groupType) }
                     root.findNavController().popBackStack()
                 }
                 is Resource.Error -> {
                     hideProgressCircular(progressCircular)
                 }
             }
+        }
+    }
+
+    private fun saveSharedPreferences(
+        familyId: Int,
+        familyName: String,
+        invitationCode: String,
+        groupType: String,
+    ) {
+        GlobalApplication.prefs.apply {
+            this.familyId = familyId
+            this.groupName = familyName
+            this.invitationCode = invitationCode
+            this.groupType = groupType
         }
     }
 
@@ -178,9 +193,9 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
 
         nextButton.setOnClickListener {
             if (submitCheck()) {
-                if(args.isFromMyPage){
+                if (args.isFromMyPage) {
                     modifyFamily()
-                }else{
+                } else {
                     postFamilyInfo()
                 }
             } else {
@@ -212,7 +227,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
         }
     }
 
-    private fun modifyFamily() = with(binding){
+    private fun modifyFamily() = with(binding) {
         val familyName = groupNameEdittext.text.toString()
         val roleName = groupNicknameEdittext.text.toString()
         val familyInfo = FamilyInfo(familyName, roleName)

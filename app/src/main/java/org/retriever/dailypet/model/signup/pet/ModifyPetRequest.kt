@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonClass
 data class ModifyPetRequest(
     val petName : String,
     val birthDate : String,
-    val weight : Int,
+    val weight : Float,
     val isNeutered : Boolean,
     val registerNumber : String,
     val profileImageUrl : String,

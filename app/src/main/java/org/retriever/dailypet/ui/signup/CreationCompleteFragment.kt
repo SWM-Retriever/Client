@@ -46,14 +46,14 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
         groupPetNameText.text = petString
 
         nickName = petResponse.nickName
-        groupName = petResponse.familyName
-        invitationCode = petResponse.invitationCode
+        groupName = petResponse.familyName ?: "${nickName}의 1인그룹"
+        invitationCode = petResponse.invitationCode ?: ""
 
         saveSharedPreference(
-            petResponse.nickName,
+            nickName,
             petResponse.familyId,
-            petResponse.familyName,
-            petResponse.invitationCode,
+            groupName,
+            invitationCode,
             petResponse.groupType,
             petResponse.profileImageUrl,
         )
