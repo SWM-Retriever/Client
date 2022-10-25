@@ -90,6 +90,7 @@
                 android:layout_marginTop="68dp"
                 android:max="100"
                 android:progress="30"
+                android:background="@color/light_grey"
                 android:progressDrawable="@drawable/care_progressbar"
                 android:progressTint="@color/main_pink"
                 app:layout_constraintEnd_toEndOf="parent"

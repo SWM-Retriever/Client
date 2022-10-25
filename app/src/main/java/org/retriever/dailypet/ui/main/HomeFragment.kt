@@ -7,9 +7,7 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -301,7 +299,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
 
     private fun buttonClick() = with(binding) {
-
+        homeProfileImage.setOnClickListener{
+            showPetList()
+        }
+        petNameText.setOnClickListener {
+            showPetList()
+        }
         changePetButton.setOnClickListener {
             showPetList()
         }
@@ -315,12 +318,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun showPetList() {
+        val themeWrapper = ContextThemeWrapper(requireContext() , R.style.popUpMenu)
+        //val popup = PopupMenu(themeWrapper , binding.changePetButton, Gravity.CENTER ,0, R.style.popUpMenu)
         val popup = PopupMenu(requireContext(), binding.changePetButton)
         val menu = popup.menu
         petList.forEach { pet ->
             menu.add(pet.petName)
         }
-
         popup.menuInflater.inflate(R.menu.pet_list_menu, menu)
         popup.setOnMenuItemClickListener { item ->
             changePet(item.title as String)

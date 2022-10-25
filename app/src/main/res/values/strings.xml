@@ -160,5 +160,7 @@
     <string name="kind_text">종류</string>
     <string name="not_registernum_text">없음</string>
     <string name="member_statistics_title_text">구성원 기여도</string>
-    <string name="item_not_recent_diary_text">최근에 반려일기를 작성하지 않았습니다.</string>
+    <string name="item_not_recent_diary_text">최근에 반려일기를 작성하지 않았습니다.</string>룹
+    <string name="group_make_text">그룹 만들기</string>
+
 </resources>
