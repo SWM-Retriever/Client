@@ -14,6 +14,7 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCareBinding
 import org.retriever.dailypet.model.Resource
@@ -35,7 +36,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     private val kDay: List<String> = listOf("일", "월", "화", "수", "목", "금", "토")
     private var name = ""
     private var period: ArrayList<String> = arrayListOf()
-    private var log: ArrayList<CheckList> = arrayListOf()
+    private var logList: ArrayList<CheckList> = arrayListOf()
     private var totalCnt = 0
     private var curCnt = 0
     private var weekdays = ""
@@ -82,7 +83,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         careId = arguments?.getInt("careId") ?: -1
         name = arguments?.getString("name") ?: ""
         period = ((arguments?.getStringArrayList("period") ?: "") as ArrayList<String>)
-        log = (arguments?.getStringArrayList("log") ?: "") as ArrayList<CheckList>
+        logList = (arguments?.getStringArrayList("log") ?: "") as ArrayList<CheckList>
         totalCnt = arguments?.getInt("totalCnt") ?: 0
         curCnt = arguments?.getInt("curCnt") ?: 0
         weekdays = ""
@@ -145,7 +146,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         careTitleText.text = name
         careCountText.text = getString(R.string.care_count, curCnt, totalCnt)
 
-        logText.text = "" // TODO 로그뷰 수정
+        logText.text = getLogText()
         periodTitleText.text = weekdays
         val content = periodTitleText.text.toString()
         val spannableString = SpannableString(content)
@@ -161,6 +162,16 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
 
         val percent = curCnt.toDouble() / totalCnt.toDouble()
         progressbar.progress = (percent * 100).toInt()
+    }
+
+    private fun getLogText() : String{
+        // TODO 로그뷰 수정
+        var text = "   "
+        for(log in logList){
+            text += log.familyRoleName
+            text += "   "
+        }
+        return text
     }
 
     private fun buttonClick() = with(binding) {
@@ -225,10 +236,16 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         popup.setOnMenuItemClickListener { item ->
             when(item.title){
                 "삭제하기" -> deleteCare()
+                "수정하기" -> modifyCare()
             }
             false
         }
         popup.show()
+    }
+
+    private fun modifyCare(){
+        val action = HomeFragmentDirections.actionHomeFragmentToModifyCareFragment(petId, name, careId)
+        binding.root.findNavController().navigate(action)
     }
 
     private fun getWeek(): String? {

@@ -115,7 +115,7 @@
     <string name="care_add_text">추가</string>
     <string name="init_add_care_button_text">챙겨주기 항목 등록하기</string>
     <string name="manage_pet_text">반려동물 관리</string>
-    <string name="group_make_text">그룹 만들기</string>
+    <string name="group_enter_text">그룹 들어가기</string>
     <string name="notification_text">공지사항</string>
     <string name="app_review_text">플레이스토어 리뷰 남기기</string>
     <string name="report_text">서비스 문의 및 오류 제보</string>
@@ -154,9 +154,13 @@
     <string name="group_member_title_text">그룹 구성원</string>
     <string name="pet_title_text">반려동물</string>
     <string name="recent_activity_title_text">최근 활동</string>
+    <string name="modify_care_title_text">챙겨주기 수정하기</string>
+    <string name="submit_modify_text">수정하기</string>
     <string name="marketing_text">마케팅 수신 정보 동의</string>
     <string name="kind_text">종류</string>
     <string name="not_registernum_text">없음</string>
     <string name="member_statistics_title_text">구성원 기여도</string>
-    <string name="item_not_recent_diary_text">최근에 반려일기를 작성하지 않았습니다.</string>
+    <string name="item_not_recent_diary_text">최근에 반려일기를 작성하지 않았습니다.</string>룹
+    <string name="group_make_text">그룹 만들기</string>
+
 </resources>
