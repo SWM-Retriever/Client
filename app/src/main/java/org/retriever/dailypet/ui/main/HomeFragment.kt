@@ -287,9 +287,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         petNameText.setOnClickListener {
             showPetList()
         }
-        changePetButton.setOnClickListener {
-            showPetList()
-        }
         emptyAddCareButton.setOnClickListener {
             addCare()
         }
@@ -300,7 +297,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun showPetList() {
-        val popup = PopupMenu(requireContext(), binding.changePetButton)
+        val popup = PopupMenu(requireContext(), binding.petNameText)
         val menu = popup.menu
         petList.forEach { pet ->
             menu.add(pet.petName)
