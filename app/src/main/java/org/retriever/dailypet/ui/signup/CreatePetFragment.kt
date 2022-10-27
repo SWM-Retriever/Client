@@ -422,7 +422,6 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
                                 invitationCode = it.invitationCode,
                                 groupType = it.groupType,
                                 profileImageUrl = it.profileImageUrl,
-                                petList = it.petList
                             )
                         }
 

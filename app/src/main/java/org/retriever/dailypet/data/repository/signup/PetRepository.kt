@@ -21,4 +21,6 @@ class PetRepository @Inject constructor(private val petApiService: PetApiService
     suspend fun modifyPet(familyId: Int, petId: Int, jwt: String, modifyPetRequest: ModifyPetRequest): Resource<ModifyPetResponse> =
         safeApiCall { petApiService.modifyPet(familyId, petId, jwt, modifyPetRequest) }
 
+    suspend fun getPetList(familyId: Int, jwt: String): Resource<PetList> =
+        safeApiCall { petApiService.getPetList(familyId, jwt) }
 }

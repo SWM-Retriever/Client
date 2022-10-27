@@ -44,4 +44,9 @@ interface PetApiService {
         @Body modifyPetRequest: ModifyPetRequest,
     ): Response<ModifyPetResponse>
 
+    @GET("api/v1/families/{familyId}/pets")
+    suspend fun getPetList(
+        @Path("familyId") familyId: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
+    ): Response<PetList>
 }

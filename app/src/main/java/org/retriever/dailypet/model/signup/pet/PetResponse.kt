@@ -13,6 +13,5 @@ data class PetResponse(
     val invitationCode: String?,
     val groupType: String,
     val profileImageUrl: String,
-    val petList: List<Pet>,
 ) : Parcelable
 
