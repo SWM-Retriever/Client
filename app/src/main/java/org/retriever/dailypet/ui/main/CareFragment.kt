@@ -72,7 +72,6 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         initCareInfo()
         initCareCheck()
         initCareCancel()
-        initWeekdays()
         initView()
         buttonClick()
     }
@@ -82,11 +81,12 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         petId = arguments?.getInt("petId") ?: -1
         careId = arguments?.getInt("careId") ?: -1
         name = arguments?.getString("name") ?: ""
-        period = ((arguments?.getStringArrayList("period") ?: "") as ArrayList<String>)
+        period = (((arguments?.getStringArrayList("period") ?: "") as ArrayList<String>) )
         logList = (arguments?.getStringArrayList("log") ?: "") as ArrayList<CheckList>
         totalCnt = arguments?.getInt("totalCnt") ?: 0
         curCnt = arguments?.getInt("curCnt") ?: 0
         weekdays = ""
+        initWeekdays()
     }
 
     private fun initProgressCircular() {
@@ -102,7 +102,8 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
                     }
                     is Resource.Success -> {
                         hideProgressCircular(progressCircular)
-                        increaseProgress()
+                        updateCareInfo(response.data)
+                        //increaseProgress()
                     }
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)
@@ -121,7 +122,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
                     }
                     is Resource.Success -> {
                         hideProgressCircular(progressCircular)
-                        decreaseProgress()
+                        //decreaseProgress()
                     }
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)
@@ -129,6 +130,17 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
                 }
             }
         }
+    }
+
+    private fun updateCareInfo(care : Care?){
+        name = care?.careName.toString()
+        period = care?.dayOfWeeks as ArrayList<String>
+        logList = care.checkList as ArrayList<CheckList>
+        totalCnt = care.totalCareCount
+        curCnt = care.currentCount
+        weekdays = ""
+        initWeekdays()
+        initView()
     }
 
     private fun initWeekdays() {
@@ -260,12 +272,6 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
             7 -> strWeek = "토"
         }
         return strWeek
-    }
-
-    fun update() {
-        initCareInfo()
-        initWeekdays()
-        initView()
     }
 
 }
