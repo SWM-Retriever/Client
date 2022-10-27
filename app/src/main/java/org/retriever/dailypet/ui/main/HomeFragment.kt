@@ -43,7 +43,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val groupType = GlobalApplication.prefs.groupType ?: ""
     private var curPetId = 0
     private var curPetName = ""
-    private var redraw = true
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeBinding {
         return FragmentHomeBinding.inflate(inflater, container, false)
@@ -51,13 +50,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        redraw = true
         initProgressCircular()
         initPetList()
         initGroupType()
         getPetList()
-        initCareCheck()
-        initCareCancel()
         initDeleteCare()
         initDaysView()
         initCareList()
@@ -223,11 +219,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         hideProgressCircular(progressCircular)
                         val arrayListAdapter = ArrayListAdapter()
                         val careList = response.data?.caresInfoList ?: ArrayList()
-                        //if(redraw){
                         initCareTabView(arrayListAdapter.careListFromJson(careList))
-                        redraw = false
-                        //}
-                        //refreshCareTab(arrayListAdapter.careListFromJson(careList))
                     }
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)
@@ -260,9 +252,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
 
-//        tabLayout.setScrollPosition(2, 0f, true)
-//        viewPager.currentItem = 2
-
         viewPager.adapter = pagerAdapter
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -273,13 +262,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = careList[position].careName
         }.attach()
-    }
-
-    private fun refreshCareTab(careList: ArrayList<Care>) = with(binding) {
-        for (i in 0 until careList.size) {
-            pagerAdapter.refreshFragment(i, CareFragment().newInstance(jwt, curPetId, careList[i]))
-        }
-        pagerAdapter.notifyDataSetChanged()
     }
 
     private fun getWeek(): String? {
@@ -318,8 +300,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun showPetList() {
-        val themeWrapper = ContextThemeWrapper(requireContext() , R.style.popUpMenu)
-        //val popup = PopupMenu(themeWrapper , binding.changePetButton, Gravity.CENTER ,0, R.style.popUpMenu)
         val popup = PopupMenu(requireContext(), binding.changePetButton)
         val menu = popup.menu
         petList.forEach { pet ->
@@ -341,7 +321,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun changePet(petName: String) {
         val idx = petNameList.indexOf(petName)
         curPetId = petIdList[idx]
-        redraw = true
         getDays()
         initDaysView()
         getCareList()

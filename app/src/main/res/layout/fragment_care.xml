@@ -2,39 +2,39 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingHorizontal="20dp"
-    android:paddingVertical="40dp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/light_grey"
+    android:paddingHorizontal="5dp"
+    android:paddingVertical="40dp"
     tools:context=".ui.main.CareFragment">
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress_circular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="350dp"
-        android:layout_height="280dp"
-        android:padding="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="20dp"
-        app:cardElevation="1dp"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp">
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_circular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/care_title_text"
@@ -88,9 +88,9 @@
                 android:layout_width="300dp"
                 android:layout_height="10dp"
                 android:layout_marginTop="68dp"
+                android:background="@color/light_grey"
                 android:max="100"
                 android:progress="30"
-                android:background="@color/light_grey"
                 android:progressDrawable="@drawable/care_progressbar"
                 android:progressTint="@color/main_pink"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -113,27 +113,27 @@
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="28dp"
                 android:background="@drawable/white_button"
                 android:text="@string/check_cancel_text"
                 android:textColor="@color/light_black"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/log_text" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/check_button"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
+                android:layout_marginTop="28dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
                 android:background="@drawable/black_button"
                 android:text="@string/check_text"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/log_text" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -205,13 +205,20 @@
         app:tabTextAppearance="@style/TabText"
         app:tabTextColor="@color/grey" />
 
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/care_list_tab" />
+        app:layout_constraintTop_toBottomOf="@+id/care_list_tab">
+
+    </androidx.viewpager2.widget.ViewPager2>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

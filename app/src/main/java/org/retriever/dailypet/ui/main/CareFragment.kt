@@ -70,8 +70,8 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
 
         initProgressCircular()
         initCareInfo()
-        //initCareCheck()
-        //initCareCancel()
+        initCareCheck()
+        initCareCancel()
         initWeekdays()
         initView()
         buttonClick()
@@ -217,7 +217,6 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     }
 
     private fun decreaseProgress() = with(binding) {
-        Log.e("ABC", careId.toString())
         curCnt--
         if (curCnt < 0) curCnt = 0
         val percent = curCnt.toDouble() / totalCnt.toDouble()
