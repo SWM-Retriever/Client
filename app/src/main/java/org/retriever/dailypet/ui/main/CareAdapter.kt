@@ -9,25 +9,12 @@ class CareAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
 
     var fragments: ArrayList<Fragment> = ArrayList()
 
-    fun getItem(position: Int): Fragment {
-        return fragments[position]
-    }
-
-    fun refreshFragment(index: Int, fragment: Fragment) {
-        fragments[index] = fragment
-    }
-
     override fun onBindViewHolder(
         holder: FragmentViewHolder,
         position: Int,
         payloads: MutableList<Any>
     ) {
-//        val fragment  = fragments[position]
-//        fragment.let{
-//            if(it is CareFragment){
-//                it.update()
-//            }
-//        }
+
         super.onBindViewHolder(holder, position, payloads)
     }
 

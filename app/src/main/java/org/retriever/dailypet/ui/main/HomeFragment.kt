@@ -116,44 +116,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         homeViewModel.getCareList(curPetId, jwt)
     }
 
-    private fun initCareCheck() = with(binding) {
-        homeViewModel.postCareCheckResponse.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let { response ->
-                when (response) {
-                    is Resource.Loading -> {
-                        showProgressCircular(progressCircular)
-                    }
-                    is Resource.Success -> {
-                        hideProgressCircular(progressCircular)
-                        getCareList()
-                    }
-                    is Resource.Error -> {
-                        hideProgressCircular(progressCircular)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun initCareCancel() = with(binding) {
-        homeViewModel.postCareCancelResponse.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let { response ->
-                when (response) {
-                    is Resource.Loading -> {
-                        showProgressCircular(progressCircular)
-                    }
-                    is Resource.Success -> {
-                        hideProgressCircular(progressCircular)
-                        getCareList()
-                    }
-                    is Resource.Error -> {
-                        hideProgressCircular(progressCircular)
-                    }
-                }
-            }
-        }
-    }
-
     private fun initDeleteCare() = with(binding) {
         homeViewModel.deletePetCareResponse.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { response ->
@@ -258,6 +220,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 super.onPageSelected(position)
             }
         })
+        pagerAdapter.notifyDataSetChanged()
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = careList[position].careName
@@ -293,7 +256,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         addCareButton.setOnClickListener {
             addCare()
         }
-
+        refreshButton.setOnClickListener {
+            getCareList()
+        }
     }
 
     private fun showPetList() {

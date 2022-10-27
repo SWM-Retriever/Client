@@ -102,8 +102,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
                     }
                     is Resource.Success -> {
                         hideProgressCircular(progressCircular)
-                        updateCareInfo(response.data)
-                        //increaseProgress()
+                        //updateCareInfo(response.data)
                     }
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)
@@ -122,7 +121,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
                     }
                     is Resource.Success -> {
                         hideProgressCircular(progressCircular)
-                        //decreaseProgress()
+                        //updateCareInfo(response.data)
                     }
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)
@@ -139,6 +138,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         totalCnt = care.totalCareCount
         curCnt = care.currentCount
         weekdays = ""
+        Toast.makeText(requireContext(),name+curCnt,Toast.LENGTH_SHORT).show()
         initWeekdays()
         initView()
     }
@@ -157,7 +157,6 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     private fun initView() = with(binding) {
         careTitleText.text = name
         careCountText.text = getString(R.string.care_count, curCnt, totalCnt)
-
         logText.text = getLogText()
         periodTitleText.text = weekdays
         val content = periodTitleText.text.toString()
@@ -210,10 +209,12 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
 
     private fun postCareCheck() {
         homeViewModel.postCareCheck(petId, careId, jwt)
+        increaseProgress()
     }
 
     private fun postCareCancel() {
         homeViewModel.postCareCancel(petId, careId, jwt)
+        decreaseProgress()
     }
 
     private fun deleteCare() {
