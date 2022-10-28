@@ -28,6 +28,9 @@ class PetViewModel @Inject constructor(private val petRepository: PetRepository)
     private val _modifyPetResponse = MutableLiveData<Event<Resource<ModifyPetResponse>>>()
     val modifyPetResponse: LiveData<Event<Resource<ModifyPetResponse>>> = _modifyPetResponse
 
+    private val _getPetListResponse = MutableLiveData<Event<Resource<PetList>>>()
+    val getPetListResponse: LiveData<Event<Resource<PetList>>> = _getPetListResponse
+
     private var _submit = MutableLiveData(false)
     val submit: LiveData<Boolean> = _submit
 
@@ -63,6 +66,12 @@ class PetViewModel @Inject constructor(private val petRepository: PetRepository)
 
             _modifyPetResponse.postValue(Event(petRepository.modifyPet(familyId, petId, jwt, modifyPetRequest)))
         }
+    }
+
+    fun getPetList(familyId: Int, jwt: String) = viewModelScope.launch {
+        _getPetListResponse.postValue(Event(Resource.Loading()))
+
+        _getPetListResponse.postValue(Event(petRepository.getPetList(familyId, jwt)))
     }
 
     fun setInitial() {

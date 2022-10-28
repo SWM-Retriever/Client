@@ -5,16 +5,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreationCompleteBinding
+import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.signup.pet.Pet
 import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.ui.signup.viewmodel.PetViewModel
 import org.retriever.dailypet.util.hideProgressCircular
+import org.retriever.dailypet.util.showProgressCircular
 
 class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>() {
 
+    private val petViewModel by activityViewModels<PetViewModel>()
+
+    private val jwt = GlobalApplication.prefs.jwt ?: ""
+    private var petNameList: MutableList<String> = mutableListOf()
+    private val familyId = GlobalApplication.prefs.familyId
     private var nickName = ""
     private var groupName = ""
     private var invitationCode = ""
@@ -27,8 +38,38 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
         super.onViewCreated(view, savedInstanceState)
 
         initProgressCircular()
-        initInfo()
+        initPetList()
+        getPetList()
         buttonClick()
+    }
+
+    private fun getPetList(){
+        petViewModel.getPetList(familyId, jwt)
+    }
+
+    private fun initPetList() = with(binding) {
+        petViewModel.getPetListResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        val petResponse = response.data?.petInfoDetailList
+                        petNameList.clear()
+
+                        petResponse?.forEach { pet ->
+                            petNameList.add(pet.petName)
+                        }
+                        initInfo()
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                    }
+                }
+            }
+        }
     }
 
     private fun initInfo() = with(binding) {
@@ -37,10 +78,10 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
 
         groupNameText.text = petResponse.familyName
         groupNicknameText.text = petResponse.nickName
-        var petString = petResponse.petList[0].petName
-        if (petResponse.petList.size > 1) {
-            for (i in 1 until petResponse.petList.size) {
-                petString += ", " + petResponse.petList[i].petName
+        var petString = petNameList[0]
+        if (petNameList.size > 1) {
+            for (i in 1 until petNameList.size) {
+                petString += ", " + petNameList[i]
             }
         }
         groupPetNameText.text = petString

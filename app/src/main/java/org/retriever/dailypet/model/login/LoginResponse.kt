@@ -13,5 +13,4 @@ data class LoginResponse(
     val invitationCode: String? = "",
     val groupType: String? = "",
     val profileImageUrl: String,
-    val petList: List<Pet>,
 )

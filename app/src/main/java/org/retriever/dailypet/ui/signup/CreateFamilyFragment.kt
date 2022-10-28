@@ -71,7 +71,7 @@ class CreateFamilyFragment : BaseFragment<FragmentCreateFamilyBinding>() {
                 is Resource.Error -> {
                     hideProgressCircular(progressCircular)
                     when (response.code) {
-                        INVALID_FAMILY_NAME -> {
+                        INVALID_FAMILY_NAME, FAILED_FAMILY-> {
                             groupNameValidateText.text = getString(R.string.already_used_groupname_text)
                             groupNameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
                             groupNameValidateText.visibility = View.VISIBLE

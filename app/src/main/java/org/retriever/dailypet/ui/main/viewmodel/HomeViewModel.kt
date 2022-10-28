@@ -36,11 +36,11 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _patchPetCareResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
     val patchPetCareResponse: LiveData<Event<Resource<ResponseBody>>> = _patchPetCareResponse
 
-    private val _postCareCheckResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
-    val postCareCheckResponse: LiveData<Event<Resource<ResponseBody>>> = _postCareCheckResponse
+    private val _postCareCheckResponse = MutableLiveData<Event<Resource<Care>>>()
+    val postCareCheckResponse: LiveData<Event<Resource<Care>>> = _postCareCheckResponse
 
-    private val _postCareCancelResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
-    val postCareCancelResponse: LiveData<Event<Resource<ResponseBody>>> = _postCareCancelResponse
+    private val _postCareCancelResponse = MutableLiveData<Event<Resource<Care>>>()
+    val postCareCancelResponse: LiveData<Event<Resource<Care>>> = _postCareCancelResponse
 
     fun getDays(petId: Int, jwt: String) = viewModelScope.launch {
         _getDaysResponse.postValue(Event(Resource.Loading()))
