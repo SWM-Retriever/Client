@@ -80,8 +80,8 @@
 
     <ImageView
         android:id="@+id/alone_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="29dp"
+        android:layout_height="27dp"
         android:src="@drawable/icon_alone"
         app:layout_constraintBottom_toBottomOf="@+id/alone_image_circle"
         app:layout_constraintEnd_toEndOf="@+id/alone_image_circle"

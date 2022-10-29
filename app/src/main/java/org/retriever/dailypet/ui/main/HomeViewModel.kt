@@ -21,8 +21,8 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _getDaysResponse = MutableLiveData<Event<Resource<PetDaysResponse>>>()
     val getDaysResponse: LiveData<Event<Resource<PetDaysResponse>>> = _getDaysResponse
 
-    private val _getCareListResponse = MutableLiveData<Event<Resource<CareList>>>()
-    val getCareListResponse: LiveData<Event<Resource<CareList>>> = _getCareListResponse
+    private val _getCareListResponse = MutableLiveData<Resource<CareList>>()
+    val getCareListResponse: LiveData<Resource<CareList>> = _getCareListResponse
 
     private val _getPetListResponse = MutableLiveData<Event<Resource<PetList>>>()
     val getPetListResponse: LiveData<Event<Resource<PetList>>> = _getPetListResponse
@@ -36,11 +36,14 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _patchPetCareResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
     val patchPetCareResponse: LiveData<Event<Resource<ResponseBody>>> = _patchPetCareResponse
 
-    private val _postCareCheckResponse = MutableLiveData<Event<Resource<Care>>>()
-    val postCareCheckResponse: LiveData<Event<Resource<Care>>> = _postCareCheckResponse
+    private val _postCareCheckResponse = MutableLiveData<Resource<Care>>()
+    val postCareCheckResponse: LiveData<Resource<Care>> = _postCareCheckResponse
 
-    private val _postCareCancelResponse = MutableLiveData<Event<Resource<Care>>>()
-    val postCareCancelResponse: LiveData<Event<Resource<Care>>> = _postCareCancelResponse
+    private val _postCareCancelResponse = MutableLiveData<Resource<Care>>()
+    val postCareCancelResponse: LiveData<Resource<Care>> = _postCareCancelResponse
+
+    private val _getGroupInfoResponse = MutableLiveData<Resource<GroupInfo>>()
+    val getGroupInfoResponse: LiveData<Resource<GroupInfo>> = _getGroupInfoResponse
 
     fun getDays(petId: Int, jwt: String) = viewModelScope.launch {
         _getDaysResponse.postValue(Event(Resource.Loading()))
@@ -49,9 +52,9 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     }
 
     fun getCareList(petId: Int, jwt: String) = viewModelScope.launch {
-        _getCareListResponse.postValue(Event(Resource.Loading()))
+        _getCareListResponse.postValue(Resource.Loading())
 
-        _getCareListResponse.postValue(Event(homeRepository.getCareList(petId, jwt)))
+        _getCareListResponse.postValue(homeRepository.getCareList(petId, jwt))
     }
 
     fun getPetList(familyId: Int, jwt: String) = viewModelScope.launch {
@@ -79,14 +82,20 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     }
 
     fun postCareCheck(petId: Int, careId: Int, jwt: String) = viewModelScope.launch {
-        _postCareCheckResponse.postValue(Event(Resource.Loading()))
+        _postCareCheckResponse.postValue(Resource.Loading())
 
-        _postCareCheckResponse.postValue(Event(homeRepository.postCareCheck(petId, careId, jwt)))
+        _postCareCheckResponse.postValue(homeRepository.postCareCheck(petId, careId, jwt))
     }
 
     fun postCareCancel(petId: Int, careId: Int, jwt: String) = viewModelScope.launch {
-        _postCareCancelResponse.postValue(Event(Resource.Loading()))
+        _postCareCancelResponse.postValue(Resource.Loading())
 
-        _postCareCancelResponse.postValue(Event(homeRepository.postCareCancel(petId, careId, jwt)))
+        _postCareCancelResponse.postValue(homeRepository.postCareCancel(petId, careId, jwt))
+    }
+
+    fun getGroupInfo(familyId: Int, jwt: String) = viewModelScope.launch {
+        _getGroupInfoResponse.postValue(Resource.Loading())
+
+        _getGroupInfoResponse.postValue(homeRepository.getGroupInfo(familyId, jwt))
     }
 }
