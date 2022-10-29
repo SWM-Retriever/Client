@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_modifyCareFragment"
             app:destination="@id/modifyCareFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
     </fragment>
 
     <fragment
@@ -26,7 +29,7 @@
 
     <fragment
         android:id="@+id/diaryFragment"
-        android:name="org.retriever.dailypet.ui.main.diary.DiaryFragment"
+        android:name="org.retriever.dailypet.ui.diary.DiaryFragment"
         android:label="DiaryFragment"
         tools:layout="@layout/fragment_diary" />
     <fragment
@@ -62,5 +65,9 @@
             android:id="@+id/action_modifyCareFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="org.retriever.dailypet.ui.statistics.StatisticsFragment"
+        android:label="StatisticsFragment" />
 
 </navigation>

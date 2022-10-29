@@ -17,10 +17,8 @@ import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentModifyCareBinding
 import org.retriever.dailypet.model.Resource
-import org.retriever.dailypet.model.main.CareInfo
 import org.retriever.dailypet.model.main.CareModifyInfo
 import org.retriever.dailypet.ui.base.BaseFragment
-import org.retriever.dailypet.ui.main.viewmodel.HomeViewModel
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular

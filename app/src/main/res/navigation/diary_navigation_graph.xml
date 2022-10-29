@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/diaryMainFragment"
-        android:name="org.retriever.dailypet.ui.main.diary.DiaryMainFragment"
+        android:name="org.retriever.dailypet.ui.diary.DiaryMainFragment"
         android:label="DiaryMainFragment" >
         <action
             android:id="@+id/action_diaryMainFragment_to_diaryRegisterFragment"
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/diaryRegisterFragment"
-        android:name="org.retriever.dailypet.ui.main.diary.DiaryRegisterFragment"
+        android:name="org.retriever.dailypet.ui.diary.DiaryRegisterFragment"
         android:label="DiaryRegisterFragment" >
         <argument
             android:name="diaryItem"
@@ -31,11 +31,11 @@
     </fragment>
     <fragment
         android:id="@+id/diaryGalleryFragment"
-        android:name="org.retriever.dailypet.ui.main.diary.DiaryGalleryFragment"
+        android:name="org.retriever.dailypet.ui.diary.DiaryGalleryFragment"
         android:label="DiaryGalleryFragment" />
     <fragment
         android:id="@+id/diaryDetailFragment"
-        android:name="org.retriever.dailypet.ui.main.diary.DiaryDetailFragment"
+        android:name="org.retriever.dailypet.ui.diary.DiaryDetailFragment"
         android:label="DiaryDetailFragment" >
         <argument
             android:name="diaryItem"

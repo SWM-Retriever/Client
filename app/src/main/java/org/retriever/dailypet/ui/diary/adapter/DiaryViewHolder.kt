@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.main.diary.adapter
+package org.retriever.dailypet.ui.diary.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import org.retriever.dailypet.databinding.ItemDiaryBinding

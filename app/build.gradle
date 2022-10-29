@@ -114,7 +114,7 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:2.38.1"
     kapt "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.4.2"
 
-    // MP Chart
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    // Percentage Chart
+    implementation "com.ramijemli.percentagechartview:percentagechartview:0.3.1"
 
 }
