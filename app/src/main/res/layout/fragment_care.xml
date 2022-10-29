@@ -97,44 +97,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/period_title_text" />
 
-            <ImageView
-                android:id="@+id/log_button"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginTop="8dp"
-                android:textSize="12sp"
-                android:layout_marginStart="60dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progressbar"
-                app:srcCompat="@drawable/gray_circle_background"/>
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/cancel_text"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="48dp"
                 android:background="@drawable/white_button"
                 android:text="@string/check_cancel_text"
                 android:textColor="@color/light_black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/log_button" />
+                app:layout_constraintTop_toBottomOf="@+id/progressbar" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/check_button"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="48dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/black_button"
                 android:text="@string/check_text"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/log_button" />
+                app:layout_constraintTop_toBottomOf="@+id/progressbar" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

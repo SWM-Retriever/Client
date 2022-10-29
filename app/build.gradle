@@ -117,4 +117,7 @@ dependencies {
     // MP Chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
+    // StateProgressBar
+    implementation 'com.kofigyan.stateprogressbar:stateprogressbar:1.0.0'
+
 }
