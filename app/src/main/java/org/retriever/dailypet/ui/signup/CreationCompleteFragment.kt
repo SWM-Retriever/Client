@@ -2,10 +2,12 @@ package org.retriever.dailypet.ui.signup
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
@@ -22,7 +24,6 @@ import org.retriever.dailypet.util.showProgressCircular
 class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>() {
 
     private val petViewModel by activityViewModels<PetViewModel>()
-
     private val jwt = GlobalApplication.prefs.jwt ?: ""
     private var petNameList: MutableList<String> = mutableListOf()
     private val familyId = GlobalApplication.prefs.familyId
@@ -75,9 +76,19 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
     private fun initInfo() = with(binding) {
         val args: CreationCompleteFragmentArgs by navArgs()
         val petResponse = args.petResponse
+        var isAlone = false
 
-        groupNameText.text = petResponse.familyName
-        groupNicknameText.text = petResponse.nickName
+        nickName = petResponse.nickName
+        invitationCode = petResponse.invitationCode ?: ""
+        if(groupName.isEmpty()){
+            groupName = "${nickName}의 1인그룹"
+            isAlone = true
+        }
+        else{
+            groupName = petResponse.familyName ?: "${nickName}의 1인그룹"
+        }
+        groupNameText.text = groupName
+        groupNicknameText.text = nickName
         var petString = petNameList[0]
         if (petNameList.size > 1) {
             for (i in 1 until petNameList.size) {
@@ -85,10 +96,10 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
             }
         }
         groupPetNameText.text = petString
-
-        nickName = petResponse.nickName
-        groupName = petResponse.familyName ?: "${nickName}의 1인그룹"
-        invitationCode = petResponse.invitationCode ?: ""
+        if(isAlone){
+            groupInviteButton.visibility = View.INVISIBLE
+            inviteCommentText.visibility = View.INVISIBLE
+        }
 
         saveSharedPreference(
             nickName,
