@@ -1,4 +1,4 @@
-package org.retriever.dailypet
+package org.retriever.dailypet.model
 
 open class Event<out T>(private val content : T){
 

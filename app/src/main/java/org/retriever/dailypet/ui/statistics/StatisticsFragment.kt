@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.main
+package org.retriever.dailypet.ui.statistics
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +15,8 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.winnerPercentageChart.setProgress(60f, true)
     }
 
 }

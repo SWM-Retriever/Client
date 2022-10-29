@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
-import org.retriever.dailypet.Event
+import org.retriever.dailypet.model.Event
 import org.retriever.dailypet.data.repository.signup.FamilyRepository
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.signup.family.FamilyInfo

@@ -1,4 +1,4 @@
-package org.retriever.dailypet.interfaces
+package org.retriever.dailypet.util
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
