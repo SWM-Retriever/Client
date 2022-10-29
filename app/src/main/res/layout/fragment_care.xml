@@ -97,15 +97,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/period_title_text" />
 
-            <TextView
-                android:id="@+id/log_text"
-                android:layout_width="300dp"
-                android:layout_height="15dp"
+            <ImageView
+                android:id="@+id/log_button"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
                 android:layout_marginTop="8dp"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="60dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progressbar" />
+                app:layout_constraintTop_toBottomOf="@+id/progressbar"
+                app:srcCompat="@drawable/gray_circle_background"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/cancel_text"
@@ -119,7 +120,7 @@
                 android:textColor="@color/light_black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/log_text" />
+                app:layout_constraintTop_toBottomOf="@+id/log_button" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/check_button"
@@ -133,7 +134,7 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/log_text" />
+                app:layout_constraintTop_toBottomOf="@+id/log_button" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

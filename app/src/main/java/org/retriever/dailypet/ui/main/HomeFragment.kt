@@ -6,7 +6,6 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.util.Log
 import android.view.*
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
@@ -171,27 +170,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun initCareList() = with(binding) {
-        homeViewModel.getCareListResponse.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let { response ->
-                when (response) {
-                    is Resource.Loading -> {
-                        showProgressCircular(progressCircular)
-                    }
-                    is Resource.Success -> {
-                        hideProgressCircular(progressCircular)
-                        val arrayListAdapter = ArrayListAdapter()
-                        val careList = response.data?.caresInfoList ?: ArrayList()
-                        initCareTabView(arrayListAdapter.careListFromJson(careList))
-                    }
-                    is Resource.Error -> {
-                        hideProgressCircular(progressCircular)
-                    }
+        homeViewModel.getCareListResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+                    val arrayListAdapter = ArrayListAdapter()
+                    val careList = response.data?.caresInfoList ?: ArrayList()
+                    setCareTabView(arrayListAdapter.careListFromJson(careList))
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(progressCircular)
                 }
             }
         }
     }
 
-    private fun initCareTabView(careList: ArrayList<Care>) = with(binding) {
+    private fun setCareTabView(careList: ArrayList<Care>) = with(binding) {
         if (careList.isEmpty()) {
             emptyAddCareButton.visibility = View.VISIBLE
             emptyCommentText.visibility = View.VISIBLE
@@ -209,8 +206,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         tabLayout = careListTab
         pagerAdapter = CareAdapter(requireActivity())
         for (care in careList) {
-            if(getWeek() in care.dayOfWeeks){
-                pagerAdapter.addFragment(CareFragment().newInstance(jwt, curPetId, care))
+            if (getWeek() in care.dayOfWeeks) {
+                pagerAdapter.addFragment(CareFragment().newInstance(curPetId, care))
             }
         }
 
@@ -220,7 +217,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 super.onPageSelected(position)
             }
         })
-        pagerAdapter.notifyDataSetChanged()
+        // TODO 새로 고침 오류
+        //pagerAdapter.notifyDataSetChanged()
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = careList[position].careName
@@ -230,7 +228,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun getWeek(): String? {
         val cal: Calendar = Calendar.getInstance()
         var strWeek: String? = null
-        when(cal.get(Calendar.DAY_OF_WEEK)){
+        when (cal.get(Calendar.DAY_OF_WEEK)) {
             1 -> strWeek = "SUN"
             2 -> strWeek = "MON"
             3 -> strWeek = "TUE"
@@ -244,7 +242,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
 
     private fun buttonClick() = with(binding) {
-        homeProfileImage.setOnClickListener{
+        homeProfileImage.setOnClickListener {
             showPetList()
         }
         petNameText.setOnClickListener {
