@@ -50,7 +50,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         super.onViewCreated(view, savedInstanceState)
         initProgressCircular()
         initPetList()
-        initGroupType()
         getPetList()
         initDeleteCare()
         initDaysView()
@@ -88,17 +87,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
                 }
             }
-        }
-    }
-
-    private fun initGroupType() = with(binding) {
-        // TODO 1인가구 뷰 변경 로직 추가
-        if (groupType == "FAMILY") {
-            statisticsButton.visibility = View.VISIBLE
-            contributionText.visibility = View.VISIBLE
-        } else {
-            statisticsButton.visibility = View.INVISIBLE
-            contributionText.visibility = View.INVISIBLE
         }
     }
 
@@ -158,7 +146,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         )
                         spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                         dDayText.text = spannableString
-
+                        initView()
                     }
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)
@@ -239,6 +227,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         return strWeek
     }
 
+    private fun initView() = with(binding){
+        alarmButton.visibility = View.VISIBLE
+        homeProfileImage.visibility = View.VISIBLE
+        petNameText.visibility = View.VISIBLE
+        dDayText.visibility = View.VISIBLE
+        careTitleText.visibility = View.VISIBLE
+        if(groupType == "FAMILY"){
+            contributionText.visibility = View.VISIBLE
+            statisticsButton.visibility = View.VISIBLE
+        }
+        else{
+            contributionText.visibility = View.INVISIBLE
+            statisticsButton.visibility = View.INVISIBLE
+        }
+    }
+
 
     private fun buttonClick() = with(binding) {
         homeProfileImage.setOnClickListener {
@@ -253,7 +257,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         addCareButton.setOnClickListener {
             addCare()
         }
-        refreshButton.setOnClickListener {
+        careTitleText.setOnClickListener {
             getCareList()
         }
         statisticsText.setOnClickListener {
