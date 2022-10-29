@@ -1,13 +1,11 @@
 package org.retriever.dailypet.ui.main
 
-import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +36,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     private var name = ""
     private var period: ArrayList<String> = arrayListOf()
     private var logList: ArrayList<CheckList> = arrayListOf()
+    private var logNameList: ArrayList<String> = arrayListOf()
     private var memberNameList: ArrayList<String> = arrayListOf()
     private var colorList: ArrayList<Int> = arrayListOf()
     private var totalCnt = 0
@@ -83,7 +82,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
 
     override fun onResume() {
         super.onResume()
-
+        initView()
     }
 
     private fun getGroupInfo() {
@@ -109,14 +108,6 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
                 }
             }
         }
-    }
-
-    @SuppressLint("Recycle", "ResourceType")
-    private fun setColor() = with(binding) {
-        colorList.clear()
-
-        val resource = resources.obtainTypedArray(R.array.group_color)
-        logButton.setColorFilter(resource.getColor(0, 0))
     }
 
     private fun initCareInfo() {
@@ -196,11 +187,10 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     private fun initView() = with(binding) {
         careTitleText.text = name
         careCountText.text = getString(R.string.care_count, curCnt, totalCnt)
-        //logText.text = getLogText()
         periodTitleText.text = weekdays
         val content = periodTitleText.text.toString()
         val spannableString = SpannableString(content)
-        val curWeek = getWeek()
+        val curWeek = getCurWeek()
         val start = content.indexOf(curWeek.toString())
         val end = start + curWeek.toString().length + 1
         spannableString.setSpan(
@@ -210,18 +200,38 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         periodTitleText.text = spannableString
 
-        val percent = curCnt.toDouble() / totalCnt.toDouble()
-        progressbar.progress = (percent * 100).toInt()
+        progressbar.maxStateNumber = totalCnt
+        if(curCnt == 0){
+            progressbar.setAllStatesCompleted(false)
+            progressbar.currentStateNumber = 1
+            progressbar.foregroundColor = ContextCompat.getColor(requireContext(), R.color.grey)
+        }
+        else if(curCnt == totalCnt){
+            progressbar.setAllStatesCompleted(true)
+            progressbar.foregroundColor = ContextCompat.getColor(requireContext(), R.color.main_pink)
+        }
+        else{
+            progressbar.setAllStatesCompleted(false)
+            progressbar.currentStateNumber = curCnt
+            progressbar.foregroundColor = ContextCompat.getColor(requireContext(), R.color.main_pink)
+        }
+
+        makeLogName()
+        progressbar.setStateDescriptionData(logNameList)
     }
 
-    private fun getLogText(): String {
-        // TODO 로그뷰 수정
-        var text = "   "
+    private fun makeLogName(){
         for (log in logList) {
-            text += log.familyRoleName
-            text += "   "
+            var name = log.familyRoleName
+            if(name.length == 4){
+                name = name.substring(0, 2) +"\n"+ name.substring(2, 4)
+            }
+            logNameList.add(name)
         }
-        return text
+        val num = totalCnt - curCnt
+        for(i in 0 until num) {
+            logNameList.add("")
+        }
     }
 
     private fun buttonClick() = with(binding) {
@@ -254,24 +264,18 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         homeViewModel.postCareCancel(petId, careId, jwt)
     }
 
-    private fun deleteCare() {
-        homeViewModel.deletePetCare(careId, careId, jwt)
-    }
-
     private fun increaseProgress() = with(binding) {
         curCnt++
         if (curCnt > totalCnt) curCnt = totalCnt
-        val percent = curCnt.toDouble() / totalCnt.toDouble()
         careCountText.text = getString(R.string.care_count, curCnt, totalCnt)
-        progressbar.progress = (percent * 100).toInt()
+        progressbar.currentStateNumber = curCnt
     }
 
     private fun decreaseProgress() = with(binding) {
         curCnt--
         if (curCnt < 0) curCnt = 0
-        val percent = curCnt.toDouble() / totalCnt.toDouble()
         careCountText.text = getString(R.string.care_count, curCnt, totalCnt)
-        progressbar.progress = (percent * 100).toInt()
+        progressbar.currentStateNumber = curCnt
     }
 
     private fun showPopup() {
@@ -292,12 +296,16 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         popup.show()
     }
 
+    private fun deleteCare() {
+        homeViewModel.deletePetCare(careId, careId, jwt)
+    }
+
     private fun modifyCare() {
         val action = HomeFragmentDirections.actionHomeFragmentToModifyCareFragment(petId, name, careId)
         binding.root.findNavController().navigate(action)
     }
 
-    private fun getWeek(): String? {
+    private fun getCurWeek(): String? {
         val cal: Calendar = Calendar.getInstance()
         var strWeek: String? = null
         when (cal.get(Calendar.DAY_OF_WEEK)) {

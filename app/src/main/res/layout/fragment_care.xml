@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="20dp"
-        app:cardUseCompatPadding="true"
         app:cardElevation="2dp"
+        app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,21 +81,27 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
-            <ProgressBar
+            <com.kofigyan.stateprogressbar.StateProgressBar
                 android:id="@+id/progressbar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="300dp"
-                android:layout_height="10dp"
-                android:layout_marginTop="68dp"
-                android:background="@color/light_grey"
-                android:max="100"
-                android:progress="30"
-                android:progressDrawable="@drawable/care_progressbar"
-                android:progressTint="@color/main_pink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/period_title_text" />
+                app:layout_constraintTop_toBottomOf="@+id/period_title_text"
+                app:spb_checkStateCompleted="true"
+                app:spb_descriptionTopSpaceIncrementer="5dp"
+                app:spb_justifyMultilineDescription="true"
+                app:spb_stateSize="20dp"
+                app:spb_stateDescriptionSize="12sp"
+                app:spb_currentStateDescriptionColor="@color/main_pink"
+                app:spb_currentStateNumber="3"
+                app:spb_maxStateNumber="5"
+                app:spb_stateBackgroundColor="@color/grey"
+                app:spb_stateDescriptionColor="@color/main_pink"
+                app:spb_stateForegroundColor="@color/main_pink"
+                app:spb_stateNumberBackgroundColor="@color/white"
+                app:spb_stateNumberForegroundColor="@color/white" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/cancel_text"
