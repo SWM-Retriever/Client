@@ -60,4 +60,10 @@ interface HomeApiService {
         @Path("careId") careId: Int,
         @Header("X-AUTH-TOKEN") jwt: String,
     ): Response<Care>
+
+    @GET("api/v1/families/{familyId}/detail")
+    suspend fun getGroupInfo(
+        @Path("familyId") petId: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
+    ): Response<GroupInfo>
 }

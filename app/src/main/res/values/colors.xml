@@ -24,4 +24,26 @@
     <color name="unselected_circle_background_color">#DDDDDD</color>
     <color name="complete_light_gray">#ADADAD</color>
     <color name="pastel_red">#EB6E7A</color>
+    <color name="group_1">#0DA09F</color>
+    <color name="group_2">#329DFF</color>
+    <color name="group_3">#DC7033</color>
+    <color name="group_4">#F5CB36</color>
+    <color name="group_5">#31B5C2</color>
+    <color name="group_6">#7644DF</color>
+    <color name="group_7">#4470E1</color>
+    <color name="group_8">#37AF8B</color>
+    <color name="group_9">#FF9BD1</color>
+    <color name="group_10">#00FAFF</color>
+    <array name="group_color">
+        <item>@color/group_1</item>
+        <item>@color/group_2</item>
+        <item>@color/group_3</item>
+        <item>@color/group_4</item>
+        <item>@color/group_5</item>
+        <item>@color/group_6</item>
+        <item>@color/group_7</item>
+        <item>@color/group_8</item>
+        <item>@color/group_9</item>
+        <item>@color/group_10</item>
+    </array>
 </resources>

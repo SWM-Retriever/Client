@@ -117,4 +117,7 @@ dependencies {
     // Percentage Chart
     implementation "com.ramijemli.percentagechartview:percentagechartview:0.3.1"
 
+    // StateProgressBar
+    implementation 'com.github.adrien1018:StateProgressBar:52cd5e85be'
+
 }
