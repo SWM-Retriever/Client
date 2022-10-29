@@ -177,33 +177,31 @@
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/empty_add_care_button" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/care_list_tab"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/care_title_text"
-        app:tabIndicatorColor="@color/black"
-        app:tabIndicatorHeight="3dp"
-        app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/black"
-        app:tabTextAppearance="@style/TabText"
-        app:tabTextColor="@color/grey" />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/care_list_tab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/care_title_text"
+            app:tabIndicatorColor="@color/black"
+            app:tabIndicatorHeight="3dp"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/black"
+            app:tabTextAppearance="@style/TabText"
+            app:tabTextColor="@color/grey" />
 
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewpager_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/care_list_tab">
-
-    </androidx.viewpager2.widget.ViewPager2>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/care_list_tab">
+        </androidx.viewpager2.widget.ViewPager2>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

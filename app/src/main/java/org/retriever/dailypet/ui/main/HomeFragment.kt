@@ -9,6 +9,7 @@ import android.text.style.StyleSpan
 import android.view.*
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
+import androidx.core.view.size
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -41,6 +42,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val groupType = GlobalApplication.prefs.groupType ?: ""
     private var curPetId = 0
     private var curPetName = ""
+    private var curIdx = 0
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeBinding {
         return FragmentHomeBinding.inflate(inflater, container, false)
@@ -202,11 +204,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+                curIdx = position
             }
         })
-        // TODO 새로 고침 오류
-        //pagerAdapter.notifyDataSetChanged()
-
+        if(curIdx >= viewPager.size){
+            curIdx = 0
+        }
+        viewPager.setCurrentItem(curIdx, false)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = careList[position].careName
         }.attach()
@@ -242,7 +246,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             statisticsButton.visibility = View.INVISIBLE
         }
     }
-
 
     private fun buttonClick() = with(binding) {
         homeProfileImage.setOnClickListener {
