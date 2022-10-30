@@ -136,13 +136,13 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
                 if (error != null) {
                     Log.e("ABC", "카카오 로그아웃 실패", error)
                 } else {
-                    Toast.makeText(context, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show()
                     Log.d("ABC", "카카오 로그아웃 성공")
                 }
             }
         }
         // 네이버 로그아웃
         NaverIdLoginSDK.logout()
+        Toast.makeText(context, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show()
     }
 
     private fun onShareClicked() {
