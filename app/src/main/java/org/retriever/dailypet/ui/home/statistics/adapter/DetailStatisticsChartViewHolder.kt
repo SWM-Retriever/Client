@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.statistics.adapter
+package org.retriever.dailypet.ui.home.statistics.adapter
 
 import android.graphics.Color
 import androidx.core.content.ContextCompat
@@ -14,7 +14,7 @@ import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.ItemDetailStatisticsChartBinding
 import org.retriever.dailypet.model.statistics.CareItem
 import org.retriever.dailypet.model.statistics.DetailStaticsItem
-import org.retriever.dailypet.ui.statistics.BarChartMarkerView
+import org.retriever.dailypet.ui.home.statistics.BarChartMarkerView
 import kotlin.random.Random
 
 class DetailStatisticsChartViewHolder(private val binding: ItemDetailStatisticsChartBinding) : RecyclerView.ViewHolder(binding.root) {

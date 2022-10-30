@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.main
+package org.retriever.dailypet.ui.home.care
 
 import android.graphics.Typeface
 import android.os.Bundle
@@ -24,6 +24,7 @@ import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.main.Care
 import org.retriever.dailypet.model.signup.pet.Pet
 import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.ui.home.care.adapter.CareAdapter
 import org.retriever.dailypet.util.ArrayListAdapter
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular

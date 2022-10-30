@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.main
+package org.retriever.dailypet.ui.home.care.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

@@ -7,7 +7,7 @@
     android:background="@color/light_grey"
     android:paddingHorizontal="5dp"
     android:paddingVertical="30dp"
-    tools:context=".ui.main.CareFragment">
+    tools:context=".ui.home.care.CareFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"

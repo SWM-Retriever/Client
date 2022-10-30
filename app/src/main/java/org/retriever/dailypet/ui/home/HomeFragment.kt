@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.main
+package org.retriever.dailypet.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

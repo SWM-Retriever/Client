@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.main
+package org.retriever.dailypet.ui.home.care
 
 import android.graphics.Typeface
 import android.os.Bundle

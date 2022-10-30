@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.main
+package org.retriever.dailypet.ui.home.care
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

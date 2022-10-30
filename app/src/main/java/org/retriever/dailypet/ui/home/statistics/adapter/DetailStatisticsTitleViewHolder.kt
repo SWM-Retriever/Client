@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.statistics.adapter
+package org.retriever.dailypet.ui.home.statistics.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import org.retriever.dailypet.databinding.ItemDetailStatisticsTitleBinding

@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.statistics
+package org.retriever.dailypet.ui.home.statistics
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import org.retriever.dailypet.databinding.FragmentDetailStatisticsBinding
 import org.retriever.dailypet.model.statistics.CareItem
 import org.retriever.dailypet.model.statistics.DetailStaticsItem
 import org.retriever.dailypet.ui.base.BaseFragment
-import org.retriever.dailypet.ui.statistics.adapter.DetailStatisticsAdapter
+import org.retriever.dailypet.ui.home.statistics.adapter.DetailStatisticsAdapter
 
 class DetailStatisticsFragment : BaseFragment<FragmentDetailStatisticsBinding>() {
 
