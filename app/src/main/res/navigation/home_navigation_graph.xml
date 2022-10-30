@@ -54,9 +54,22 @@
         <action
             android:id="@+id/action_statisticsFragment_to_detailStatisticsFragment"
             app:destination="@id/detailStatisticsFragment" />
+        <argument
+            android:name="petId"
+            app:argType="integer" />
+        <argument
+            android:name="petName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/detailStatisticsFragment"
         android:name="org.retriever.dailypet.ui.home.statistics.DetailStatisticsFragment"
-        android:label="DetailStatisticsFragment" />
+        android:label="DetailStatisticsFragment" >
+        <argument
+            android:name="petId"
+            app:argType="integer" />
+        <argument
+            android:name="petName"
+            app:argType="string" />
+    </fragment>
 </navigation>

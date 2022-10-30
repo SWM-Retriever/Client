@@ -4,25 +4,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.databinding.FragmentDetailStatisticsBinding
-import org.retriever.dailypet.model.statistics.CareItem
-import org.retriever.dailypet.model.statistics.DetailStaticsItem
+import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.home.statistics.adapter.DetailStatisticsAdapter
+import org.retriever.dailypet.util.hideProgressCircular
+import org.retriever.dailypet.util.showProgressCircular
 
 class DetailStatisticsFragment : BaseFragment<FragmentDetailStatisticsBinding>() {
 
-    private lateinit var detailStatisticsAdapter: DetailStatisticsAdapter
+    private val statisticsViewModel by activityViewModels<StatisticsViewModel>()
 
-    private val careList = listOf(
-        CareItem("아빠", 1f),
-        CareItem("엄마", 3f),
-        CareItem("오빠", 2f),
-        CareItem("언니", 5f),
-        CareItem("나", 4f)
-    )
+    private val args: StatisticsFragmentArgs by navArgs()
+
+    private val jwt = GlobalApplication.prefs.jwt ?: ""
+    private val familyId = GlobalApplication.prefs.familyId
+    private var petId = -1
+    private var petName = ""
+
+    private lateinit var detailStatisticsAdapter: DetailStatisticsAdapter
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentDetailStatisticsBinding {
         return FragmentDetailStatisticsBinding.inflate(inflater, container, false)
@@ -31,8 +36,17 @@ class DetailStatisticsFragment : BaseFragment<FragmentDetailStatisticsBinding>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getArgsItem()
         initAdapter()
         buttonClick()
+        callApi()
+        observeDetailContributionResponse()
+
+    }
+
+    private fun getArgsItem() {
+        petId = args.petId
+        petName = args.petName
     }
 
     private fun initAdapter() {
@@ -42,22 +56,32 @@ class DetailStatisticsFragment : BaseFragment<FragmentDetailStatisticsBinding>()
             adapter = detailStatisticsAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
-
-        detailStatisticsAdapter.submitList(
-            listOf(
-                DetailStaticsItem("TITLE", "산책", emptyList()),
-                DetailStaticsItem("CHART", "산책", careList),
-                DetailStaticsItem("TITLE", "목욕", emptyList()),
-                DetailStaticsItem("CHART", "목욕", careList),
-                DetailStaticsItem("TITLE", "양치질", emptyList()),
-                DetailStaticsItem("CHART", "양치질", careList),
-            )
-        )
     }
 
     private fun buttonClick() {
         binding.backButton.setOnClickListener {
             binding.root.findNavController().popBackStack()
+        }
+    }
+
+    private fun callApi() {
+        statisticsViewModel.getGraphList(familyId, petId, jwt)
+    }
+
+    private fun observeDetailContributionResponse() = with(binding) {
+        statisticsViewModel.detailContributionResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+                    detailStatisticsAdapter.submitList(response.data?.graphList)
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(progressCircular)
+                }
+            }
         }
     }
 

@@ -115,7 +115,7 @@ dependencies {
     kapt "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.4.2"
 
     // Percentage Chart
-    implementation "com.ramijemli.percentagechartview:percentagechartview:0.3.1"
+    implementation 'com.github.DroidsOnRoids:PercentageChartView:5a6836bd0d'
 
     // MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
