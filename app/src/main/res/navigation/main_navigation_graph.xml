@@ -7,19 +7,9 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="org.retriever.dailypet.ui.main.HomeFragment"
+        android:name="org.retriever.dailypet.ui.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_addCareFragment"
-            app:destination="@id/addCareFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_modifyCareFragment"
-            app:destination="@id/modifyCareFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_statisticsFragment"
-            app:destination="@id/statisticsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/myPageFragment"
@@ -32,50 +22,5 @@
         android:name="org.retriever.dailypet.ui.diary.DiaryFragment"
         android:label="DiaryFragment"
         tools:layout="@layout/fragment_diary" />
-    <fragment
-        android:id="@+id/addCareFragment"
-        android:name="org.retriever.dailypet.ui.main.AddCareFragment"
-        android:label="fragment_add_care"
-        tools:layout="@layout/fragment_add_care" >
-        <argument
-            android:name="petId"
-            app:argType="integer" />
-        <argument
-            android:name="petName"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_addCareFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/modifyCareFragment"
-        android:name="org.retriever.dailypet.ui.main.ModifyCareFragment"
-        android:label="fragment_modify_care"
-        tools:layout="@layout/fragment_modify_care" >
-        <argument
-            android:name="petId"
-            app:argType="integer" />
-        <argument
-            android:name="careName"
-            app:argType="string" />
-        <argument
-            android:name="careId"
-            app:argType="integer" />
-        <action
-            android:id="@+id/action_modifyCareFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/statisticsFragment"
-        android:name="org.retriever.dailypet.ui.statistics.StatisticsFragment"
-        android:label="StatisticsFragment" >
-        <action
-            android:id="@+id/action_statisticsFragment_to_detailStatisticsFragment"
-            app:destination="@id/detailStatisticsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/detailStatisticsFragment"
-        android:name="org.retriever.dailypet.ui.statistics.DetailStatisticsFragment"
-        android:label="DetailStatisticsFragment" />
 
 </navigation>

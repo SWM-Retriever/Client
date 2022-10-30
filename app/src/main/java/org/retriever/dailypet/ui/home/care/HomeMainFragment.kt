@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.main
+package org.retriever.dailypet.ui.home.care
 
 import android.graphics.Typeface
 import android.os.Bundle
@@ -6,7 +6,9 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.view.size
@@ -17,17 +19,18 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
-import org.retriever.dailypet.databinding.FragmentHomeBinding
+import org.retriever.dailypet.databinding.FragmentHomeMainBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.main.Care
 import org.retriever.dailypet.model.signup.pet.Pet
 import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.ui.home.care.adapter.CareAdapter
 import org.retriever.dailypet.util.ArrayListAdapter
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 import java.util.*
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
 
     private val homeViewModel by activityViewModels<HomeViewModel>()
 
@@ -44,8 +47,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private var curPetName = ""
     private var curIdx = 0
 
-    override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeBinding {
-        return FragmentHomeBinding.inflate(inflater, container, false)
+    override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeMainBinding {
+        return FragmentHomeMainBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -264,7 +267,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             getCareList()
         }
         statisticsText.setOnClickListener {
-            root.findNavController().navigate(R.id.action_homeFragment_to_statisticsFragment)
+            root.findNavController().navigate(R.id.action_homeMainFragment_to_statisticsFragment)
         }
     }
 
@@ -283,7 +286,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun addCare() {
-        val action = HomeFragmentDirections.actionHomeFragmentToAddCareFragment(curPetId, curPetName)
+        val action = HomeMainFragmentDirections.actionHomeMainFragmentToAddCareFragment(curPetId, curPetName)
         binding.root.findNavController().navigate(action)
     }
 

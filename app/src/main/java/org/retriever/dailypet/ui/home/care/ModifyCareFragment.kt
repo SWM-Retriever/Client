@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.main
+package org.retriever.dailypet.ui.home.care
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -62,7 +62,7 @@ class ModifyCareFragment : BaseFragment<FragmentModifyCareBinding>() {
                     is Resource.Success -> {
                         hideProgressCircular(progressCircular)
                         Toast.makeText(requireContext(), "케어가 수정되었습니다", Toast.LENGTH_SHORT).show()
-                        root.findNavController().navigate(ModifyCareFragmentDirections.actionModifyCareFragmentToHomeFragment())
+                        root.findNavController().popBackStack()
                     }
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)

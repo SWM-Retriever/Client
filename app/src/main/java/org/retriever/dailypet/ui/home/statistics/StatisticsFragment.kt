@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.statistics
+package org.retriever.dailypet.ui.home.statistics
 
 import android.graphics.Color
 import android.os.Bundle
@@ -12,14 +12,13 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentStatisticsBinding
 import org.retriever.dailypet.model.statistics.GroupItem
 import org.retriever.dailypet.model.statistics.WinnerItem
 import org.retriever.dailypet.ui.base.BaseFragment
-import org.retriever.dailypet.ui.statistics.adapter.GroupAdapter
-import org.retriever.dailypet.ui.statistics.adapter.WinnerAdapter
+import org.retriever.dailypet.ui.home.statistics.adapter.GroupAdapter
+import org.retriever.dailypet.ui.home.statistics.adapter.WinnerAdapter
 
 class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
 
@@ -42,6 +41,7 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
         initTitleTextView()
 
         binding.winnerPercentageChart.setProgress(60f, true)
+        binding.winnerPercentageChart.isSaveEnabled = false
     }
 
     private fun initTitleTextView() {

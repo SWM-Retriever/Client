@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.statistics
+package org.retriever.dailypet.ui.home.statistics
 
 import android.content.Context
 import android.graphics.Canvas

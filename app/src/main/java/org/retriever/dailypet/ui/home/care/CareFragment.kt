@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.main
+package org.retriever.dailypet.ui.home.care
 
 import android.graphics.Typeface
 import android.os.Bundle
@@ -283,7 +283,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     }
 
     private fun modifyCare() {
-        val action = HomeFragmentDirections.actionHomeFragmentToModifyCareFragment(petId, name, careId)
+        val action = HomeMainFragmentDirections.actionHomeMainFragmentToModifyCareFragment(petId, name, careId)
         binding.root.findNavController().navigate(action)
     }
 
