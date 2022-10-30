@@ -117,4 +117,7 @@ dependencies {
     // Percentage Chart
     implementation "com.ramijemli.percentagechartview:percentagechartview:0.3.1"
 
+    // MPAndroidChart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
 }
