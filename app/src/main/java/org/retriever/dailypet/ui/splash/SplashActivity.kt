@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.NidOAuthLoginState
+import com.navercorp.nid.oauth.OAuthLoginCallback
 import org.retriever.dailypet.R
 import org.retriever.dailypet.ui.login.LoginActivity
 import org.retriever.dailypet.ui.main.MainActivity
@@ -45,6 +48,11 @@ class SplashActivity : AppCompatActivity() {
                         finish()
                     }
                 }
+            }
+            else if (NidOAuthLoginState.OK.equals(NaverIdLoginSDK.getState())){
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
             }
             else {
                 val intent = Intent(this, LoginActivity::class.java)

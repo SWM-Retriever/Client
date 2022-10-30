@@ -196,8 +196,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         )
         spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         periodTitleText.text = spannableString
-        progressbar.currentStateNumber = 0 // TODO TEMP
-        progressbar.maxStateNumber = totalCnt + 10 // TODO TEMP
+        progressbar.maxStateNumber = totalCnt
         if (curCnt == 0) {
             progressbar.setAllStatesCompleted(false)
             progressbar.currentStateNumber = 1
@@ -219,10 +218,14 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         logNameList.clear()
         for (log in logList) {
             var name = log.familyRoleName
-            if (name.length == 4) {
+            if (name?.length == 4) {
                 name = name.substring(0, 2) + "\n" + name.substring(2, 4)
             }
-            logNameList.add(name)
+            if (name != null) {
+                logNameList.add(name)
+            } else{
+                logNameList.add("")
+            }
         }
         val num = totalCnt - curCnt
         for (i in 0 until num) {

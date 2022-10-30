@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.home.care
+package org.retriever.dailypet.ui.main
 
 import android.graphics.Typeface
 import android.os.Bundle
@@ -6,9 +6,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.view.size
@@ -47,8 +45,8 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
     private var curPetName = ""
     private var curIdx = 0
 
-    override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeMainBinding {
-        return FragmentHomeMainBinding.inflate(inflater, container, false)
+    override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeBinding {
+        return FragmentHomeBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -267,7 +265,7 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
             getCareList()
         }
         statisticsText.setOnClickListener {
-            root.findNavController().navigate(R.id.action_homeMainFragment_to_statisticsFragment)
+            root.findNavController().navigate(R.id.action_homeFragment_to_statisticsFragment)
         }
     }
 
