@@ -196,8 +196,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         )
         spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         periodTitleText.text = spannableString
-        progressbar.currentStateNumber = 0 // TODO TEMP
-        progressbar.maxStateNumber = totalCnt + 10 // TODO TEMP
+        progressbar.maxStateNumber = totalCnt
         if (curCnt == 0) {
             progressbar.setAllStatesCompleted(false)
             progressbar.currentStateNumber = 1

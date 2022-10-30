@@ -95,7 +95,7 @@
                 app:spb_stateSize="20dp"
                 app:spb_stateDescriptionSize="12sp"
                 app:spb_currentStateDescriptionColor="@color/main_pink"
-                app:spb_currentStateNumber="3"
+                app:spb_currentStateNumber="0"
                 app:spb_maxStateNumber="5"
                 app:spb_stateBackgroundColor="@color/grey"
                 app:spb_stateDescriptionColor="@color/main_pink"

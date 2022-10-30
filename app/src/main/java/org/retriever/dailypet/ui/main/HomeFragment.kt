@@ -6,6 +6,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.*
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
@@ -207,7 +208,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 curIdx = position
             }
         })
-        if(curIdx >= viewPager.size){
+        if(curIdx >= careList.size){
             curIdx = 0
         }
         viewPager.setCurrentItem(curIdx, false)
