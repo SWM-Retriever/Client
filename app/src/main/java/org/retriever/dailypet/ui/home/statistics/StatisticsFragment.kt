@@ -62,17 +62,16 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
     }
 
     private fun callApi() {
-        //TODO 날짜 로직 생각해야해
-        statisticsViewModel.getContributionDetailList(familyId, petId, "2022-10-23", "2022-10-30", jwt)
+        statisticsViewModel.getContributionDetailList(familyId, petId, jwt)
     }
 
     private fun observeStatisticsResponse() {
         statisticsViewModel.contributionResponse.observe(viewLifecycleOwner) { response ->
-            when(response){
-                is Resource.Loading ->{
+            when (response) {
+                is Resource.Loading -> {
                     showProgressCircular(binding.progressCircular)
                 }
-                is Resource.Success ->{
+                is Resource.Success -> {
                     hideProgressCircular(binding.progressCircular)
 
                     list = response.data?.contributionDetailList ?: emptyList()
@@ -84,7 +83,7 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
                         unSelectedStatisticsAdapter.submitList(subList.toMutableList())
                     }
                 }
-                is Resource.Error->{
+                is Resource.Error -> {
                     hideProgressCircular(binding.progressCircular)
                 }
             }
