@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.retriever.dailypet.databinding.ItemDetailStatisticsChartBinding
 import org.retriever.dailypet.databinding.ItemDetailStatisticsTitleBinding
-import org.retriever.dailypet.model.statistics.DetailStaticsItem
+import org.retriever.dailypet.model.statistics.DetailContributionItem
 
-class DetailStatisticsAdapter : ListAdapter<DetailStaticsItem, RecyclerView.ViewHolder>(diffUtil) {
+class DetailStatisticsAdapter : ListAdapter<DetailContributionItem, RecyclerView.ViewHolder>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == ViewType.TITLE.ordinal) {
@@ -24,7 +24,7 @@ class DetailStatisticsAdapter : ListAdapter<DetailStaticsItem, RecyclerView.View
             ViewType.TITLE.name -> {
                 (holder as DetailStatisticsTitleViewHolder).bind(currentList[position])
             }
-            ViewType.CHART.name -> {
+            ViewType.CONTENT.name -> {
                 (holder as DetailStatisticsChartViewHolder).bind(currentList[position])
             }
         }
@@ -35,12 +35,12 @@ class DetailStatisticsAdapter : ListAdapter<DetailStaticsItem, RecyclerView.View
     }
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<DetailStaticsItem>() {
-            override fun areItemsTheSame(oldItem: DetailStaticsItem, newItem: DetailStaticsItem): Boolean {
+        val diffUtil = object : DiffUtil.ItemCallback<DetailContributionItem>() {
+            override fun areItemsTheSame(oldItem: DetailContributionItem, newItem: DetailContributionItem): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: DetailStaticsItem, newItem: DetailStaticsItem): Boolean {
+            override fun areContentsTheSame(oldItem: DetailContributionItem, newItem: DetailContributionItem): Boolean {
                 return oldItem == newItem
             }
 
@@ -51,5 +51,5 @@ class DetailStatisticsAdapter : ListAdapter<DetailStaticsItem, RecyclerView.View
 
 enum class ViewType(name: String) {
     TITLE("TITLE"),
-    CHART("CHART"),
+    CONTENT("CONTENT"),
 }

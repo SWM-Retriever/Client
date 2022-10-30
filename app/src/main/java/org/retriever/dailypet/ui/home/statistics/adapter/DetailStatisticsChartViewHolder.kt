@@ -1,6 +1,7 @@
 package org.retriever.dailypet.ui.home.statistics.adapter
 
 import android.graphics.Color
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.BarChart
@@ -13,17 +14,17 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.ItemDetailStatisticsChartBinding
-import org.retriever.dailypet.model.statistics.CareItem
-import org.retriever.dailypet.model.statistics.DetailStaticsItem
+import org.retriever.dailypet.model.statistics.DetailCareItem
+import org.retriever.dailypet.model.statistics.DetailContributionItem
 import org.retriever.dailypet.ui.home.statistics.BarChartMarkerView
 import kotlin.random.Random
 
 class DetailStatisticsChartViewHolder(private val binding: ItemDetailStatisticsChartBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: DetailStaticsItem) {
+    fun bind(item: DetailContributionItem) {
         val color = getRandomColor()
         initBarChart(binding.barChart, color)
-        setData(binding.barChart, color, item.careList)
+        setData(binding.barChart, color, item.careCountList ?: emptyList())
     }
 
     private fun initBarChart(barChart: BarChart, color: Int) {
@@ -65,16 +66,16 @@ class DetailStatisticsChartViewHolder(private val binding: ItemDetailStatisticsC
 
     private lateinit var maxEntry: BarEntry
 
-    private fun setData(barChart: BarChart, color: Int, careList: List<CareItem>) {
-
+    private fun setData(barChart: BarChart, color: Int, careList: List<DetailCareItem>) {
+            Log.d("ABC", careList.toString())
         val valueList = ArrayList<BarEntry>()
         val nameList = ArrayList<String>()
         val title = "그래프"
 
-        var max = 0f
+        var max = -1f
         careList.forEachIndexed { index, careItem ->
             valueList.add(BarEntry(index.toFloat(), careItem.careCount))
-            nameList.add(careItem.groupRoleName)
+            nameList.add(careItem.familyRoleName)
 
             if (max < careItem.careCount) {
                 maxEntry = valueList[index]

@@ -10,6 +10,7 @@ import org.retriever.dailypet.data.repository.home.StatisticsRepository
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.statistics.ContributionItem
 import org.retriever.dailypet.model.statistics.ContributionResponse
+import org.retriever.dailypet.model.statistics.DetailContributionResponse
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,6 +21,9 @@ class StatisticsViewModel @Inject constructor(private val statisticsRepository: 
 
     private val _contributionResponse = MutableLiveData<Resource<ContributionResponse>>()
     val contributionResponse: LiveData<Resource<ContributionResponse>> = _contributionResponse
+
+    private val _detailContributionResponse = MutableLiveData<Resource<DetailContributionResponse>>()
+    val detailContributionResponse: LiveData<Resource<DetailContributionResponse>> = _detailContributionResponse
 
     private var startDate = ""
     private var endDate = ""
@@ -34,21 +38,31 @@ class StatisticsViewModel @Inject constructor(private val statisticsRepository: 
         }
     }
 
-    private fun getDate(){
+    fun changeContributionResponse(list: List<ContributionItem>) {
+        _contributionResponse.value = Resource.Success(ContributionResponse(list))
+    }
+
+    fun getGraphList(familyId: Int, petId: Int, jwt: String) {
+        viewModelScope.launch {
+            _detailContributionResponse.postValue(Resource.Loading())
+
+            getDate()
+
+            _detailContributionResponse.postValue(statisticsRepository.getGraphList(familyId, petId, startDate, endDate, jwt))
+        }
+    }
+
+    private fun getDate() {
         val cal = Calendar.getInstance()
         cal.time = Date()
-        val df : DateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
+        val df: DateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
 
         startDate = df.format(cal.time)
         cal.add(Calendar.DATE, ONE_WEEKS_LATER)
         endDate = df.format(cal.time)
     }
 
-    fun changeContributionResponse(list: List<ContributionItem>) {
-        _contributionResponse.value = Resource.Success(ContributionResponse(list))
-    }
-
-    companion object{
+    companion object {
         private const val ONE_WEEKS_LATER = -7
     }
 

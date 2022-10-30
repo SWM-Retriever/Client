@@ -15,7 +15,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.retriever.dailypet.GlobalApplication
-import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentStatisticsBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.statistics.ContributionItem
@@ -50,15 +49,47 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         getArgsItem()
-        callApi()
-        observeStatisticsResponse()
         initAdapter()
         buttonClick()
+        callApi()
+        observeStatisticsResponse()
     }
 
     private fun getArgsItem() {
         petId = args.petId
         petName = args.petName
+    }
+
+    private fun initAdapter() = with(binding) {
+        selectedStatisticsAdapter = SelectedStatisticsAdapter()
+
+        winnerRecyclerview.apply {
+            adapter = selectedStatisticsAdapter
+            layoutManager = GridLayoutManager(requireContext(), MAX_COLUMNS)
+        }
+
+        unSelectedStatisticsAdapter = UnSelectedStatisticsAdapter()
+
+        statisticsRecyclerview.apply {
+            adapter = unSelectedStatisticsAdapter
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
+
+        unSelectedStatisticsAdapter.onItemClick = {
+            Collections.swap(list, 0, it + 1)
+            statisticsViewModel.changeContributionResponse(list)
+        }
+    }
+
+    private fun buttonClick() = with(binding) {
+        backButton.setOnClickListener {
+            root.findNavController().popBackStack()
+        }
+
+        statisticsDetailButton.setOnClickListener {
+            val action = StatisticsFragmentDirections.actionStatisticsFragmentToDetailStatisticsFragment(petId, petName)
+            root.findNavController().navigate(action)
+        }
     }
 
     private fun callApi() {
@@ -124,37 +155,6 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
         builder.append(firstSpanned).append(secondSpanned).append(thirdSpanned).append(fourthSpanned).append(fifthSpanned)
 
         binding.whoIsTheWinnerText.text = builder
-    }
-
-    private fun initAdapter() = with(binding) {
-        selectedStatisticsAdapter = SelectedStatisticsAdapter()
-
-        winnerRecyclerview.apply {
-            adapter = selectedStatisticsAdapter
-            layoutManager = GridLayoutManager(requireContext(), MAX_COLUMNS)
-        }
-
-        unSelectedStatisticsAdapter = UnSelectedStatisticsAdapter()
-
-        statisticsRecyclerview.apply {
-            adapter = unSelectedStatisticsAdapter
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        }
-
-        unSelectedStatisticsAdapter.onItemClick = {
-            Collections.swap(list, 0, it + 1)
-            statisticsViewModel.changeContributionResponse(list)
-        }
-    }
-
-    private fun buttonClick() = with(binding) {
-        backButton.setOnClickListener {
-            root.findNavController().popBackStack()
-        }
-
-        statisticsDetailButton.setOnClickListener {
-            root.findNavController().navigate(R.id.action_statisticsFragment_to_detailStatisticsFragment)
-        }
     }
 
     companion object {
