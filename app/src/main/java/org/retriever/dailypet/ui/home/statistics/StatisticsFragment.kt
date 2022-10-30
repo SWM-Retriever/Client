@@ -110,9 +110,18 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
         }
-        val thirdSpanned = SpannableString("가 얼마나 기여했을까요?")
+        val thirdSpanned = SpannableString("가 ")
+        val fourthSpanned = SpannableString(petName).apply {
+            setSpan(
+                ForegroundColorSpan(Color.parseColor("#EB6E7A")),
+                0,
+                petName.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+        val fifthSpanned = SpannableString("에게 얼마나 기여했을까요?")
 
-        builder.append(firstSpanned).append(secondSpanned).append(thirdSpanned)
+        builder.append(firstSpanned).append(secondSpanned).append(thirdSpanned).append(fourthSpanned).append(fifthSpanned)
 
         binding.whoIsTheWinnerText.text = builder
     }
