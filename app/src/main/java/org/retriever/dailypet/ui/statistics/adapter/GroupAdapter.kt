@@ -13,6 +13,7 @@ class GroupAdapter : ListAdapter<GroupItem, GroupAdapter.ViewHolder>(diffUtil) {
     class ViewHolder(val binding: ItemGroupStatisticsBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: GroupItem) {
             binding.groupPercentageChart.setProgress(item.percent, true)
+            binding.groupPercentageChart.isSaveEnabled = false
             binding.groupNameText.text = item.groupName
         }
     }

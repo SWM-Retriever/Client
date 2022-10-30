@@ -30,7 +30,7 @@ interface MyPageApiService {
         @Path("petId") petId: Int,
     ): Response<ResponseBody>
 
-    @GET("api/v1/families/{familyId}")
+    @GET("api/v1/families/{familyId}/detail")
     suspend fun getGroupInfo(
         @Path("familyId") familyId: Int,
         @Header("X-AUTH-TOKEN") jwt: String,
