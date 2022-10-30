@@ -164,7 +164,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 Log.d("ABC", deviceToken)
             }
         }
-
         return deviceToken
     }
 

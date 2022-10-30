@@ -12,6 +12,8 @@ import androidx.navigation.findNavController
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.NidOAuthLogin
+import com.navercorp.nid.oauth.OAuthLoginCallback
 import dagger.hilt.android.AndroidEntryPoint
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
@@ -19,6 +21,7 @@ import org.retriever.dailypet.databinding.FragmentMyPageMainBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.login.LoginActivity
+import org.retriever.dailypet.ui.login.LoginFragment
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 
@@ -62,13 +65,13 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
             if (groupType == FAMILY) {
                 onShareClicked()
             } else {
-                Toast.makeText(requireContext(), "그룹을 먼저 만들고 시도해주세요!!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "현재 1인 그룹입니다\n초대를 원하시면 그룹을 만들어주세요", Toast.LENGTH_LONG).show()
             }
         }
 
         groupMakeText.setOnClickListener {
             if (groupType == FAMILY) {
-                Toast.makeText(requireContext(), "이미 그룹이 존재합니다!!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "이미 그룹이 존재합니다", Toast.LENGTH_SHORT).show()
             } else {
                 val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToCreateFamilyFragment2(true)
                 root.findNavController().navigate(action)
@@ -118,6 +121,8 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
 
         withdrawalButton.setOnClickListener {
             withdrawal()
+            kakaoUnlink()
+            naverUnlink()
             val intent = Intent(requireContext(), LoginActivity::class.java)
             startActivity(intent)
         }
@@ -183,6 +188,39 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         }
     }
 
+
+    private fun kakaoUnlink() {
+        UserApiClient.instance.unlink { error ->
+            if (error != null) {
+                Log.e(TAG, "연동 해제 실패", error)
+            } else {
+                Log.d(TAG, "카카오 연동해제 성공. SDK에서 토큰 삭제 됨")
+            }
+        }
+    }
+
+    private fun naverUnlink() {
+        NidOAuthLogin().callDeleteTokenApi(requireContext(), object : OAuthLoginCallback {
+            override fun onSuccess() {
+                //서버에서 토큰 삭제에 성공한 상태입니다.
+                Log.d(TAG, "네이버 연동해제 성공")
+            }
+
+            override fun onFailure(httpStatus: Int, message: String) {
+                // 서버에서 토큰 삭제에 실패했어도 클라이언트에 있는 토큰은 삭제되어 로그아웃된 상태
+                // 클라이언트에 토큰 정보가 없기 때문에 추가로 처리할 수 있는 작업은 없음
+                Log.d(TAG, "errorCode: ${NaverIdLoginSDK.getLastErrorCode().code}")
+                Log.d(TAG, "errorDesc: ${NaverIdLoginSDK.getLastErrorDescription()}")
+            }
+
+            override fun onError(errorCode: Int, message: String) {
+                // 서버에서 토큰 삭제에 실패했어도 클라이언트에 있는 토큰은 삭제되어 로그아웃된 상태
+                // 클라이언트에 토큰 정보가 없기 때문에 추가로 처리할 수 있는 작업은 없음
+                onFailure(errorCode, message)
+            }
+        })
+    }
+
     companion object {
         private const val NOTIFICATION_URL = "https://showy-king-303.notion.site/2b97d48c4a434e019c1058800f7a48fe"
         private const val REPORT_URL = "https://the-form.io/forms/survey/response/fe418f0f-0ab2-46ce-80d1-d5a8188e5247"
@@ -191,6 +229,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         private const val MARKETING_URL = "https://showy-king-303.notion.site/25ae8e794dc44c6a801adcfb8850ea0f"
         private const val OPENSOURCE_URL = "https://showy-king-303.notion.site/719843c38acb40efb8efab7059a38564"
         private const val FAMILY = "FAMILY"
+        private const val TAG = "MY_PAGE"
     }
 
 }

@@ -219,10 +219,14 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         logNameList.clear()
         for (log in logList) {
             var name = log.familyRoleName
-            if (name.length == 4) {
+            if (name?.length == 4) {
                 name = name.substring(0, 2) + "\n" + name.substring(2, 4)
             }
-            logNameList.add(name)
+            if (name != null) {
+                logNameList.add(name)
+            } else{
+                logNameList.add("")
+            }
         }
         val num = totalCnt - curCnt
         for (i in 0 until num) {

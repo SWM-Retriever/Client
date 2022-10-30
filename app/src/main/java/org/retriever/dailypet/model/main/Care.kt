@@ -19,5 +19,5 @@ data class Care(
 @JsonClass(generateAdapter = true)
 data class CheckList(
     val memberId: Int,
-    val familyRoleName: String,
+    val familyRoleName: String? = "",
 ):Parcelable
