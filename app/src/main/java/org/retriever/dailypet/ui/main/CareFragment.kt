@@ -12,8 +12,9 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCareBinding
@@ -26,10 +27,10 @@ import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 import java.util.*
 
+@AndroidEntryPoint
 class CareFragment : BaseFragment<FragmentCareBinding>() {
 
-    private val homeViewModel by activityViewModels<HomeViewModel>()
-
+    private val homeViewModel by viewModels<HomeViewModel>()
     private val eDay: List<String> = listOf("SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT")
     private val kDay: List<String> = listOf("일", "월", "화", "수", "목", "금", "토")
     private var name = ""
@@ -37,7 +38,6 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     private var logList: ArrayList<CheckList> = arrayListOf()
     private var logNameList: ArrayList<String> = arrayListOf()
     private var memberNameList: ArrayList<String> = arrayListOf()
-    private var colorList: ArrayList<Int> = arrayListOf()
     private var totalCnt = 0
     private var curCnt = 0
     private var weekdays = ""
@@ -133,8 +133,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
                 }
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
-                    increaseProgress()
-                    //updateCareInfo(response.data)
+                    updateCareInfo(response.data)
                 }
                 is Resource.Error -> {
                     hideProgressCircular(progressCircular)
@@ -151,8 +150,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
                 }
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
-                    decreaseProgress()
-                    //updateCareInfo(response.data)
+                    updateCareInfo(response.data)
                 }
                 is Resource.Error -> {
                     hideProgressCircular(progressCircular)
@@ -198,18 +196,16 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         )
         spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         periodTitleText.text = spannableString
-
-        progressbar.maxStateNumber = totalCnt
-        if(curCnt == 0){
+        progressbar.currentStateNumber = 0 // TODO TEMP
+        progressbar.maxStateNumber = totalCnt + 10 // TODO TEMP
+        if (curCnt == 0) {
             progressbar.setAllStatesCompleted(false)
             progressbar.currentStateNumber = 1
             progressbar.foregroundColor = ContextCompat.getColor(requireContext(), R.color.grey)
-        }
-        else if(curCnt == totalCnt){
+        } else if (curCnt == totalCnt) {
             progressbar.setAllStatesCompleted(true)
             progressbar.foregroundColor = ContextCompat.getColor(requireContext(), R.color.main_pink)
-        }
-        else{
+        } else {
             progressbar.setAllStatesCompleted(false)
             progressbar.currentStateNumber = curCnt
             progressbar.foregroundColor = ContextCompat.getColor(requireContext(), R.color.main_pink)
@@ -219,16 +215,17 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
         progressbar.setStateDescriptionData(logNameList)
     }
 
-    private fun makeLogName(){
+    private fun makeLogName() {
+        logNameList.clear()
         for (log in logList) {
             var name = log.familyRoleName
-            if(name.length == 4){
-                name = name.substring(0, 2) +"\n"+ name.substring(2, 4)
+            if (name.length == 4) {
+                name = name.substring(0, 2) + "\n" + name.substring(2, 4)
             }
             logNameList.add(name)
         }
         val num = totalCnt - curCnt
-        for(i in 0 until num) {
+        for (i in 0 until num) {
             logNameList.add("")
         }
     }
@@ -261,20 +258,6 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
 
     private fun postCareCancel() {
         homeViewModel.postCareCancel(petId, careId, jwt)
-    }
-
-    private fun increaseProgress() = with(binding) {
-        curCnt++
-        if (curCnt > totalCnt) curCnt = totalCnt
-        careCountText.text = getString(R.string.care_count, curCnt, totalCnt)
-        progressbar.currentStateNumber = curCnt
-    }
-
-    private fun decreaseProgress() = with(binding) {
-        curCnt--
-        if (curCnt < 0) curCnt = 0
-        careCountText.text = getString(R.string.care_count, curCnt, totalCnt)
-        progressbar.currentStateNumber = curCnt
     }
 
     private fun showPopup() {
