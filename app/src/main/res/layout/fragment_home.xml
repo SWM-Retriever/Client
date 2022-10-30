@@ -36,6 +36,7 @@
         android:layout_height="32dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/default_image"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,6 +50,7 @@
         android:text="@string/home_pet_name_text"
         android:textColor="@color/black"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:drawableRightCompat="@drawable/arrlow_down_customize"
         app:layout_constraintStart_toEndOf="@id/home_profile_image"
         app:layout_constraintTop_toTopOf="@+id/home_profile_image" />
@@ -61,6 +63,7 @@
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
         android:src="@drawable/icon_bell"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -72,6 +75,7 @@
         android:text="@string/home_pet_day_text"
         android:textColor="@color/black"
         android:textSize="24sp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/home_profile_image" />
@@ -82,6 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
         android:text="@string/home_contribution_text"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/d_day_text" />
 
@@ -90,6 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@id/right_guideline"
         app:layout_constraintTop_toBottomOf="@id/d_day_text">
 
@@ -123,20 +129,12 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:visibility="visible"
+        app:drawableEndCompat="@android:drawable/ic_popup_sync"
+        app:drawableTint="@color/grey"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/d_day_text" />
 
-    <ImageButton
-        android:id="@+id/refresh_button"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="4dp"
-        android:backgroundTint="@color/transparent"
-        android:src="@android:drawable/ic_popup_sync"
-        app:layout_constraintBottom_toBottomOf="@+id/care_title_text"
-        app:layout_constraintStart_toEndOf="@+id/care_title_text"
-        app:layout_constraintTop_toTopOf="@+id/care_title_text"
-        app:tint="@color/grey" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/add_care_button"
@@ -179,33 +177,31 @@
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/empty_add_care_button" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/care_list_tab"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/care_title_text"
-        app:tabIndicatorColor="@color/black"
-        app:tabIndicatorHeight="3dp"
-        app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/black"
-        app:tabTextAppearance="@style/TabText"
-        app:tabTextColor="@color/grey" />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/care_list_tab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/care_title_text"
+            app:tabIndicatorColor="@color/black"
+            app:tabIndicatorHeight="3dp"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/black"
+            app:tabTextAppearance="@style/TabText"
+            app:tabTextColor="@color/grey" />
 
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewpager_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/care_list_tab">
-
-    </androidx.viewpager2.widget.ViewPager2>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/care_list_tab">
+        </androidx.viewpager2.widget.ViewPager2>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
