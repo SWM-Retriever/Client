@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="48dp">
+
+    <com.ramijemli.percentagechartview.PercentageChartView
+        android:id="@+id/group_percentage_chart"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:pcv_animDuration="800"
+        app:pcv_animInterpolator="anticipate_overshoot"
+        app:pcv_backgroundBarColor="@color/dark_grey"
+        app:pcv_mode="ring"
+        app:pcv_orientation="counter_clockwise"
+        app:pcv_progressColor="@color/main_blue"
+        app:pcv_startAngle="90"
+        app:pcv_textColor="@color/main_blue"
+        app:pcv_textSize="24sp"
+        app:pcv_textStyle="bold" />
+
+    <TextView
+        android:id="@+id/group_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:maxEms="5"
+        android:maxLines="1"
+        android:textColor="@color/light_black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/group_percentage_chart"
+        tools:text="엄마엄마야야야야" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

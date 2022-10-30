@@ -24,6 +24,8 @@
     <color name="unselected_circle_background_color">#DDDDDD</color>
     <color name="complete_light_gray">#ADADAD</color>
     <color name="pastel_red">#EB6E7A</color>
+    <color name="barchart_end_color">#EAEAEA</color>
+    <color name="barchart_start_color">#33E5E5E5</color>
     <color name="group_1">#0DA09F</color>
     <color name="group_2">#329DFF</color>
     <color name="group_3">#DC7033</color>
