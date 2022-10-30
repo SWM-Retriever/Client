@@ -56,6 +56,7 @@
             android:layout_marginTop="34dp"
             android:textColor="@color/black"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/member_statistics_title_text"
@@ -93,7 +94,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/winner_recyclerview"
             android:layout_width="0dp"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             app:layout_constraintEnd_toEndOf="@id/end_guideline"
             app:layout_constraintStart_toStartOf="@id/start_guideline"
             app:layout_constraintTop_toBottomOf="@id/winner_statistics_background" />
@@ -102,6 +104,7 @@
             android:id="@+id/divide_view"
             android:layout_width="0dp"
             android:layout_height="8dp"
+            android:layout_marginTop="24dp"
             android:background="@color/light_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -111,7 +114,8 @@
             android:id="@+id/statistics_recyclerview"
             android:layout_width="0dp"
             android:layout_height="150dp"
-            app:layout_constraintEnd_toEndOf="@id/end_guideline"
+            android:layout_marginTop="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/start_guideline"
             app:layout_constraintTop_toBottomOf="@id/divide_view" />
 
@@ -119,10 +123,13 @@
             android:id="@+id/statistics_detail_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:paddingVertical="8dp"
             android:text="@string/statistics_detail_text"
             android:textColor="@color/light_black"
             android:textSize="14sp"
+            app:drawableEndCompat="@drawable/small_arrow_right"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/end_guideline"
             app:layout_constraintTop_toBottomOf="@id/statistics_recyclerview" />
 

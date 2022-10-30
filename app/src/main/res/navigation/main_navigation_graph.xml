@@ -68,6 +68,14 @@
     <fragment
         android:id="@+id/statisticsFragment"
         android:name="org.retriever.dailypet.ui.statistics.StatisticsFragment"
-        android:label="StatisticsFragment" />
+        android:label="StatisticsFragment" >
+        <action
+            android:id="@+id/action_statisticsFragment_to_detailStatisticsFragment"
+            app:destination="@id/detailStatisticsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailStatisticsFragment"
+        android:name="org.retriever.dailypet.ui.statistics.DetailStatisticsFragment"
+        android:label="DetailStatisticsFragment" />
 
 </navigation>
