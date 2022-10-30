@@ -42,6 +42,7 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
         initTitleTextView()
 
         binding.winnerPercentageChart.setProgress(60f, true)
+        binding.winnerPercentageChart.isSaveEnabled = false
     }
 
     private fun initTitleTextView() {

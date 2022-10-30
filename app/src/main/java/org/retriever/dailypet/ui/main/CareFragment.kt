@@ -283,7 +283,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     }
 
     private fun modifyCare() {
-        val action = HomeFragmentDirections.actionHomeFragmentToModifyCareFragment(petId, name, careId)
+        val action = HomeMainFragmentDirections.actionHomeMainFragmentToModifyCareFragment(petId, name, careId)
         binding.root.findNavController().navigate(action)
     }
 
