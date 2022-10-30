@@ -54,6 +54,12 @@
         <action
             android:id="@+id/action_statisticsFragment_to_detailStatisticsFragment"
             app:destination="@id/detailStatisticsFragment" />
+        <argument
+            android:name="petId"
+            app:argType="integer" />
+        <argument
+            android:name="petName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/detailStatisticsFragment"

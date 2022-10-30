@@ -267,7 +267,8 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
             getCareList()
         }
         statisticsText.setOnClickListener {
-            root.findNavController().navigate(R.id.action_homeMainFragment_to_statisticsFragment)
+            val action = HomeMainFragmentDirections.actionHomeMainFragmentToStatisticsFragment(curPetId, curPetName)
+            root.findNavController().navigate(action)
         }
     }
 

@@ -11,7 +11,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.retriever.dailypet.BuildConfig.BASE_URL
 import org.retriever.dailypet.data.network.diary.DiaryApiInterface
 import org.retriever.dailypet.data.network.login.LoginApiService
-import org.retriever.dailypet.data.network.main.HomeApiService
+import org.retriever.dailypet.data.network.home.HomeApiService
+import org.retriever.dailypet.data.network.home.StatisticsApiService
 import org.retriever.dailypet.data.network.mypage.MyPageApiService
 import org.retriever.dailypet.data.network.signup.FamilyApiInterface
 import org.retriever.dailypet.data.network.signup.FindGroupApiInterface
@@ -104,6 +105,12 @@ object NetworkModule {
     @Singleton
     fun provideHomeApiService(retrofit: Retrofit): HomeApiService {
         return retrofit.create(HomeApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideStatisticsApiService(retrofit: Retrofit): StatisticsApiService {
+        return retrofit.create(StatisticsApiService::class.java)
     }
 
 }
