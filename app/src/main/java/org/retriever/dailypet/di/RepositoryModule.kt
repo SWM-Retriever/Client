@@ -5,16 +5,18 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.retriever.dailypet.data.network.diary.DiaryApiInterface
+import org.retriever.dailypet.data.network.home.HomeApiService
+import org.retriever.dailypet.data.network.home.StatisticsApiService
 import org.retriever.dailypet.data.network.login.LoginApiService
-import org.retriever.dailypet.data.network.main.HomeApiService
 import org.retriever.dailypet.data.network.mypage.MyPageApiService
 import org.retriever.dailypet.data.network.signup.FamilyApiInterface
 import org.retriever.dailypet.data.network.signup.FindGroupApiInterface
 import org.retriever.dailypet.data.network.signup.PetApiService
 import org.retriever.dailypet.data.network.signup.ProfileApiService
 import org.retriever.dailypet.data.repository.diary.DiaryRepository
+import org.retriever.dailypet.data.repository.home.HomeRepository
+import org.retriever.dailypet.data.repository.home.StatisticsRepository
 import org.retriever.dailypet.data.repository.login.LoginRepository
-import org.retriever.dailypet.data.repository.main.HomeRepository
 import org.retriever.dailypet.data.repository.mypage.MyPageRepository
 import org.retriever.dailypet.data.repository.signup.FamilyRepository
 import org.retriever.dailypet.data.repository.signup.FindGroupRepository
@@ -49,7 +51,7 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun provideFindGroupRepository(findGroupApiInterface: FindGroupApiInterface): FindGroupRepository = FindGroupRepository(findGroupApiInterface)
-    
+
     @Provides
     @Singleton
     fun provideDiaryRepository(diaryApiInterface: DiaryApiInterface): DiaryRepository = DiaryRepository(diaryApiInterface)
@@ -57,5 +59,9 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun provideHomeRepository(homeApiService: HomeApiService): HomeRepository = HomeRepository(homeApiService)
+
+    @Provides
+    @Singleton
+    fun provideStatisticsRepository(statisticsApiService: StatisticsApiService): StatisticsRepository = StatisticsRepository(statisticsApiService)
 
 }

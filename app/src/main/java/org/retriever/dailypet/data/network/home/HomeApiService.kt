@@ -1,4 +1,4 @@
-package org.retriever.dailypet.data.network.main
+package org.retriever.dailypet.data.network.home
 
 import okhttp3.ResponseBody
 import org.retriever.dailypet.model.main.*
