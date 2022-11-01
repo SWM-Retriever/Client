@@ -79,6 +79,7 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
         var isAlone = false
 
         nickName = petResponse.nickName
+        groupName = petResponse.familyName ?: ""
         invitationCode = petResponse.invitationCode ?: ""
         if(groupName.isEmpty()){
             groupName = "${nickName}의 1인그룹"
