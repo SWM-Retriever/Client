@@ -67,15 +67,19 @@ class AddProfileBottomSheet : BottomSheetDialogFragment() {
                 }
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
+                    groupNicknameValidateText.visibility = View.VISIBLE
                     groupNicknameValidateText.text = "사용가능한 그룹 내 닉네임입니다"
                     groupNicknameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.success_blue))
                     groupNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
+                    enterGroupButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
+                    enterGroupButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
                     isValidNickname = true
                 }
                 is Resource.Error -> {
                     hideProgressCircular(progressCircular)
                     when(response.code){
                         CODE_INVALID_NAME -> {
+                            groupNicknameValidateText.visibility = View.VISIBLE
                             groupNicknameValidateText.text = "그룹 내에서 중복된 닉네임입니다"
                         }
                         CODE_SERVER_ERROR -> {
@@ -84,6 +88,8 @@ class AddProfileBottomSheet : BottomSheetDialogFragment() {
                     }
                     groupNicknameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
                     groupNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
+                    enterGroupButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
+                    enterGroupButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
                     isValidNickname = true
                 }
             }
@@ -99,6 +105,7 @@ class AddProfileBottomSheet : BottomSheetDialogFragment() {
                 }
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
+                    GlobalApplication.prefs.familyId = response.data?.familyId ?: -1
                     val nextIntent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(nextIntent)
                 }
@@ -125,9 +132,12 @@ class AddProfileBottomSheet : BottomSheetDialogFragment() {
         groupNameCheckText.setOnClickListener {
             val groupNickname = groupNicknameEdittext.text.toString()
             if (groupNickname.isBlank()) {
+                groupNicknameValidateText.visibility = View.VISIBLE
                 groupNicknameValidateText.text = "그룹 내 닉네임을 입력해주세요"
                 groupNicknameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
                 groupNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
+                enterGroupButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
+                enterGroupButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
                 isValidNickname = false
             } else {
                 checkValidGroupName(groupNickname)

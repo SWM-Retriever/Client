@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import org.retriever.dailypet.data.repository.signup.FindGroupRepository
 import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.signup.family.EnterFamilyResponse
 import org.retriever.dailypet.model.signup.family.FindGroupResponse
 import javax.inject.Inject
 
@@ -21,8 +22,8 @@ class FindGroupViewModel @Inject constructor(private val findGroupRepository: Fi
     private val _groupNameResponse = MutableLiveData<Resource<ResponseBody>>()
     val groupNameResponse: LiveData<Resource<ResponseBody>> = _groupNameResponse
 
-    private val _enterGroupResponse = MutableLiveData<Resource<ResponseBody>>()
-    val enterGroupResponse: LiveData<Resource<ResponseBody>> = _enterGroupResponse
+    private val _enterGroupResponse = MutableLiveData<Resource<EnterFamilyResponse>>()
+    val enterGroupResponse: LiveData<Resource<EnterFamilyResponse>> = _enterGroupResponse
 
     fun getGroupInfo(invitationCode: String, jwt: String) = viewModelScope.launch {
         _getGroupInfoResponse.postValue(Resource.Loading())
@@ -39,7 +40,7 @@ class FindGroupViewModel @Inject constructor(private val findGroupRepository: Fi
     fun postEnterGroup(familyId: Int, jwt: String, familyRoleName: String) = viewModelScope.launch {
         _enterGroupResponse.postValue(Resource.Loading())
 
-        _enterGroupResponse.postValue(findGroupRepository.postCheckGroupNickname(familyId, jwt, familyRoleName))
+        _enterGroupResponse.postValue(findGroupRepository.postEnterGroup(familyId, jwt, familyRoleName))
     }
 
 }

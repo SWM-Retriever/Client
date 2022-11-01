@@ -192,7 +192,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     private fun kakaoUnlink() {
         UserApiClient.instance.unlink { error ->
             if (error != null) {
-                Log.e(TAG, "연동 해제 실패", error)
+                Log.e(TAG, "카카오 연동 해제 실패", error)
             } else {
                 Log.d(TAG, "카카오 연동해제 성공. SDK에서 토큰 삭제 됨")
             }
