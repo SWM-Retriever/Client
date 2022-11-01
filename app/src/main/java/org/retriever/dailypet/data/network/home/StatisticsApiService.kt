@@ -1,5 +1,6 @@
 package org.retriever.dailypet.data.network.home
 
+import org.retriever.dailypet.model.main.MyContributionResponse
 import org.retriever.dailypet.model.statistics.ContributionResponse
 import org.retriever.dailypet.model.statistics.DetailContributionResponse
 import retrofit2.Response

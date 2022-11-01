@@ -54,11 +54,13 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initProgressCircular()
+        initContribution()
         initPetList()
         getPetList()
         initDeleteCare()
         initDaysView()
         initCareList()
+        getContribution()
         buttonClick()
     }
 
@@ -107,6 +109,10 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
         homeViewModel.getCareList(curPetId, jwt)
     }
 
+    private fun getContribution() {
+        homeViewModel.getMyContribution(jwt)
+    }
+
     private fun initDeleteCare() = with(binding) {
         homeViewModel.deletePetCareResponse.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { response ->
@@ -117,6 +123,37 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
                     is Resource.Success -> {
                         hideProgressCircular(progressCircular)
                         getCareList()
+                    }
+                    is Resource.Error -> {
+                        hideProgressCircular(progressCircular)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initContribution() = with(binding) {
+        homeViewModel.getMyContributionResponse.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showProgressCircular(progressCircular)
+                    }
+                    is Resource.Success -> {
+                        hideProgressCircular(progressCircular)
+                        val contribution : Int = response.data?.contributionPercent?.toInt() ?: 0
+                        contributionText.text = getString(R.string.home_contribution_text, contribution)
+
+                        val content = contributionText.text.toString()
+                        val spannableString = SpannableString(content)
+                        val start = content.indexOf(contribution.toString())
+                        val end = start + contribution.toString().length + 1
+                        spannableString.setSpan(
+                            ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.main_blue)),
+                            start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                        spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        contributionText.text = spannableString
                     }
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)

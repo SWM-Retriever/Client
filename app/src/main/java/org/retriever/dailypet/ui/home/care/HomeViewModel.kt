@@ -12,6 +12,9 @@ import org.retriever.dailypet.data.repository.home.HomeRepository
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.main.*
 import org.retriever.dailypet.model.signup.pet.PetList
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 
@@ -44,6 +47,12 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     private val _getGroupInfoResponse = MutableLiveData<Resource<GroupInfo>>()
     val getGroupInfoResponse: LiveData<Resource<GroupInfo>> = _getGroupInfoResponse
+
+    private val _getMyContributionResponse = MutableLiveData<Event<Resource<MyContributionResponse>>>()
+    val getMyContributionResponse: LiveData<Event<Resource<MyContributionResponse>>> = _getMyContributionResponse
+
+    private var startDate = ""
+    private var endDate = ""
 
     fun getDays(petId: Int, jwt: String) = viewModelScope.launch {
         _getDaysResponse.postValue(Event(Resource.Loading()))
@@ -97,5 +106,27 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
         _getGroupInfoResponse.postValue(Resource.Loading())
 
         _getGroupInfoResponse.postValue(homeRepository.getGroupInfo(familyId, jwt))
+    }
+
+    fun getMyContribution(jwt: String) = viewModelScope.launch {
+        _getMyContributionResponse.postValue(Event(Resource.Loading()))
+
+        getDate()
+
+        _getMyContributionResponse.postValue(Event(homeRepository.getContribution(startDate, endDate, jwt)))
+    }
+
+    private fun getDate() {
+        val cal = Calendar.getInstance()
+        cal.time = Date()
+        val df: DateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
+
+        endDate = df.format(cal.time)
+        cal.add(Calendar.DATE, ONE_WEEKS_LATER)
+        startDate = df.format(cal.time)
+    }
+
+    companion object {
+        private const val ONE_WEEKS_LATER = -7
     }
 }
