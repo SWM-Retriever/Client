@@ -76,12 +76,15 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun initInfo() {
+    private fun initInfo() = with(binding) {
         val args: AddCareFragmentArgs by navArgs()
         petId = args.petId
         petName = args.petName
-        val title = binding.addCareTitleText.text
-        binding.addCareTitleText.text = "$petName $title"
+        val title = addCareTitleText.text
+        addCareTitleText.text = "$petName $title"
+        careCountPicker.minValue = 1
+        careCountPicker.maxValue = 10
+        careCountPicker.value = 5
     }
 
     private fun buttonClick() = with(binding) {
@@ -126,14 +129,14 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
         val careInfo = CareInfo(
             careName = careName,
             dayOfWeeks = list,
-            totalCountPerDay = binding.careCountEdittext.text.toString().toInt()
+            totalCountPerDay = binding.careCountPicker.value
         )
         homeViewModel.postCare(petId, jwt, careInfo)
     }
 
-    private fun selectCare(selectedBtn: AppCompatButton, idx : Int) = with(binding) {
+    private fun selectCare(selectedBtn: AppCompatButton, idx: Int) = with(binding) {
         disableButton()
-        if(selectedBtn != btnInputCare){
+        if (selectedBtn != btnInputCare) {
             careInputEdittext.visibility = View.GONE
         }
         careList[idx] = true
@@ -179,8 +182,8 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
         checkSun.setOnCheckedChangeListener(listener)
     }
 
-    private fun disableButton() = with(binding){
-        for(i in 0 until careList.size){
+    private fun disableButton() = with(binding) {
+        for (i in 0 until careList.size) {
             careList[i] = false
         }
         btnFood.isSelected = false
@@ -190,8 +193,8 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
         btnInputCare.isSelected = false
     }
 
-    private fun allCheck(check: Boolean) = with(binding){
-        for(i in 0 until dayList.size){
+    private fun allCheck(check: Boolean) = with(binding) {
+        for (i in 0 until dayList.size) {
             dayList[i] = false
         }
         checkMon.isChecked = check
@@ -203,19 +206,7 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
         checkSun.isChecked = check
     }
 
-    private fun initEditText() = with(binding){
-        careCountEdittext.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                submitCheck()
-                if (careCountEdittext.text.isNotBlank()) {
-                    careCountEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.whiteblue_click_button)
-                }
-            }
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-        })
+    private fun initEditText() = with(binding) {
         careInputEdittext.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 submitCheck()
@@ -223,23 +214,24 @@ class AddCareFragment : BaseFragment<FragmentAddCareBinding>() {
                     careInputEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.whiteblue_click_button)
                 }
             }
+
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
+
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
         })
     }
 
-    private fun submitCheck() = with(binding){
+    private fun submitCheck() = with(binding) {
         val day = dayList.contains(true)
         var care = careList.contains(true)
-        val number = careCountEdittext.text.isNotBlank()
-        if(careList[0]){
+        if (careList[0]) {
             care = careInputEdittext.text.isNotBlank()
             careName = careInputEdittext.text.toString()
         }
 
-        SUBMIT = day && care && number
+        SUBMIT = day && care
         if (SUBMIT) {
             addCareSubmitButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
             addCareSubmitButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
