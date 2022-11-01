@@ -14,6 +14,7 @@ import org.retriever.dailypet.data.network.login.LoginApiService
 import org.retriever.dailypet.data.network.home.HomeApiService
 import org.retriever.dailypet.data.network.home.StatisticsApiService
 import org.retriever.dailypet.data.network.mypage.MyPageApiService
+import org.retriever.dailypet.data.network.presignedurl.PreSignedUrlApiService
 import org.retriever.dailypet.data.network.signup.FamilyApiInterface
 import org.retriever.dailypet.data.network.signup.FindGroupApiInterface
 import org.retriever.dailypet.data.network.signup.PetApiService
@@ -111,6 +112,12 @@ object NetworkModule {
     @Singleton
     fun provideStatisticsApiService(retrofit: Retrofit): StatisticsApiService {
         return retrofit.create(StatisticsApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providePreSignedUrlApiService(retrofit: Retrofit): PreSignedUrlApiService {
+        return retrofit.create(PreSignedUrlApiService::class.java)
     }
 
 }

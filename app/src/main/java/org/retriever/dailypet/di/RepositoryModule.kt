@@ -6,18 +6,18 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.retriever.dailypet.data.network.diary.DiaryApiInterface
 import org.retriever.dailypet.data.network.home.HomeApiService
-import org.retriever.dailypet.data.network.home.StatisticsApiService
 import org.retriever.dailypet.data.network.login.LoginApiService
 import org.retriever.dailypet.data.network.mypage.MyPageApiService
+import org.retriever.dailypet.data.network.presignedurl.PreSignedUrlApiService
 import org.retriever.dailypet.data.network.signup.FamilyApiInterface
 import org.retriever.dailypet.data.network.signup.FindGroupApiInterface
 import org.retriever.dailypet.data.network.signup.PetApiService
 import org.retriever.dailypet.data.network.signup.ProfileApiService
 import org.retriever.dailypet.data.repository.diary.DiaryRepository
 import org.retriever.dailypet.data.repository.home.HomeRepository
-import org.retriever.dailypet.data.repository.home.StatisticsRepository
 import org.retriever.dailypet.data.repository.login.LoginRepository
 import org.retriever.dailypet.data.repository.mypage.MyPageRepository
+import org.retriever.dailypet.data.repository.presignedurl.PreSignedUrlRepository
 import org.retriever.dailypet.data.repository.signup.FamilyRepository
 import org.retriever.dailypet.data.repository.signup.FindGroupRepository
 import org.retriever.dailypet.data.repository.signup.PetRepository
@@ -62,6 +62,6 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideStatisticsRepository(statisticsApiService: StatisticsApiService): StatisticsRepository = StatisticsRepository(statisticsApiService)
+    fun providePreSignedUrlRepository(preSignedUrlApiService: PreSignedUrlApiService): PreSignedUrlRepository = PreSignedUrlRepository(preSignedUrlApiService)
 
 }

@@ -43,14 +43,16 @@ class SplashActivity : AppCompatActivity() {
                         }
                     }
                     else {
-                        val intent = Intent(this, MainActivity::class.java)
+                        // TODO
+                        val intent = Intent(this, LoginActivity::class.java)
                         startActivity(intent)
                         finish()
                     }
                 }
             }
             else if (NidOAuthLoginState.OK.equals(NaverIdLoginSDK.getState())){
-                val intent = Intent(this, MainActivity::class.java)
+                // TODO
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             }

@@ -123,4 +123,10 @@ dependencies {
     // StateProgressBar
     implementation 'com.github.adrien1018:StateProgressBar:52cd5e85be'
 
+    // ImagePicker
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
+
+    // Coil
+    implementation("io.coil-kt:coil:2.2.2")
+
 }
