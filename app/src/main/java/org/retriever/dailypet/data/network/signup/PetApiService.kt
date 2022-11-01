@@ -26,15 +26,6 @@ interface PetApiService {
         @Header("X-AUTH-TOKEN") jwt: String,
         @Body petInfo: PetInfo,
     ): Response<PetResponse>
-    // TODO Multipart 추가
-//    @Multipart
-//    @POST("api/v1/families/{familyId}/pet")
-//    suspend fun postPet(
-//        @Path("familyId") familyId: Int,
-//        @Header("X-AUTH-TOKEN") jwt : String,
-//        @Part("dto") petInfo: PetInfo,
-//        @Part image: MultipartBody.Part?,
-//    ): Response<PetResponse>
 
     @PATCH("api/v1/families/{familyId}/pets/{petId}")
     suspend fun modifyPet(

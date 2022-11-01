@@ -1,14 +1,7 @@
 package org.retriever.dailypet.ui.signup
 
-import android.Manifest
 import android.app.Activity
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.ImageDecoder
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -16,18 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.load
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.datepicker.MaterialDatePicker
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okio.BufferedSink
+import okhttp3.RequestBody.Companion.asRequestBody
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreatePetBinding
@@ -37,11 +30,11 @@ import org.retriever.dailypet.model.signup.pet.PetInfo
 import org.retriever.dailypet.model.signup.pet.PetResponse
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.bottomsheet.BreedBottomSheet
-import org.retriever.dailypet.ui.bottomsheet.CameraBottomSheet
 import org.retriever.dailypet.ui.signup.viewmodel.PetViewModel
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -49,45 +42,80 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     private val petViewModel by activityViewModels<PetViewModel>()
 
+    private var petInfo = PetInfo("","","","",-1,0f,false,"","")
+
     private lateinit var onBackCallBack: OnBackPressedCallback
 
     private val jwt = GlobalApplication.prefs.jwt ?: ""
     private val familyId = GlobalApplication.prefs.familyId
-
-    private var bitmap: Bitmap? = null
-
     private var datePicker: MaterialDatePicker<Long>? = null
-
     private var petKindId = -1
-
     private var dontKnow = false
-
     private val args: CreatePetFragmentArgs by navArgs()
+    private var imageUrl = ""
+    private var file : File? = null
 
-    private val galleryResult = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val imageUri = result.data?.data
-            imageUri?.let {
-                bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    ImageDecoder.decodeBitmap(ImageDecoder.createSource(requireActivity().contentResolver, it))
-                } else {
-                    MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, it)
+    private val startForProfileImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
+
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    val fileUri = data?.data!!
+                    file = File(fileUri.path ?: "")
+                    binding.petCircleImage.load(file)
                 }
-                bitmap = Bitmap.createScaledBitmap(bitmap!!, 300, 300, true)
-                binding.petCircleImage.setImageBitmap(bitmap)
+                ImagePicker.RESULT_ERROR -> {
+                    Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        }
+
+    private fun observePreSignedUrlResponse() {
+        petViewModel.preSignedUrlResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+
+                }
+                is Resource.Success -> {
+                    imageUrl = response.data?.originalUrl ?: ""
+                    petInfo.profileImageUrl = imageUrl
+                    file?.let {
+                        val requestBody = it.asRequestBody("image/jpg".toMediaTypeOrNull())
+                        val multipartBody = MultipartBody.Part.createFormData("file", it.name, requestBody)
+                        petViewModel.putImageUrl(response.data?.preSignedUrl ?: "", multipartBody)
+                    }
+                }
+                is Resource.Error -> {
+
+                }
             }
         }
     }
 
-    private val cameraResult = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            bitmap = result.data?.extras?.get("data") as Bitmap
-            bitmap = Bitmap.createScaledBitmap(bitmap!!, 300, 300, true)
-            binding.petCircleImage.setImageBitmap(bitmap)
+    private fun observeImageUrlResponse() {
+        petViewModel.putImageUrlResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+
+                }
+                is Resource.Success -> {
+                    if (args.petDetailItem == null){
+                        postPetInfo(petInfo)
+                    } else{
+                        modifyPet(args.petDetailItem?.petId ?: -1, ModifyPetRequest(
+                            petInfo.petName, petInfo.birthDate, petInfo.weight, petInfo.isNeutered, petInfo.registerNumber, imageUrl))
+                    }
+                }
+                is Resource.Error -> {
+
+                }
+            }
         }
     }
 
@@ -121,11 +149,12 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         initSubmitButton()
         initArgsView()
         observeModifyPet()
+        observePreSignedUrlResponse()
+        observeImageUrlResponse()
     }
 
     private fun initArgsView() = with(binding) {
         args.petDetailItem?.let {
-            //TODO 이미지 설정
 
             createPetTitleText.text = getString(R.string.pet_modify_title)
             petSubmitButton.text = getString(R.string.modify_text)
@@ -175,7 +204,13 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     private fun buttonClick() = with(binding) {
 
         createPetPhotoButton.setOnClickListener {
-            showCameraBottomSheetDialog()
+            ImagePicker.with(requireActivity())
+                .crop()
+                .compress(2048)
+                .maxResultSize(1080, 1080)
+                .createIntent { intent ->
+                    startForProfileImageResult.launch(intent)
+                }
         }
 
         petNameCheckButton.setOnClickListener {
@@ -227,62 +262,32 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         }
 
         petSubmitButton.setOnClickListener {
-            val name = petNameEdittext.text.toString()
-            val type = petViewModel.getPetType()
-            val sex = petViewModel.getSexType()
-            val birth = petBirthDatePicker.text.toString()
-            val weight = petWeightEdittext.text.toString().toFloat()
-            val neutral = neutralRadio.isChecked
-            val registerNum = petRegisterNumEdittext.text.toString()
+            petInfo.petName = petNameEdittext.text.toString()
+            petInfo.petType = petViewModel.getPetType()
+            petInfo.gender = petViewModel.getSexType()
+            petInfo.birthDate = petBirthDatePicker.text.toString()
+            petInfo.weight = petWeightEdittext.text.toString().toFloat()
+            petInfo.isNeutered = neutralRadio.isChecked
+            petInfo.registerNumber = petRegisterNumEdittext.text.toString()
+            petInfo.petKindId = petKindId
 
             if (args.petDetailItem == null) {
-                postPetInfo(name, type, sex, birth, weight, neutral, registerNum)
+                if (file != null) {
+                    petViewModel.getPreSignedUrl(S3_PATH, file!!.name)
+                } else {
+                    postPetInfo(petInfo)
+                }
             } else {
-                modifyPet(args.petDetailItem?.petId ?: -1, ModifyPetRequest(name, birth, weight, neutral, registerNum, ""))
+                if (file != null) {
+                    petViewModel.getPreSignedUrl(S3_PATH, file!!.name)
+                } else {
+                    modifyPet(args.petDetailItem?.petId ?: -1, ModifyPetRequest(
+                        petInfo.petName, petInfo.birthDate, petInfo.weight, petInfo.isNeutered, petInfo.registerNumber, imageUrl))
+                }
             }
 
         }
 
-    }
-
-    private fun showCameraBottomSheetDialog() {
-        val cameraSheetFragment = CameraBottomSheet {
-            when (it) {
-                0 -> takePicture()
-                1 -> openGallery()
-            }
-        }
-        cameraSheetFragment.show(childFragmentManager, cameraSheetFragment.tag)
-    }
-
-    private fun takePicture() {
-        val cameraPermission = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
-        val writePermission = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
-        if (cameraPermission == PackageManager.PERMISSION_DENIED || writePermission == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(
-                requireActivity(), arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                REQUEST_CAMERA
-            )
-        } else {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            cameraResult.launch(intent)
-        }
-    }
-
-    private fun openGallery() {
-        val readPermission = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-
-        if (readPermission == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(
-                requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                REQUEST_GALLERY
-            )
-        } else {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/&")
-            galleryResult.launch(intent)
-        }
     }
 
     private fun setInValidPetName(text: String) = with(binding) {
@@ -463,18 +468,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         petSubmitButton.isClickable = false
     }
 
-    private fun postPetInfo(
-        name: String,
-        type: String,
-        sex: String,
-        birth: String,
-        weight: Float,
-        neutral: Boolean,
-        registerNumber: String,
-    ) {
-        val petInfo = PetInfo(name, type, sex, birth, petKindId, weight, neutral, registerNumber, "")
-        val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
-        val multiPartBody = MultipartBody.Part.createFormData("image", "image", bitmapRequestBody)
+    private fun postPetInfo(petInfo: PetInfo) {
         petViewModel.postPet(familyId, jwt, petInfo)
     }
 
@@ -504,13 +498,6 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         }
     }
 
-    inner class BitmapRequestBody(private val bitmap: Bitmap) : RequestBody() {
-        override fun contentType(): MediaType = "image/jpeg".toMediaType()
-        override fun writeTo(sink: BufferedSink) {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 99, sink.outputStream())
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
 
@@ -524,8 +511,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     }
 
     companion object {
-        private const val REQUEST_GALLERY = 1
-        private const val REQUEST_CAMERA = 2
+        private const val S3_PATH = "PET"
     }
 
 }

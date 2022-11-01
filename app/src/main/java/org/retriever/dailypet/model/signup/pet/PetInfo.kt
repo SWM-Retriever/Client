@@ -4,14 +4,14 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class PetInfo(
-    val petName : String,
-    val petType : String,
-    val gender : String,
-    val birthDate : String,
-    val petKindId : Int,
-    val weight : Float,
-    val isNeutered : Boolean,
-    val registerNumber: String,
-    val profileImageUrl: String,
+    var petName : String,
+    var petType : String,
+    var gender : String,
+    var birthDate : String,
+    var petKindId : Int,
+    var weight : Float,
+    var isNeutered : Boolean,
+    var registerNumber: String,
+    var profileImageUrl: String,
 )
 
