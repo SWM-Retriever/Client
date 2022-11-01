@@ -1,76 +1,75 @@
 package org.retriever.dailypet.ui.signup
 
-import android.Manifest.permission.*
 import android.app.Activity.RESULT_OK
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.load
+import com.github.dhaval2404.imagepicker.ImagePicker
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okio.BufferedSink
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreateProfileBinding
 import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.signup.profile.RegisterProfile
 import org.retriever.dailypet.ui.base.BaseFragment
-import org.retriever.dailypet.ui.bottomsheet.CameraBottomSheet
 import org.retriever.dailypet.ui.signup.viewmodel.ProfileViewModel
 import org.retriever.dailypet.util.hideProgressCircular
+import org.retriever.dailypet.util.modifyOrientation
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
+import java.io.File
 
 class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
     private val profileViewModel by activityViewModels<ProfileViewModel>()
 
-    private var bitmap: Bitmap? = null
-    private var isValidNickname: Boolean = false
-    private var nickname: String = ""
+    private lateinit var registerProfile: RegisterProfile
 
-    private val galleryResult = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            val imageUri = result.data?.data
-            imageUri?.let {
-                bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    ImageDecoder.decodeBitmap(ImageDecoder.createSource(requireActivity().contentResolver, it))
-                } else {
-                    MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, it)
+    private var isValidNickname = false
+    private var nickname = ""
+    private var imageUrl = ""
+    private var file : File? = null
+
+    private val startForProfileImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
+
+            when (resultCode) {
+                RESULT_OK -> {
+                    val fileUri = data?.data!!
+                    file = File(fileUri.path ?: "")
+                    binding.profilePhotoImageview.load(file)
                 }
-                bitmap = Bitmap.createScaledBitmap(bitmap!!, 300, 300, true)
-                binding.profilePhotoImageview.setImageBitmap(bitmap)
+                ImagePicker.RESULT_ERROR -> {
+                    Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
+                }
+
             }
         }
-    }
-
-    private val cameraResult = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            bitmap = result.data?.extras?.get("data") as Bitmap
-            bitmap = Bitmap.createScaledBitmap(bitmap!!, 300, 300, true)
-            binding.profilePhotoImageview.setImageBitmap(bitmap)
-        }
-    }
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentCreateProfileBinding {
         return FragmentCreateProfileBinding.inflate(inflater, container, false)
@@ -79,10 +78,18 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initRegisterProfile()
         initProgressCircular()
         initNickNameView()
         initProfileView()
         buttonClick()
+        observePreSignedUrlResponse()
+        observeImageUrlResponse()
+    }
+
+    private fun initRegisterProfile() {
+        val args: CreateProfileFragmentArgs by navArgs()
+        registerProfile = args.registerProfile
     }
 
     private fun initProgressCircular() {
@@ -156,7 +163,13 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
     private fun buttonClick() = with(binding) {
 
         createProfilePhotoButton.setOnClickListener {
-            showBottomSheetDialog()
+            ImagePicker.with(requireActivity())
+                .crop()
+                .compress(2048)
+                .maxResultSize(1080, 1080)
+                .createIntent { intent ->
+                    startForProfileImageResult.launch(intent)
+                }
         }
 
         profileNicknameCheckButton.setOnClickListener {
@@ -169,7 +182,13 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
             checkValidNickName(nickname)
 
             if (isValidNickname) {
-                postProfileInfo(nickname)
+                registerProfile.nickName = nickname
+
+                if (file != null) {
+                    profileViewModel.getPreSignedUrl(S3_PATH, file!!.name)
+                } else {
+                    postProfileInfo(registerProfile)
+                }
             } else {
                 Toast.makeText(requireContext(), "닉네임 중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
             }
@@ -179,47 +198,6 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
             root.findNavController().popBackStack()
         }
 
-    }
-
-    private fun showBottomSheetDialog() {
-        val cameraSheetFragment = CameraBottomSheet {
-            when (it) {
-                0 -> takePicture()
-                1 -> openGallery()
-            }
-        }
-        cameraSheetFragment.show(childFragmentManager, cameraSheetFragment.tag)
-    }
-
-    private fun openGallery() {
-        val readPermission = ContextCompat.checkSelfPermission(requireContext(), READ_EXTERNAL_STORAGE)
-
-        if (readPermission == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(requireActivity(), arrayOf(READ_EXTERNAL_STORAGE), REQUEST_GALLERY)
-        } else {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/&")
-            galleryResult.launch(intent)
-        }
-    }
-
-    private fun takePicture() {
-        val cameraPermission = ContextCompat.checkSelfPermission(requireContext(), CAMERA)
-        val writePermission = ContextCompat.checkSelfPermission(requireContext(), WRITE_EXTERNAL_STORAGE)
-
-        if (cameraPermission == PackageManager.PERMISSION_DENIED || writePermission == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(requireActivity(), arrayOf(CAMERA, WRITE_EXTERNAL_STORAGE), REQUEST_CAMERA)
-        } else {
-            val intent = Intent(ACTION_IMAGE_CAPTURE)
-            cameraResult.launch(intent)
-        }
-    }
-
-    inner class BitmapRequestBody(private val bitmap: Bitmap) : RequestBody() {
-        override fun contentType(): MediaType = "image/jpeg".toMediaType()
-        override fun writeTo(sink: BufferedSink) {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 99, sink.outputStream())
-        }
     }
 
     private fun checkValidNickName(nickName: String) = with(binding) {
@@ -235,13 +213,46 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
         }
     }
 
-    private fun postProfileInfo(nickname: String) {
-        val args: CreateProfileFragmentArgs by navArgs()
-        val registerProfile = args.registerProfile
-        registerProfile.nickName = nickname
-        val bitmapRequestBody = bitmap!!.let { BitmapRequestBody(it) }
-        val multiPartBody = MultipartBody.Part.createFormData("image", "image", bitmapRequestBody)
+    private fun observePreSignedUrlResponse() {
+        profileViewModel.preSignedUrlResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
 
+                }
+                is Resource.Success -> {
+                    imageUrl = response.data?.originalUrl ?: ""
+                    registerProfile.profileImageUrl = imageUrl
+
+                    file?.let {
+                        val requestBody = it.asRequestBody("image/jpg".toMediaTypeOrNull())
+                        val multipartBody = MultipartBody.Part.createFormData("file", it.name, requestBody)
+                        profileViewModel.putImageUrl(response.data?.preSignedUrl ?: "", multipartBody)
+                    }
+                }
+                is Resource.Error -> {
+
+                }
+            }
+        }
+    }
+
+    private fun observeImageUrlResponse() {
+        profileViewModel.putImageUrlResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+
+                }
+                is Resource.Success -> {
+                    postProfileInfo(registerProfile)
+                }
+                is Resource.Error -> {
+
+                }
+            }
+        }
+    }
+
+    private fun postProfileInfo(registerProfile: RegisterProfile) {
         profileViewModel.postProfile(registerProfile)
     }
 
@@ -249,8 +260,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
         private const val TAG = "CREATE PROFILE"
         private const val CODE_INVALID_NICKNAME = 409
         private const val CODE_FAIL = 500
-        private const val REQUEST_GALLERY = 1
-        private const val REQUEST_CAMERA = 2
+        private const val S3_PATH = "MEMBER"
     }
 
 }

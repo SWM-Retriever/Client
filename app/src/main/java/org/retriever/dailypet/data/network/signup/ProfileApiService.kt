@@ -1,11 +1,12 @@
 package org.retriever.dailypet.data.network.signup
 
-import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import org.retriever.dailypet.model.signup.profile.RegisterProfile
 import org.retriever.dailypet.model.signup.profile.RegisterProfileResponse
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.Headers
+import retrofit2.http.POST
 
 interface ProfileApiService {
 
@@ -16,7 +17,7 @@ interface ProfileApiService {
     @POST("api/v1/auth/sign-up")
     suspend fun postProfile(
         @Body registerProfile: RegisterProfile,
-        ): Response<RegisterProfileResponse>
+    ): Response<RegisterProfileResponse>
 
     // TODO Mulipart로 URL 받아오기
 //    @Multipart

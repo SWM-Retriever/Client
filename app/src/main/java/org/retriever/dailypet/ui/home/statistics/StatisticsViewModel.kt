@@ -57,9 +57,9 @@ class StatisticsViewModel @Inject constructor(private val statisticsRepository: 
         cal.time = Date()
         val df: DateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
 
-        startDate = df.format(cal.time)
-        cal.add(Calendar.DATE, ONE_WEEKS_LATER)
         endDate = df.format(cal.time)
+        cal.add(Calendar.DATE, ONE_WEEKS_LATER)
+        startDate = df.format(cal.time)
     }
 
     companion object {

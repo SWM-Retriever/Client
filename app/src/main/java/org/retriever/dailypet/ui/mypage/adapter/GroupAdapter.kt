@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.ItemMyPageDetailBinding
 import org.retriever.dailypet.model.mypage.GroupMember
 
@@ -13,6 +15,8 @@ class GroupAdapter : ListAdapter<GroupMember, GroupAdapter.ViewHolder>(diffUtil)
     class ViewHolder(val binding: ItemMyPageDetailBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: GroupMember) {
             binding.profileNickName.text = item.familyRoleName
+            binding.profilePhotoImageview.load(item.profileImageUrl)
+
         }
     }
 
