@@ -3,6 +3,7 @@ package org.retriever.dailypet.data.network.home
 import okhttp3.ResponseBody
 import org.retriever.dailypet.model.main.*
 import org.retriever.dailypet.model.signup.pet.PetList
+import org.retriever.dailypet.model.statistics.ContributionResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -66,4 +67,11 @@ interface HomeApiService {
         @Path("familyId") petId: Int,
         @Header("X-AUTH-TOKEN") jwt: String,
     ): Response<GroupInfo>
+
+    @GET("api/v1/main/contribution")
+    suspend fun getMyContribution(
+        @Query("startDate") startDate : String,
+        @Query("endDate") endDate : String,
+        @Header("X-AUTH-TOKEN") jwt: String,
+    ) : Response<MyContributionResponse>
 }

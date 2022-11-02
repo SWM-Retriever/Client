@@ -6,15 +6,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import okhttp3.ResponseBody
+import org.retriever.dailypet.data.repository.presignedurl.PreSignedUrlRepository
 import org.retriever.dailypet.model.Event
 import org.retriever.dailypet.data.repository.signup.PetRepository
 import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.presignedurl.PreSignedUrlResponse
 import org.retriever.dailypet.model.signup.pet.*
 import javax.inject.Inject
 
 @HiltViewModel
-class PetViewModel @Inject constructor(private val petRepository: PetRepository) : ViewModel() {
+class PetViewModel @Inject constructor(
+    private val petRepository: PetRepository,
+    private val preSignedUrlRepository: PreSignedUrlRepository,
+) : ViewModel() {
 
     private val _petNameResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
     val petNameResponse: LiveData<Event<Resource<ResponseBody>>> = _petNameResponse
@@ -30,6 +36,12 @@ class PetViewModel @Inject constructor(private val petRepository: PetRepository)
 
     private val _getPetListResponse = MutableLiveData<Event<Resource<PetList>>>()
     val getPetListResponse: LiveData<Event<Resource<PetList>>> = _getPetListResponse
+
+    private val _preSignedUrlResponse = MutableLiveData<Resource<PreSignedUrlResponse>>()
+    val preSignedUrlResponse: LiveData<Resource<PreSignedUrlResponse>> = _preSignedUrlResponse
+
+    private val _putImageUrlResponse = MutableLiveData<Resource<ResponseBody>>()
+    val putImageUrlResponse: LiveData<Resource<ResponseBody>> = _putImageUrlResponse
 
     private var _submit = MutableLiveData(false)
     val submit: LiveData<Boolean> = _submit
@@ -72,6 +84,22 @@ class PetViewModel @Inject constructor(private val petRepository: PetRepository)
         _getPetListResponse.postValue(Event(Resource.Loading()))
 
         _getPetListResponse.postValue(Event(petRepository.getPetList(familyId, jwt)))
+    }
+
+    fun getPreSignedUrl(s3Path: String, fileName: String) {
+        viewModelScope.launch {
+            _preSignedUrlResponse.postValue(Resource.Loading())
+
+            _preSignedUrlResponse.postValue(preSignedUrlRepository.getPreSignedUrl(s3Path, fileName))
+        }
+    }
+
+    fun putImageUrl(url: String, image: MultipartBody.Part) {
+        viewModelScope.launch {
+            _putImageUrlResponse.postValue(Resource.Loading())
+
+            _putImageUrlResponse.postValue(preSignedUrlRepository.putImageUrl(url, image))
+        }
     }
 
     fun setInitial() {

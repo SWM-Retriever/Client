@@ -1,11 +1,7 @@
 package org.retriever.dailypet.ui.signup
 
 import android.app.Activity.RESULT_OK
-import android.graphics.Bitmap
-import android.graphics.ImageDecoder
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,13 +15,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.github.dhaval2404.imagepicker.ImagePicker
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okio.BufferedSink
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreateProfileBinding
@@ -34,7 +26,6 @@ import org.retriever.dailypet.model.signup.profile.RegisterProfile
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.signup.viewmodel.ProfileViewModel
 import org.retriever.dailypet.util.hideProgressCircular
-import org.retriever.dailypet.util.modifyOrientation
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
 import java.io.File

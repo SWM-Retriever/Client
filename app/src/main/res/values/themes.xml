@@ -14,6 +14,8 @@
         <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
         <item name="android:colorControlHighlight">@color/main_blue</item>
-
+    </style>
+    <style name = "ThemeOverlay.NumberPicker" parent="Theme.DailyPet">
+        <item name="colorControlNormal">@color/medium_blue</item>
     </style>
 </resources>

@@ -10,6 +10,7 @@
     <color name="logo_white">#F2F2F2</color>
     <color name="main_pink">#F2778D</color>
     <color name="main_blue">#6FC5CE</color>
+    <color name="medium_blue">#A66FC5CE</color>
     <color name="light_grey">#FAFAFA</color>
     <color name="dark_grey">#EEEEEE</color>
     <color name="light_black">#666666</color>
@@ -26,6 +27,9 @@
     <color name="pastel_red">#EB6E7A</color>
     <color name="barchart_end_color">#EAEAEA</color>
     <color name="barchart_start_color">#33E5E5E5</color>
+    <color name="ucrop_color_toolbar">@color/main_blue</color>
+    <color name="ucrop_color_statusbar">@color/main_pink</color>
+    <color name="ucrop_color_widget_active">@color/main_blue</color>
     <color name="group_1">#0DA09F</color>
     <color name="group_2">#329DFF</color>
     <color name="group_3">#DC7033</color>

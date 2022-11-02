@@ -2,8 +2,6 @@ package org.retriever.dailypet.ui.home.care
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +18,6 @@ import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.main.CareModifyInfo
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.util.hideProgressCircular
-import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
 
 class ModifyCareFragment : BaseFragment<FragmentModifyCareBinding>() {
@@ -45,7 +42,6 @@ class ModifyCareFragment : BaseFragment<FragmentModifyCareBinding>() {
         initInfo()
         buttonClick()
         initCheckbox()
-        initEditText()
     }
 
     private fun initProgressCircular() {
@@ -74,13 +70,16 @@ class ModifyCareFragment : BaseFragment<FragmentModifyCareBinding>() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun initInfo() {
+    private fun initInfo() = with(binding){
         val args: ModifyCareFragmentArgs by navArgs()
         petId = args.petId
         careId = args.careId
         careName = args.careName
-        val title = binding.addCareTitleText.text
-        binding.addCareTitleText.text = "$careName $title"
+        val title = addCareTitleText.text
+        addCareTitleText.text = "$careName $title"
+        careCountPicker.minValue = 1
+        careCountPicker.maxValue = 10
+        careCountPicker.value = 5
     }
 
     private fun buttonClick() = with(binding) {
@@ -103,7 +102,7 @@ class ModifyCareFragment : BaseFragment<FragmentModifyCareBinding>() {
         }
         val careModifyInfo = CareModifyInfo(
             dayOfWeeks = list,
-            totalCountPerDay = binding.careCountEdittext.text.toString().toInt()
+            totalCountPerDay = binding.careCountPicker.value
         )
         homeViewModel.patchPetCare(petId, careId, jwt, careModifyInfo)
     }
@@ -146,8 +145,8 @@ class ModifyCareFragment : BaseFragment<FragmentModifyCareBinding>() {
         checkSun.setOnCheckedChangeListener(listener)
     }
 
-    private fun allCheck(check: Boolean) = with(binding){
-        for(i in 0 until dayList.size){
+    private fun allCheck(check: Boolean) = with(binding) {
+        for (i in 0 until dayList.size) {
             dayList[i] = false
         }
         checkMon.isChecked = check
@@ -159,26 +158,10 @@ class ModifyCareFragment : BaseFragment<FragmentModifyCareBinding>() {
         checkSun.isChecked = check
     }
 
-    private fun initEditText() = with(binding){
-        careCountEdittext.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                submitCheck()
-                if (careCountEdittext.text.isNotBlank()) {
-                    careCountEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.whiteblue_click_button)
-                }
-            }
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-        })
-    }
-
-    private fun submitCheck() = with(binding){
+    private fun submitCheck() = with(binding) {
         val day = dayList.contains(true)
-        val number = careCountEdittext.text.isNotBlank()
 
-        SUBMIT = day && number
+        SUBMIT = day
         if (SUBMIT) {
             addCareSubmitButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
             addCareSubmitButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))

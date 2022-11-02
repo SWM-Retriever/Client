@@ -36,4 +36,7 @@ class HomeRepository @Inject constructor(private val homeApiService: HomeApiServ
 
     suspend fun getGroupInfo(familyId: Int, jwt: String): Resource<GroupInfo> =
         safeApiCall { homeApiService.getGroupInfo(familyId, jwt) }
+
+    suspend fun getContribution(startDate: String, endDate: String, jwt: String): Resource<MyContributionResponse> =
+        safeApiCall { homeApiService.getMyContribution(startDate, endDate, jwt) }
 }
