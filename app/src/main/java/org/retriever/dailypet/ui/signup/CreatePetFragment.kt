@@ -20,7 +20,7 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.datepicker.MaterialDatePicker
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreatePetBinding
@@ -42,7 +42,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     private val petViewModel by activityViewModels<PetViewModel>()
 
-    private var petInfo = PetInfo("","","","",-1,0f,false,"","")
+    private var petInfo = PetInfo("", "", "", "", -1, 0f, false, "", "")
 
     private lateinit var onBackCallBack: OnBackPressedCallback
 
@@ -53,7 +53,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     private var dontKnow = false
     private val args: CreatePetFragmentArgs by navArgs()
     private var imageUrl = ""
-    private var file : File? = null
+    private var file: File? = null
 
     private val startForProfileImageResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -86,9 +86,9 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
                     imageUrl = response.data?.originalUrl ?: ""
                     petInfo.profileImageUrl = imageUrl
                     file?.let {
-                        val requestBody = it.asRequestBody("image/jpg".toMediaTypeOrNull())
+                        val requestBody = it.path.toRequestBody("image/jpeg".toMediaTypeOrNull())
                         val multipartBody = MultipartBody.Part.createFormData("file", it.name, requestBody)
-                        petViewModel.putImageUrl(response.data?.preSignedUrl ?: "", multipartBody)
+                        petViewModel.putImageUrl("image/jpeg", response.data?.preSignedUrl ?: "", multipartBody)
                     }
                 }
                 is Resource.Error -> {
@@ -105,11 +105,14 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
                 }
                 is Resource.Success -> {
-                    if (args.petDetailItem == null){
+                    if (args.petDetailItem == null) {
                         postPetInfo(petInfo)
-                    } else{
-                        modifyPet(args.petDetailItem?.petId ?: -1, ModifyPetRequest(
-                            petInfo.petName, petInfo.birthDate, petInfo.weight, petInfo.isNeutered, petInfo.registerNumber, imageUrl))
+                    } else {
+                        modifyPet(
+                            args.petDetailItem?.petId ?: -1, ModifyPetRequest(
+                                petInfo.petName, petInfo.birthDate, petInfo.weight, petInfo.isNeutered, petInfo.registerNumber, imageUrl
+                            )
+                        )
                     }
                 }
                 is Resource.Error -> {
@@ -281,8 +284,11 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
                 if (file != null) {
                     petViewModel.getPreSignedUrl(S3_PATH, file!!.name)
                 } else {
-                    modifyPet(args.petDetailItem?.petId ?: -1, ModifyPetRequest(
-                        petInfo.petName, petInfo.birthDate, petInfo.weight, petInfo.isNeutered, petInfo.registerNumber, imageUrl))
+                    modifyPet(
+                        args.petDetailItem?.petId ?: -1, ModifyPetRequest(
+                            petInfo.petName, petInfo.birthDate, petInfo.weight, petInfo.isNeutered, petInfo.registerNumber, imageUrl
+                        )
+                    )
                 }
             }
 
