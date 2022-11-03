@@ -41,13 +41,25 @@ class ProfileViewModel @Inject constructor(
     private val _nextButtonState = MutableStateFlow(false)
     val nextButtonState: StateFlow<Boolean> = _nextButtonState
 
+    // TODO CreateProfileFragment 이미지 상태 저장
+
     private val _nickNameViewState = MutableLiveData(NickNameViewState.DEFAULT_STATE)
     val nickNameViewState: LiveData<NickNameViewState> = _nickNameViewState
 
     private val _registerButtonState = MutableStateFlow(false)
     val registerButtonState : StateFlow<Boolean> = _registerButtonState
 
-    // TODO CreateProfileFragment 이미지 상태 저장
+    private val _nickNameResponse = MutableLiveData<Resource<ResponseBody>>()
+    val nickNameResponse: LiveData<Resource<ResponseBody>> = _nickNameResponse
+
+    private val _registerProfileResponse = MutableLiveData<Event<Resource<RegisterProfileResponse>>>()
+    val registerProfileResponse: LiveData<Event<Resource<RegisterProfileResponse>>> = _registerProfileResponse
+
+    private val _preSignedUrlResponse = MutableLiveData<Resource<PreSignedUrlResponse>>()
+    val preSignedUrlResponse: LiveData<Resource<PreSignedUrlResponse>> = _preSignedUrlResponse
+
+    private val _putImageUrlResponse = MutableLiveData<Resource<ResponseBody>>()
+    val putImageUrlResponse: LiveData<Resource<ResponseBody>> = _putImageUrlResponse
 
     fun setAllCheckState(check: Boolean) {
         _allCheckState.value = check
@@ -89,18 +101,6 @@ class ProfileViewModel @Inject constructor(
     fun setRegisterButtonState(check : Boolean){
         _registerButtonState.value = check
     }
-
-    private val _nickNameResponse = MutableLiveData<Resource<ResponseBody>>()
-    val nickNameResponse: LiveData<Resource<ResponseBody>> = _nickNameResponse
-
-    private val _registerProfileResponse = MutableLiveData<Event<Resource<RegisterProfileResponse>>>()
-    val registerProfileResponse: LiveData<Event<Resource<RegisterProfileResponse>>> = _registerProfileResponse
-
-    private val _preSignedUrlResponse = MutableLiveData<Resource<PreSignedUrlResponse>>()
-    val preSignedUrlResponse: LiveData<Resource<PreSignedUrlResponse>> = _preSignedUrlResponse
-
-    private val _putImageUrlResponse = MutableLiveData<Resource<ResponseBody>>()
-    val putImageUrlResponse: LiveData<Resource<ResponseBody>> = _putImageUrlResponse
 
     fun postCheckProfileNickname(nickName: String) = viewModelScope.launch {
         _nickNameResponse.postValue(Resource.Loading())
