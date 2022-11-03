@@ -1,6 +1,7 @@
 package org.retriever.dailypet.ui.signup
 
 import android.app.Activity.RESULT_OK
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,7 +18,7 @@ import coil.load
 import com.github.dhaval2404.imagepicker.ImagePicker
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreateProfileBinding
@@ -39,7 +40,8 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
     private var isValidNickname = false
     private var nickname = ""
     private var imageUrl = ""
-    private var file : File? = null
+    private var file: File? = null
+    private lateinit var fileUri: Uri
 
     private val startForProfileImageResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -48,7 +50,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
             when (resultCode) {
                 RESULT_OK -> {
-                    val fileUri = data?.data!!
+                    fileUri = data?.data!!
                     file = File(fileUri.path ?: "")
                     binding.profilePhotoImageview.load(file)
                 }
@@ -215,9 +217,9 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
                     registerProfile.profileImageUrl = imageUrl
 
                     file?.let {
-                        val requestBody = it.asRequestBody("image/jpg".toMediaTypeOrNull())
+                        val requestBody = it.path.toRequestBody("image/jpeg".toMediaTypeOrNull())
                         val multipartBody = MultipartBody.Part.createFormData("file", it.name, requestBody)
-                        profileViewModel.putImageUrl(response.data?.preSignedUrl ?: "", multipartBody)
+                        profileViewModel.putImageUrl("image/jpeg", response.data?.preSignedUrl ?: "", multipartBody)
                     }
                 }
                 is Resource.Error -> {

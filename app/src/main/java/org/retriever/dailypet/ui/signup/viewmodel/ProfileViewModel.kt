@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.retriever.dailypet.data.repository.presignedurl.PreSignedUrlRepository
 import org.retriever.dailypet.data.repository.signup.ProfileRepository
@@ -55,11 +56,11 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun putImageUrl(url: String, image: MultipartBody.Part) {
+    fun putImageUrl(contentType: String, url: String, file: MultipartBody.Part) {
         viewModelScope.launch {
             _putImageUrlResponse.postValue(Resource.Loading())
 
-            _putImageUrlResponse.postValue(preSignedUrlRepository.putImageUrl(url, image))
+            _putImageUrlResponse.postValue(preSignedUrlRepository.putImageUrl(contentType, url, file))
         }
     }
 
