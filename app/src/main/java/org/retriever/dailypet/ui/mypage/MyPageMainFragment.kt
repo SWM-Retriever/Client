@@ -44,6 +44,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
 
         initProfile()
         initProgressCircular()
+        initGroupType()
         buttonClick()
         observeWithdrawalResponse()
     }
@@ -56,26 +57,34 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         hideProgressCircular(binding.progressCircular)
     }
 
+    private fun initGroupType()= with(binding) {
+        if(groupType == FAMILY){
+            manageGroupText.visibility = View.VISIBLE
+            underManageGroupDivide.visibility = View.VISIBLE
+            groupInviteText.visibility = View.VISIBLE
+            underGroupInviteDivide.visibility = View.VISIBLE
+            groupMakeText.visibility = View.GONE
+        }else{
+            manageGroupText.visibility = View.GONE
+            underManageGroupDivide.visibility = View.GONE
+            groupInviteText.visibility = View.GONE
+            underGroupInviteDivide.visibility = View.GONE
+            groupMakeText.visibility = View.VISIBLE
+        }
+    }
+
     private fun buttonClick() = with(binding) {
         manageGroupText.setOnClickListener {
             root.findNavController().navigate(R.id.action_myPageMainFragment_to_myPageDetailActivity)
         }
 
         groupInviteText.setOnClickListener {
-            if (groupType == FAMILY) {
                 onShareClicked()
-            } else {
-                Toast.makeText(requireContext(), "현재 1인 그룹입니다\n초대를 원하시면 그룹을 만들어주세요", Toast.LENGTH_LONG).show()
-            }
         }
 
         groupMakeText.setOnClickListener {
-            if (groupType == FAMILY) {
-                Toast.makeText(requireContext(), "이미 그룹이 존재합니다", Toast.LENGTH_SHORT).show()
-            } else {
                 val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToCreateFamilyFragment2(true)
                 root.findNavController().navigate(action)
-            }
         }
 
         appReviewText.setOnClickListener {
