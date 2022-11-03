@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.signup
+package org.retriever.dailypet.ui.signup.firstcourse
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.asLiveData
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import org.retriever.dailypet.R
@@ -15,6 +17,8 @@ import org.retriever.dailypet.ui.base.BaseFragment
 
 class TermOfServiceFragment : BaseFragment<FragmentTermOfServiceBinding>() {
 
+    private val profileViewModel: ProfileViewModel by activityViewModels()
+
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentTermOfServiceBinding {
         return FragmentTermOfServiceBinding.inflate(inflater, container, false)
     }
@@ -22,85 +26,103 @@ class TermOfServiceFragment : BaseFragment<FragmentTermOfServiceBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkButtonClick()
+        observeAllCheckState()
+        observeFirstCheckState()
+        observeSecondCheckState()
+        observeThirdCheckState()
+        observeNextButtonState()
         buttonClick()
+    }
+
+    private fun checkButtonClick() = with(binding) {
+        checkAll.setOnClickListener {
+            profileViewModel.setAllCheckState(checkAll.isChecked)
+        }
+
+        firstCheck.setOnClickListener {
+            profileViewModel.setFirstCheckState(firstCheck.isChecked)
+        }
+
+        secondCheck.setOnClickListener {
+            profileViewModel.setSecondCheckState(secondCheck.isChecked)
+        }
+
+        thirdCheck.setOnClickListener {
+            profileViewModel.setThirdCheckState(thirdCheck.isChecked)
+        }
+    }
+
+    private fun observeAllCheckState() {
+        profileViewModel.allCheckState.asLiveData().observe(viewLifecycleOwner) {
+            binding.checkAll.isChecked = it
+        }
+    }
+
+    private fun observeFirstCheckState() {
+        profileViewModel.firstCheckState.asLiveData().observe(viewLifecycleOwner) {
+            binding.firstCheck.isChecked = it
+        }
+    }
+
+    private fun observeSecondCheckState() {
+        profileViewModel.secondCheckState.asLiveData().observe(viewLifecycleOwner) {
+            binding.secondCheck.isChecked = it
+        }
+    }
+
+    private fun observeThirdCheckState() {
+        profileViewModel.thirdCheckState.asLiveData().observe(viewLifecycleOwner) {
+            binding.thirdCheck.isChecked = it
+        }
+    }
+
+    private fun observeNextButtonState() {
+        profileViewModel.nextButtonState.asLiveData().observe(viewLifecycleOwner) {
+            if (it) {
+                setNextButtonValid()
+            } else {
+                setNextButtonInValid()
+            }
+        }
     }
 
     private fun buttonClick() = with(binding) {
 
-        nextButton.setOnClickListener {
-            if (firstCheck.isChecked && secondCheck.isChecked) {
-                moveCreateProfileFragment()
-            } else {
-                Toast.makeText(requireContext(), "필수 약관을 모두 동의해주세요", Toast.LENGTH_SHORT).show()
-            }
+        backButton.setOnClickListener {
+            root.findNavController().popBackStack()
         }
-
-        checkAll.setOnClickListener { onCheckChanged(checkAll) }
-        firstCheck.setOnClickListener { onCheckChanged(firstCheck) }
-        secondCheck.setOnClickListener { onCheckChanged(secondCheck) }
-        thirdCheck.setOnClickListener { onCheckChanged(thirdCheck) }
 
         firstSeeText.setOnClickListener {
             val action = TermOfServiceFragmentDirections.actionTermOfServiceFragmentToWebViewActivity2(TERMS_URL)
             root.findNavController().navigate(action)
         }
+
         secondSeeText.setOnClickListener {
             val action = TermOfServiceFragmentDirections.actionTermOfServiceFragmentToWebViewActivity2(PRIVACY_URL)
             root.findNavController().navigate(action)
         }
+
         thirdSeeText.setOnClickListener {
             val action = TermOfServiceFragmentDirections.actionTermOfServiceFragmentToWebViewActivity2(MARKETING_URL)
             root.findNavController().navigate(action)
         }
 
-        backButton.setOnClickListener {
-            root.findNavController().popBackStack()
+        nextButton.setOnClickListener {
+            moveCreateProfileFragment()
         }
+
     }
 
     private fun moveCreateProfileFragment() = with(binding) {
         val args: TermOfServiceFragmentArgs by navArgs()
         val registerProfile = args.registerProfile
-        // TODO 백엔드보고 프로필정보 추가수집 지우기
+
         registerProfile.isProfileInformationAgree = thirdCheck.isChecked
         registerProfile.isPushAgree = thirdCheck.isChecked
 
         val action = TermOfServiceFragmentDirections.actionTermOfServiceFragmentToCreateProfileFragment(registerProfile)
         root.findNavController().navigate(action)
-    }
-
-    private fun onCheckChanged(checkBox: CheckBox) = with(binding) {
-        when (checkBox.id) {
-            checkAll.id -> {
-                if (checkAll.isChecked) {
-                    setAllCheckedTrue()
-                } else {
-                    setAllCheckedFalse()
-                }
-            }
-            else -> {
-                checkAll.isChecked = (firstCheck.isChecked
-                                && secondCheck.isChecked
-                                && thirdCheck.isChecked)
-            }
-        }
-        if (firstCheck.isChecked && secondCheck.isChecked) {
-            setNextButtonValid()
-        } else {
-            setNextButtonInValid()
-        }
-    }
-
-    private fun setAllCheckedTrue() = with(binding) {
-        firstCheck.isChecked = true
-        secondCheck.isChecked = true
-        thirdCheck.isChecked = true
-    }
-
-    private fun setAllCheckedFalse() = with(binding) {
-        firstCheck.isChecked = false
-        secondCheck.isChecked = false
-        thirdCheck.isChecked = false
     }
 
     private fun setNextButtonValid() = with(binding) {
@@ -115,7 +137,7 @@ class TermOfServiceFragment : BaseFragment<FragmentTermOfServiceBinding>() {
         nextButton.isClickable = false
     }
 
-    companion object{
+    companion object {
         private const val TERMS_URL = "https://showy-king-303.notion.site/df847ac24e894e4a837717776a7dd4b7"
         private const val PRIVACY_URL = "https://showy-king-303.notion.site/c3dd318460424ae5ae0d13ebef8cdc48"
         private const val MARKETING_URL = "https://showy-king-303.notion.site/25ae8e794dc44c6a801adcfb8850ea0f"

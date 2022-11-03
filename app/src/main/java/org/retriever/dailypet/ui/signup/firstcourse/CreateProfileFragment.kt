@@ -1,8 +1,10 @@
-package org.retriever.dailypet.ui.signup
+package org.retriever.dailypet.ui.signup.firstcourse
 
 import android.app.Activity.RESULT_OK
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.asLiveData
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
@@ -25,7 +28,6 @@ import org.retriever.dailypet.databinding.FragmentCreateProfileBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.signup.profile.RegisterProfile
 import org.retriever.dailypet.ui.base.BaseFragment
-import org.retriever.dailypet.ui.signup.viewmodel.ProfileViewModel
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
@@ -37,7 +39,6 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
     private lateinit var registerProfile: RegisterProfile
 
-    private var isValidNickname = false
     private var nickname = ""
     private var imageUrl = ""
     private var file: File? = null
@@ -75,7 +76,10 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
         initProgressCircular()
         initNickNameView()
         initProfileView()
+        watchEdittext()
         buttonClick()
+        observeNickNameViewState()
+        observeRegisterButtonState()
         observePreSignedUrlResponse()
         observeImageUrlResponse()
     }
@@ -97,27 +101,14 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
                 }
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
-                    validateNicknameText.text = resources.getString(R.string.valid_nickname_text)
-                    validateNicknameText.setTextColor(ContextCompat.getColor(requireContext(), R.color.success_blue))
-                    profileNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
-                    registerCompleteButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
-                    registerCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-                    registerCompleteButton.isClickable = true
-                    isValidNickname = true
-                    nickname = profileNicknameEdittext.text.toString()
+                    profileViewModel.setNickNameState(NickNameViewState.VALID_STATE)
                 }
                 is Resource.Error -> {
                     hideProgressCircular(progressCircular)
 
                     when (response.code) {
                         CODE_INVALID_NICKNAME -> {
-                            validateNicknameText.text = resources.getString(R.string.already_used_nickname_text)
-                            validateNicknameText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
-                            profileNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
-                            registerCompleteButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
-                            registerCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_light_grey))
-                            registerCompleteButton.isClickable = false
-                            isValidNickname = false
+                            profileViewModel.setNickNameState(NickNameViewState.USED_STATE)
                         }
                         CODE_FAIL -> {
                             Log.e(TAG, "SERVER ERROR")
@@ -152,8 +143,21 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
         }
     }
 
+    private fun watchEdittext() {
+        binding.profileNicknameEdittext.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun afterTextChanged(s: Editable?) = Unit
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                profileViewModel.setNickNameState(NickNameViewState.DEFAULT_STATE)
+            }
+        })
+    }
 
     private fun buttonClick() = with(binding) {
+
+        backButton.setOnClickListener {
+            root.findNavController().popBackStack()
+        }
 
         createProfilePhotoButton.setOnClickListener {
             ImagePicker.with(requireActivity())
@@ -171,47 +175,100 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
         }
 
         registerCompleteButton.setOnClickListener {
-            val nickname = profileNicknameEdittext.text.toString()
-            checkValidNickName(nickname)
+            registerProfile.nickName = profileNicknameEdittext.text.toString()
 
-            if (isValidNickname) {
-                registerProfile.nickName = nickname
-
-                if (file != null) {
-                    profileViewModel.getPreSignedUrl(S3_PATH, file!!.name)
-                } else {
-                    postProfileInfo(registerProfile)
-                }
+            if (file != null) {
+                profileViewModel.getPreSignedUrl(S3_PATH, file!!.name)
             } else {
-                Toast.makeText(requireContext(), "닉네임 중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
+                postProfileInfo(registerProfile)
             }
-        }
-
-        backButton.setOnClickListener {
-            root.findNavController().popBackStack()
         }
 
     }
 
-    private fun checkValidNickName(nickName: String) = with(binding) {
+    private fun checkValidNickName(nickName: String)  {
         if (nickName.isBlank()) {
-            validateNicknameText.text = resources.getString(R.string.invalid_nickname_text)
-            validateNicknameText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
-            profileNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
-            registerCompleteButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
-            registerCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_light_grey))
-            isValidNickname = false
+            profileViewModel.setNickNameState(NickNameViewState.INVALID_STATE)
         } else {
             profileViewModel.postCheckProfileNickname(nickName)
         }
     }
 
+    private fun observeNickNameViewState() {
+        profileViewModel.nickNameViewState.observe(viewLifecycleOwner) {
+            when (it) {
+                NickNameViewState.DEFAULT_STATE -> {
+                    setDefaultState()
+                }
+                NickNameViewState.VALID_STATE -> {
+                    setValidState()
+                }
+                NickNameViewState.INVALID_STATE -> {
+                    setInValidState()
+                }
+                NickNameViewState.USED_STATE -> {
+                    setUsedState()
+                }
+            }
+        }
+    }
+
+    private fun setDefaultState() = with(binding) {
+        validateNicknameText.visibility = View.INVISIBLE
+        profileNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.grey_blue_edittext)
+        profileViewModel.setRegisterButtonState(false)
+    }
+
+    private fun setValidState() = with(binding) {
+        validateNicknameText.visibility = View.VISIBLE
+        validateNicknameText.text = resources.getString(R.string.valid_nickname_text)
+        validateNicknameText.setTextColor(ContextCompat.getColor(requireContext(), R.color.success_blue))
+        profileNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
+        profileViewModel.setRegisterButtonState(true)
+    }
+
+    private fun setInValidState() = with(binding) {
+        validateNicknameText.visibility = View.VISIBLE
+        validateNicknameText.text = resources.getString(R.string.invalid_nickname_text)
+        validateNicknameText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
+        profileNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
+        profileViewModel.setRegisterButtonState(false)
+    }
+
+    private fun setUsedState() = with(binding) {
+        validateNicknameText.visibility = View.VISIBLE
+        validateNicknameText.text = resources.getString(R.string.already_used_nickname_text)
+        validateNicknameText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
+        profileNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
+        profileViewModel.setRegisterButtonState(false)
+    }
+
+    private fun observeRegisterButtonState() {
+        profileViewModel.registerButtonState.asLiveData().observe(viewLifecycleOwner) {
+            if (it) {
+                setValidRegisterButton()
+            } else {
+                setInValidRegisterButton()
+            }
+        }
+    }
+
+    private fun setValidRegisterButton() = with(binding) {
+        registerCompleteButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
+        registerCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+        registerCompleteButton.isClickable = true
+    }
+
+    private fun setInValidRegisterButton() = with(binding) {
+        registerCompleteButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
+        registerCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_light_grey))
+        registerCompleteButton.isClickable = false
+    }
+
     private fun observePreSignedUrlResponse() {
         profileViewModel.preSignedUrlResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
-                is Resource.Loading -> {
-
-                }
+                is Resource.Loading -> Unit
                 is Resource.Success -> {
                     imageUrl = response.data?.originalUrl ?: ""
                     registerProfile.profileImageUrl = imageUrl
@@ -222,9 +279,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
                         profileViewModel.putImageUrl("image/jpeg", response.data?.preSignedUrl ?: "", multipartBody)
                     }
                 }
-                is Resource.Error -> {
-
-                }
+                is Resource.Error -> Unit
             }
         }
     }
@@ -232,15 +287,11 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
     private fun observeImageUrlResponse() {
         profileViewModel.putImageUrlResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
-                is Resource.Loading -> {
-
-                }
+                is Resource.Loading -> Unit
                 is Resource.Success -> {
                     postProfileInfo(registerProfile)
                 }
-                is Resource.Error -> {
-
-                }
+                is Resource.Error -> Unit
             }
         }
     }

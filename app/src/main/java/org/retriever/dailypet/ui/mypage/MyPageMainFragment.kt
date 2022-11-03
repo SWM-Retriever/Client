@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
@@ -34,6 +35,9 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     private val groupName = GlobalApplication.prefs.groupName ?: ""
     private val invitationCode = GlobalApplication.prefs.invitationCode ?: ""
     private val groupType = GlobalApplication.prefs.groupType ?: ""
+
+    private var logoutDialog : MaterialAlertDialogBuilder? = null
+    private var withdrawalDialog : MaterialAlertDialogBuilder? = null
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentMyPageMainBinding {
         return FragmentMyPageMainBinding.inflate(inflater, container, false)
@@ -123,18 +127,46 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         }
 
         logoutButton.setOnClickListener {
-            logout()
-            val intent = Intent(requireContext(), LoginActivity::class.java)
-            startActivity(intent)
+            showLogoutDialog()
         }
 
         withdrawalButton.setOnClickListener {
-            withdrawal()
-            kakaoUnlink()
-            naverUnlink()
-            val intent = Intent(requireContext(), LoginActivity::class.java)
-            startActivity(intent)
+            showWithdrawalDialog()
         }
+    }
+
+    private fun showLogoutDialog(){
+        logoutDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomMaterialAlertDialog)
+            .setTitle(getString(R.string.logout_dialog_title_text))
+            .setMessage(getString(R.string.logout_dialog_message_text))
+            .setNegativeButton(getString(R.string.dialog_no_text)){dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(getString(R.string.dialog_yes_text)){_, _ ->
+                logout()
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+            }
+
+        logoutDialog?.show()
+    }
+
+    private fun showWithdrawalDialog(){
+        withdrawalDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomMaterialAlertDialog)
+            .setTitle(getString(R.string.withdrawal_dialog_title_text))
+            .setMessage(getString(R.string.withdrawal_dialog_message_text))
+            .setNegativeButton(getString(R.string.dialog_no_text)){dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(getString(R.string.dialog_yes_text)){_, _ ->
+                withdrawal()
+                kakaoUnlink()
+                naverUnlink()
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+            }
+
+        withdrawalDialog?.show()
     }
 
     private fun logout() {
@@ -228,6 +260,13 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
                 onFailure(errorCode, message)
             }
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        logoutDialog = null
+        withdrawalDialog = null
     }
 
     companion object {
