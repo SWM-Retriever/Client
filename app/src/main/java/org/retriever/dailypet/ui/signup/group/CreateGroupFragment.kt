@@ -9,14 +9,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.asLiveData
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreateFamilyBinding
 import org.retriever.dailypet.model.Resource
-import org.retriever.dailypet.model.signup.family.FamilyInfo
+import org.retriever.dailypet.model.signup.group.GroupInfo
 import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.ui.signup.EditTextState
+import org.retriever.dailypet.ui.signup.EditTextValidateState
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
@@ -30,9 +33,6 @@ class CreateGroupFragment : BaseFragment<FragmentCreateFamilyBinding>() {
 
     private val args: CreateGroupFragmentArgs by navArgs()
 
-    private var isValidGroupName = false
-    private var isValidRoleName = false
-
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentCreateFamilyBinding {
         return FragmentCreateFamilyBinding.inflate(inflater, container, false)
     }
@@ -41,6 +41,9 @@ class CreateGroupFragment : BaseFragment<FragmentCreateFamilyBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initProgressCircular()
+        observeGroupNameState()
+        observeGroupRoleNameState()
+        observeNextButtonState()
         initCheckFamilyName()
         initPostFamilyInfo()
         initModifyFamily()
@@ -52,35 +55,107 @@ class CreateGroupFragment : BaseFragment<FragmentCreateFamilyBinding>() {
         hideProgressCircular(binding.progressCircular)
     }
 
+    private fun observeGroupNameState() {
+        groupViewModel.groupNameState.asLiveData().observe(viewLifecycleOwner) {
+            when (it) {
+                EditTextValidateState.DEFAULT_STATE -> {
+                    setGroupNameDefaultView()
+                }
+                EditTextValidateState.VALID_STATE -> {
+                    setGroupNameValidView()
+                }
+                EditTextValidateState.INVALID_STATE -> {
+                    setGroupNameInValidView()
+                }
+                EditTextValidateState.USED_STATE -> {
+                    setGroupNameUsedView()
+                }
+            }
+        }
+    }
+
+    private fun setGroupNameDefaultView() = with(binding) {
+        groupNameValidateText.visibility = View.INVISIBLE
+        groupNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.grey_blue_edittext)
+    }
+
+    private fun setGroupNameValidView() = with(binding) {
+        groupNameValidateText.text = getString(R.string.valid_groupname_text)
+        groupNameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.success_blue))
+        groupNameValidateText.visibility = View.VISIBLE
+        groupNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
+    }
+
+    private fun setGroupNameInValidView() = with(binding) {
+        groupNameValidateText.text = getString(R.string.invalid_groupname_text)
+        groupNameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
+        groupNameValidateText.visibility = View.VISIBLE
+        groupNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
+    }
+
+    private fun setGroupNameUsedView() = with(binding) {
+        groupNameValidateText.text = getString(R.string.already_used_groupname_text)
+        groupNameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
+        groupNameValidateText.visibility = View.VISIBLE
+        groupNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
+    }
+
+    private fun observeGroupRoleNameState() = with(binding) {
+        groupViewModel.groupRoleNameState.asLiveData().observe(viewLifecycleOwner) {
+            when (it) {
+                EditTextState.DEFAULT_STATE -> {
+                    groupNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.grey_blue_edittext)
+                }
+                EditTextState.VALID_STATE -> {
+                    groupNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
+                }
+                EditTextState.INVALID_STATE -> {
+                    groupNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
+                }
+            }
+        }
+    }
+
+    private fun observeNextButtonState() {
+        groupViewModel.nextButtonState.asLiveData().observe(viewLifecycleOwner) {
+            if (it) {
+                setNextButtonValidView()
+            } else {
+                setNextButtonInValidView()
+            }
+        }
+    }
+
+    private fun setNextButtonValidView() = with(binding) {
+        nextButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
+        nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+        nextButton.isClickable = true
+    }
+
+    private fun setNextButtonInValidView() = with(binding) {
+        nextButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
+        nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_light_grey))
+        nextButton.isClickable = false
+    }
+
     private fun initCheckFamilyName() = with(binding) {
-        groupViewModel.familyNameResponse.observe(viewLifecycleOwner) { response ->
+        groupViewModel.groupNameResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
                     showProgressCircular(progressCircular)
                 }
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
-                    groupNameValidateText.text = getString(R.string.valid_groupname_text)
-                    groupNameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.success_blue))
-                    groupNameValidateText.visibility = View.VISIBLE
-                    groupNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
-                    isValidGroupName = true
-                    submitCheck()
+                    groupViewModel.setGroupNameState(EditTextValidateState.VALID_STATE)
                 }
                 is Resource.Error -> {
                     hideProgressCircular(progressCircular)
                     when (response.code) {
                         INVALID_FAMILY_NAME, FAILED_FAMILY -> {
-                            groupNameValidateText.text = getString(R.string.already_used_groupname_text)
-                            groupNameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
-                            groupNameValidateText.visibility = View.VISIBLE
-                            groupNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
-                            isValidGroupName = false
-                            submitCheck()
+                            groupViewModel.setGroupNameState(EditTextValidateState.USED_STATE)
                         }
                         CODE_ERROR -> {
                             Toast.makeText(requireContext(), "서버 에러입니다", Toast.LENGTH_SHORT).show()
-                            submitCheck()
                         }
                     }
                 }
@@ -90,7 +165,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateFamilyBinding>() {
     }
 
     private fun initPostFamilyInfo() = with(binding) {
-        groupViewModel.registerFamilyResponse.observe(viewLifecycleOwner) { event ->
+        groupViewModel.registerGroupResponse.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { response ->
                 when (response) {
                     is Resource.Loading -> {
@@ -114,7 +189,6 @@ class CreateGroupFragment : BaseFragment<FragmentCreateFamilyBinding>() {
                                 Toast.makeText(requireContext(), "서버 오류가 발생하였습니다.", Toast.LENGTH_SHORT).show()
                             }
                         }
-                        submitCheck()
                     }
                 }
             }
@@ -122,7 +196,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateFamilyBinding>() {
     }
 
     private fun initModifyFamily() = with(binding) {
-        groupViewModel.modifyFamilyResponse.observe(viewLifecycleOwner) { response ->
+        groupViewModel.modifyGroupResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
                     showProgressCircular(progressCircular)
@@ -157,19 +231,13 @@ class CreateGroupFragment : BaseFragment<FragmentCreateFamilyBinding>() {
         groupNicknameEdittext.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
-
             override fun afterTextChanged(p0: Editable?) {
-                isValidRoleName = if (groupNicknameEdittext.text.isNotBlank()) {
-                    groupNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.success_edittext)
-                    true
+                if (groupNicknameEdittext.text.isNotBlank()) {
+                    groupViewModel.setGroupRoleNameState(EditTextState.VALID_STATE)
                 } else {
-                    groupNicknameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
-                    false
+                    groupViewModel.setGroupRoleNameState(EditTextState.INVALID_STATE)
                 }
-
-                submitCheck()
             }
-
         })
     }
 
@@ -179,26 +247,17 @@ class CreateGroupFragment : BaseFragment<FragmentCreateFamilyBinding>() {
             val groupName = groupNameEdittext.text.toString()
 
             if (groupName.isBlank()) {
-                groupNameValidateText.text = getString(R.string.invalid_groupname_text)
-                groupNameValidateText.setTextColor(ContextCompat.getColor(requireContext(), R.color.fail_red))
-                groupNameValidateText.visibility = View.VISIBLE
-                groupNameEdittext.setViewBackgroundWithoutResettingPadding(R.drawable.fail_edittext)
-                isValidGroupName = false
-                submitCheck()
+                groupViewModel.setGroupNameState(EditTextValidateState.INVALID_STATE)
             } else {
                 checkValidGroupName(groupName)
             }
         }
 
         nextButton.setOnClickListener {
-            if (submitCheck()) {
-                if (args.isFromMyPage) {
-                    modifyFamily()
-                } else {
-                    postFamilyInfo()
-                }
+            if (args.isFromMyPage) {
+                modifyFamily()
             } else {
-                Toast.makeText(requireContext(), "모두 입력하여 주세요.", Toast.LENGTH_SHORT).show()
+                postFamilyInfo()
             }
         }
 
@@ -212,34 +271,20 @@ class CreateGroupFragment : BaseFragment<FragmentCreateFamilyBinding>() {
         groupViewModel.postCheckFamilyName(jwt, groupName)
     }
 
-    private fun submitCheck(): Boolean {
-        return if (isValidGroupName && isValidRoleName) {
-            binding.nextButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.blue_button)
-            binding.nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            binding.nextButton.isClickable = true
-            true
-        } else {
-            binding.nextButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
-            binding.nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_light_grey))
-            binding.nextButton.isClickable = false
-            false
-        }
-    }
-
     private fun modifyFamily() = with(binding) {
         val familyName = groupNameEdittext.text.toString()
         val roleName = groupNicknameEdittext.text.toString()
-        val familyInfo = FamilyInfo(familyName, roleName)
+        val groupInfo = GroupInfo(familyName, roleName)
 
-        groupViewModel.modifyFamily(familyId, jwt, familyInfo)
+        groupViewModel.modifyFamily(familyId, jwt, groupInfo)
     }
 
     private fun postFamilyInfo() = with(binding) {
         val familyName = groupNameEdittext.text.toString()
         val roleName = groupNicknameEdittext.text.toString()
-        val familyInfo = FamilyInfo(familyName, roleName)
+        val groupInfo = GroupInfo(familyName, roleName)
 
-        groupViewModel.postFamily(jwt, familyInfo)
+        groupViewModel.postFamily(jwt, groupInfo)
     }
 
     companion object {
@@ -247,4 +292,5 @@ class CreateGroupFragment : BaseFragment<FragmentCreateFamilyBinding>() {
         private const val INVALID_FAMILY_NAME = 409
         private const val CODE_ERROR = 500
     }
+
 }

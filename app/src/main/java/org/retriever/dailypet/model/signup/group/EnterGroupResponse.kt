@@ -1,10 +1,9 @@
-package org.retriever.dailypet.model.signup.family
+package org.retriever.dailypet.model.signup.group
 
-import android.provider.ContactsContract
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class EnterFamilyResponse(
+data class EnterGroupResponse(
     val familyId: Int,
     val familyName: String,
     val nickName: String,

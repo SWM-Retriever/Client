@@ -9,7 +9,7 @@ import org.retriever.dailypet.data.network.home.HomeApiService
 import org.retriever.dailypet.data.network.login.LoginApiService
 import org.retriever.dailypet.data.network.mypage.MyPageApiService
 import org.retriever.dailypet.data.network.presignedurl.PreSignedUrlApiService
-import org.retriever.dailypet.data.network.signup.FamilyApiInterface
+import org.retriever.dailypet.data.network.signup.GroupApiInterface
 import org.retriever.dailypet.data.network.signup.FindGroupApiInterface
 import org.retriever.dailypet.data.network.signup.PetApiService
 import org.retriever.dailypet.data.network.signup.ProfileApiService
@@ -18,7 +18,7 @@ import org.retriever.dailypet.data.repository.home.HomeRepository
 import org.retriever.dailypet.data.repository.login.LoginRepository
 import org.retriever.dailypet.data.repository.mypage.MyPageRepository
 import org.retriever.dailypet.data.repository.presignedurl.PreSignedUrlRepository
-import org.retriever.dailypet.data.repository.signup.FamilyRepository
+import org.retriever.dailypet.data.repository.signup.GroupRepository
 import org.retriever.dailypet.data.repository.signup.FindGroupRepository
 import org.retriever.dailypet.data.repository.signup.PetRepository
 import org.retriever.dailypet.data.repository.signup.ProfileRepository
@@ -38,7 +38,7 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideFamilyRepository(familyApiInterface: FamilyApiInterface): FamilyRepository = FamilyRepository(familyApiInterface)
+    fun provideFamilyRepository(groupApiInterface: GroupApiInterface): GroupRepository = GroupRepository(groupApiInterface)
 
     @Provides
     @Singleton
