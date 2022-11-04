@@ -64,6 +64,12 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
         buttonClick()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        initView()
+    }
+
     private fun initProgressCircular() {
         hideProgressCircular(binding.progressCircular)
     }

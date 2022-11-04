@@ -34,7 +34,6 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     private val nickname = GlobalApplication.prefs.nickname ?: ""
     private val groupName = GlobalApplication.prefs.groupName ?: ""
     private val invitationCode = GlobalApplication.prefs.invitationCode ?: ""
-    private val groupType = GlobalApplication.prefs.groupType ?: ""
 
     private var logoutDialog : MaterialAlertDialogBuilder? = null
     private var withdrawalDialog : MaterialAlertDialogBuilder? = null
@@ -53,6 +52,12 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         observeWithdrawalResponse()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        initGroupType()
+    }
+
     private fun initProfile() = with(binding){
         userNickName.text = nickname
     }
@@ -62,7 +67,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     }
 
     private fun initGroupType()= with(binding) {
-        if(groupType == FAMILY){
+        if((GlobalApplication.prefs.groupType ?: "") == FAMILY){
             manageGroupText.visibility = View.VISIBLE
             underManageGroupDivide.visibility = View.VISIBLE
             groupInviteText.visibility = View.VISIBLE
