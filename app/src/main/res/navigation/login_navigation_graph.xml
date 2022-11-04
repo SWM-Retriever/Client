@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/termOfServiceFragment"
-        android:name="org.retriever.dailypet.ui.signup.firstcourse.TermOfServiceFragment"
+        android:name="org.retriever.dailypet.ui.signup.profile.TermOfServiceFragment"
         android:label="fragment_term_of_service"
         tools:layout="@layout/fragment_term_of_service">
         <action
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/createProfileFragment"
-        android:name="org.retriever.dailypet.ui.signup.firstcourse.CreateProfileFragment"
+        android:name="org.retriever.dailypet.ui.signup.profile.CreateProfileFragment"
         android:label="fragment_create_profile"
         tools:layout="@layout/fragment_create_profile">
         <action

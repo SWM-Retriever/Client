@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.signup.firstcourse
+package org.retriever.dailypet.ui.signup.profile
 
 import android.app.Activity.RESULT_OK
 import android.net.Uri

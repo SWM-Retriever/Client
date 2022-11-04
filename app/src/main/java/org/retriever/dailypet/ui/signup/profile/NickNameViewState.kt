@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.signup.firstcourse
+package org.retriever.dailypet.ui.signup.profile
 
 enum class NickNameViewState {
     DEFAULT_STATE,
