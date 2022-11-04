@@ -28,6 +28,7 @@ import org.retriever.dailypet.databinding.FragmentCreateProfileBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.signup.profile.RegisterProfile
 import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.ui.signup.EditTextState
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
@@ -101,14 +102,14 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
                 }
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
-                    profileViewModel.setNickNameState(NickNameViewState.VALID_STATE)
+                    profileViewModel.setNickNameState(EditTextState.VALID_STATE)
                 }
                 is Resource.Error -> {
                     hideProgressCircular(progressCircular)
 
                     when (response.code) {
                         CODE_INVALID_NICKNAME -> {
-                            profileViewModel.setNickNameState(NickNameViewState.USED_STATE)
+                            profileViewModel.setNickNameState(EditTextState.USED_STATE)
                         }
                         CODE_FAIL -> {
                             Log.e(TAG, "SERVER ERROR")
@@ -148,7 +149,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
             override fun afterTextChanged(s: Editable?) = Unit
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                profileViewModel.setNickNameState(NickNameViewState.DEFAULT_STATE)
+                profileViewModel.setNickNameState(EditTextState.DEFAULT_STATE)
             }
         })
     }
@@ -188,25 +189,25 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
     private fun checkValidNickName(nickName: String)  {
         if (nickName.isBlank()) {
-            profileViewModel.setNickNameState(NickNameViewState.INVALID_STATE)
+            profileViewModel.setNickNameState(EditTextState.INVALID_STATE)
         } else {
             profileViewModel.postCheckProfileNickname(nickName)
         }
     }
 
     private fun observeNickNameViewState() {
-        profileViewModel.nickNameViewState.observe(viewLifecycleOwner) {
+        profileViewModel.editTextState.observe(viewLifecycleOwner) {
             when (it) {
-                NickNameViewState.DEFAULT_STATE -> {
+                EditTextState.DEFAULT_STATE -> {
                     setDefaultState()
                 }
-                NickNameViewState.VALID_STATE -> {
+                EditTextState.VALID_STATE -> {
                     setValidState()
                 }
-                NickNameViewState.INVALID_STATE -> {
+                EditTextState.INVALID_STATE -> {
                     setInValidState()
                 }
-                NickNameViewState.USED_STATE -> {
+                EditTextState.USED_STATE -> {
                     setUsedState()
                 }
             }
