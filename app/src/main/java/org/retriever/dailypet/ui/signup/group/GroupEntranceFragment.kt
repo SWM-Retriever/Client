@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.signup
+package org.retriever.dailypet.ui.signup.group
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentFamilyEntranceBinding
 import org.retriever.dailypet.ui.base.BaseFragment
 
-class FamilyEntranceFragment : BaseFragment<FragmentFamilyEntranceBinding>() {
+class GroupEntranceFragment : BaseFragment<FragmentFamilyEntranceBinding>() {
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentFamilyEntranceBinding {
         return FragmentFamilyEntranceBinding.inflate(inflater, container, false)
@@ -24,7 +24,7 @@ class FamilyEntranceFragment : BaseFragment<FragmentFamilyEntranceBinding>() {
     private fun buttonClick() = with(binding) {
 
         groupCreateButton.setOnClickListener {
-            val action = FamilyEntranceFragmentDirections.actionFamilyEntranceFragmentToCreateFamilyFragment(false)
+            val action = GroupEntranceFragmentDirections.actionFamilyEntranceFragmentToCreateFamilyFragment(false)
             root.findNavController().navigate(action)
         }
 

@@ -1,6 +1,7 @@
-package org.retriever.dailypet.ui.signup
+package org.retriever.dailypet.ui.signup.pet
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -30,7 +31,7 @@ import org.retriever.dailypet.model.signup.pet.PetInfo
 import org.retriever.dailypet.model.signup.pet.PetResponse
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.bottomsheet.BreedBottomSheet
-import org.retriever.dailypet.ui.signup.viewmodel.PetViewModel
+import org.retriever.dailypet.ui.login.LoginActivity
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
@@ -126,24 +127,11 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         return FragmentCreatePetBinding.inflate(inflater, container, false)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        initCallBack()
-    }
-
-    private fun initCallBack() {
-        onBackCallBack = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                requireActivity().finish()
-            }
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         petViewModel.setInitial()
+        initCallBack()
         initProgressCircular()
         buttonClick()
         editTextWatch()
@@ -154,6 +142,17 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         observeModifyPet()
         observePreSignedUrlResponse()
         observeImageUrlResponse()
+    }
+
+    private fun initCallBack() {
+        onBackCallBack = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackCallBack)
     }
 
     private fun initArgsView() = with(binding) {
@@ -508,11 +507,6 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         super.onDestroyView()
 
         datePicker = null
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
         onBackCallBack.remove()
     }
 

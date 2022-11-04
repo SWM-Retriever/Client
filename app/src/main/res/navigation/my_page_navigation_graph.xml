@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/createFamilyFragment2"
-        android:name="org.retriever.dailypet.ui.signup.CreateFamilyFragment"
+        android:name="org.retriever.dailypet.ui.signup.group.CreateGroupFragment"
         android:label="fragment_create_family"
         tools:layout="@layout/fragment_create_family">
         <argument

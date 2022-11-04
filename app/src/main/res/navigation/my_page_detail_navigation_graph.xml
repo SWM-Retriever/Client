@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/createPetFragment2"
-        android:name="org.retriever.dailypet.ui.signup.CreatePetFragment"
+        android:name="org.retriever.dailypet.ui.signup.pet.CreatePetFragment"
         android:label="CreatePetFragment" >
         <argument
             android:name="isAdd"
