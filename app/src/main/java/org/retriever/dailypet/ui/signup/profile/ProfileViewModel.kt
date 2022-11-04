@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.signup.firstcourse
+package org.retriever.dailypet.ui.signup.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.retriever.dailypet.data.repository.presignedurl.PreSignedUrlRepository
 import org.retriever.dailypet.data.repository.signup.ProfileRepository

@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/termOfServiceFragment"
-        android:name="org.retriever.dailypet.ui.signup.firstcourse.TermOfServiceFragment"
+        android:name="org.retriever.dailypet.ui.signup.profile.TermOfServiceFragment"
         android:label="fragment_term_of_service"
         tools:layout="@layout/fragment_term_of_service">
         <action
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/createProfileFragment"
-        android:name="org.retriever.dailypet.ui.signup.firstcourse.CreateProfileFragment"
+        android:name="org.retriever.dailypet.ui.signup.profile.CreateProfileFragment"
         android:label="fragment_create_profile"
         tools:layout="@layout/fragment_create_profile">
         <action
@@ -56,7 +56,7 @@
         tools:layout="@layout/activity_main" />
     <fragment
         android:id="@+id/selectFamilyTypeFragment"
-        android:name="org.retriever.dailypet.ui.signup.SelectFamilyTypeFragment"
+        android:name="org.retriever.dailypet.ui.signup.group.SelectGroupTypeFragment"
         android:label="fragment_select_family_type"
         tools:layout="@layout/fragment_select_family_type">
         <action
@@ -68,7 +68,7 @@
     </fragment>
     <fragment
         android:id="@+id/familyEntranceFragment"
-        android:name="org.retriever.dailypet.ui.signup.FamilyEntranceFragment"
+        android:name="org.retriever.dailypet.ui.signup.group.GroupEntranceFragment"
         android:label="fragment_family_entrance"
         tools:layout="@layout/fragment_family_entrance">
         <action
@@ -80,7 +80,7 @@
     </fragment>
     <fragment
         android:id="@+id/createFamilyFragment"
-        android:name="org.retriever.dailypet.ui.signup.CreateFamilyFragment"
+        android:name="org.retriever.dailypet.ui.signup.group.CreateGroupFragment"
         android:label="fragment_create_family"
         tools:layout="@layout/fragment_create_family">
         <action
@@ -92,7 +92,7 @@
     </fragment>
     <fragment
         android:id="@+id/findGroupFragment"
-        android:name="org.retriever.dailypet.ui.signup.FindGroupFragment"
+        android:name="org.retriever.dailypet.ui.signup.findgroup.FindGroupFragment"
         android:label="fragment_find_group"
         tools:layout="@layout/fragment_find_group">
         <action
@@ -116,7 +116,7 @@
     </fragment>
     <fragment
         android:id="@+id/createPetFragment"
-        android:name="org.retriever.dailypet.ui.signup.CreatePetFragment"
+        android:name="org.retriever.dailypet.ui.signup.pet.CreatePetFragment"
         android:label="CreatePetFragment"
         tools:layout="@layout/fragment_create_pet">
         <action

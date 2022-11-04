@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.signup.viewmodel
+package org.retriever.dailypet.ui.signup.findgroup
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
