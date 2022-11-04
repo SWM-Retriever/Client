@@ -1,8 +1,6 @@
 package org.retriever.dailypet.ui.bottomsheet
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +15,7 @@ import org.retriever.dailypet.databinding.BottomSheetBreedBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.signup.pet.Breed
 import org.retriever.dailypet.ui.signup.adapter.BreedAdapter
-import org.retriever.dailypet.ui.signup.viewmodel.PetViewModel
+import org.retriever.dailypet.ui.signup.pet.PetViewModel
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 

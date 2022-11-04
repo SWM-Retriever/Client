@@ -1,16 +1,12 @@
-package org.retriever.dailypet.ui.signup
+package org.retriever.dailypet.ui.signup.findgroup
 
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.view.marginStart
-import androidx.core.view.setPadding
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +17,6 @@ import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.bottomsheet.AddProfileBottomSheet
 import org.retriever.dailypet.ui.signup.adapter.FindGroupAdapter
-import org.retriever.dailypet.ui.signup.viewmodel.FindGroupViewModel
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular

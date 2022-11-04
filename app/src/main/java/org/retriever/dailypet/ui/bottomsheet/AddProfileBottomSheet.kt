@@ -15,7 +15,7 @@ import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.BottomSheetAddProfileBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.main.MainActivity
-import org.retriever.dailypet.ui.signup.viewmodel.FindGroupViewModel
+import org.retriever.dailypet.ui.signup.findgroup.FindGroupViewModel
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular

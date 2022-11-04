@@ -92,7 +92,7 @@
     </fragment>
     <fragment
         android:id="@+id/findGroupFragment"
-        android:name="org.retriever.dailypet.ui.signup.FindGroupFragment"
+        android:name="org.retriever.dailypet.ui.signup.findgroup.FindGroupFragment"
         android:label="fragment_find_group"
         tools:layout="@layout/fragment_find_group">
         <action
@@ -116,7 +116,7 @@
     </fragment>
     <fragment
         android:id="@+id/createPetFragment"
-        android:name="org.retriever.dailypet.ui.signup.CreatePetFragment"
+        android:name="org.retriever.dailypet.ui.signup.pet.CreatePetFragment"
         android:label="CreatePetFragment"
         tools:layout="@layout/fragment_create_pet">
         <action
