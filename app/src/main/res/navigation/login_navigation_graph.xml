@@ -56,7 +56,7 @@
         tools:layout="@layout/activity_main" />
     <fragment
         android:id="@+id/selectFamilyTypeFragment"
-        android:name="org.retriever.dailypet.ui.signup.SelectFamilyTypeFragment"
+        android:name="org.retriever.dailypet.ui.signup.group.SelectGroupTypeFragment"
         android:label="fragment_select_family_type"
         tools:layout="@layout/fragment_select_family_type">
         <action
@@ -68,7 +68,7 @@
     </fragment>
     <fragment
         android:id="@+id/familyEntranceFragment"
-        android:name="org.retriever.dailypet.ui.signup.FamilyEntranceFragment"
+        android:name="org.retriever.dailypet.ui.signup.group.GroupEntranceFragment"
         android:label="fragment_family_entrance"
         tools:layout="@layout/fragment_family_entrance">
         <action
@@ -80,7 +80,7 @@
     </fragment>
     <fragment
         android:id="@+id/createFamilyFragment"
-        android:name="org.retriever.dailypet.ui.signup.CreateFamilyFragment"
+        android:name="org.retriever.dailypet.ui.signup.group.CreateGroupFragment"
         android:label="fragment_create_family"
         tools:layout="@layout/fragment_create_family">
         <action

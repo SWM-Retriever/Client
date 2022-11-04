@@ -1,10 +1,12 @@
-package org.retriever.dailypet.ui.signup.viewmodel
+package org.retriever.dailypet.ui.signup.group
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import org.retriever.dailypet.model.Event
@@ -16,7 +18,28 @@ import org.retriever.dailypet.model.signup.family.ModifyFamilyResponse
 import javax.inject.Inject
 
 @HiltViewModel
-class FamilyViewModel @Inject constructor(private val familyRepository: FamilyRepository) : ViewModel() {
+class GroupViewModel @Inject constructor(private val familyRepository: FamilyRepository) : ViewModel() {
+
+    private val _aloneButtonState = MutableStateFlow(false)
+    val aloneButtonState: StateFlow<Boolean> = _aloneButtonState
+
+    private val _groupButtonState = MutableStateFlow(false)
+    val groupButtonState: StateFlow<Boolean> = _groupButtonState
+
+    private val _chooseButtonState = MutableStateFlow(false)
+    val chooseButtonState: StateFlow<Boolean> = _chooseButtonState
+
+    fun setAloneButtonState() {
+        _aloneButtonState.value = true
+        _groupButtonState.value = false
+        _chooseButtonState.value = true
+    }
+
+    fun setGroupButtonState() {
+        _aloneButtonState.value = false
+        _groupButtonState.value = true
+        _chooseButtonState.value = true
+    }
 
     private val _familyNameResponse = MutableLiveData<Resource<ResponseBody>>()
     val familyNameResponse: LiveData<Resource<ResponseBody>> = _familyNameResponse
