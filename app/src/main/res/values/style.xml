@@ -30,4 +30,12 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="CustomMaterialAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/DialogPositiveButtonStyle</item>
+    </style>
+
+    <style name="DialogPositiveButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/fail_red</item>
+    </style>
+
 </resources>
