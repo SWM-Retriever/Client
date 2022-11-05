@@ -22,7 +22,6 @@ import org.retriever.dailypet.databinding.FragmentMyPageMainBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.login.LoginActivity
-import org.retriever.dailypet.ui.login.LoginFragment
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 
@@ -35,8 +34,8 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     private val groupName = GlobalApplication.prefs.groupName ?: ""
     private val invitationCode = GlobalApplication.prefs.invitationCode ?: ""
 
-    private var logoutDialog : MaterialAlertDialogBuilder? = null
-    private var withdrawalDialog : MaterialAlertDialogBuilder? = null
+    private var logoutDialog: MaterialAlertDialogBuilder? = null
+    private var withdrawalDialog: MaterialAlertDialogBuilder? = null
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentMyPageMainBinding {
         return FragmentMyPageMainBinding.inflate(inflater, container, false)
@@ -58,7 +57,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         initGroupType()
     }
 
-    private fun initProfile() = with(binding){
+    private fun initProfile() = with(binding) {
         userNickName.text = nickname
     }
 
@@ -66,14 +65,14 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         hideProgressCircular(binding.progressCircular)
     }
 
-    private fun initGroupType()= with(binding) {
-        if((GlobalApplication.prefs.groupType ?: "") == FAMILY){
+    private fun initGroupType() = with(binding) {
+        if ((GlobalApplication.prefs.groupType ?: "") == FAMILY) {
             manageGroupText.visibility = View.VISIBLE
             underManageGroupDivide.visibility = View.VISIBLE
             groupInviteText.visibility = View.VISIBLE
             underGroupInviteDivide.visibility = View.VISIBLE
             groupMakeText.visibility = View.GONE
-        }else{
+        } else {
             manageGroupText.visibility = View.GONE
             underManageGroupDivide.visibility = View.GONE
             groupInviteText.visibility = View.GONE
@@ -88,16 +87,16 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         }
 
         groupInviteText.setOnClickListener {
-                onShareClicked()
+            onShareClicked()
         }
 
         groupMakeText.setOnClickListener {
-                val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToCreateFamilyFragment2(true)
-                root.findNavController().navigate(action)
+            val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToCreateFamilyFragment2(true)
+            root.findNavController().navigate(action)
         }
 
         appReviewText.setOnClickListener {
-            val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewActivity("https://play.google.com/store/apps/details?id=com.dxx.firenow")
+            val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewActivity(PLAY_STORE_URL)
             root.findNavController().navigate(action)
         }
 
@@ -140,14 +139,14 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         }
     }
 
-    private fun showLogoutDialog(){
+    private fun showLogoutDialog() {
         logoutDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomMaterialAlertDialog)
             .setTitle(getString(R.string.logout_dialog_title_text))
             .setMessage(getString(R.string.logout_dialog_message_text))
-            .setNegativeButton(getString(R.string.dialog_no_text)){dialog, _ ->
+            .setNegativeButton(getString(R.string.dialog_no_text)) { dialog, _ ->
                 dialog.dismiss()
             }
-            .setPositiveButton(getString(R.string.dialog_yes_text)){_, _ ->
+            .setPositiveButton(getString(R.string.dialog_yes_text)) { _, _ ->
                 logout()
                 val intent = Intent(requireContext(), LoginActivity::class.java)
                 startActivity(intent)
@@ -156,14 +155,14 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         logoutDialog?.show()
     }
 
-    private fun showWithdrawalDialog(){
+    private fun showWithdrawalDialog() {
         withdrawalDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomMaterialAlertDialog)
             .setTitle(getString(R.string.withdrawal_dialog_title_text))
             .setMessage(getString(R.string.withdrawal_dialog_message_text))
-            .setNegativeButton(getString(R.string.dialog_no_text)){dialog, _ ->
+            .setNegativeButton(getString(R.string.dialog_no_text)) { dialog, _ ->
                 dialog.dismiss()
             }
-            .setPositiveButton(getString(R.string.dialog_yes_text)){_, _ ->
+            .setPositiveButton(getString(R.string.dialog_yes_text)) { _, _ ->
                 withdrawal()
                 kakaoUnlink()
                 naverUnlink()
@@ -275,6 +274,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     }
 
     companion object {
+        private const val PLAY_STORE_URL = "https://play.google.com/store/apps"
         private const val NOTIFICATION_URL = "https://showy-king-303.notion.site/2b97d48c4a434e019c1058800f7a48fe"
         private const val REPORT_URL = "https://the-form.io/forms/survey/response/fe418f0f-0ab2-46ce-80d1-d5a8188e5247"
         private const val TERMS_URL = "https://showy-king-303.notion.site/df847ac24e894e4a837717776a7dd4b7"

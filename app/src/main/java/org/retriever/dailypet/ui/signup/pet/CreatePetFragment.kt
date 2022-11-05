@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +31,6 @@ import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.signup.pet.ModifyPetRequest
 import org.retriever.dailypet.model.signup.pet.PetResponse
 import org.retriever.dailypet.ui.base.BaseFragment
-import org.retriever.dailypet.ui.bottomsheet.BreedBottomSheet
 import org.retriever.dailypet.ui.login.LoginActivity
 import org.retriever.dailypet.ui.signup.EditTextState
 import org.retriever.dailypet.ui.signup.EditTextValidateState
@@ -41,7 +39,6 @@ import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
 import java.io.File
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 
 class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
@@ -106,12 +103,12 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         observeImageUrlResponse()
     }
 
-    private fun initPetInfo() = with(binding){
+    private fun initPetInfo() = with(binding) {
         petNameEdittext.setText(petViewModel.petInfo.petName)
         petBirthDatePicker.text = petViewModel.petInfo.birthDate
         petBreedBottomSheet.text = petViewModel.petBreed
         val weight = petViewModel.petInfo.weight.toString()
-        petWeightEdittext.setText(if(weight == "-1.0") "" else weight)
+        petWeightEdittext.setText(if (weight == "-1.0") "" else weight)
         petRegisterNumEdittext.setText(petViewModel.petInfo.registerNumber)
     }
 

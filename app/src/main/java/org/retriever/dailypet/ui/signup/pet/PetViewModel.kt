@@ -117,7 +117,7 @@ class PetViewModel @Inject constructor(
         _notKnowState.value = check
         if (check) {
             setBreedState(EditTextState.VALID_STATE)
-        }else{
+        } else {
             setBreedState(EditTextState.DEFAULT_STATE)
         }
         setRegisterButtonState()
@@ -125,6 +125,7 @@ class PetViewModel @Inject constructor(
 
     fun setWeightState(state: EditTextState) {
         _weightState.value = state
+        setRegisterButtonState()
     }
 
     private fun setRegisterButtonState() {

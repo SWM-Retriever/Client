@@ -15,8 +15,7 @@ import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentFindGroupBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
-import org.retriever.dailypet.ui.bottomsheet.AddProfileBottomSheet
-import org.retriever.dailypet.ui.signup.adapter.FindGroupAdapter
+import org.retriever.dailypet.ui.mypage.adapter.GroupAdapter
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
@@ -27,12 +26,11 @@ class FindGroupFragment : BaseFragment<FragmentFindGroupBinding>() {
 
     private var isValidCode = false
     private var groupName = ""
-    private var groupCnt = 0
     private var familyId = 0
 
     private val jwt = GlobalApplication.prefs.jwt ?: ""
 
-    private lateinit var familyAdapter: FindGroupAdapter
+    private lateinit var groupAdapter: GroupAdapter
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentFindGroupBinding {
         return FragmentFindGroupBinding.inflate(inflater, container, false)
@@ -42,6 +40,7 @@ class FindGroupFragment : BaseFragment<FragmentFindGroupBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initProgressCircular()
+        initRecyclerAdapter()
         initFindGroupView()
         buttonClick()
     }
@@ -58,13 +57,13 @@ class FindGroupFragment : BaseFragment<FragmentFindGroupBinding>() {
                 }
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
-                    setEditTextTrue()
-                    initRecyclerAdapter()
-                    setVisibility()
 
+                    groupAdapter.submitList(response.data?.familyMemberList)
                     groupName = response.data?.familyName ?: ""
-                    groupCnt = response.data?.familyMemberCount ?: 0
                     familyId = response.data?.familyId ?: 0
+
+                    setEditTextTrue()
+                    setVisibility()
                 }
                 is Resource.Error -> {
                     hideProgressCircular(progressCircular)
@@ -94,11 +93,10 @@ class FindGroupFragment : BaseFragment<FragmentFindGroupBinding>() {
     }
 
     private fun initRecyclerAdapter() {
-        val list = listOf("김시진", "안세훈", "김시진", "안세훈", "김시진", "안세훈", "김시진", "안세훈", "김시진", "안세훈")
-        familyAdapter = FindGroupAdapter(list)
+        groupAdapter = GroupAdapter()
 
         binding.familyGroupRecyclerview.apply {
-            adapter = familyAdapter
+            adapter = groupAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
     }

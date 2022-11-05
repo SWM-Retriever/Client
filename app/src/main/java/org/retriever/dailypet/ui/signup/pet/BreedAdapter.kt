@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.signup.adapter
+package org.retriever.dailypet.ui.signup.pet
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
