@@ -10,6 +10,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('/Users/ahnsehun/AndroidStudioProjects/DailyPet/release')
+            storePassword 'dkssud12'
+            keyAlias 'release'
+            keyPassword 'dkssud12'
+        }
+    }
     compileSdk 32
 
     defaultConfig {
@@ -23,15 +31,24 @@ android {
 
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = KAKAO_NATIVE_APP_KEY
         buildConfigField("String", "KAKAO_NATIVE_APP_KEY",KAKAO_NATIVE_APP_KEY)
-        buildConfigField("String", "BASE_URL",BASE_URL)
         buildConfigField("String", "NAVER_CLIENT_ID",NAVER_CLIENT_ID)
         buildConfigField("String", "NAVER_CLIENT_SECRET",NAVER_CLIENT_SECRETE)
     }
 
     buildTypes {
-        release {
+        debug {
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            buildConfigField("String", "BASE_URL",BASE_URL)
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            buildConfigField("String", "BASE_URL",BASE_URL)
         }
     }
     compileOptions {
