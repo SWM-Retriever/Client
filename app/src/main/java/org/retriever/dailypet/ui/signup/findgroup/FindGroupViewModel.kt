@@ -9,8 +9,8 @@ import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import org.retriever.dailypet.data.repository.signup.FindGroupRepository
 import org.retriever.dailypet.model.Resource
-import org.retriever.dailypet.model.signup.family.EnterFamilyResponse
-import org.retriever.dailypet.model.signup.family.FindGroupResponse
+import org.retriever.dailypet.model.signup.group.EnterGroupResponse
+import org.retriever.dailypet.model.signup.group.FindGroupResponse
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,8 +22,8 @@ class FindGroupViewModel @Inject constructor(private val findGroupRepository: Fi
     private val _groupNameResponse = MutableLiveData<Resource<ResponseBody>>()
     val groupNameResponse: LiveData<Resource<ResponseBody>> = _groupNameResponse
 
-    private val _enterGroupResponse = MutableLiveData<Resource<EnterFamilyResponse>>()
-    val enterGroupResponse: LiveData<Resource<EnterFamilyResponse>> = _enterGroupResponse
+    private val _enterGroupResponse = MutableLiveData<Resource<EnterGroupResponse>>()
+    val enterGroupResponse: LiveData<Resource<EnterGroupResponse>> = _enterGroupResponse
 
     fun getGroupInfo(invitationCode: String, jwt: String) = viewModelScope.launch {
         _getGroupInfoResponse.postValue(Resource.Loading())

@@ -1,4 +1,4 @@
-package org.retriever.dailypet.model.signup.family
+package org.retriever.dailypet.model.signup.group
 
 import com.squareup.moshi.JsonClass
 

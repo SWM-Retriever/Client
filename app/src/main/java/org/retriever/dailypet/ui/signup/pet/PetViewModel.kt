@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
@@ -14,6 +16,8 @@ import org.retriever.dailypet.model.Event
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.presignedurl.PreSignedUrlResponse
 import org.retriever.dailypet.model.signup.pet.*
+import org.retriever.dailypet.ui.signup.EditTextState
+import org.retriever.dailypet.ui.signup.EditTextValidateState
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,6 +25,35 @@ class PetViewModel @Inject constructor(
     private val petRepository: PetRepository,
     private val preSignedUrlRepository: PreSignedUrlRepository,
 ) : ViewModel() {
+
+    private val _petNameState = MutableStateFlow(EditTextValidateState.DEFAULT_STATE)
+    val petNameState: StateFlow<EditTextValidateState> = _petNameState
+
+    // DEFAULT -> 선택안된상태 INVALID -> 강아지 선택 VALID -> 고양이 선택
+    private val _petTypeState = MutableStateFlow(EditTextState.DEFAULT_STATE)
+    val petTypeState: StateFlow<EditTextState> = _petTypeState
+
+    // DEFAULT -> 선택안된상태 INVALID -> 수컷 선택 VALID -> 암컷 선택
+    private val _petSexState = MutableStateFlow(EditTextState.DEFAULT_STATE)
+    val petSexState: StateFlow<EditTextState> = _petSexState
+
+    private val _birthState = MutableStateFlow(EditTextState.DEFAULT_STATE)
+    val birthState: StateFlow<EditTextState> = _birthState
+
+    private val _breedState = MutableStateFlow(EditTextState.DEFAULT_STATE)
+    val breedState: StateFlow<EditTextState> = _breedState
+
+    private val _notKnowState = MutableStateFlow(false)
+    val notKnowState: StateFlow<Boolean> = _notKnowState
+
+    private val _weightState = MutableStateFlow(EditTextState.DEFAULT_STATE)
+    val weightState: StateFlow<EditTextState> = _weightState
+
+    private val _registerButtonState = MutableStateFlow(false)
+    val registerButtonState: StateFlow<Boolean> = _registerButtonState
+
+    val petInfo = PetInfo("", "", "", "", -1, -1f, false, "", "")
+    var petBreed = ""
 
     private val _petNameResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
     val petNameResponse: LiveData<Event<Resource<ResponseBody>>> = _petNameResponse
@@ -43,16 +76,73 @@ class PetViewModel @Inject constructor(
     private val _putImageUrlResponse = MutableLiveData<Resource<ResponseBody>>()
     val putImageUrlResponse: LiveData<Resource<ResponseBody>> = _putImageUrlResponse
 
-    private var _submit = MutableLiveData(false)
-    val submit: LiveData<Boolean> = _submit
+    fun setPetNameState(state: EditTextValidateState) {
+        _petNameState.value = state
+        setRegisterButtonState()
+    }
 
-    private var isValidPetName = false
-    private var dog = false
-    private var cat = false
-    private var male = false
-    private var female = false
-    private var birth = false
-    private var weight = false
+    fun setPetTypeState(state: EditTextState) {
+        if (state == EditTextState.INVALID_STATE) {
+            petInfo.petType = DOG
+        } else if (state == EditTextState.VALID_STATE) {
+            petInfo.petType = CAT
+        }
+
+        _petTypeState.value = state
+        setRegisterButtonState()
+    }
+
+    fun setPetSexState(state: EditTextState) {
+        if (state == EditTextState.INVALID_STATE) {
+            petInfo.gender = MALE
+        } else {
+            petInfo.gender = FEMALE
+        }
+
+        _petSexState.value = state
+        setRegisterButtonState()
+    }
+
+    fun setBirthState(state: EditTextState) {
+        _birthState.value = state
+        setRegisterButtonState()
+    }
+
+    fun setBreedState(state: EditTextState) {
+        _breedState.value = state
+        setRegisterButtonState()
+    }
+
+    fun setNotKnowState(check: Boolean) {
+        _notKnowState.value = check
+        if (check) {
+            setBreedState(EditTextState.VALID_STATE)
+        }else{
+            setBreedState(EditTextState.DEFAULT_STATE)
+        }
+        setRegisterButtonState()
+    }
+
+    fun setWeightState(state: EditTextState) {
+        _weightState.value = state
+    }
+
+    private fun setRegisterButtonState() {
+        _registerButtonState.value =
+            (_petNameState.value == EditTextValidateState.VALID_STATE) &&
+                    (_petTypeState.value != EditTextState.DEFAULT_STATE) &&
+                    (_petSexState.value != EditTextState.DEFAULT_STATE) &&
+                    (_birthState.value == EditTextState.VALID_STATE) &&
+                    (_breedState.value == EditTextState.VALID_STATE) &&
+                    (_weightState.value == EditTextState.VALID_STATE)
+    }
+
+    fun getPetTypeSelected() =
+        _petTypeState.value != EditTextState.DEFAULT_STATE
+
+
+    fun getPetType() =
+        if (_petTypeState.value == EditTextState.INVALID_STATE) DOG else if (_petTypeState.value == EditTextState.VALID_STATE) CAT else ""
 
     fun postCheckPetName(familyId: Int, jwt: String, petName: String) = viewModelScope.launch {
         _petNameResponse.postValue(Event(Resource.Loading()))
@@ -66,7 +156,7 @@ class PetViewModel @Inject constructor(
         _petBreedList.postValue(petRepository.getPetBreedList(petType, jwt))
     }
 
-    fun postPet(familyId: Int, jwt: String, petInfo: PetInfo) = viewModelScope.launch {
+    fun postPet(familyId: Int, jwt: String) = viewModelScope.launch {
         _petResponse.postValue(Event(Resource.Loading()))
 
         _petResponse.postValue(Event(petRepository.postPet(familyId, jwt, petInfo)))
@@ -100,76 +190,6 @@ class PetViewModel @Inject constructor(
 
             _putImageUrlResponse.postValue(preSignedUrlRepository.putImageUrl(contentType, url, file))
         }
-    }
-
-    fun setInitial() {
-        isValidPetName = false
-        dog = false
-        cat = false
-        male = false
-        female = false
-        birth = false
-        weight = false
-        submitCheck()
-    }
-
-    fun setValidPetName(boolean: Boolean) {
-        isValidPetName = boolean
-        submitCheck()
-    }
-
-    fun setDogTrue() {
-        dog = true
-        cat = false
-        submitCheck()
-    }
-
-    fun setCatTrue() {
-        dog = false
-        cat = true
-        submitCheck()
-    }
-
-    fun setMaleTrue() {
-        male = true
-        female = false
-        submitCheck()
-    }
-
-    fun setFemaleTrue() {
-        male = false
-        female = true
-        submitCheck()
-    }
-
-    fun setBirth() {
-        birth = true
-        submitCheck()
-    }
-
-    fun setWeight(boolean: Boolean) {
-        weight = boolean
-        submitCheck()
-    }
-
-    fun getPetTypeSelected(): Boolean =
-        dog || cat
-
-    fun getPetType(): String =
-        if (dog) DOG else CAT
-
-    fun getSexType(): String =
-        if (male) MALE else FEMALE
-
-    private fun submitCheck() {
-        val type = dog || cat
-        val sex = male || female
-
-        _submit.value = isValidPetName
-                && type
-                && sex
-                && birth
-                && weight
     }
 
     companion object {

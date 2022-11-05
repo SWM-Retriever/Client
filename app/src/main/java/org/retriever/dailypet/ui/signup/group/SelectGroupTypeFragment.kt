@@ -134,7 +134,7 @@ class SelectGroupTypeFragment : BaseFragment<FragmentSelectFamilyTypeBinding>() 
     }
 
     private fun observeMakeAlone() = with(binding) {
-        groupViewModel.registerFamilyResponse.observe(viewLifecycleOwner) { event ->
+        groupViewModel.registerGroupResponse.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { response ->
                 when (response) {
                     is Resource.Loading -> {

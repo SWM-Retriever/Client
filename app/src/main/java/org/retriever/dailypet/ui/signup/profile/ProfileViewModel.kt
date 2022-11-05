@@ -17,6 +17,7 @@ import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.presignedurl.PreSignedUrlResponse
 import org.retriever.dailypet.model.signup.profile.RegisterProfile
 import org.retriever.dailypet.model.signup.profile.RegisterProfileResponse
+import org.retriever.dailypet.ui.signup.EditTextValidateState
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,8 +43,8 @@ class ProfileViewModel @Inject constructor(
 
     // TODO CreateProfileFragment 이미지 상태 저장
 
-    private val _nickNameViewState = MutableLiveData(NickNameViewState.DEFAULT_STATE)
-    val nickNameViewState: LiveData<NickNameViewState> = _nickNameViewState
+    private val _editTextValidateState = MutableLiveData(EditTextValidateState.DEFAULT_STATE)
+    val editTextValidateState: LiveData<EditTextValidateState> = _editTextValidateState
 
     private val _registerButtonState = MutableStateFlow(false)
     val registerButtonState : StateFlow<Boolean> = _registerButtonState
@@ -93,8 +94,8 @@ class ProfileViewModel @Inject constructor(
         _nextButtonState.value = _firstCheckState.value && _secondCheckState.value
     }
 
-    fun setNickNameState(state : NickNameViewState){
-        _nickNameViewState.value = state
+    fun setNickNameState(state : EditTextValidateState){
+        _editTextValidateState.value = state
     }
 
     fun setRegisterButtonState(check : Boolean){

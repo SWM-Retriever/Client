@@ -80,7 +80,7 @@
     <string name="neutral_text">완료</string>
     <string name="pet_register_num_hint">반려동물 등록번호를 입력해주세요 (15자리)</string>
     <string name="pet_submit_text">등록하기</string>
-    <string name="dont_know_text">모르겠어요</string>
+    <string name="dont_know_text">믹스</string>
     <string name="creation_complete_text_title">등록이 완료되었습니다\n반려하루를 시작해보세요</string>
     <string name="complete_group_text">그룹명</string>
     <string name="complete_group_nickname_text">닉네임명</string>

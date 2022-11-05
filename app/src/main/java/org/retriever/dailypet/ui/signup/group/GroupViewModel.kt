@@ -9,16 +9,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
+import org.retriever.dailypet.data.repository.signup.GroupRepository
 import org.retriever.dailypet.model.Event
-import org.retriever.dailypet.data.repository.signup.FamilyRepository
 import org.retriever.dailypet.model.Resource
-import org.retriever.dailypet.model.signup.family.FamilyInfo
-import org.retriever.dailypet.model.signup.family.FamilyResponse
-import org.retriever.dailypet.model.signup.family.ModifyFamilyResponse
+import org.retriever.dailypet.model.signup.group.GroupInfo
+import org.retriever.dailypet.model.signup.group.GroupResponse
+import org.retriever.dailypet.model.signup.group.ModifyGroupResponse
+import org.retriever.dailypet.ui.signup.EditTextState
+import org.retriever.dailypet.ui.signup.EditTextValidateState
 import javax.inject.Inject
 
 @HiltViewModel
-class GroupViewModel @Inject constructor(private val familyRepository: FamilyRepository) : ViewModel() {
+class GroupViewModel @Inject constructor(private val groupRepository: GroupRepository) : ViewModel() {
 
     private val _aloneButtonState = MutableStateFlow(false)
     val aloneButtonState: StateFlow<Boolean> = _aloneButtonState
@@ -28,6 +30,24 @@ class GroupViewModel @Inject constructor(private val familyRepository: FamilyRep
 
     private val _chooseButtonState = MutableStateFlow(false)
     val chooseButtonState: StateFlow<Boolean> = _chooseButtonState
+
+    private val _groupNameState = MutableStateFlow(EditTextValidateState.DEFAULT_STATE)
+    val groupNameState: StateFlow<EditTextValidateState> = _groupNameState
+
+    private val _groupRoleNameState = MutableStateFlow(EditTextState.DEFAULT_STATE)
+    val groupRoleNameState: StateFlow<EditTextState> = _groupRoleNameState
+
+    private val _nextButtonState = MutableStateFlow(false)
+    val nextButtonState: StateFlow<Boolean> = _nextButtonState
+
+    private val _groupNameResponse = MutableLiveData<Resource<ResponseBody>>()
+    val groupNameResponse: LiveData<Resource<ResponseBody>> = _groupNameResponse
+
+    private val _registerGroupResponse = MutableLiveData<Event<Resource<GroupResponse>>>()
+    val registerGroupResponse: LiveData<Event<Resource<GroupResponse>>> = _registerGroupResponse
+
+    private val _modifyGroupResponse = MutableLiveData<Resource<ModifyGroupResponse>>()
+    val modifyGroupResponse: LiveData<Resource<ModifyGroupResponse>> = _modifyGroupResponse
 
     fun setAloneButtonState() {
         _aloneButtonState.value = true
@@ -41,40 +61,49 @@ class GroupViewModel @Inject constructor(private val familyRepository: FamilyRep
         _chooseButtonState.value = true
     }
 
-    private val _familyNameResponse = MutableLiveData<Resource<ResponseBody>>()
-    val familyNameResponse: LiveData<Resource<ResponseBody>> = _familyNameResponse
-
-    private val _registerFamilyResponse = MutableLiveData<Event<Resource<FamilyResponse>>>()
-    val registerFamilyResponse: LiveData<Event<Resource<FamilyResponse>>> = _registerFamilyResponse
-
-    private val _modifyFamilyResponse = MutableLiveData<Resource<ModifyFamilyResponse>>()
-    val modifyFamilyResponse: LiveData<Resource<ModifyFamilyResponse>> = _modifyFamilyResponse
-
-    fun postCheckFamilyName(jwt: String, familyName: String) = viewModelScope.launch {
-        _familyNameResponse.postValue(Resource.Loading())
-
-        _familyNameResponse.postValue(familyRepository.postCheckFamilyName(jwt, familyName))
+    fun setGroupNameState(state: EditTextValidateState) {
+        _groupNameState.value = state
+        setNextButtonState()
     }
 
-    fun postFamily(jwt: String, familyInfo: FamilyInfo) = viewModelScope.launch {
-        _registerFamilyResponse.postValue(Event(Resource.Loading()))
-
-        _registerFamilyResponse.postValue(Event(familyRepository.postFamily(jwt, familyInfo)))
+    fun setGroupRoleNameState(state: EditTextState) {
+        _groupRoleNameState.value = state
+        setNextButtonState()
     }
 
-    fun modifyFamily(familyId: Int, jwt: String, familyInfo: FamilyInfo) {
+    private fun setNextButtonState() {
+        _nextButtonState.value = (_groupNameState.value == EditTextValidateState.VALID_STATE) && (_groupRoleNameState.value == EditTextState.VALID_STATE)
+    }
+
+    fun postCheckFamilyName(jwt: String, familyName: String) {
         viewModelScope.launch {
-            _modifyFamilyResponse.postValue(Resource.Loading())
+            _groupNameResponse.postValue(Resource.Loading())
 
-            _modifyFamilyResponse.postValue(familyRepository.modifyGroup(familyId, jwt, familyInfo))
+            _groupNameResponse.postValue(groupRepository.postCheckFamilyName(jwt, familyName))
+        }
+    }
+
+    fun postFamily(jwt: String, groupInfo: GroupInfo) {
+        viewModelScope.launch {
+            _registerGroupResponse.postValue(Event(Resource.Loading()))
+
+            _registerGroupResponse.postValue(Event(groupRepository.postFamily(jwt, groupInfo)))
+        }
+    }
+
+    fun modifyFamily(familyId: Int, jwt: String, groupInfo: GroupInfo) {
+        viewModelScope.launch {
+            _modifyGroupResponse.postValue(Resource.Loading())
+
+            _modifyGroupResponse.postValue(groupRepository.modifyGroup(familyId, jwt, groupInfo))
         }
     }
 
     fun makeAlone(jwt: String) {
         viewModelScope.launch {
-            _registerFamilyResponse.postValue(Event(Resource.Loading()))
+            _registerGroupResponse.postValue(Event(Resource.Loading()))
 
-            _registerFamilyResponse.postValue(Event(familyRepository.makeAlone(jwt)))
+            _registerGroupResponse.postValue(Event(groupRepository.makeAlone(jwt)))
         }
     }
 
