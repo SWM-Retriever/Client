@@ -1,4 +1,4 @@
-package org.retriever.dailypet.ui.bottomsheet
+package org.retriever.dailypet.ui.signup.findgroup
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,7 +15,6 @@ import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.BottomSheetAddProfileBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.main.MainActivity
-import org.retriever.dailypet.ui.signup.findgroup.FindGroupViewModel
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
@@ -106,6 +105,12 @@ class AddProfileBottomSheet : BottomSheetDialogFragment() {
                 is Resource.Success -> {
                     hideProgressCircular(progressCircular)
                     GlobalApplication.prefs.familyId = response.data?.familyId ?: -1
+                    GlobalApplication.prefs.groupName = response.data?.familyName
+                    GlobalApplication.prefs.nickname = response.data?.nickName
+                    GlobalApplication.prefs.invitationCode = response.data?.invitationCode
+                    GlobalApplication.prefs.groupType = response.data?.groupType
+                    GlobalApplication.prefs.profileImageUrl = response.data?.profileImageUrl
+
                     val nextIntent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(nextIntent)
                 }
