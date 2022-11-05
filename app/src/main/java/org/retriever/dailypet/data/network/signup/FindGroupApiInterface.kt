@@ -1,9 +1,8 @@
 package org.retriever.dailypet.data.network.signup
 
 import okhttp3.ResponseBody
-import org.retriever.dailypet.model.signup.family.EnterFamilyResponse
-import org.retriever.dailypet.model.signup.family.FamilyInfo
-import org.retriever.dailypet.model.signup.family.FindGroupResponse
+import org.retriever.dailypet.model.signup.group.EnterGroupResponse
+import org.retriever.dailypet.model.signup.group.FindGroupResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -26,5 +25,5 @@ interface FindGroupApiInterface {
         @Path("familyId") familyId: Int,
         @Header("X-AUTH-TOKEN") jwt: String,
         @Body familyRoleName: String,
-    ): Response<EnterFamilyResponse>
+    ): Response<EnterGroupResponse>
 }

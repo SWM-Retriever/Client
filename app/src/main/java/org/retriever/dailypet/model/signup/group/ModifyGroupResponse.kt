@@ -1,9 +1,9 @@
-package org.retriever.dailypet.model.signup.family
+package org.retriever.dailypet.model.signup.group
 
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class ModifyFamilyResponse(
+data class ModifyGroupResponse(
     val familyId: Int,
     val familyName: String,
     val invitationCode: String,
