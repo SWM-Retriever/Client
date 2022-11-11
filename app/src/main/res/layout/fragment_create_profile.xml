@@ -109,7 +109,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/grey_blue_edittext"
         android:hint="@string/nickname_hint_text"
-        android:maxLength="20"
+        android:maxLength="10"
         android:padding="16dp"
         android:textColor="@color/black"
         android:textSize="16sp"
