@@ -71,14 +71,14 @@
     <string name="pet_birth_text">생일</string>
     <string name="pet_birth_date_hint">날짜를 입력해주세요</string>
     <string name="pet_breed_text">품종</string>
-    <string name="pet_breed_hint">품종을 선택하세요</string>
+    <string name="pet_breed_hint">품종을 선택해주세요</string>
     <string name="pet_weight_text">몸무게</string>
     <string name="pet_weight_hint">몸무게를 입력해주세요 (kg)</string>
-    <string name="pet_register_num_text">반려동물 등록번호 (선택)</string>
+    <string name="pet_register_num_text">(선택) 반려동물 등록번호</string>
     <string name="pet_neutral_text">중성화 여부</string>
     <string name="not_neutral_text">미실시</string>
     <string name="neutral_text">완료</string>
-    <string name="pet_register_num_hint">반려동물 등록번호를 입력해주세요 (15자리)</string>
+    <string name="pet_register_num_hint">반려동물 등록번호를 입력해주세요 (12자리 또는 15자리)</string>
     <string name="pet_submit_text">등록하기</string>
     <string name="dont_know_text">믹스</string>
     <string name="creation_complete_text_title">등록이 완료되었습니다\n반려하루를 시작해보세요</string>
@@ -183,5 +183,6 @@
     <string name="withdrawal_dialog_message_text">회원탈퇴 하시겠습니까?</string>
     <string name="dialog_yes_text">네</string>
     <string name="dialog_no_text">아니요</string>
+    <string name="duty_text">*</string>
 
 </resources>

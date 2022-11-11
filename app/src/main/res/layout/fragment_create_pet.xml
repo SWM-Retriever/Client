@@ -77,6 +77,19 @@
                 app:layout_constraintEnd_toEndOf="@+id/pet_circle_image" />
 
             <TextView
+                android:id="@+id/pet_name_text_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:paddingHorizontal="5dp"
+                android:text="@string/duty_text"
+                android:textColor="@color/main_pink"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/pet_circle_image" />
+
+            <TextView
                 android:id="@+id/pet_name_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,7 +98,7 @@
                 android:textColor="@color/light_black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintStart_toEndOf="@+id/pet_name_text_star"
                 app:layout_constraintTop_toBottomOf="@+id/pet_circle_image" />
 
             <EditText
@@ -95,7 +108,7 @@
                 android:layout_marginTop="12dp"
                 android:background="@drawable/grey_blue_edittext"
                 android:hint="@string/pet_name_edittext_hint"
-                android:maxLength="10"
+                android:maxLength="6"
                 android:padding="16dp"
                 android:saveEnabled="false"
                 android:textSize="14sp"
@@ -131,6 +144,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/pet_name_edittext" />
 
             <TextView
+                android:id="@+id/pet_type_text_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:paddingHorizontal="5dp"
+                android:text="@string/duty_text"
+                android:textColor="@color/main_pink"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/pet_name_validate" />
+
+            <TextView
                 android:id="@+id/pet_type_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -139,7 +165,7 @@
                 android:textColor="@color/light_black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintStart_toEndOf="@+id/pet_type_text_star"
                 app:layout_constraintTop_toBottomOf="@+id/pet_name_validate" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -171,6 +197,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/pet_type_text" />
 
             <TextView
+                android:id="@+id/pet_sex_text_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:paddingHorizontal="5dp"
+                android:text="@string/duty_text"
+                android:textColor="@color/main_pink"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/pet_type_dog_button" />
+
+            <TextView
                 android:id="@+id/pet_sex_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -179,7 +218,7 @@
                 android:textColor="@color/light_black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintStart_toEndOf="@+id/pet_sex_text_star"
                 app:layout_constraintTop_toBottomOf="@+id/pet_type_dog_button" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -211,6 +250,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/pet_sex_text" />
 
             <TextView
+                android:id="@+id/pet_birth_text_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:paddingHorizontal="5dp"
+                android:text="@string/duty_text"
+                android:textColor="@color/main_pink"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/pet_sex_male_button" />
+
+            <TextView
                 android:id="@+id/pet_birth_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -219,7 +271,7 @@
                 android:textColor="@color/light_black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintStart_toEndOf="@+id/pet_birth_text_star"
                 app:layout_constraintTop_toBottomOf="@+id/pet_sex_male_button" />
 
             <TextView
@@ -238,6 +290,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/pet_birth_text" />
 
             <TextView
+                android:id="@+id/pet_breed_text_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:paddingHorizontal="5dp"
+                android:text="@string/duty_text"
+                android:textColor="@color/main_pink"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/pet_birth_date_picker" />
+
+            <TextView
                 android:id="@+id/pet_breed_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -246,7 +311,7 @@
                 android:textColor="@color/light_black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintStart_toEndOf="@+id/pet_breed_text_star"
                 app:layout_constraintTop_toBottomOf="@+id/pet_birth_date_picker" />
 
             <TextView
@@ -275,6 +340,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/pet_breed_bottom_sheet" />
 
             <TextView
+                android:id="@+id/pet_weight_text_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:paddingHorizontal="5dp"
+                android:text="@string/duty_text"
+                android:textColor="@color/main_pink"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/dont_know_button" />
+
+            <TextView
                 android:id="@+id/pet_weight_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -283,7 +361,7 @@
                 android:textColor="@color/light_black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintStart_toEndOf="@+id/pet_weight_text_star"
                 app:layout_constraintTop_toBottomOf="@+id/dont_know_button" />
 
             <EditText
@@ -303,6 +381,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/pet_weight_text" />
 
             <TextView
+                android:id="@+id/pet_neutral_text_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:paddingHorizontal="5dp"
+                android:text="@string/duty_text"
+                android:textColor="@color/main_pink"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/pet_weight_edittext" />
+
+            <TextView
                 android:id="@+id/pet_neutral_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -311,7 +402,7 @@
                 android:textColor="@color/light_black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintStart_toEndOf="@+id/pet_neutral_text_star"
                 app:layout_constraintTop_toBottomOf="@+id/pet_weight_edittext" />
 
             <RadioGroup
@@ -364,10 +455,11 @@
                 android:layout_marginTop="12dp"
                 android:background="@drawable/grey_blue_edittext"
                 android:hint="@string/pet_register_num_hint"
-                android:maxLength="20"
+                android:inputType="numberSigned"
+                android:maxLength="15"
                 android:padding="16dp"
                 android:saveEnabled="false"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/pet_register_num_text" />
