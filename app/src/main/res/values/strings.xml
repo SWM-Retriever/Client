@@ -118,7 +118,7 @@
     <string name="group_enter_text">그룹 들어가기</string>
     <string name="notification_text">공지사항</string>
     <string name="app_review_text">플레이스토어 리뷰 남기기</string>
-    <string name="report_text">서비스 문의 및 오류 제보</string>
+    <string name="report_text">오류 제보</string>
     <string name="terms_of_service_text">이용약관</string>
     <string name="privacy_text">개인정보 처리방침</string>
     <string name="open_source_license_text">오픈소스 라이선스 확인하기</string>

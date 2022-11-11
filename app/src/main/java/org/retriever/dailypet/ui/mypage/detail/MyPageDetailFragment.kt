@@ -1,5 +1,6 @@
 package org.retriever.dailypet.ui.mypage.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +9,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.retriever.dailypet.GlobalApplication
+import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentMyPageDetailBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.diary.DiaryItem
 import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.ui.mypage.MyPageMainFragmentDirections
 import org.retriever.dailypet.ui.mypage.adapter.GroupAdapter
 import org.retriever.dailypet.ui.mypage.adapter.PetAdapter
 import org.retriever.dailypet.util.hideProgressCircular
@@ -23,6 +26,10 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
 
     private lateinit var groupAdapter: GroupAdapter
     private lateinit var petAdapter: PetAdapter
+
+    private val nickname = GlobalApplication.prefs.nickname ?: ""
+    private val groupName = GlobalApplication.prefs.groupName ?: ""
+    private val invitationCode = GlobalApplication.prefs.invitationCode ?: ""
 
     private val familyId = GlobalApplication.prefs.familyId
     private val jwt = GlobalApplication.prefs.jwt ?: ""
@@ -78,6 +85,11 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
     }
 
     private fun buttonClick() = with(binding) {
+
+        memberAddButton.setOnClickListener{
+            onShareClicked()
+        }
+
         petAddButton.setOnClickListener {
             val action = MyPageDetailFragmentDirections.actionMyPageDetailFragmentToCreatePetFragment2(true)
             binding.root.findNavController().navigate(action)
@@ -148,6 +160,14 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
             writerNickNameText.text = it.authorNickName
             diaryContentText.text = it.diaryText
         }
+    }
+
+    private fun onShareClicked() {
+        val code = getString(R.string.invitation_message_text, nickname, groupName, invitationCode)
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT, code)
+        startActivity(Intent.createChooser(intent, "초대코드 공유하기"))
     }
 
 }
