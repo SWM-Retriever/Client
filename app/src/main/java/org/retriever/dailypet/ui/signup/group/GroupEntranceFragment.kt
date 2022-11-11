@@ -10,6 +10,7 @@ import org.retriever.dailypet.databinding.FragmentFamilyEntranceBinding
 import org.retriever.dailypet.ui.base.BaseFragment
 
 class GroupEntranceFragment : BaseFragment<FragmentFamilyEntranceBinding>() {
+    private var progressList: ArrayList<String> = arrayListOf("프로필","그룹","반려동물")
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentFamilyEntranceBinding {
         return FragmentFamilyEntranceBinding.inflate(inflater, container, false)
@@ -17,7 +18,7 @@ class GroupEntranceFragment : BaseFragment<FragmentFamilyEntranceBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.signUpProgressbar.setStateDescriptionData(progressList)
         buttonClick()
     }
 

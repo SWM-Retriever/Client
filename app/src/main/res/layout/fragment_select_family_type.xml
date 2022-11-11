@@ -56,7 +56,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/select_alone_button"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="240dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="7dp"
         android:background="@drawable/btn_click"
@@ -104,7 +104,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/select_group_button"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="240dp"
         android:layout_marginStart="7dp"
         android:layout_marginTop="44dp"
         android:background="@drawable/btn_click"
@@ -116,11 +116,12 @@
         app:layout_constraintStart_toEndOf="@id/select_alone_button"
         app:layout_constraintTop_toBottomOf="@+id/select_group_sub_type_text" />
 
+
     <TextView
         android:id="@+id/group_comment_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/group_comment_text"
         android:textAlignment="center"
         android:textColor="@color/light_black"
@@ -128,7 +129,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/select_group_button"
         app:layout_constraintEnd_toEndOf="@+id/select_group_button"
         app:layout_constraintStart_toStartOf="@+id/select_group_button" />
-
 
     <ImageView
         android:id="@+id/group_image_circle"
@@ -155,12 +155,36 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/grey_button"
         android:text="@string/choose_complete_text"
         android:textColor="@color/light_light_grey"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_progressbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.kofigyan.stateprogressbar.StateProgressBar
+        android:id="@+id/sign_up_progressbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/right_guideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:spb_checkStateCompleted="true"
+        app:spb_currentStateDescriptionColor="@color/main_blue"
+        app:spb_currentStateNumber="2"
+        app:spb_descriptionTopSpaceIncrementer="5dp"
+        app:spb_justifyMultilineDescription="true"
+        app:spb_maxStateNumber="3"
+        app:spb_stateBackgroundColor="@color/grey"
+        app:spb_stateDescriptionColor="@color/grey"
+        app:spb_stateDescriptionSize="12sp"
+        app:spb_stateForegroundColor="@color/main_blue"
+        app:spb_stateNumberBackgroundColor="@color/white"
+        app:spb_stateNumberForegroundColor="@color/white"
+        app:spb_stateSize="20dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

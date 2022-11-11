@@ -55,6 +55,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     private val args: CreatePetFragmentArgs by navArgs()
     private var imageUrl = ""
     private var file: File? = null
+    private var progressList: ArrayList<String> = arrayListOf("프로필","그룹","반려동물")
 
     private val startForProfileImageResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -128,6 +129,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     private fun initProgressCircular() {
         hideProgressCircular(binding.progressCircular)
+        binding.signUpProgressbar.setStateDescriptionData(progressList)
     }
 
     private fun initArgsView() = with(binding) {

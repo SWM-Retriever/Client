@@ -23,6 +23,7 @@ import org.retriever.dailypet.ui.signup.EditTextValidateState
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
+import java.util.ArrayList
 
 class CreateGroupFragment : BaseFragment<FragmentCreateFamilyBinding>() {
 
@@ -30,6 +31,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateFamilyBinding>() {
 
     private val jwt = GlobalApplication.prefs.jwt ?: ""
     private val familyId = GlobalApplication.prefs.familyId
+    private var progressList: ArrayList<String> = arrayListOf("프로필","그룹","반려동물")
 
     private val args: CreateGroupFragmentArgs by navArgs()
 
@@ -53,6 +55,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateFamilyBinding>() {
 
     private fun initProgressCircular() {
         hideProgressCircular(binding.progressCircular)
+        binding.signUpProgressbar.setStateDescriptionData(progressList)
     }
 
     private fun observeGroupNameState() {

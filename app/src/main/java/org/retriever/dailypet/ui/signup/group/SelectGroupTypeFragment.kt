@@ -19,6 +19,7 @@ import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.login.LoginActivity
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
+import java.util.ArrayList
 
 class SelectGroupTypeFragment : BaseFragment<FragmentSelectFamilyTypeBinding>() {
 
@@ -27,6 +28,7 @@ class SelectGroupTypeFragment : BaseFragment<FragmentSelectFamilyTypeBinding>() 
     private lateinit var onBackCallBack: OnBackPressedCallback
 
     private val jwt = GlobalApplication.prefs.jwt ?: ""
+    private var progressList: ArrayList<String> = arrayListOf("프로필","그룹","반려동물")
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentSelectFamilyTypeBinding {
         return FragmentSelectFamilyTypeBinding.inflate(inflater, container, false)
@@ -57,6 +59,7 @@ class SelectGroupTypeFragment : BaseFragment<FragmentSelectFamilyTypeBinding>() 
 
     private fun initProgress() {
         hideProgressCircular(binding.progressCircular)
+        binding.signUpProgressbar.setStateDescriptionData(progressList)
     }
 
     private fun buttonClick() = with(binding) {
