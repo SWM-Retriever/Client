@@ -61,7 +61,7 @@
                 android:layout_width="96dp"
                 android:layout_height="96dp"
                 android:layout_marginTop="32dp"
-                android:src="@drawable/default_image"
+                android:src="@drawable/default_pet_image"
                 app:civ_border_color="@color/main_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
