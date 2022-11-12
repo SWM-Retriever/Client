@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
@@ -13,6 +14,7 @@ import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreationCompleteBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.ui.login.LoginActivity
 import org.retriever.dailypet.ui.signup.pet.PetViewModel
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
@@ -28,6 +30,7 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
     private var groupName = ""
     private var invitationCode = ""
     private var progressList: ArrayList<String> = arrayListOf("프로필","그룹","반려동물")
+    private lateinit var onBackCallBack: OnBackPressedCallback
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentCreationCompleteBinding {
         return FragmentCreationCompleteBinding.inflate(inflater, container, false)
@@ -36,10 +39,22 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initCallBack()
         initProgressCircular()
         initPetList()
         getPetList()
         buttonClick()
+    }
+
+    private fun initCallBack() {
+        onBackCallBack = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackCallBack)
     }
 
     private fun initProgressCircular() {
@@ -154,6 +169,11 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
             this.groupType = groupType
             this.profileImageUrl = profileImageUrl
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        onBackCallBack.remove()
     }
 
 }
