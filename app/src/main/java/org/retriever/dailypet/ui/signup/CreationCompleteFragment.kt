@@ -16,6 +16,7 @@ import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.signup.pet.PetViewModel
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
+import java.util.ArrayList
 
 class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>() {
 
@@ -26,6 +27,7 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
     private var nickName = ""
     private var groupName = ""
     private var invitationCode = ""
+    private var progressList: ArrayList<String> = arrayListOf("프로필","그룹","반려동물")
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentCreationCompleteBinding {
         return FragmentCreationCompleteBinding.inflate(inflater, container, false)
@@ -38,6 +40,11 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
         initPetList()
         getPetList()
         buttonClick()
+    }
+
+    private fun initProgressCircular() {
+        hideProgressCircular(binding.progressCircular)
+        binding.signUpProgressbar.setStateDescriptionData(progressList)
     }
 
     private fun getPetList(){
@@ -106,10 +113,6 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
             petResponse.groupType,
             petResponse.profileImageUrl,
         )
-    }
-
-    private fun initProgressCircular() {
-        hideProgressCircular(binding.progressCircular)
     }
 
     private fun buttonClick() = with(binding) {

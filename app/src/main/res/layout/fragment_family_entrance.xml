@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".ui.signup.group.GroupEntranceFragment">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/right_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
+
     <ImageButton
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
@@ -87,11 +101,34 @@
         android:id="@+id/invite_code_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:padding="8dp"
         android:text="@string/input_code"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/sign_up_progressbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.kofigyan.stateprogressbar.StateProgressBar
+        android:id="@+id/sign_up_progressbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:spb_checkStateCompleted="true"
+        app:spb_currentStateDescriptionColor="@color/main_blue"
+        app:spb_currentStateNumber="2"
+        app:spb_descriptionTopSpaceIncrementer="5dp"
+        app:spb_justifyMultilineDescription="true"
+        app:spb_maxStateNumber="3"
+        app:spb_stateBackgroundColor="@color/grey"
+        app:spb_stateDescriptionColor="@color/grey"
+        app:spb_stateDescriptionSize="12sp"
+        app:spb_stateForegroundColor="@color/main_blue"
+        app:spb_stateNumberBackgroundColor="@color/white"
+        app:spb_stateNumberForegroundColor="@color/white"
+        app:spb_stateSize="20dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

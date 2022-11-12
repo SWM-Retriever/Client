@@ -17,7 +17,7 @@ class PetAdapter : ListAdapter<PetDetailItem, PetAdapter.ViewHolder>(diffUtil) {
     class ViewHolder(val binding: ItemMyPageDetailBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: PetDetailItem) {
             binding.profileNickName.text = item.petName
-            binding.profilePhotoImageview.load(R.drawable.default_image)
+            binding.profilePhotoImageview.load(R.drawable.default_pet_image)
         }
     }
 

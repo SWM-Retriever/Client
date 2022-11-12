@@ -79,6 +79,18 @@
                 app:layout_constraintStart_toStartOf="@id/start_guideline"
                 app:layout_constraintTop_toBottomOf="@id/my_page_detail_title_text" />
 
+            <ImageButton
+                android:id="@+id/member_add_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:paddingStart="16dp"
+                android:paddingEnd="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/group_title_text"
+                app:layout_constraintEnd_toEndOf="@id/end_guideline"
+                app:layout_constraintTop_toTopOf="@id/group_title_text"
+                app:srcCompat="@drawable/icon_add" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/group_member_cardview"
                 android:layout_width="0dp"

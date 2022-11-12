@@ -20,6 +20,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -53,6 +55,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     private val args: CreatePetFragmentArgs by navArgs()
     private var imageUrl = ""
     private var file: File? = null
+    private var progressList: ArrayList<String> = arrayListOf("프로필","그룹","반려동물")
 
     private val startForProfileImageResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -106,6 +109,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     private fun initPetInfo() = with(binding) {
         petNameEdittext.setText(petViewModel.petInfo.petName)
         petBirthDatePicker.text = petViewModel.petInfo.birthDate
+
         petBreedBottomSheet.text = petViewModel.petBreed
         val weight = petViewModel.petInfo.weight.toString()
         petWeightEdittext.setText(if (weight == "-1.0") "" else weight)
@@ -125,6 +129,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     private fun initProgressCircular() {
         hideProgressCircular(binding.progressCircular)
+        binding.signUpProgressbar.setStateDescriptionData(progressList)
     }
 
     private fun initArgsView() = with(binding) {
@@ -256,16 +261,21 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     }
 
     private fun showDatePicker() {
+        val constraints : CalendarConstraints = CalendarConstraints.Builder()
+            .setValidator(DateValidatorPointBackward.now()).build()
+
         datePicker = MaterialDatePicker.Builder.datePicker()
             .setTitleText(getString(R.string.input_pet_birth_text))
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .setCalendarConstraints(constraints)
             .build()
 
+
         datePicker?.apply {
+
             show(this@CreatePetFragment.requireActivity().supportFragmentManager, datePicker.toString())
             addOnPositiveButtonClickListener {
                 val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
                 val getDateStringFromDatePicker = sdf.format(it)
                 val currentDateString = sdf.format(Date())
 

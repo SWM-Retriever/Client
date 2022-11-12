@@ -7,7 +7,7 @@
     <string name="create_group_comment">그룹을 만들면 공동 양육 기능 및 그룹 통계 기능을 사용할 수 있습니다\n그룹을 생성하고 가족 또는 친구를 초대해서\n반려동물을 함께 케어해보세요</string>
     <string name="group_photo_comment">(선택) 그룹 사진을 설정해주세요</string>
     <string name="group_name_comment">그룹을 대표하는 이름을 설정해주세요\n예시) 00패밀리, 00이네, 00커플, 00팸 등</string>
-    <string name="group_nickname_comment">그룹 내에서 사용할 닉네임을 설정해주세요\n예시) 아빠, 엄마, 큰오빠, 막내, 별명 등</string>
+    <string name="group_nickname_comment">그룹 내에서 사용할 닉네임을 설정해주세요 (4자 이하)\n예시) 이름, 아빠, 엄마, 큰오빠, 막내 등</string>
     <string name="input_code_comment">그룹장에게 초대코드 공유를 부탁하세요!\n초대 코드를 입력하면 그룹 정보를 확인할 수 있습니다</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="invalid_nickname_text">올바른 닉네임을 입력해주세요.</string>
@@ -49,7 +49,7 @@
     <string name="select_alone_text">\n혼자 키워요</string>
     <string name="alone_comment_text">1인가구 또는 반려동물을\n혼자서 케어하는 분에게\n적합한 유형이에요!</string>
     <string name="select_group_text">\n함께 키워요</string>
-    <string name="group_comment_text">1인 이상의 가족 또는\n반려동물을 함께 케어하는\n분에게 적합한 유형이에요!</string>
+    <string name="group_comment_text">2인 이상의 가족 또는\n반려동물을 함께 케어하는\n그룹에게 적합한 유형이에요!\n(추천)</string>
     <string name="choose_complete_text">선택하기</string>
     <string name="create_family_title_text">그룹 생성하기</string>
     <string name="group_name_text">그룹 이름</string>
@@ -71,14 +71,14 @@
     <string name="pet_birth_text">생일</string>
     <string name="pet_birth_date_hint">날짜를 입력해주세요</string>
     <string name="pet_breed_text">품종</string>
-    <string name="pet_breed_hint">품종을 선택하세요</string>
+    <string name="pet_breed_hint">품종을 선택해주세요</string>
     <string name="pet_weight_text">몸무게</string>
     <string name="pet_weight_hint">몸무게를 입력해주세요 (kg)</string>
-    <string name="pet_register_num_text">반려동물 등록번호 (선택)</string>
+    <string name="pet_register_num_text">(선택) 반려동물 등록번호</string>
     <string name="pet_neutral_text">중성화 여부</string>
     <string name="not_neutral_text">미실시</string>
     <string name="neutral_text">완료</string>
-    <string name="pet_register_num_hint">반려동물 등록번호를 입력해주세요 (15자리)</string>
+    <string name="pet_register_num_hint">반려동물 등록번호를 입력해주세요 (12자리 또는 15자리)</string>
     <string name="pet_submit_text">등록하기</string>
     <string name="dont_know_text">믹스</string>
     <string name="creation_complete_text_title">등록이 완료되었습니다\n반려하루를 시작해보세요</string>
@@ -118,7 +118,7 @@
     <string name="group_enter_text">그룹 들어가기</string>
     <string name="notification_text">공지사항</string>
     <string name="app_review_text">플레이스토어 리뷰 남기기</string>
-    <string name="report_text">서비스 문의 및 오류 제보</string>
+    <string name="report_text">오류 제보</string>
     <string name="terms_of_service_text">이용약관</string>
     <string name="privacy_text">개인정보 처리방침</string>
     <string name="open_source_license_text">오픈소스 라이선스 확인하기</string>
@@ -183,5 +183,6 @@
     <string name="withdrawal_dialog_message_text">회원탈퇴 하시겠습니까?</string>
     <string name="dialog_yes_text">네</string>
     <string name="dialog_no_text">아니요</string>
+    <string name="duty_text">*</string>
 
 </resources>

@@ -33,6 +33,7 @@ import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
 import java.io.File
+import java.util.ArrayList
 
 class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
@@ -44,6 +45,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
     private var imageUrl = ""
     private var file: File? = null
     private lateinit var fileUri: Uri
+    private var progressList: ArrayList<String> = arrayListOf("프로필","그룹","반려동물")
 
     private val startForProfileImageResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -92,6 +94,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
     private fun initProgressCircular() {
         hideProgressCircular(binding.progressCircular)
+        binding.signUpProgressbar.setStateDescriptionData(progressList)
     }
 
     private fun initNickNameView() = with(binding) {

@@ -36,9 +36,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@android:color/transparent"
-        app:srcCompat="@drawable/arrow_left"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arrow_left" />
 
     <TextView
         android:id="@+id/create_family_title_text"
@@ -54,13 +54,25 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/group_name_text_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:paddingHorizontal="5dp"
+        android:text="@string/duty_text"
+        android:textColor="@color/main_pink"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/create_family_title_text" />
+
+    <TextView
         android:id="@+id/group_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/group_name_text"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintStart_toEndOf="@+id/group_name_text_star"
         app:layout_constraintTop_toBottomOf="@+id/create_family_title_text" />
 
     <EditText
@@ -70,7 +82,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/grey_blue_edittext"
         android:hint="@string/group_name_hint"
-        android:maxLength="20"
+        android:maxLength="10"
         android:padding="16dp"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
@@ -118,13 +130,25 @@
         app:layout_constraintTop_toBottomOf="@+id/group_name_validate_text" />
 
     <TextView
+        android:id="@+id/group_nickname_text_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="5dp"
+        android:text="@string/duty_text"
+        android:textColor="@color/main_pink"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/group_name_comment_text" />
+
+    <TextView
         android:id="@+id/group_nickname_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/group_nickname_text"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintStart_toEndOf="@+id/group_nickname_text_star"
         app:layout_constraintTop_toBottomOf="@+id/group_name_comment_text" />
 
     <EditText
@@ -134,7 +158,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/grey_blue_edittext"
         android:hint="@string/group_nickname_hint"
-        android:maxLength="20"
+        android:maxLength="4"
         android:padding="16dp"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
@@ -157,12 +181,37 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/grey_button"
         android:text="@string/next_button_text"
         android:textColor="@color/light_light_grey"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/sign_up_progressbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.kofigyan.stateprogressbar.StateProgressBar
+        android:id="@+id/sign_up_progressbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/right_guideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:spb_checkStateCompleted="true"
+        app:spb_currentStateDescriptionColor="@color/main_blue"
+        app:spb_currentStateNumber="2"
+        app:spb_descriptionTopSpaceIncrementer="5dp"
+        app:spb_justifyMultilineDescription="true"
+        app:spb_maxStateNumber="3"
+        app:spb_stateBackgroundColor="@color/grey"
+        app:spb_stateDescriptionColor="@color/grey"
+        app:spb_stateDescriptionSize="12sp"
+        app:spb_stateForegroundColor="@color/main_blue"
+        app:spb_stateNumberBackgroundColor="@color/white"
+        app:spb_stateNumberForegroundColor="@color/white"
+        app:spb_stateSize="20dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
