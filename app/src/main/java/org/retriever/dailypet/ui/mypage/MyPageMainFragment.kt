@@ -274,7 +274,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     }
 
     companion object {
-        private const val PLAY_STORE_URL = "https://play.google.com/store/apps"
+        private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=org.retriever.dailypet"
         private const val NOTIFICATION_URL = "https://showy-king-303.notion.site/2b97d48c4a434e019c1058800f7a48fe"
         private const val REPORT_URL = "https://the-form.io/forms/survey/response/fe418f0f-0ab2-46ce-80d1-d5a8188e5247"
         private const val TERMS_URL = "https://showy-king-303.notion.site/df847ac24e894e4a837717776a7dd4b7"
