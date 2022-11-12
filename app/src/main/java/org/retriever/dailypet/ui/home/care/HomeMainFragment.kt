@@ -1,5 +1,6 @@
 package org.retriever.dailypet.ui.home.care
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
@@ -10,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.core.view.size
 import androidx.fragment.app.activityViewModels
@@ -25,10 +28,13 @@ import org.retriever.dailypet.model.main.Care
 import org.retriever.dailypet.model.signup.pet.Pet
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.home.care.adapter.CareAdapter
+import org.retriever.dailypet.ui.login.LoginActivity
+import org.retriever.dailypet.ui.main.MainActivity
 import org.retriever.dailypet.util.ArrayListAdapter
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 import java.util.*
+import kotlin.system.exitProcess
 
 class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
 
@@ -46,6 +52,10 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
     private var curPetId = 0
     private var curPetName = ""
     private var curIdx = 0
+    private lateinit var onBackCallBack: OnBackPressedCallback
+    private val FINISH_INTERVAL_TIME: Long = 2000
+    private var backPressedTime: Long = 0
+
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeMainBinding {
         return FragmentHomeMainBinding.inflate(inflater, container, false)
@@ -53,6 +63,7 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initCallBack()
         initProgressCircular()
         initContribution()
         initPetList()
@@ -66,8 +77,24 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
 
     override fun onResume() {
         super.onResume()
-
         initView()
+    }
+
+    private fun initCallBack() {
+        onBackCallBack = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val tempTime = System.currentTimeMillis();
+                val intervalTime = tempTime - backPressedTime;
+                if (intervalTime in 0..FINISH_INTERVAL_TIME) {
+                    exitProcess(0)
+                } else {
+                    backPressedTime = tempTime;
+                    Toast.makeText(requireContext(), "뒤로가기 버튼을 한번 더 누르면\n앱이 종료됩니다", Toast.LENGTH_SHORT).show();
+                    return
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackCallBack)
     }
 
     private fun initProgressCircular() {
@@ -340,6 +367,11 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
         getDays()
         initDaysView()
         getCareList()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        onBackCallBack.remove()
     }
 
 }
