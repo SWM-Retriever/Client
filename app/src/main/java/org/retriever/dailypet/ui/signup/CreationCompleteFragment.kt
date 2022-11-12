@@ -14,6 +14,7 @@ import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreationCompleteBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
+import org.retriever.dailypet.ui.home.care.HomeMainFragmentDirections
 import org.retriever.dailypet.ui.login.LoginActivity
 import org.retriever.dailypet.ui.signup.pet.PetViewModel
 import org.retriever.dailypet.util.hideProgressCircular
@@ -49,9 +50,7 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
     private fun initCallBack() {
         onBackCallBack = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val intent = Intent(requireContext(), LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                startActivity(intent)
+                // Do Nothing
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackCallBack)
@@ -137,7 +136,8 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
         }
 
         careStartButton.setOnClickListener {
-            root.findNavController().navigate(R.id.action_creationCompleteFragment_to_mainActivity)
+            val action = CreationCompleteFragmentDirections.actionCreationCompleteFragmentToCreatePetFragment()
+            root.findNavController().navigate(action)
         }
 
         groupInviteButton.setOnClickListener {

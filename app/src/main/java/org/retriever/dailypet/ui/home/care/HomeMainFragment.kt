@@ -312,11 +312,11 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
         careTitleText.visibility = View.VISIBLE
         if(groupType == "FAMILY"){
             contributionText.visibility = View.VISIBLE
-            statisticsButton.visibility = View.VISIBLE
+            statisticsText.visibility = View.VISIBLE
         }
         else{
             contributionText.visibility = View.INVISIBLE
-            statisticsButton.visibility = View.INVISIBLE
+            statisticsText.visibility = View.INVISIBLE
         }
     }
 
