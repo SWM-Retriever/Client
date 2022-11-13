@@ -95,14 +95,15 @@
         android:id="@+id/statistics_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:backgroundTint="@color/main_pink"
+        android:backgroundTintMode="add"
         android:drawablePadding="5dp"
-        android:padding="5dp"
         android:text="@string/statistics_text"
         android:visibility="invisible"
         app:drawableTopCompat="@drawable/rank"
         app:layout_constraintEnd_toStartOf="@id/right_guideline"
         app:layout_constraintTop_toBottomOf="@id/d_day_text" />
-
 
     <TextView
         android:id="@+id/care_title_text"

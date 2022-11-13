@@ -2,10 +2,12 @@ package org.retriever.dailypet.ui.signup
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
@@ -132,11 +134,13 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
     private fun buttonClick() = with(binding) {
 
         petAddButton.setOnClickListener {
-            root.findNavController().popBackStack()
+            //childFragmentManager.clearBackStack()
+            val action = CreationCompleteFragmentDirections.actionCreationCompleteFragmentToCreatePetFragment()
+            root.findNavController().navigate(action)
         }
 
         careStartButton.setOnClickListener {
-            val action = CreationCompleteFragmentDirections.actionCreationCompleteFragmentToCreatePetFragment()
+            val action = CreationCompleteFragmentDirections.actionCreationCompleteFragmentToMainActivity()
             root.findNavController().navigate(action)
         }
 

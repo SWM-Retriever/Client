@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
@@ -23,6 +25,7 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
+import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -43,12 +46,11 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
-    private val petViewModel by activityViewModels<PetViewModel>()
-
+    private val petViewModel by viewModels<PetViewModel>()
     private lateinit var onBackCallBack: OnBackPressedCallback
-
     private val jwt = GlobalApplication.prefs.jwt ?: ""
     private val familyId = GlobalApplication.prefs.familyId
     private var datePicker: MaterialDatePicker<Long>? = null
@@ -84,7 +86,6 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initPetInfo()
         initCallBack()
         initProgressCircular()
@@ -701,7 +702,6 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
         datePicker = null
         onBackCallBack.remove()
     }

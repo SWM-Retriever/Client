@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -35,7 +36,7 @@ import org.retriever.dailypet.util.showProgressCircular
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private val loginViewModel by activityViewModels<LoginViewModel>()
-
+    private lateinit var onBackCallBack: OnBackPressedCallback
     private var name = ""
     private var email = ""
     private var domain = ""
@@ -47,8 +48,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initCallBack()
         initLogin()
         buttonClick()
+    }
+
+    private fun initCallBack() {
+        onBackCallBack = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Do Nothing
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackCallBack)
     }
 
     private fun initLogin() = with(binding) {
