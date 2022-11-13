@@ -342,6 +342,7 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
             addCare()
         }
         careTitleText.setOnClickListener {
+            getContribution()
             getCareList()
         }
         statisticsText.setOnClickListener {
