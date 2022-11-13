@@ -49,28 +49,27 @@ class ModifyCareFragment : BaseFragment<FragmentModifyCareBinding>() {
     }
 
     private fun initPatchCare() = with(binding) {
-        homeViewModel.patchPetCareResponse.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let { response ->
-                when (response) {
-                    is Resource.Loading -> {
-                        showProgressCircular(progressCircular)
-                    }
-                    is Resource.Success -> {
-                        hideProgressCircular(progressCircular)
-                        Toast.makeText(requireContext(), "케어가 수정되었습니다", Toast.LENGTH_SHORT).show()
-                        root.findNavController().popBackStack()
-                    }
-                    is Resource.Error -> {
-                        hideProgressCircular(progressCircular)
-                        Toast.makeText(requireContext(), "케어 수정에 실패하였습니다", Toast.LENGTH_SHORT).show()
-                    }
+        homeViewModel.patchPetCareResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+                    Toast.makeText(requireContext(), "케어가 수정되었습니다", Toast.LENGTH_SHORT).show()
+                    root.findNavController().popBackStack()
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(progressCircular)
+                    Toast.makeText(requireContext(), "케어 수정에 실패하였습니다", Toast.LENGTH_SHORT).show()
                 }
             }
         }
+
     }
 
     @SuppressLint("SetTextI18n")
-    private fun initInfo() = with(binding){
+    private fun initInfo() = with(binding) {
         val args: ModifyCareFragmentArgs by navArgs()
         petId = args.petId
         careId = args.careId

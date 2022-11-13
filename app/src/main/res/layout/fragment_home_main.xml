@@ -90,35 +90,20 @@
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/d_day_text" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/statistics_button"
+
+    <TextView
+        android:id="@+id/statistics_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="14dp"
+        android:backgroundTint="@color/main_pink"
+        android:backgroundTintMode="add"
+        android:drawablePadding="5dp"
+        android:text="@string/statistics_text"
         android:visibility="invisible"
+        app:drawableTopCompat="@drawable/rank"
         app:layout_constraintEnd_toStartOf="@id/right_guideline"
-        app:layout_constraintTop_toBottomOf="@id/d_day_text">
-
-        <TextView
-            android:id="@+id/statistics_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="@string/statistics_text"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginTop="6dp"
-            android:background="@android:color/transparent"
-            android:scaleType="fitXY"
-            app:layout_constraintStart_toEndOf="@+id/statistics_text"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/arrow_right" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@id/d_day_text" />
 
     <TextView
         android:id="@+id/care_title_text"

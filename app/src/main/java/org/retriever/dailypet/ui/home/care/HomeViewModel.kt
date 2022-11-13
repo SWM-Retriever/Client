@@ -21,23 +21,23 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val homeRepository: HomeRepository) : ViewModel() {
 
-    private val _getDaysResponse = MutableLiveData<Event<Resource<PetDaysResponse>>>()
-    val getDaysResponse: LiveData<Event<Resource<PetDaysResponse>>> = _getDaysResponse
+    private val _getDaysResponse = MutableLiveData<Resource<PetDaysResponse>>()
+    val getDaysResponse: LiveData<Resource<PetDaysResponse>> = _getDaysResponse
 
     private val _getCareListResponse = MutableLiveData<Resource<CareList>>()
     val getCareListResponse: LiveData<Resource<CareList>> = _getCareListResponse
 
-    private val _getPetListResponse = MutableLiveData<Event<Resource<PetList>>>()
-    val getPetListResponse: LiveData<Event<Resource<PetList>>> = _getPetListResponse
+    private val _getPetListResponse = MutableLiveData<Resource<PetList>>()
+    val getPetListResponse: LiveData<Resource<PetList>> = _getPetListResponse
 
     private val _postCareResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
     val postCareResponse: LiveData<Event<Resource<ResponseBody>>> = _postCareResponse
 
-    private val _deletePetCareResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
-    val deletePetCareResponse: LiveData<Event<Resource<ResponseBody>>> = _deletePetCareResponse
+    private val _deletePetCareResponse = MutableLiveData<Resource<ResponseBody>>()
+    val deletePetCareResponse: LiveData<Resource<ResponseBody>> = _deletePetCareResponse
 
-    private val _patchPetCareResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
-    val patchPetCareResponse: LiveData<Event<Resource<ResponseBody>>> = _patchPetCareResponse
+    private val _patchPetCareResponse = MutableLiveData<Resource<ResponseBody>>()
+    val patchPetCareResponse: LiveData<Resource<ResponseBody>> = _patchPetCareResponse
 
     private val _postCareCheckResponse = MutableLiveData<Resource<Care>>()
     val postCareCheckResponse: LiveData<Resource<Care>> = _postCareCheckResponse
@@ -48,16 +48,16 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _getGroupInfoResponse = MutableLiveData<Resource<GroupInfo>>()
     val getGroupInfoResponse: LiveData<Resource<GroupInfo>> = _getGroupInfoResponse
 
-    private val _getMyContributionResponse = MutableLiveData<Event<Resource<MyContributionResponse>>>()
-    val getMyContributionResponse: LiveData<Event<Resource<MyContributionResponse>>> = _getMyContributionResponse
+    private val _getMyContributionResponse = MutableLiveData<Resource<MyContributionResponse>>()
+    val getMyContributionResponse: LiveData<Resource<MyContributionResponse>> = _getMyContributionResponse
 
     private var startDate = ""
     private var endDate = ""
 
     fun getDays(petId: Int, jwt: String) = viewModelScope.launch {
-        _getDaysResponse.postValue(Event(Resource.Loading()))
+        _getDaysResponse.postValue(Resource.Loading())
 
-        _getDaysResponse.postValue(Event(homeRepository.getDays(petId, jwt)))
+        _getDaysResponse.postValue(homeRepository.getDays(petId, jwt))
     }
 
     fun getCareList(petId: Int, jwt: String) = viewModelScope.launch {
@@ -67,9 +67,9 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     }
 
     fun getPetList(familyId: Int, jwt: String) = viewModelScope.launch {
-        _getPetListResponse.postValue(Event(Resource.Loading()))
+        _getPetListResponse.postValue(Resource.Loading())
 
-        _getPetListResponse.postValue(Event(homeRepository.getPetList(familyId, jwt)))
+        _getPetListResponse.postValue(homeRepository.getPetList(familyId, jwt))
     }
 
     fun postCare(petId: Int, jwt: String, careInfo: CareInfo) = viewModelScope.launch {
@@ -79,15 +79,15 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     }
 
     fun deletePetCare(petId: Int, careId: Int, jwt: String) = viewModelScope.launch {
-        _deletePetCareResponse.postValue(Event(Resource.Loading()))
+        _deletePetCareResponse.postValue(Resource.Loading())
 
-        _deletePetCareResponse.postValue(Event(homeRepository.deletePetCare(petId, careId, jwt)))
+        _deletePetCareResponse.postValue(homeRepository.deletePetCare(petId, careId, jwt))
     }
 
     fun patchPetCare(petId: Int, careId: Int, jwt: String, careModifyInfo: CareModifyInfo) = viewModelScope.launch {
-        _patchPetCareResponse.postValue(Event(Resource.Loading()))
+        _patchPetCareResponse.postValue(Resource.Loading())
 
-        _patchPetCareResponse.postValue(Event(homeRepository.patchPetCare(petId, careId, jwt, careModifyInfo)))
+        _patchPetCareResponse.postValue(homeRepository.patchPetCare(petId, careId, jwt, careModifyInfo))
     }
 
     fun postCareCheck(petId: Int, careId: Int, jwt: String) = viewModelScope.launch {
@@ -109,11 +109,11 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     }
 
     fun getMyContribution(jwt: String) = viewModelScope.launch {
-        _getMyContributionResponse.postValue(Event(Resource.Loading()))
+        _getMyContributionResponse.postValue(Resource.Loading())
 
         getDate()
 
-        _getMyContributionResponse.postValue(Event(homeRepository.getContribution(startDate, endDate, jwt)))
+        _getMyContributionResponse.postValue(homeRepository.getContribution(startDate, endDate, jwt))
     }
 
     private fun getDate() {

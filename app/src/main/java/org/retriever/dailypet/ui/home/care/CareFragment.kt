@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +31,8 @@ import java.util.*
 @AndroidEntryPoint
 class CareFragment : BaseFragment<FragmentCareBinding>() {
 
-    private val homeViewModel by viewModels<HomeViewModel>()
+    private val careHomeViewModel by viewModels<HomeViewModel>()
+    private val homeViewModel by activityViewModels<HomeViewModel>()
     private val eDay: List<String> = listOf("SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT")
     private val kDay: List<String> = listOf("일", "월", "화", "수", "목", "금", "토")
     private var name = ""
@@ -85,11 +87,11 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     }
 
     private fun getGroupInfo() {
-        homeViewModel.getGroupInfo(familyId, jwt)
+        careHomeViewModel.getGroupInfo(familyId, jwt)
     }
 
     private fun initGroupInfo() = with(binding) {
-        homeViewModel.getGroupInfoResponse.observe(viewLifecycleOwner) { response ->
+        careHomeViewModel.getGroupInfoResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
                     showProgressCircular(progressCircular)
@@ -126,7 +128,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     }
 
     private fun initCareCheck() = with(binding) {
-        homeViewModel.postCareCheckResponse.observe(viewLifecycleOwner) { response ->
+        careHomeViewModel.postCareCheckResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
                     showProgressCircular(progressCircular)
@@ -143,7 +145,7 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     }
 
     private fun initCareCancel() = with(binding) {
-        homeViewModel.postCareCancelResponse.observe(viewLifecycleOwner) { response ->
+        careHomeViewModel.postCareCancelResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
                     showProgressCircular(progressCircular)
@@ -256,11 +258,11 @@ class CareFragment : BaseFragment<FragmentCareBinding>() {
     }
 
     private fun postCareCheck() {
-        homeViewModel.postCareCheck(petId, careId, jwt)
+        careHomeViewModel.postCareCheck(petId, careId, jwt)
     }
 
     private fun postCareCancel() {
-        homeViewModel.postCareCancel(petId, careId, jwt)
+        careHomeViewModel.postCareCancel(petId, careId, jwt)
     }
 
     private fun showPopup() {
