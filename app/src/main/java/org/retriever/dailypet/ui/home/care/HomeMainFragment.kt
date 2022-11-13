@@ -88,7 +88,7 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
                 val tempTime = System.currentTimeMillis();
                 val intervalTime = tempTime - backPressedTime;
                 if (intervalTime in 0..FINISH_INTERVAL_TIME) {
-                    exitProcess(0)
+                    activity?.finishAffinity()
                 } else {
                     backPressedTime = tempTime;
                     Toast.makeText(requireContext(), "뒤로가기 버튼을 한번 더 누르면\n앱이 종료됩니다", Toast.LENGTH_SHORT).show();

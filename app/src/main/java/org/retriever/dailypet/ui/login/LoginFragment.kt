@@ -56,7 +56,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private fun initCallBack() {
         onBackCallBack = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                // Do Nothing
+                activity?.finishAffinity()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackCallBack)
