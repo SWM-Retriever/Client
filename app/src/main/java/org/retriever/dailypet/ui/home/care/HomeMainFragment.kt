@@ -7,6 +7,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,6 +56,7 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
     private lateinit var onBackCallBack: OnBackPressedCallback
     private val FINISH_INTERVAL_TIME: Long = 2000
     private var backPressedTime: Long = 0
+    private var isEmptyCare = true
 
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeMainBinding {
@@ -102,8 +104,7 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
     }
 
     private fun initPetList() = with(binding) {
-        homeViewModel.getPetListResponse.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let { response ->
+        homeViewModel.getPetListResponse.observe(viewLifecycleOwner) { response ->
                 when (response) {
                     is Resource.Loading -> {
                         showProgressCircular(progressCircular)
@@ -126,7 +127,7 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
                         hideProgressCircular(progressCircular)
                     }
                 }
-            }
+
         }
     }
 
@@ -139,6 +140,7 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
     }
 
     private fun getCareList() {
+        Log.e("ABC", "Get CareList")
         homeViewModel.getCareList(curPetId, jwt)
     }
 
@@ -147,8 +149,7 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
     }
 
     private fun initDeleteCare() = with(binding) {
-        homeViewModel.deletePetCareResponse.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let { response ->
+        homeViewModel.deletePetCareResponse.observe(viewLifecycleOwner) { response ->
                 when (response) {
                     is Resource.Loading -> {
                         showProgressCircular(progressCircular)
@@ -162,12 +163,11 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
                     }
                 }
             }
-        }
+
     }
 
     private fun initContribution() = with(binding) {
-        homeViewModel.getMyContributionResponse.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let { response ->
+        homeViewModel.getMyContributionResponse.observe(viewLifecycleOwner) { response ->
                 when (response) {
                     is Resource.Loading -> {
                         showProgressCircular(progressCircular)
@@ -192,13 +192,12 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
                         hideProgressCircular(progressCircular)
                     }
                 }
-            }
+
         }
     }
 
     private fun initDaysView() = with(binding) {
-        homeViewModel.getDaysResponse.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let { response ->
+        homeViewModel.getDaysResponse.observe(viewLifecycleOwner) { response ->
                 when (response) {
                     is Resource.Loading -> {
                         showProgressCircular(progressCircular)
@@ -228,7 +227,7 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
                     }
                 }
             }
-        }
+
     }
 
     private fun initCareList() = with(binding) {
@@ -242,6 +241,7 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
                     val arrayListAdapter = ArrayListAdapter()
                     val careList = response.data?.caresInfoList ?: ArrayList()
                     setCareTabView(arrayListAdapter.careListFromJson(careList))
+                    initView()
                 }
                 is Resource.Error -> {
                     hideProgressCircular(progressCircular)
@@ -252,12 +252,14 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
 
     private fun setCareTabView(careList: ArrayList<Care>) = with(binding) {
         if (careList.isEmpty()) {
+            isEmptyCare = true
             emptyAddCareButton.visibility = View.VISIBLE
             emptyCommentText.visibility = View.VISIBLE
             careListTab.visibility = View.GONE
             viewpagerMain.visibility = View.GONE
             addCareButton.visibility = View.GONE
         } else {
+            isEmptyCare = false
             emptyAddCareButton.visibility = View.GONE
             emptyCommentText.visibility = View.GONE
             careListTab.visibility = View.VISIBLE
@@ -305,14 +307,20 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
     }
 
     private fun initView() = with(binding){
-        alarmButton.visibility = View.VISIBLE
+        alarmButton.visibility = View.INVISIBLE
         homeProfileImage.visibility = View.VISIBLE
         petNameText.visibility = View.VISIBLE
         dDayText.visibility = View.VISIBLE
         careTitleText.visibility = View.VISIBLE
         if(groupType == "FAMILY"){
-            contributionText.visibility = View.VISIBLE
-            statisticsText.visibility = View.VISIBLE
+            if(isEmptyCare){
+                statisticsText.visibility = View.INVISIBLE
+                contributionText.visibility = View.INVISIBLE
+            }
+            else{
+                statisticsText.visibility = View.VISIBLE
+                contributionText.visibility = View.VISIBLE
+            }
         }
         else{
             contributionText.visibility = View.INVISIBLE
@@ -365,7 +373,6 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
         val idx = petNameList.indexOf(petName)
         curPetId = petIdList[idx]
         getDays()
-        initDaysView()
         getCareList()
     }
 
