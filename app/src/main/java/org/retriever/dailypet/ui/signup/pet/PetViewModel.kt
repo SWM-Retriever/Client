@@ -125,6 +125,7 @@ class PetViewModel @Inject constructor(
 
     fun setWeightState(state: EditTextState) {
         _weightState.value = state
+        setRegisterButtonState()gitg
     }
 
     private fun setRegisterButtonState() {
