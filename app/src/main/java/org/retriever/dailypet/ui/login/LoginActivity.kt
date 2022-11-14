@@ -2,7 +2,6 @@
 
 package org.retriever.dailypet.ui.login
 
-import android.os.Bundle
 import dagger.hilt.android.AndroidEntryPoint
 import org.retriever.dailypet.databinding.ActivityLoginBinding
 import org.retriever.dailypet.ui.base.BaseActivity
