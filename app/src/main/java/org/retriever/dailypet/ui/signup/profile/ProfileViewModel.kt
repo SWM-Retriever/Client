@@ -10,11 +10,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
-import org.retriever.dailypet.data.repository.presignedurl.PreSignedUrlRepository
+import org.retriever.dailypet.data.repository.image.ImageRepository
 import org.retriever.dailypet.data.repository.signup.ProfileRepository
 import org.retriever.dailypet.model.Event
 import org.retriever.dailypet.model.Resource
-import org.retriever.dailypet.model.presignedurl.PreSignedUrlResponse
 import org.retriever.dailypet.model.signup.profile.RegisterProfile
 import org.retriever.dailypet.model.signup.profile.RegisterProfileResponse
 import org.retriever.dailypet.ui.signup.EditTextValidateState
@@ -23,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
-    private val preSignedUrlRepository: PreSignedUrlRepository,
+    private val preSignedUrlRepository: ImageRepository,
 ) : ViewModel() {
 
     private val _allCheckState = MutableStateFlow(false)
@@ -41,8 +40,6 @@ class ProfileViewModel @Inject constructor(
     private val _nextButtonState = MutableStateFlow(false)
     val nextButtonState: StateFlow<Boolean> = _nextButtonState
 
-    // TODO CreateProfileFragment 이미지 상태 저장
-
     private val _editTextValidateState = MutableLiveData(EditTextValidateState.DEFAULT_STATE)
     val editTextValidateState: LiveData<EditTextValidateState> = _editTextValidateState
 
@@ -55,11 +52,9 @@ class ProfileViewModel @Inject constructor(
     private val _registerProfileResponse = MutableLiveData<Event<Resource<RegisterProfileResponse>>>()
     val registerProfileResponse: LiveData<Event<Resource<RegisterProfileResponse>>> = _registerProfileResponse
 
-    private val _preSignedUrlResponse = MutableLiveData<Resource<PreSignedUrlResponse>>()
-    val preSignedUrlResponse: LiveData<Resource<PreSignedUrlResponse>> = _preSignedUrlResponse
+    private val _postImageResponse = MutableLiveData<Resource<String>>()
+    val postImageResponse: LiveData<Resource<String>> = _postImageResponse
 
-    private val _putImageUrlResponse = MutableLiveData<Resource<ResponseBody>>()
-    val putImageUrlResponse: LiveData<Resource<ResponseBody>> = _putImageUrlResponse
 
     fun setAllCheckState(check: Boolean) {
         _allCheckState.value = check
@@ -114,19 +109,11 @@ class ProfileViewModel @Inject constructor(
         _registerProfileResponse.postValue(Event(profileRepository.postProfile(registerProfile)))
     }
 
-    fun getPreSignedUrl(s3Path: String, fileName: String) {
+    fun postImage(s3Path: String, file: MultipartBody.Part) {
         viewModelScope.launch {
-            _preSignedUrlResponse.postValue(Resource.Loading())
+            _postImageResponse.postValue(Resource.Loading())
 
-            _preSignedUrlResponse.postValue(preSignedUrlRepository.getPreSignedUrl(s3Path, fileName))
-        }
-    }
-
-    fun putImageUrl(contentType: String, url: String, file: MultipartBody.Part) {
-        viewModelScope.launch {
-            _putImageUrlResponse.postValue(Resource.Loading())
-
-            _putImageUrlResponse.postValue(preSignedUrlRepository.putImageUrl(contentType, url, file))
+            _postImageResponse.postValue(preSignedUrlRepository.postImage(s3Path, file))
         }
     }
 

@@ -1,6 +1,7 @@
 package org.retriever.dailypet.ui.signup.profile
 
 import android.app.Activity.RESULT_OK
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
@@ -19,9 +20,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.github.dhaval2404.imagepicker.ImagePicker
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import okio.BufferedSink
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreateProfileBinding
@@ -57,6 +62,15 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
                     fileUri = data?.data!!
                     file = File(fileUri.path ?: "")
                     binding.profilePhotoImageview.load(file)
+
+                    Log.e("File Name",file!!.name)
+                    file?.let {
+                        val requestBody = it.path.toRequestBody("multipart/form-data".toMediaType())
+                        val multipartBody = MultipartBody.Part.createFormData("image", it.name, requestBody)
+                        Log.e("Multipart File Path", it.path)
+                        Log.e("Multipart File Name", it.name)
+                        profileViewModel.postImage(S3_PATH, multipartBody)
+                    }
                 }
                 ImagePicker.RESULT_ERROR -> {
                     Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
@@ -68,6 +82,27 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
             }
         }
 
+    private fun observePostImageResponse() {
+        profileViewModel.postImageResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> Unit
+                is Resource.Success -> {
+                    imageUrl = response.data ?: ""
+                }
+                is Resource.Error -> {
+                    imageUrl = ""
+                }
+            }
+        }
+    }
+
+    inner class BitmapRequestBody(private val bitmap: Bitmap) : RequestBody() {
+        override fun contentType(): MediaType = "image/jpeg".toMediaType()
+        override fun writeTo(sink: BufferedSink) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 99, sink.outputStream())
+        }
+    }
+
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentCreateProfileBinding {
         return FragmentCreateProfileBinding.inflate(inflater, container, false)
     }
@@ -75,19 +110,18 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRegisterProfile()
         initProgressCircular()
+        initArgs()
         initNickNameView()
-        initProfileView()
+        initRegisterProfile()
         watchEdittext()
         buttonClick()
         observeNickNameViewState()
         observeRegisterButtonState()
-        observePreSignedUrlResponse()
-        observeImageUrlResponse()
+        observePostImageResponse()
     }
 
-    private fun initRegisterProfile() {
+    private fun initArgs() {
         val args: CreateProfileFragmentArgs by navArgs()
         registerProfile = args.registerProfile
     }
@@ -124,7 +158,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
         }
     }
 
-    private fun initProfileView() = with(binding) {
+    private fun initRegisterProfile() = with(binding) {
         profileViewModel.registerProfileResponse.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { response ->
                 when (response) {
@@ -180,9 +214,9 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
         registerCompleteButton.setOnClickListener {
             registerProfile.nickName = profileNicknameEdittext.text.toString()
-
             if (file != null) {
-                profileViewModel.getPreSignedUrl(S3_PATH, file!!.name)
+                // TODO 바디 생성
+                postProfileInfo(registerProfile)
             } else {
                 postProfileInfo(registerProfile)
             }
@@ -267,37 +301,6 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
         registerCompleteButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.grey_button)
         registerCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_light_grey))
         registerCompleteButton.isClickable = false
-    }
-
-    private fun observePreSignedUrlResponse() {
-        profileViewModel.preSignedUrlResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> Unit
-                is Resource.Success -> {
-                    imageUrl = response.data?.originalUrl ?: ""
-                    registerProfile.profileImageUrl = imageUrl
-
-                    file?.let {
-                        val requestBody = it.path.toRequestBody("image/jpeg".toMediaTypeOrNull())
-                        val multipartBody = MultipartBody.Part.createFormData("file", it.name, requestBody)
-                        profileViewModel.putImageUrl("image/jpeg", response.data?.preSignedUrl ?: "", multipartBody)
-                    }
-                }
-                is Resource.Error -> Unit
-            }
-        }
-    }
-
-    private fun observeImageUrlResponse() {
-        profileViewModel.putImageUrlResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> Unit
-                is Resource.Success -> {
-                    postProfileInfo(registerProfile)
-                }
-                is Resource.Error -> Unit
-            }
-        }
     }
 
     private fun postProfileInfo(registerProfile: RegisterProfile) {

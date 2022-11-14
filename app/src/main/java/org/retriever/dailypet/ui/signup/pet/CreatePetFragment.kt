@@ -103,8 +103,6 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         observePetNameResponse()
         observePetResponse()
         observeModifyPet()
-        observePreSignedUrlResponse()
-        observeImageUrlResponse()
     }
 
     private fun initPetInfo() = with(binding) {
@@ -243,13 +241,13 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         petSubmitButton.setOnClickListener {
             if (args.petDetailItem == null) {
                 if (file != null) {
-                    petViewModel.getPreSignedUrl(S3_PATH, file!!.name)
+                    postPetInfo()
                 } else {
                     postPetInfo()
                 }
             } else {
                 if (file != null) {
-                    petViewModel.getPreSignedUrl(S3_PATH, file!!.name)
+                    postPetInfo()
                 } else {
                     modifyPet(args.petDetailItem?.petId ?: -1)
                 }
@@ -653,48 +651,6 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)
                     }
-                }
-            }
-        }
-    }
-
-    private fun observePreSignedUrlResponse() {
-        petViewModel.preSignedUrlResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-
-                }
-                is Resource.Success -> {
-                    imageUrl = response.data?.originalUrl ?: ""
-                    petViewModel.petInfo.profileImageUrl = imageUrl
-                    file?.let {
-                        val requestBody = it.path.toRequestBody("image/jpeg".toMediaTypeOrNull())
-                        val multipartBody = MultipartBody.Part.createFormData("file", it.name, requestBody)
-                        petViewModel.putImageUrl("image/jpeg", response.data?.preSignedUrl ?: "", multipartBody)
-                    }
-                }
-                is Resource.Error -> {
-
-                }
-            }
-        }
-    }
-
-    private fun observeImageUrlResponse() {
-        petViewModel.putImageUrlResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {
-
-                }
-                is Resource.Success -> {
-                    if (args.petDetailItem == null) {
-                        postPetInfo()
-                    } else {
-                        modifyPet(args.petDetailItem?.petId ?: -1)
-                    }
-                }
-                is Resource.Error -> {
-
                 }
             }
         }
