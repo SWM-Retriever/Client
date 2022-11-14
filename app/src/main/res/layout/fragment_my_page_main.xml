@@ -42,15 +42,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
+            <TextView
                 android:id="@+id/logout_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:background="@color/transparent"
+                android:text="@string/logout_text"
+                android:textSize="12sp"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/icon_logout" />
+                app:drawableTopCompat="@drawable/icon_logout" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/user_circle_image"

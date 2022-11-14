@@ -184,5 +184,6 @@
     <string name="dialog_yes_text">네</string>
     <string name="dialog_no_text">아니요</string>
     <string name="duty_text">*</string>
+    <string name="logout_text">로그아웃</string>
 
 </resources>
