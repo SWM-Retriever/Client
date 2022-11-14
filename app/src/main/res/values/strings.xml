@@ -7,7 +7,7 @@
     <string name="create_group_comment">그룹을 만들면 공동 양육 기능 및 그룹 통계 기능을 사용할 수 있습니다\n그룹을 생성하고 가족 또는 친구를 초대해서\n반려동물을 함께 케어해보세요</string>
     <string name="group_photo_comment">(선택) 그룹 사진을 설정해주세요</string>
     <string name="group_name_comment">그룹을 대표하는 이름을 설정해주세요\n예시) 00패밀리, 00이네, 00커플, 00팸 등</string>
-    <string name="group_nickname_comment">그룹 내에서 사용할 닉네임을 설정해주세요 (4자 이하)\n예시) 이름, 아빠, 엄마, 큰오빠, 막내 등</string>
+    <string name="group_nickname_comment">해당 닉네임은 그룹 내에서만 사용됩니다 (4자 이하)\n예시) 아빠, 오빠, 막내, 별명, 애칭 등</string>
     <string name="input_code_comment">그룹장에게 초대코드 공유를 부탁하세요!\n초대 코드를 입력하면 그룹 정보를 확인할 수 있습니다</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="invalid_nickname_text">올바른 닉네임을 입력해주세요.</string>

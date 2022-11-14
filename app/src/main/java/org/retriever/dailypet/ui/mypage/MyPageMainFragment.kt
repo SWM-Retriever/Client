@@ -60,7 +60,9 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
 
     private fun initProfile() = with(binding) {
         userNickName.text = nickname
-        userCircleImage.load(profileImageUrl)
+        if(profileImageUrl.isNotEmpty()){
+            userCircleImage.load(profileImageUrl)
+        }
     }
 
     private fun initProgressCircular() {

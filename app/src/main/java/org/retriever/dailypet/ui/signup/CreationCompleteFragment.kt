@@ -60,7 +60,6 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
 
     private fun initProgressCircular() {
         hideProgressCircular(binding.progressCircular)
-        binding.signUpProgressbar.setStateDescriptionData(progressList)
     }
 
     private fun getPetList(){
