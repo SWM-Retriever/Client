@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.user.UserApiClient
@@ -33,7 +34,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     private val nickname = GlobalApplication.prefs.nickname ?: ""
     private val groupName = GlobalApplication.prefs.groupName ?: ""
     private val invitationCode = GlobalApplication.prefs.invitationCode ?: ""
-
+    private val profileImageUrl = GlobalApplication.prefs.profileImageUrl ?: ""
     private var logoutDialog: MaterialAlertDialogBuilder? = null
     private var withdrawalDialog: MaterialAlertDialogBuilder? = null
 
@@ -44,8 +45,8 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initProfile()
         initProgressCircular()
+        initProfile()
         initGroupType()
         buttonClick()
         observeWithdrawalResponse()
@@ -59,6 +60,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
 
     private fun initProfile() = with(binding) {
         userNickName.text = nickname
+        userCircleImage.load(profileImageUrl)
     }
 
     private fun initProgressCircular() {

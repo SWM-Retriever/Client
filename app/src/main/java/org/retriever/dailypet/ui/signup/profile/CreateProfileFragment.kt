@@ -25,6 +25,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okio.BufferedSink
 import org.retriever.dailypet.GlobalApplication
@@ -50,58 +51,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
     private var imageUrl = ""
     private var file: File? = null
     private lateinit var fileUri: Uri
-    private var progressList: ArrayList<String> = arrayListOf("프로필","그룹","반려동물")
-
-    private val startForProfileImageResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            val resultCode = result.resultCode
-            val data = result.data
-
-            when (resultCode) {
-                RESULT_OK -> {
-                    fileUri = data?.data!!
-                    file = File(fileUri.path ?: "")
-                    binding.profilePhotoImageview.load(file)
-
-                    Log.e("File Name",file!!.name)
-                    file?.let {
-                        val requestBody = it.path.toRequestBody("multipart/form-data".toMediaType())
-                        val multipartBody = MultipartBody.Part.createFormData("image", it.name, requestBody)
-                        Log.e("Multipart File Path", it.path)
-                        Log.e("Multipart File Name", it.name)
-                        profileViewModel.postImage(S3_PATH, multipartBody)
-                    }
-                }
-                ImagePicker.RESULT_ERROR -> {
-                    Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-                }
-                else -> {
-                    Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
-                }
-
-            }
-        }
-
-    private fun observePostImageResponse() {
-        profileViewModel.postImageResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> Unit
-                is Resource.Success -> {
-                    imageUrl = response.data ?: ""
-                }
-                is Resource.Error -> {
-                    imageUrl = ""
-                }
-            }
-        }
-    }
-
-    inner class BitmapRequestBody(private val bitmap: Bitmap) : RequestBody() {
-        override fun contentType(): MediaType = "image/jpeg".toMediaType()
-        override fun writeTo(sink: BufferedSink) {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 99, sink.outputStream())
-        }
-    }
+    private var progressList: ArrayList<String> = arrayListOf("프로필", "그룹", "반려동물")
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentCreateProfileBinding {
         return FragmentCreateProfileBinding.inflate(inflater, container, false)
@@ -166,10 +116,13 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
                         showProgressCircular(progressCircular)
                     }
                     is Resource.Success -> {
+                        Log.e("ABC","OBSERVE PROFILE")
+
                         hideProgressCircular(progressCircular)
                         val jwt = response.data?.jwtToken
                         GlobalApplication.prefs.jwt = jwt
                         GlobalApplication.prefs.nickname = nickname
+                        GlobalApplication.prefs.profileImageUrl = imageUrl
                         Toast.makeText(requireContext(), "프로필 등록에 성공하였습니다", Toast.LENGTH_SHORT).show()
                         root.findNavController().navigate(R.id.action_createProfileFragment_to_selectFamilyTypeFragment)
                     }
@@ -215,8 +168,12 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
         registerCompleteButton.setOnClickListener {
             registerProfile.nickName = profileNicknameEdittext.text.toString()
             if (file != null) {
-                // TODO 바디 생성
-                postProfileInfo(registerProfile)
+                file?.let {
+                    //val requestBody = it.path.toRequestBody("multipart/form-data".toMediaType())
+                    val requestFile = file!!.asRequestBody("image/*".toMediaTypeOrNull())
+                    val multipartBody = MultipartBody.Part.createFormData("image", it.name, requestFile)
+                    profileViewModel.postImage(S3_PATH, multipartBody)
+                }
             } else {
                 postProfileInfo(registerProfile)
             }
@@ -224,7 +181,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
     }
 
-    private fun checkValidNickName(nickName: String)  {
+    private fun checkValidNickName(nickName: String) {
         if (nickName.isBlank()) {
             profileViewModel.setNickNameState(EditTextValidateState.INVALID_STATE)
         } else {
@@ -306,6 +263,42 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
     private fun postProfileInfo(registerProfile: RegisterProfile) {
         profileViewModel.postProfile(registerProfile)
     }
+
+    private fun observePostImageResponse() {
+        profileViewModel.postImageResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> Unit
+
+                is Resource.Success -> {
+                    imageUrl = response.data?.imageUrl ?: ""
+                    registerProfile.profileImageUrl = imageUrl
+                    postProfileInfo(registerProfile)
+                }
+                is Resource.Error -> Toast.makeText(requireContext(),"이미지 업로드에 실패했습니다",Toast.LENGTH_SHORT)
+            }
+        }
+    }
+
+    private val startForProfileImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
+
+            when (resultCode) {
+                RESULT_OK -> {
+                    fileUri = data?.data!!
+                    file = File(fileUri.path ?: "")
+                    binding.profilePhotoImageview.load(file)
+                }
+                ImagePicker.RESULT_ERROR -> {
+                    Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(requireContext(), "사진 등록 취소", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        }
 
     companion object {
         private const val TAG = "CREATE PROFILE"

@@ -14,6 +14,7 @@ import org.retriever.dailypet.data.repository.image.ImageRepository
 import org.retriever.dailypet.data.repository.signup.ProfileRepository
 import org.retriever.dailypet.model.Event
 import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.image.ImageResponse
 import org.retriever.dailypet.model.signup.profile.RegisterProfile
 import org.retriever.dailypet.model.signup.profile.RegisterProfileResponse
 import org.retriever.dailypet.ui.signup.EditTextValidateState
@@ -22,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
-    private val preSignedUrlRepository: ImageRepository,
+    private val imageRepository: ImageRepository,
 ) : ViewModel() {
 
     private val _allCheckState = MutableStateFlow(false)
@@ -52,8 +53,8 @@ class ProfileViewModel @Inject constructor(
     private val _registerProfileResponse = MutableLiveData<Event<Resource<RegisterProfileResponse>>>()
     val registerProfileResponse: LiveData<Event<Resource<RegisterProfileResponse>>> = _registerProfileResponse
 
-    private val _postImageResponse = MutableLiveData<Resource<String>>()
-    val postImageResponse: LiveData<Resource<String>> = _postImageResponse
+    private val _postImageResponse = MutableLiveData<Resource<ImageResponse>>()
+    val postImageResponse: LiveData<Resource<ImageResponse>> = _postImageResponse
 
 
     fun setAllCheckState(check: Boolean) {
@@ -109,12 +110,10 @@ class ProfileViewModel @Inject constructor(
         _registerProfileResponse.postValue(Event(profileRepository.postProfile(registerProfile)))
     }
 
-    fun postImage(s3Path: String, file: MultipartBody.Part) {
-        viewModelScope.launch {
-            _postImageResponse.postValue(Resource.Loading())
+    fun postImage(s3Path: String, file: MultipartBody.Part) = viewModelScope.launch {
+        _postImageResponse.postValue(Resource.Loading())
 
-            _postImageResponse.postValue(preSignedUrlRepository.postImage(s3Path, file))
-        }
+        _postImageResponse.postValue(imageRepository.postImage(s3Path, file))
     }
 
 }

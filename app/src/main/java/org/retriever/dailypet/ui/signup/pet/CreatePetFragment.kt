@@ -2,6 +2,7 @@ package org.retriever.dailypet.ui.signup.pet
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -28,6 +29,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
@@ -39,6 +41,7 @@ import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.login.LoginActivity
 import org.retriever.dailypet.ui.signup.EditTextState
 import org.retriever.dailypet.ui.signup.EditTextValidateState
+import org.retriever.dailypet.ui.signup.profile.CreateProfileFragment
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
@@ -57,28 +60,8 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     private val args: CreatePetFragmentArgs by navArgs()
     private var imageUrl = ""
     private var file: File? = null
+    private lateinit var fileUri: Uri
     private var progressList: ArrayList<String> = arrayListOf("프로필","그룹","반려동물")
-
-    private val startForProfileImageResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            val resultCode = result.resultCode
-            val data = result.data
-
-            when (resultCode) {
-                Activity.RESULT_OK -> {
-                    val fileUri = data?.data!!
-                    file = File(fileUri.path ?: "")
-                    binding.petCircleImage.load(file)
-                }
-                ImagePicker.RESULT_ERROR -> {
-                    Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-                }
-                else -> {
-                    Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
-                }
-
-            }
-        }
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentCreatePetBinding {
         return FragmentCreatePetBinding.inflate(inflater, container, false)
@@ -103,6 +86,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         observePetNameResponse()
         observePetResponse()
         observeModifyPet()
+        observePostImageResponse()
     }
 
     private fun initPetInfo() = with(binding) {
@@ -241,13 +225,21 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         petSubmitButton.setOnClickListener {
             if (args.petDetailItem == null) {
                 if (file != null) {
-                    postPetInfo()
+                    file?.let {
+                        val requestFile = file!!.asRequestBody("image/*".toMediaTypeOrNull())
+                        val multipartBody = MultipartBody.Part.createFormData("image", it.name, requestFile)
+                        petViewModel.postImage(S3_PATH, multipartBody)
+                    }
                 } else {
                     postPetInfo()
                 }
             } else {
                 if (file != null) {
-                    postPetInfo()
+                    file?.let {
+                        val requestFile = file!!.asRequestBody("image/*".toMediaTypeOrNull())
+                        val multipartBody = MultipartBody.Part.createFormData("image", it.name, requestFile)
+                        petViewModel.postImage(S3_PATH, multipartBody)
+                    }
                 } else {
                     modifyPet(args.petDetailItem?.petId ?: -1)
                 }
@@ -655,6 +647,42 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
             }
         }
     }
+
+    private fun observePostImageResponse() {
+        petViewModel.postImageResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> Unit
+
+                is Resource.Success -> {
+                    imageUrl = response.data?.imageUrl ?: ""
+                    petViewModel.petInfo.profileImageUrl = imageUrl
+                    postPetInfo()
+                }
+                is Resource.Error -> Toast.makeText(requireContext(),"이미지 업로드에 실패했습니다",Toast.LENGTH_SHORT)
+            }
+        }
+    }
+
+    private val startForProfileImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
+
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    fileUri = data?.data!!
+                    file = File(fileUri.path ?: "")
+                    binding.petCircleImage.load(file)
+                }
+                ImagePicker.RESULT_ERROR -> {
+                    Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(requireContext(), "사진 등록 취소", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        }
 
     override fun onDestroyView() {
         super.onDestroyView()

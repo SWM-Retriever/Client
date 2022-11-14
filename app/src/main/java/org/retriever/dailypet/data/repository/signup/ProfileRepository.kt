@@ -1,6 +1,5 @@
 package org.retriever.dailypet.data.repository.signup
 
-import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import org.retriever.dailypet.data.network.signup.ProfileApiService
 import org.retriever.dailypet.data.repository.BaseRepo

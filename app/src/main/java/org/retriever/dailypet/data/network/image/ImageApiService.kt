@@ -1,6 +1,7 @@
 package org.retriever.dailypet.data.network.image
 
 import okhttp3.MultipartBody
+import org.retriever.dailypet.model.image.ImageResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -11,7 +12,7 @@ interface ImageApiService {
     suspend fun postImage(
         @Path("S3Path") S3Path: String,
         @Part file: MultipartBody.Part
-    ): Response<String>
+    ): Response<ImageResponse>
 
 //    @Multipart
 //    @PUT
