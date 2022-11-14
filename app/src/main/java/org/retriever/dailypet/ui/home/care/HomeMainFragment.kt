@@ -19,6 +19,7 @@ import androidx.core.view.size
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import coil.load
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.retriever.dailypet.GlobalApplication
@@ -47,6 +48,7 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
     private var petList: MutableList<Pet> = mutableListOf()
     private var petIdList: MutableList<Int> = mutableListOf()
     private var petNameList: MutableList<String> = mutableListOf()
+    private var petImageList: MutableList<String> = mutableListOf()
     private val jwt = GlobalApplication.prefs.jwt ?: ""
     private val familyId = GlobalApplication.prefs.familyId
     private val groupType = GlobalApplication.prefs.groupType ?: ""
@@ -118,8 +120,12 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
                             petList.add(Pet(pet.petId, pet.petName))
                             petIdList.add(pet.petId)
                             petNameList.add(pet.petName)
+                            petImageList.add(pet.profileImageUrl)
                         }
                         curPetId = petIdList[0]
+                        if(petImageList[0].isNotEmpty()){
+                            homeProfileImage.load(petImageList[0])
+                        }
                         getDays()
                         getCareList()
                     }
@@ -370,9 +376,12 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
         binding.root.findNavController().navigate(action)
     }
 
-    private fun changePet(petName: String) {
+    private fun changePet(petName: String) = with(binding) {
         val idx = petNameList.indexOf(petName)
         curPetId = petIdList[idx]
+        if(petImageList[idx].isNotEmpty()){
+            homeProfileImage.load(petImageList[idx])
+        }
         getDays()
         getCareList()
     }

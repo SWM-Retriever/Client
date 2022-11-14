@@ -10,11 +10,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
-import org.retriever.dailypet.data.repository.presignedurl.PreSignedUrlRepository
+import org.retriever.dailypet.data.repository.image.ImageRepository
 import org.retriever.dailypet.data.repository.signup.PetRepository
 import org.retriever.dailypet.model.Event
 import org.retriever.dailypet.model.Resource
-import org.retriever.dailypet.model.presignedurl.PreSignedUrlResponse
+import org.retriever.dailypet.model.image.ImageResponse
 import org.retriever.dailypet.model.signup.pet.*
 import org.retriever.dailypet.ui.signup.EditTextState
 import org.retriever.dailypet.ui.signup.EditTextValidateState
@@ -23,8 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PetViewModel @Inject constructor(
     private val petRepository: PetRepository,
-    private val preSignedUrlRepository: PreSignedUrlRepository,
-) : ViewModel() {
+    private val imageRepository: ImageRepository,
+    ) : ViewModel() {
 
     private val _petNameState = MutableStateFlow(EditTextValidateState.DEFAULT_STATE)
     val petNameState: StateFlow<EditTextValidateState> = _petNameState
@@ -70,11 +70,9 @@ class PetViewModel @Inject constructor(
     private val _getPetListResponse = MutableLiveData<Event<Resource<PetList>>>()
     val getPetListResponse: LiveData<Event<Resource<PetList>>> = _getPetListResponse
 
-    private val _preSignedUrlResponse = MutableLiveData<Resource<PreSignedUrlResponse>>()
-    val preSignedUrlResponse: LiveData<Resource<PreSignedUrlResponse>> = _preSignedUrlResponse
+    private val _postImageResponse = MutableLiveData<Resource<ImageResponse>>()
+    val postImageResponse: LiveData<Resource<ImageResponse>> = _postImageResponse
 
-    private val _putImageUrlResponse = MutableLiveData<Resource<ResponseBody>>()
-    val putImageUrlResponse: LiveData<Resource<ResponseBody>> = _putImageUrlResponse
 
     fun setPetNameState(state: EditTextValidateState) {
         _petNameState.value = state
@@ -177,20 +175,10 @@ class PetViewModel @Inject constructor(
         _getPetListResponse.postValue(Event(petRepository.getPetList(familyId, jwt)))
     }
 
-    fun getPreSignedUrl(s3Path: String, fileName: String) {
-        viewModelScope.launch {
-            _preSignedUrlResponse.postValue(Resource.Loading())
+    fun postImage(s3Path: String, file: MultipartBody.Part) = viewModelScope.launch {
+        _postImageResponse.postValue(Resource.Loading())
 
-            _preSignedUrlResponse.postValue(preSignedUrlRepository.getPreSignedUrl(s3Path, fileName))
-        }
-    }
-
-    fun putImageUrl(contentType: String, url: String, file: MultipartBody.Part) {
-        viewModelScope.launch {
-            _putImageUrlResponse.postValue(Resource.Loading())
-
-            _putImageUrlResponse.postValue(preSignedUrlRepository.putImageUrl(contentType, url, file))
-        }
+        _postImageResponse.postValue(imageRepository.postImage(s3Path, file))
     }
 
     companion object {

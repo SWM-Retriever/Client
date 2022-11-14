@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.ItemMyPageDetailBinding
 import org.retriever.dailypet.model.mypage.PetDetailItem
 
@@ -17,7 +16,10 @@ class PetAdapter : ListAdapter<PetDetailItem, PetAdapter.ViewHolder>(diffUtil) {
     class ViewHolder(val binding: ItemMyPageDetailBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: PetDetailItem) {
             binding.profileNickName.text = item.petName
-            binding.profilePhotoImageview.load(R.drawable.default_pet_image)
+            val imageUrl = item.profileImageUrl
+            if(imageUrl.isNotEmpty()){
+                binding.profilePhotoImageview.load(imageUrl)
+            }
         }
     }
 

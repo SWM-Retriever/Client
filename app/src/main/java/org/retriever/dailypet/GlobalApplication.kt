@@ -73,7 +73,7 @@ class Prefs(context: Context) {
         }
 
     var profileImageUrl: String?
-        get() = prefs.getString("profileImageUrl", null)
+        get() = prefs.getString("profileImageUrl", "")
         set(value) {
             prefs.edit().putString("profileImageUrl", value).apply()
         }
@@ -107,7 +107,7 @@ class Prefs(context: Context) {
     }
 
     fun initProfileImageUrl() {
-        prefs.edit().putString("profileImageUrl", null).apply()
+        prefs.edit().putString("profileImageUrl", "").apply()
     }
 
 }
