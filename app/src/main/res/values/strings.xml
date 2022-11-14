@@ -132,7 +132,7 @@
     <string name="care_count_comment_text">케어 횟수를 입력해주세요</string>
     <string name="add_care_submit_text">등록하기</string>
     <string name="care_card_title">케어항목</string>
-    <string name="manage_group_text">그룹 관리</string>
+    <string name="manage_group_text">그룹 및 반려동물 관리</string>
     <string name="select_pet_text">반려동물 조회</string>
     <string name="modify_text">수정하기</string>
     <string name="delete_text">삭제하기</string>
@@ -184,5 +184,6 @@
     <string name="dialog_yes_text">네</string>
     <string name="dialog_no_text">아니요</string>
     <string name="duty_text">*</string>
+    <string name="logout_text">로그아웃</string>
 
 </resources>

@@ -40,6 +40,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private var name = ""
     private var email = ""
     private var domain = ""
+    private val FINISH_INTERVAL_TIME: Long = 2000
+    private var backPressedTime: Long = 0
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentLoginBinding {
         return FragmentLoginBinding.inflate(inflater, container, false)
@@ -49,6 +51,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initCallBack()
+        initProgressCircular()
         initLogin()
         buttonClick()
     }
@@ -56,15 +59,25 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private fun initCallBack() {
         onBackCallBack = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                // Do Nothing
+                val tempTime = System.currentTimeMillis();
+                val intervalTime = tempTime - backPressedTime;
+                if (intervalTime in 0..FINISH_INTERVAL_TIME) {
+                    activity?.finishAffinity()
+                } else {
+                    backPressedTime = tempTime;
+                    Toast.makeText(requireContext(), "뒤로가기 버튼을 한번 더 누르면\n앱이 종료됩니다", Toast.LENGTH_SHORT).show();
+                    return
+                }
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackCallBack)
     }
 
-    private fun initLogin() = with(binding) {
+    private fun initProgressCircular() {
         hideProgressCircular(binding.progressCircular)
+    }
 
+    private fun initLogin() = with(binding) {
         loginViewModel.loginResponse.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { response ->
                 when (response) {
