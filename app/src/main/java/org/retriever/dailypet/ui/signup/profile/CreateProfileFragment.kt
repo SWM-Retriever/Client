@@ -1,6 +1,7 @@
 package org.retriever.dailypet.ui.signup.profile
 
 import android.app.Activity.RESULT_OK
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
@@ -19,9 +20,14 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.github.dhaval2404.imagepicker.ImagePicker
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import okio.BufferedSink
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreateProfileBinding
@@ -45,28 +51,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
     private var imageUrl = ""
     private var file: File? = null
     private lateinit var fileUri: Uri
-    private var progressList: ArrayList<String> = arrayListOf("프로필","그룹","반려동물")
-
-    private val startForProfileImageResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            val resultCode = result.resultCode
-            val data = result.data
-
-            when (resultCode) {
-                RESULT_OK -> {
-                    fileUri = data?.data!!
-                    file = File(fileUri.path ?: "")
-                    binding.profilePhotoImageview.load(file)
-                }
-                ImagePicker.RESULT_ERROR -> {
-                    Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-                }
-                else -> {
-                    Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
-                }
-
-            }
-        }
+    private var progressList: ArrayList<String> = arrayListOf("프로필", "그룹", "반려동물")
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentCreateProfileBinding {
         return FragmentCreateProfileBinding.inflate(inflater, container, false)
@@ -75,19 +60,18 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRegisterProfile()
         initProgressCircular()
+        initArgs()
         initNickNameView()
-        initProfileView()
+        initRegisterProfile()
         watchEdittext()
         buttonClick()
         observeNickNameViewState()
         observeRegisterButtonState()
-        observePreSignedUrlResponse()
-        observeImageUrlResponse()
+        observePostImageResponse()
     }
 
-    private fun initRegisterProfile() {
+    private fun initArgs() {
         val args: CreateProfileFragmentArgs by navArgs()
         registerProfile = args.registerProfile
     }
@@ -124,7 +108,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
         }
     }
 
-    private fun initProfileView() = with(binding) {
+    private fun initRegisterProfile() = with(binding) {
         profileViewModel.registerProfileResponse.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { response ->
                 when (response) {
@@ -132,10 +116,13 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
                         showProgressCircular(progressCircular)
                     }
                     is Resource.Success -> {
+                        Log.e("ABC","OBSERVE PROFILE")
+
                         hideProgressCircular(progressCircular)
                         val jwt = response.data?.jwtToken
                         GlobalApplication.prefs.jwt = jwt
                         GlobalApplication.prefs.nickname = nickname
+                        GlobalApplication.prefs.profileImageUrl = imageUrl
                         Toast.makeText(requireContext(), "프로필 등록에 성공하였습니다", Toast.LENGTH_SHORT).show()
                         root.findNavController().navigate(R.id.action_createProfileFragment_to_selectFamilyTypeFragment)
                     }
@@ -180,9 +167,13 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
         registerCompleteButton.setOnClickListener {
             registerProfile.nickName = profileNicknameEdittext.text.toString()
-
             if (file != null) {
-                profileViewModel.getPreSignedUrl(S3_PATH, file!!.name)
+                file?.let {
+                    //val requestBody = it.path.toRequestBody("multipart/form-data".toMediaType())
+                    val requestFile = file!!.asRequestBody("image/*".toMediaTypeOrNull())
+                    val multipartBody = MultipartBody.Part.createFormData("image", it.name, requestFile)
+                    profileViewModel.postImage(S3_PATH, multipartBody)
+                }
             } else {
                 postProfileInfo(registerProfile)
             }
@@ -190,7 +181,7 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
 
     }
 
-    private fun checkValidNickName(nickName: String)  {
+    private fun checkValidNickName(nickName: String) {
         if (nickName.isBlank()) {
             profileViewModel.setNickNameState(EditTextValidateState.INVALID_STATE)
         } else {
@@ -269,40 +260,45 @@ class CreateProfileFragment : BaseFragment<FragmentCreateProfileBinding>() {
         registerCompleteButton.isClickable = false
     }
 
-    private fun observePreSignedUrlResponse() {
-        profileViewModel.preSignedUrlResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> Unit
-                is Resource.Success -> {
-                    imageUrl = response.data?.originalUrl ?: ""
-                    registerProfile.profileImageUrl = imageUrl
-
-                    file?.let {
-                        val requestBody = it.path.toRequestBody("image/jpeg".toMediaTypeOrNull())
-                        val multipartBody = MultipartBody.Part.createFormData("file", it.name, requestBody)
-                        profileViewModel.putImageUrl("image/jpeg", response.data?.preSignedUrl ?: "", multipartBody)
-                    }
-                }
-                is Resource.Error -> Unit
-            }
-        }
-    }
-
-    private fun observeImageUrlResponse() {
-        profileViewModel.putImageUrlResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> Unit
-                is Resource.Success -> {
-                    postProfileInfo(registerProfile)
-                }
-                is Resource.Error -> Unit
-            }
-        }
-    }
-
     private fun postProfileInfo(registerProfile: RegisterProfile) {
         profileViewModel.postProfile(registerProfile)
     }
+
+    private fun observePostImageResponse() {
+        profileViewModel.postImageResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> Unit
+
+                is Resource.Success -> {
+                    imageUrl = response.data?.imageUrl ?: ""
+                    registerProfile.profileImageUrl = imageUrl
+                    postProfileInfo(registerProfile)
+                }
+                is Resource.Error -> Toast.makeText(requireContext(),"이미지 업로드에 실패했습니다",Toast.LENGTH_SHORT)
+            }
+        }
+    }
+
+    private val startForProfileImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
+
+            when (resultCode) {
+                RESULT_OK -> {
+                    fileUri = data?.data!!
+                    file = File(fileUri.path ?: "")
+                    binding.profilePhotoImageview.load(file)
+                }
+                ImagePicker.RESULT_ERROR -> {
+                    Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(requireContext(), "사진 등록 취소", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        }
 
     companion object {
         private const val TAG = "CREATE PROFILE"
