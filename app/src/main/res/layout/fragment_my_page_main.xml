@@ -84,7 +84,7 @@
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/user_circle_image"
-                tools:text="김시진" />
+                tools:text="" />
 
             <View
                 android:id="@+id/first_divide"

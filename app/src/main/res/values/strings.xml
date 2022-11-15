@@ -185,5 +185,6 @@
     <string name="dialog_no_text">아니요</string>
     <string name="duty_text">*</string>
     <string name="logout_text">로그아웃</string>
+    <string name="contribution_text">기여도 상세보기</string>
 
 </resources>

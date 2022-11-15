@@ -68,8 +68,9 @@ interface HomeApiService {
         @Header("X-AUTH-TOKEN") jwt: String,
     ): Response<GroupInfo>
 
-    @GET("api/v1/main/contribution")
+    @GET("api/v1/main/pets/{petId}/contribution")
     suspend fun getMyContribution(
+        @Path("petId") petId : Int,
         @Query("startDate") startDate : String,
         @Query("endDate") endDate : String,
         @Header("X-AUTH-TOKEN") jwt: String,

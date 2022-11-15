@@ -108,12 +108,12 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
         _getGroupInfoResponse.postValue(homeRepository.getGroupInfo(familyId, jwt))
     }
 
-    fun getMyContribution(jwt: String) = viewModelScope.launch {
+    fun getMyContribution(petId:Int, jwt: String) = viewModelScope.launch {
         _getMyContributionResponse.postValue(Resource.Loading())
 
         getDate()
 
-        _getMyContributionResponse.postValue(homeRepository.getContribution(startDate, endDate, jwt))
+        _getMyContributionResponse.postValue(homeRepository.getContribution(petId, startDate, endDate, jwt))
     }
 
     private fun getDate() {

@@ -1,13 +1,11 @@
 package org.retriever.dailypet.ui.home.care
 
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +13,6 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
-import androidx.core.view.size
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -30,13 +27,10 @@ import org.retriever.dailypet.model.main.Care
 import org.retriever.dailypet.model.signup.pet.Pet
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.home.care.adapter.CareAdapter
-import org.retriever.dailypet.ui.login.LoginActivity
-import org.retriever.dailypet.ui.main.MainActivity
 import org.retriever.dailypet.util.ArrayListAdapter
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 import java.util.*
-import kotlin.system.exitProcess
 
 class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
 
@@ -107,32 +101,32 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
 
     private fun initPetList() = with(binding) {
         homeViewModel.getPetListResponse.observe(viewLifecycleOwner) { response ->
-                when (response) {
-                    is Resource.Loading -> {
-                        showProgressCircular(progressCircular)
-                    }
-                    is Resource.Success -> {
-                        hideProgressCircular(progressCircular)
-                        val petResponse = response.data?.petInfoDetailList
-                        petList.clear()
-
-                        petResponse?.forEach { pet ->
-                            petList.add(Pet(pet.petId, pet.petName))
-                            petIdList.add(pet.petId)
-                            petNameList.add(pet.petName)
-                            petImageList.add(pet.profileImageUrl)
-                        }
-                        curPetId = petIdList[0]
-                        if(petImageList[0].isNotEmpty()){
-                            homeProfileImage.load(petImageList[0])
-                        }
-                        getDays()
-                        getCareList()
-                    }
-                    is Resource.Error -> {
-                        hideProgressCircular(progressCircular)
-                    }
+            when (response) {
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
                 }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+                    val petResponse = response.data?.petInfoDetailList
+                    petList.clear()
+
+                    petResponse?.forEach { pet ->
+                        petList.add(Pet(pet.petId, pet.petName))
+                        petIdList.add(pet.petId)
+                        petNameList.add(pet.petName)
+                        petImageList.add(pet.profileImageUrl)
+                    }
+                    curPetId = petIdList[0]
+                    if (petImageList[0].isNotEmpty()) {
+                        homeProfileImage.load(petImageList[0])
+                    }
+                    getDays()
+                    getCareList()
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(progressCircular)
+                }
+            }
 
         }
     }
@@ -146,93 +140,92 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
     }
 
     private fun getCareList() {
-        Log.e("ABC", "Get CareList")
         homeViewModel.getCareList(curPetId, jwt)
     }
 
     private fun getContribution() {
-        homeViewModel.getMyContribution(jwt)
+        homeViewModel.getMyContribution(curPetId, jwt)
     }
 
     private fun initDeleteCare() = with(binding) {
         homeViewModel.deletePetCareResponse.observe(viewLifecycleOwner) { response ->
-                when (response) {
-                    is Resource.Loading -> {
-                        showProgressCircular(progressCircular)
-                    }
-                    is Resource.Success -> {
-                        hideProgressCircular(progressCircular)
-                        getCareList()
-                    }
-                    is Resource.Error -> {
-                        hideProgressCircular(progressCircular)
-                    }
+            when (response) {
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+                    getCareList()
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(progressCircular)
                 }
             }
+        }
 
     }
 
     private fun initContribution() = with(binding) {
         homeViewModel.getMyContributionResponse.observe(viewLifecycleOwner) { response ->
-                when (response) {
-                    is Resource.Loading -> {
-                        showProgressCircular(progressCircular)
-                    }
-                    is Resource.Success -> {
-                        hideProgressCircular(progressCircular)
-                        val contribution : Int = response.data?.contributionPercent?.toInt() ?: 0
-                        contributionText.text = getString(R.string.home_contribution_text, contribution)
-
-                        val content = contributionText.text.toString()
-                        val spannableString = SpannableString(content)
-                        val start = content.indexOf(contribution.toString())
-                        val end = start + contribution.toString().length + 1
-                        spannableString.setSpan(
-                            ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.main_blue)),
-                            start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                        )
-                        spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                        contributionText.text = spannableString
-                    }
-                    is Resource.Error -> {
-                        hideProgressCircular(progressCircular)
-                    }
+            when (response) {
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
                 }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+                    val contribution: Int = response.data?.contributionPercent?.toInt() ?: 0
+                    contributionText.text = getString(R.string.home_contribution_text, contribution)
+
+                    val content = contributionText.text.toString()
+                    val spannableString = SpannableString(content)
+                    val start = content.indexOf(contribution.toString())
+                    val end = start + contribution.toString().length + 1
+                    spannableString.setSpan(
+                        ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.main_blue)),
+                        start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    contributionText.text = spannableString
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(progressCircular)
+                }
+            }
 
         }
     }
 
     private fun initDaysView() = with(binding) {
         homeViewModel.getDaysResponse.observe(viewLifecycleOwner) { response ->
-                when (response) {
-                    is Resource.Loading -> {
-                        showProgressCircular(progressCircular)
-                    }
-                    is Resource.Success -> {
-                        hideProgressCircular(progressCircular)
-                        val nickname = response.data?.userName ?: ""
-                        curPetName = response.data?.petName ?: ""
-                        val dDay = response.data?.calculatedDay ?: 0
-                        petNameText.text = getString(R.string.home_pet_name_text, curPetName)
-                        dDayText.text = getString(R.string.home_pet_day_text, nickname, curPetName, dDay)
+            when (response) {
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+                    val nickname = response.data?.userName ?: ""
+                    curPetName = response.data?.petName ?: ""
+                    val dDay = response.data?.calculatedDay ?: 0
+                    petNameText.text = getString(R.string.home_pet_name_text, curPetName)
+                    dDayText.text = getString(R.string.home_pet_day_text, nickname, curPetName, dDay)
 
-                        val content = dDayText.text.toString()
-                        val spannableString = SpannableString(content)
-                        val start = content.indexOf(dDay.toString())
-                        val end = start + dDay.toString().length + 1
-                        spannableString.setSpan(
-                            ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.main_pink)),
-                            start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                        )
-                        spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                        dDayText.text = spannableString
-                        initView()
-                    }
-                    is Resource.Error -> {
-                        hideProgressCircular(progressCircular)
-                    }
+                    val content = dDayText.text.toString()
+                    val spannableString = SpannableString(content)
+                    val start = content.indexOf(dDay.toString())
+                    val end = start + dDay.toString().length + 1
+                    spannableString.setSpan(
+                        ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.main_pink)),
+                        start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    spannableString.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    dDayText.text = spannableString
+                    initView()
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(progressCircular)
                 }
             }
+        }
 
     }
 
@@ -288,7 +281,7 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
                 curIdx = position
             }
         })
-        if(curIdx >= careList.size){
+        if (curIdx >= careList.size) {
             curIdx = 0
         }
         viewPager.setCurrentItem(curIdx, false)
@@ -312,23 +305,22 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
         return strWeek
     }
 
-    private fun initView() = with(binding){
+    private fun initView() = with(binding) {
+        getContribution()
         alarmButton.visibility = View.INVISIBLE
         homeProfileImage.visibility = View.VISIBLE
         petNameText.visibility = View.VISIBLE
         dDayText.visibility = View.VISIBLE
         careTitleText.visibility = View.VISIBLE
-        if(groupType == "FAMILY"){
-            if(isEmptyCare){
+        if (groupType == "FAMILY") {
+            if (isEmptyCare) {
                 statisticsText.visibility = View.INVISIBLE
                 contributionText.visibility = View.INVISIBLE
-            }
-            else{
+            } else {
                 statisticsText.visibility = View.VISIBLE
                 contributionText.visibility = View.VISIBLE
             }
-        }
-        else{
+        } else {
             contributionText.visibility = View.INVISIBLE
             statisticsText.visibility = View.INVISIBLE
         }
@@ -379,11 +371,12 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
     private fun changePet(petName: String) = with(binding) {
         val idx = petNameList.indexOf(petName)
         curPetId = petIdList[idx]
-        if(petImageList[idx].isNotEmpty()){
+        if (petImageList[idx].isNotEmpty()) {
             homeProfileImage.load(petImageList[idx])
         }
         getDays()
         getCareList()
+        getContribution()
     }
 
     override fun onDestroy() {
