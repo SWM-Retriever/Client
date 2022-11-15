@@ -139,7 +139,7 @@
             android:text="@string/statistics_detail_text"
             android:textColor="@color/light_black"
             android:textSize="14sp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             app:drawableTopCompat="@drawable/rank"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/end_guideline"

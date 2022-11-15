@@ -6,16 +6,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import org.retriever.dailypet.model.Event
 import org.retriever.dailypet.data.repository.diary.DiaryRepository
+import org.retriever.dailypet.data.repository.image.ImageRepository
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.diary.DiaryPost
 import org.retriever.dailypet.model.diary.DiaryResponse
+import org.retriever.dailypet.model.image.ImageResponse
 import javax.inject.Inject
 
 @HiltViewModel
-class DiaryViewModel @Inject constructor(private val diaryRepository: DiaryRepository) : ViewModel() {
+class DiaryViewModel @Inject constructor(
+    private val diaryRepository: DiaryRepository,
+    private val imageRepository: ImageRepository,
+) : ViewModel() {
 
     private val _diaryListResponse = MutableLiveData<Resource<DiaryResponse>>()
     val diaryListResponse: LiveData<Resource<DiaryResponse>> = _diaryListResponse
@@ -28,6 +34,9 @@ class DiaryViewModel @Inject constructor(private val diaryRepository: DiaryRepos
 
     private val _diaryUpdateResponse = MutableLiveData<Event<Resource<ResponseBody>>>()
     val diaryUpdateResponse: LiveData<Event<Resource<ResponseBody>>> = _diaryUpdateResponse
+
+    private val _postImageResponse = MutableLiveData<Resource<ImageResponse>>()
+    val postImageResponse: LiveData<Resource<ImageResponse>> = _postImageResponse
 
     fun getDiaryList(familyId: Int, jwt: String) = viewModelScope.launch {
         _diaryListResponse.postValue(Resource.Loading())
@@ -51,6 +60,12 @@ class DiaryViewModel @Inject constructor(private val diaryRepository: DiaryRepos
         _diaryUpdateResponse.postValue(Event(Resource.Loading()))
 
         _diaryUpdateResponse.postValue(Event(diaryRepository.updateDiary(familyId, diaryId, jwt, diaryPost)))
+    }
+
+    fun postImage(s3Path: String, file: MultipartBody.Part) = viewModelScope.launch {
+        _postImageResponse.postValue(Resource.Loading())
+
+        _postImageResponse.postValue(imageRepository.postImage(s3Path, file))
     }
 
 }
