@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.load
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentDiaryDetailBinding
@@ -60,6 +61,14 @@ class DiaryDetailFragment : BaseFragment<FragmentDiaryDetailBinding>() {
     private fun initView() = with(binding) {
         writerNickNameText.text = item.authorNickName
         diaryContentText.text = item.diaryText
+        if(item.authorImageUrl?.isNotEmpty() == true){
+            writerCircleImage.load(item.authorImageUrl)
+        }
+        if(!item.diaryImageUrl.isNullOrEmpty()){
+            diaryImage.load(item.diaryImageUrl )
+        } else{
+            diaryImageCardView.visibility = View.GONE
+        }
     }
 
     private fun initPopUp() {
