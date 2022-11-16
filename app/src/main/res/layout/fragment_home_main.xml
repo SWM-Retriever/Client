@@ -10,11 +10,11 @@
         android:id="@+id/progress_circular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="232dp"
         android:indeterminate="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/d_day_text" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_guideline"
@@ -30,10 +30,10 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="24dp" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/home_profile_image"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/default_image"
         android:visibility="invisible"
@@ -44,14 +44,16 @@
         android:id="@+id/pet_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="8dp"
         android:drawablePadding="5dp"
         android:gravity="center_vertical"
         android:text="@string/home_pet_name_text"
         android:textColor="@color/black"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:visibility="invisible"
         app:drawableRightCompat="@drawable/arrlow_down_customize"
+        app:layout_constraintBottom_toBottomOf="@+id/home_profile_image"
         app:layout_constraintStart_toEndOf="@id/home_profile_image"
         app:layout_constraintTop_toTopOf="@+id/home_profile_image" />
 
@@ -86,30 +88,33 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
         android:text="@string/home_contribution_text"
+        android:textSize="14sp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/d_day_text" />
-
 
     <TextView
         android:id="@+id/statistics_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:backgroundTint="@color/main_pink"
-        android:backgroundTintMode="add"
-        android:drawablePadding="5dp"
-        android:text="@string/statistics_text"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/light_blue_button"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:text="@string/contribution_text"
+        android:textColor="@color/main_blue"
+        android:textSize="12sp"
+        android:textStyle="bold"
         android:visibility="invisible"
-        app:drawableTopCompat="@drawable/rank"
-        app:layout_constraintEnd_toStartOf="@id/right_guideline"
-        app:layout_constraintTop_toBottomOf="@id/d_day_text" />
+        app:layout_constraintBottom_toBottomOf="@+id/contribution_text"
+        app:layout_constraintStart_toEndOf="@+id/contribution_text"
+        app:layout_constraintTop_toTopOf="@+id/contribution_text" />
 
     <TextView
         android:id="@+id/care_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="132dp"
+        android:layout_marginTop="120dp"
         android:drawablePadding="5dp"
         android:text="@string/care_title_text"
         android:textColor="@color/black"
@@ -126,15 +131,15 @@
         android:id="@+id/add_care_button"
         android:layout_width="50dp"
         android:layout_height="28dp"
-        android:layout_marginTop="132dp"
         android:background="@drawable/grey_button"
         android:text="@string/care_add_text"
         android:textColor="@color/light_black"
         android:textSize="12sp"
         android:textStyle="bold"
-        android:visibility="gone"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/care_title_text"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-        app:layout_constraintTop_toBottomOf="@+id/d_day_text" />
+        app:layout_constraintTop_toTopOf="@+id/care_title_text" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/empty_add_care_button"
@@ -184,9 +189,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/care_list_tab"></androidx.viewpager2.widget.ViewPager2>
+        app:layout_constraintTop_toBottomOf="@+id/care_list_tab" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

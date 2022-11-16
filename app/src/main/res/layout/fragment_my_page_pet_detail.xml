@@ -72,6 +72,7 @@
         android:paddingEnd="0dp"
         android:paddingBottom="16dp"
         android:src="@drawable/icon_more"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,7 +81,7 @@
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_marginTop="32dp"
-        android:src="@drawable/default_image"
+        android:src="@drawable/default_pet_image"
         app:civ_border_color="@color/main_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

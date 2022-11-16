@@ -104,7 +104,7 @@ class DiaryMainFragment : BaseFragment<FragmentDiaryMainBinding>() {
                 diaryId = -1,
                 authorImageUrl = "",
                 authorNickName = "",
-                diaryImageUrlList = emptyList(),
+                diaryImageUrl = "",
                 diaryText = "",
             )
             val action = DiaryMainFragmentDirections.actionDiaryMainFragmentToDiaryRegisterFragment(emptyItem)

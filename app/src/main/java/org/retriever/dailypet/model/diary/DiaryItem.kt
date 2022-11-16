@@ -12,6 +12,6 @@ data class DiaryItem(
     val diaryId: Int?,
     val authorImageUrl: String?,
     val authorNickName: String?,
-    val diaryImageUrlList: List<String>?,
+    val diaryImageUrl: String?,
     val diaryText: String?,
 ) : Parcelable

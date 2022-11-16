@@ -141,7 +141,7 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
         }
-        val thirdSpanned = SpannableString("가 ")
+        val thirdSpanned = SpannableString("(이)가 ")
         val fourthSpanned = SpannableString(petName).apply {
             setSpan(
                 ForegroundColorSpan(Color.parseColor("#EB6E7A")),

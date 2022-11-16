@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.load
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentMyPagePetDetailBinding
@@ -53,7 +54,9 @@ class MyPagePetDetailFragment : BaseFragment<FragmentMyPagePetDetailBinding>() {
 
     private fun initView() = with(binding) {
         petDetailItem = args.petDetailItem
-
+        if(petDetailItem.profileImageUrl.isNotEmpty()) {
+            petCircleImage.load(petDetailItem.profileImageUrl)
+        }
         petNameText.text = petDetailItem.petName
         petKindText.text = if (petDetailItem.petType == "DOG") "강아지" else "고양이"
         petSexText.text = if (petDetailItem.gender == "MALE") "수컷" else "암컷"
