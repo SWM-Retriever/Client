@@ -94,6 +94,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>({ ActivitySplashBindi
                         }
                     }
                     is Resource.Error -> {
+                        startActivity(loginIntent)
                     }
                 }
             }
