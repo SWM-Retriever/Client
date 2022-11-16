@@ -74,7 +74,7 @@
                     android:id="@+id/diary_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/light_blue_button" />
+                    android:src="@color/transparent" />
 
             </androidx.cardview.widget.CardView>
 
@@ -85,11 +85,12 @@
                 android:layout_marginTop="12dp"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                android:maxLines="20"
+                android:maxLines="10"
+                android:ellipsize="end"
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/diary_image_card_view"
-                tools:text="sadfjkldsajfklsdjfklsdjflksafj\nklsadfjlskd;fjsdkfsajfkl;sjn\nflk;sjflks;ajflksafjklsf" />
+                tools:text="내용" />
 
             <TextView
                 android:id="@+id/more_view_text"

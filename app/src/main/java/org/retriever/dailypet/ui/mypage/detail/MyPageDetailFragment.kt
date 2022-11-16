@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentMyPageDetailBinding
@@ -159,6 +160,12 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
         diaryItem?.let {
             writerNickNameText.text = it.authorNickName
             diaryContentText.text = it.diaryText
+            if(!it.authorImageUrl.isNullOrEmpty()){
+                writerCircleImage.load(it.authorImageUrl)
+            }
+            if(!it.diaryImageUrl.isNullOrEmpty()) {
+                diaryImage.load(it.diaryImageUrl)
+            }
         }
     }
 

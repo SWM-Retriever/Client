@@ -1,6 +1,7 @@
 package org.retriever.dailypet.ui.diary
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,6 +60,7 @@ class DiaryDetailFragment : BaseFragment<FragmentDiaryDetailBinding>() {
     }
 
     private fun initView() = with(binding) {
+        diaryContentText.movementMethod = ScrollingMovementMethod()
         writerNickNameText.text = item.authorNickName
         diaryContentText.text = item.diaryText
         if(item.authorImageUrl?.isNotEmpty() == true){
