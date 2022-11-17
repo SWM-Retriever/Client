@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:paddingHorizontal="30dp"
+    android:layout_gravity="center"
     android:background="@drawable/radius_dialog"
-    android:layout_gravity="center">
+    android:paddingHorizontal="30dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
 
     <TextView
         android:id="@+id/dialog_title"
@@ -18,7 +16,7 @@
         android:layout_marginTop="4dp"
         android:text="반려동물 품종을 선택 해주세요"
         android:textColor="@color/black"
-        android:textSize="17sp"
+        android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,14 +24,14 @@
 
     <SearchView
         android:id="@+id/searchView_breed"
-        android:layout_width="249dp"
-        android:layout_height="39dp"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
         android:layout_marginTop="60dp"
         android:iconifiedByDefault="false"
         android:queryHint="예시) 리트리버, 말티즈"
         android:textAlignment="center"
+        android:textSize="14dp"
         app:layout_constraintEnd_toStartOf="@+id/button"
-        app:layout_constraintHorizontal_bias="0.761"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,6 +53,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="20dp"
         android:text="확인"
+        android:textSize="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialog_title" />
 

@@ -38,7 +38,7 @@
         android:text="@string/add_care_title_text"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
@@ -49,11 +49,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:paddingBottom="6dp"
+        android:background="@android:color/transparent"
+        android:paddingStart="0dp"
         android:paddingTop="0dp"
         android:paddingEnd="6dp"
-        android:paddingStart="0dp"
-        android:background="@android:color/transparent"
+        android:paddingBottom="6dp"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toTopOf="parent"
@@ -66,6 +66,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/care_name_title"
         android:textColor="@color/light_black"
+        android:textSize="14dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/add_care_title_text" />
@@ -95,6 +96,7 @@
                 android:background="@drawable/small_button_click"
                 android:text="식사"
                 android:textColor="@drawable/text_click"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -108,6 +110,8 @@
                 android:background="@drawable/small_button_click"
                 android:text="산책"
                 android:textColor="@drawable/text_click"
+
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn_food"
@@ -121,6 +125,7 @@
                 android:background="@drawable/small_button_click"
                 android:text="놀이"
                 android:textColor="@drawable/text_click"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn_walk"
@@ -134,6 +139,7 @@
                 android:background="@drawable/small_button_click"
                 android:text="목욕"
                 android:textColor="@drawable/text_click"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn_play"
@@ -147,6 +153,7 @@
                 android:background="@drawable/small_button_click"
                 android:text="직접 입력하기"
                 android:textColor="@drawable/text_click"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn_wash"
@@ -163,7 +170,7 @@
         android:background="@drawable/grey_blue_edittext"
         android:hint="@string/input_care_text"
         android:paddingVertical="20dp"
-        android:textSize="14sp"
+        android:textSize="14dp"
         android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
@@ -176,6 +183,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/care_period_text"
         android:textColor="@color/light_black"
+        android:textSize="14dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/care_input_edittext" />
@@ -188,8 +196,8 @@
         android:button="@null"
         android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
         android:text="매일"
-
         android:textAlignment="center"
+        android:textSize="14dp"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/period_title_text" />
 
@@ -202,9 +210,9 @@
         android:layout_marginBottom="12dp"
         android:button="@null"
         android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
-
         android:text="월"
         android:textAlignment="center"
+        android:textSize="14dp"
         app:layout_constraintBottom_toTopOf="@+id/care_count_title_text"
         app:layout_constraintStart_toEndOf="@+id/check_everyday"
         app:layout_constraintTop_toBottomOf="@+id/period_title_text"
@@ -219,9 +227,9 @@
         android:layout_marginBottom="12dp"
         android:button="@null"
         android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
-
         android:text="화"
         android:textAlignment="center"
+        android:textSize="14dp"
         app:layout_constraintBottom_toTopOf="@+id/care_count_title_text"
         app:layout_constraintStart_toEndOf="@+id/check_mon"
         app:layout_constraintTop_toBottomOf="@+id/period_title_text"
@@ -235,7 +243,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:button="@null"
-
+        android:textSize="14dp"
         android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
         android:text="수"
         android:textAlignment="center"
@@ -251,7 +259,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
-
+        android:textSize="14dp"
         android:button="@null"
         android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
         android:text="목"
@@ -267,7 +275,7 @@
         android:layout_height="55dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="12dp"
-
+        android:textSize="14dp"
         android:layout_marginBottom="12dp"
         android:button="@null"
         android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
@@ -283,7 +291,7 @@
         android:layout_width="38dp"
         android:layout_height="55dp"
         android:layout_marginStart="5dp"
-
+        android:textSize="14dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:button="@null"
@@ -305,6 +313,7 @@
         android:button="@null"
         android:drawableBottom="?android:attr/listChoiceIndicatorMultiple"
         android:text="일"
+        android:textSize="14dp"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/care_count_title_text"
         app:layout_constraintStart_toEndOf="@+id/check_sat"
@@ -318,7 +327,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="@string/period_comment_text"
-        android:textSize="12sp"
+        android:textSize="12dp"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/check_everyday" />
 
@@ -330,6 +339,7 @@
         android:text="@string/care_count_title_text"
         android:textColor="@color/light_black"
         android:textStyle="bold"
+        android:textSize="14dp"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/period_comment_text" />
 
@@ -352,7 +362,7 @@
         android:paddingVertical="16dp"
         android:text="@string/add_care_submit_text"
         android:textColor="@color/grey"
-        android:textSize="16sp"
+        android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintStart_toStartOf="@+id/left_guideline" />

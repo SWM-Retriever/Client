@@ -27,7 +27,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/empty_diary_text"
         android:textColor="@color/light_black"
-        android:textSize="14sp"
+        android:textSize="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/empty_diary_image" />

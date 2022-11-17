@@ -48,7 +48,7 @@
         android:text="@string/creation_complete_text_title"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +73,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/complete_group_text"
         android:textColor="@color/complete_light_gray"
-        android:textSize="14sp"
+        android:textSize="14dp"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/first_divide" />
 
@@ -84,7 +84,7 @@
         android:layout_marginTop="20dp"
         android:textAlignment="textEnd"
         android:textColor="@color/black"
-        android:textSize="14sp"
+        android:textSize="14dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintTop_toBottomOf="@+id/first_divide"
@@ -110,7 +110,7 @@
         android:text="@string/complete_nickname_text"
         android:textAlignment="textStart"
         android:textColor="@color/complete_light_gray"
-        android:textSize="14sp"
+        android:textSize="14dp"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/second_divide" />
 
@@ -121,7 +121,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/complete_group_nickname_text"
         android:textColor="@color/black"
-        android:textSize="14sp"
+        android:textSize="14dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintTop_toBottomOf="@+id/second_divide" />
@@ -144,7 +144,7 @@
         android:layout_height="wrap_content"
         android:text="@string/complete_pet_name_text"
         android:textColor="@color/complete_light_gray"
-        android:textSize="14sp"
+        android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="@id/group_pet_name_text"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toTopOf="@id/group_pet_name_text" />
@@ -159,12 +159,12 @@
         android:maxLines="3"
         android:textAlignment="textEnd"
         android:textColor="@color/black"
-        android:textSize="14sp"
+        android:textSize="14dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/fourth_divide"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintTop_toBottomOf="@+id/third_divide"
-        tools:text="fds" />
+        tools:text="반려동물 이름" />
 
     <View
         android:id="@+id/fourth_divide"
@@ -185,7 +185,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/pet_add_text"
         android:textColor="@color/black_500"
-        android:textSize="14sp"
+        android:textSize="14dp"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/fourth_divide" />
 
@@ -199,7 +199,7 @@
         android:shadowColor="@color/dark_grey"
         android:text="@string/pet_add_button_text"
         android:textColor="@color/light_black"
-        android:textSize="12sp"
+        android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="@id/pet_add_text"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintTop_toTopOf="@id/pet_add_text" />
@@ -213,7 +213,7 @@
         android:shadowColor="@color/dark_grey"
         android:text="@string/care_start_text"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="16dp"
         app:layout_constraintBottom_toTopOf="@id/group_invite_button"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintStart_toStartOf="@id/left_guideline" />
@@ -227,7 +227,7 @@
         android:shadowColor="@color/dark_grey"
         android:text="@string/group_invite_text"
         android:textColor="@color/main_blue"
-        android:textSize="16sp"
+        android:textSize="16dp"
         app:layout_constraintBottom_toTopOf="@id/invite_comment_text"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintStart_toStartOf="@id/left_guideline" />
@@ -239,7 +239,7 @@
         android:layout_marginBottom="40dp"
         android:text="@string/invite_comment"
         android:textColor="@color/main_blue"
-        android:textSize="12sp"
+        android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

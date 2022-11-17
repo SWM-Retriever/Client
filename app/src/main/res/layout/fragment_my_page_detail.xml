@@ -47,7 +47,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/my_page_detail_title_text"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +74,7 @@
                 android:layout_marginTop="36dp"
                 android:text="@string/group_member_title_text"
                 android:textColor="@color/light_black"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/start_guideline"
                 app:layout_constraintTop_toBottomOf="@id/my_page_detail_title_text" />
@@ -127,7 +127,7 @@
                 android:layout_marginTop="36dp"
                 android:text="@string/pet_title_text"
                 android:textColor="@color/light_black"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/start_guideline"
                 app:layout_constraintTop_toBottomOf="@id/group_member_cardview" />
@@ -180,7 +180,7 @@
                 android:layout_marginTop="36dp"
                 android:text="@string/recent_activity_title_text"
                 android:textColor="@color/light_black"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/start_guideline"
                 app:layout_constraintTop_toBottomOf="@id/pet_member_cardview" />

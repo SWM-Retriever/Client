@@ -53,7 +53,7 @@
             android:layout_marginTop="24dp"
             android:text="@string/member_statistics_title_text"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="34dp"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +98,7 @@
             app:pcv_progressColor="@color/pastel_red"
             app:pcv_startAngle="90"
             app:pcv_textColor="@color/pastel_red"
-            app:pcv_textSize="24sp"
+            app:pcv_textSize="24dp"
             app:pcv_textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -138,7 +138,7 @@
             android:paddingVertical="8dp"
             android:text="@string/statistics_detail_text"
             android:textColor="@color/light_black"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:layout_marginTop="5dp"
             app:drawableTopCompat="@drawable/rank"
             app:layout_constraintBottom_toBottomOf="parent"
