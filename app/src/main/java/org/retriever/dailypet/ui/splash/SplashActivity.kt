@@ -7,11 +7,15 @@ import android.os.Handler
 import android.os.Looper
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
@@ -35,6 +39,7 @@ import org.retriever.dailypet.util.showProgressCircular
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : BaseActivity<ActivitySplashBinding>({ ActivitySplashBinding.inflate(it) }) {
     private val loginViewModel by viewModels<LoginViewModel>()
+    private val REQUEST_CODE_UPDATE = 1
     private val jwt = GlobalApplication.prefs.jwt ?: ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +51,90 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>({ ActivitySplashBindi
         imageLogo.startAnimation(fadeIn)
 
         initProgress()
+        checkUpdate()
+        startApp()
+    }
 
+    override fun onResume() {
+        super.onResume()
+
+        val appUpdateManager = AppUpdateManagerFactory.create(this)
+
+        appUpdateManager
+            .appUpdateInfo
+            .addOnSuccessListener { appUpdateInfo ->
+                if (appUpdateInfo.updateAvailability()
+                    == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
+                ) {
+                    // If an in-app update is already running, resume the update.
+                    appUpdateManager.startUpdateFlowForResult(
+                        appUpdateInfo,
+                        AppUpdateType.IMMEDIATE,
+                        this,
+                        REQUEST_CODE_UPDATE
+                    )
+                }
+            }
+    }
+
+
+
+    private fun checkUpdate(){
+        val appUpdateManager = AppUpdateManagerFactory.create(this)
+
+        appUpdateManager.let {
+            it.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                    // or AppUpdateType.FLEXIBLE
+                    appUpdateManager.startUpdateFlowForResult(
+                        appUpdateInfo,
+                        AppUpdateType.IMMEDIATE, // or AppUpdateType.FLEXIBLE
+                        this,
+                        REQUEST_CODE_UPDATE
+                    )
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_UPDATE) {
+            if (resultCode != RESULT_OK) {
+                Toast.makeText(this,"업데이트에 실패하였습니다",Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
+
+    private fun initProgress() = with(binding) {
+        val loginIntent = Intent(applicationContext, LoginActivity::class.java)
+        val mainIntent = Intent(applicationContext, MainActivity::class.java)
+
+        loginViewModel.progressStatusResponse.observe(this@SplashActivity) { event ->
+            event.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Success -> {
+                        when (response.data?.status) {
+                            "PROFILE" -> startActivity(loginIntent)
+                            "GROUP" -> startActivity(loginIntent)
+                            else -> startActivity(mainIntent)
+                        }
+                    }
+                    is Resource.Error -> {
+
+                        startActivity(loginIntent)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun startApp(){
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this, LoginActivity::class.java)
             if (AuthApiClient.instance.hasToken()) {
@@ -75,30 +163,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>({ ActivitySplashBindi
                 finish()
             }
         }, DURATION)
-    }
-
-    private fun initProgress() = with(binding) {
-        val loginIntent = Intent(applicationContext, LoginActivity::class.java)
-        val mainIntent = Intent(applicationContext, MainActivity::class.java)
-
-        loginViewModel.progressStatusResponse.observe(this@SplashActivity) { event ->
-            event.getContentIfNotHandled()?.let { response ->
-                when (response) {
-                    is Resource.Loading -> {
-                    }
-                    is Resource.Success -> {
-                        when (response.data?.status) {
-                            "PROFILE" -> startActivity(loginIntent)
-                            "GROUP" -> startActivity(loginIntent)
-                            else -> startActivity(mainIntent)
-                        }
-                    }
-                    is Resource.Error -> {
-                        startActivity(loginIntent)
-                    }
-                }
-            }
-        }
     }
 
     companion object {
