@@ -155,7 +155,16 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>({ ActivitySplashBindi
                         }
                     }
                     is Resource.Error -> {
-
+                        GlobalApplication.prefs.apply {
+                            jwt = this.jwt ?: ""
+                            this.initNickname()
+                            this.initJwt()
+                            this.initFamilyId()
+                            this.initGroupName()
+                            this.initInvitationCode()
+                            this.initGroupType()
+                            this.initProfileImageUrl()
+                        }
                         startActivity(loginIntent)
                     }
                 }
