@@ -93,22 +93,12 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>({ ActivitySplashBindi
         }
     }
 
-    private fun requestUpdate(appUpdateInfo: AppUpdateInfo){
-        Log.e("ABC","Update")
-        appUpdateManager.startUpdateFlowForResult(
-            appUpdateInfo,
-            IMMEDIATE,
-            this,
-            REQUEST_CODE_UPDATE
-        )
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CODE_UPDATE) {
             if (resultCode != Activity.RESULT_OK) {
                 appUpdateManager.let {
                     it.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
-                        if (appUpdateInfo.updateAvailability() === UpdateAvailability.UPDATE_AVAILABLE) {
+                        if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
                             if (appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)) {
                                 val dialog = MaterialAlertDialogBuilder(this, R.style.CustomMaterialAlertDialog)
                                     .setTitle("업데이트 알림",)
@@ -127,6 +117,16 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>({ ActivitySplashBindi
                 }
             }
         }
+    }
+
+    private fun requestUpdate(appUpdateInfo: AppUpdateInfo){
+        Log.e("ABC","Update")
+        appUpdateManager.startUpdateFlowForResult(
+            appUpdateInfo,
+            IMMEDIATE,
+            this,
+            REQUEST_CODE_UPDATE
+        )
     }
 
 //    private fun popupSnackbarForCompleteUpdate() {

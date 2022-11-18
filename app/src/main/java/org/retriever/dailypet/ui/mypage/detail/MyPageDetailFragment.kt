@@ -1,6 +1,7 @@
 package org.retriever.dailypet.ui.mypage.detail
 
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -164,7 +165,10 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
                 writerCircleImage.load(it.authorImageUrl)
             }
             if(!it.diaryImageUrl.isNullOrEmpty()) {
+                diaryImageCardView.visibility = View.VISIBLE
                 diaryImage.load(it.diaryImageUrl)
+            } else{
+                diaryImageCardView.visibility = View.GONE
             }
         }
     }
