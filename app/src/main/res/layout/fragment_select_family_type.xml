@@ -37,7 +37,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/select_group_type_text"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +49,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/select_group_sub_type_text"
         android:textColor="@color/light_black"
-        android:textSize="14sp"
+        android:textSize="14dp"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/select_group_type_text" />
 
@@ -62,7 +62,7 @@
         android:background="@drawable/btn_click"
         android:text="@string/select_alone_text"
         android:textColor="@drawable/text_click"
-        android:textSize="16sp"
+        android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@id/select_group_button"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
@@ -96,7 +96,7 @@
         android:text="@string/alone_comment_text"
         android:textAlignment="center"
         android:textColor="@color/light_black"
-        android:textSize="12sp"
+        android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/select_alone_button"
         app:layout_constraintEnd_toEndOf="@+id/select_alone_button"
         app:layout_constraintStart_toStartOf="@+id/select_alone_button" />
@@ -110,12 +110,11 @@
         android:background="@drawable/btn_click"
         android:text="@string/select_group_text"
         android:textColor="@drawable/text_click"
-        android:textSize="16sp"
+        android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintStart_toEndOf="@id/select_alone_button"
         app:layout_constraintTop_toBottomOf="@+id/select_group_sub_type_text" />
-
 
     <TextView
         android:id="@+id/group_comment_text"
@@ -125,7 +124,7 @@
         android:text="@string/group_comment_text"
         android:textAlignment="center"
         android:textColor="@color/light_black"
-        android:textSize="12sp"
+        android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/select_group_button"
         app:layout_constraintEnd_toEndOf="@+id/select_group_button"
         app:layout_constraintStart_toStartOf="@+id/select_group_button" />
@@ -159,6 +158,7 @@
         android:background="@drawable/grey_button"
         android:text="@string/choose_complete_text"
         android:textColor="@color/light_light_grey"
+        android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.666"
@@ -179,7 +179,7 @@
         app:spb_maxStateNumber="3"
         app:spb_stateBackgroundColor="@color/grey"
         app:spb_stateDescriptionColor="@color/grey"
-        app:spb_stateDescriptionSize="10sp"
+        app:spb_stateDescriptionSize="10dp"
         app:spb_stateForegroundColor="@color/main_blue"
         app:spb_stateNumberBackgroundColor="@color/white"
         app:spb_stateNumberForegroundColor="@color/white"

@@ -5,4 +5,4 @@
     android:gravity="center"
     android:padding="12dp"
     android:textColor="@color/black"
-    android:textSize="14sp" />
+    android:textSize="14dp" />

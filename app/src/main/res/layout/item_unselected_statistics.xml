@@ -21,7 +21,7 @@
         app:pcv_progressColor="@color/main_blue"
         app:pcv_startAngle="90"
         app:pcv_textColor="@color/main_blue"
-        app:pcv_textSize="24sp"
+        app:pcv_textSize="24dp"
         app:pcv_textStyle="bold" />
 
     <TextView
@@ -33,7 +33,7 @@
         android:maxEms="5"
         android:maxLines="1"
         android:textColor="@color/light_black"
-        android:textSize="14sp"
+        android:textSize="14dp"
         app:drawableEndCompat="@drawable/small_arrow_right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

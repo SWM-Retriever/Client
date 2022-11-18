@@ -24,8 +24,8 @@ android {
         applicationId "org.retriever.dailypet"
         minSdk 23
         targetSdk 32
-        versionCode 3
-        versionName "1.0.0"
+        versionCode 4
+        versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -44,6 +44,7 @@ android {
             buildConfigField("String", "BASE_URL",BASE_URL)
         }
         release {
+            debuggable true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
@@ -146,5 +147,9 @@ dependencies {
 
     // Coil
     implementation("io.coil-kt:coil:2.2.2")
+
+    // PlayStore Update
+    implementation("com.google.android.play:app-update:2.0.1")
+    implementation("com.google.android.play:app-update-ktx:2.0.1")
 
 }

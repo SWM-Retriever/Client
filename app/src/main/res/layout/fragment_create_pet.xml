@@ -50,7 +50,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/create_pet_title_text"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +84,7 @@
                 android:paddingHorizontal="5dp"
                 android:text="@string/duty_text"
                 android:textColor="@color/main_pink"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/pet_circle_image" />
@@ -96,7 +96,7 @@
                 android:layout_marginTop="28dp"
                 android:text="@string/pet_name_text"
                 android:textColor="@color/light_black"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/pet_name_text_star"
                 app:layout_constraintTop_toBottomOf="@+id/pet_circle_image" />
@@ -111,7 +111,7 @@
                 android:maxLength="6"
                 android:padding="16dp"
                 android:saveEnabled="false"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/pet_name_text" />
@@ -126,7 +126,7 @@
                 android:paddingVertical="9dp"
                 android:text="@string/overlap_check_text"
                 android:textColor="@color/main_blue"
-                android:textSize="12sp"
+                android:textSize="12dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/pet_name_edittext"
                 app:layout_constraintEnd_toEndOf="@+id/pet_name_edittext"
@@ -139,6 +139,7 @@
                 android:layout_marginTop="16dp"
                 android:textColor="@color/validate_text_color"
                 android:visibility="gone"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/pet_name_edittext" />
@@ -151,7 +152,7 @@
                 android:paddingHorizontal="5dp"
                 android:text="@string/duty_text"
                 android:textColor="@color/main_pink"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/pet_name_validate" />
@@ -163,7 +164,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/pet_type_text"
                 android:textColor="@color/light_black"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/pet_type_text_star"
                 app:layout_constraintTop_toBottomOf="@+id/pet_name_validate" />
@@ -177,7 +178,7 @@
                 android:background="@drawable/btn_click"
                 android:text="@string/dog_type_text"
                 android:textColor="@drawable/text_click"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toStartOf="@id/pet_type_cat_button"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/pet_type_text" />
@@ -191,7 +192,7 @@
                 android:background="@drawable/btn_click"
                 android:text="@string/cat_type_text"
                 android:textColor="@drawable/text_click"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toEndOf="@+id/pet_type_dog_button"
                 app:layout_constraintTop_toBottomOf="@+id/pet_type_text" />
@@ -204,7 +205,7 @@
                 android:paddingHorizontal="5dp"
                 android:text="@string/duty_text"
                 android:textColor="@color/main_pink"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/pet_type_dog_button" />
@@ -216,7 +217,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/pet_sex_text"
                 android:textColor="@color/light_black"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/pet_sex_text_star"
                 app:layout_constraintTop_toBottomOf="@+id/pet_type_dog_button" />
@@ -230,7 +231,7 @@
                 android:background="@drawable/btn_click"
                 android:text="@string/pet_sex_male_text"
                 android:textColor="@drawable/text_click"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toStartOf="@id/pet_sex_female_button"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/pet_sex_text" />
@@ -244,7 +245,7 @@
                 android:background="@drawable/btn_click"
                 android:text="@string/pet_sex_female_text"
                 android:textColor="@drawable/text_click"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toEndOf="@id/pet_sex_male_button"
                 app:layout_constraintTop_toBottomOf="@+id/pet_sex_text" />
@@ -257,7 +258,7 @@
                 android:paddingHorizontal="5dp"
                 android:text="@string/duty_text"
                 android:textColor="@color/main_pink"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/pet_sex_male_button" />
@@ -269,7 +270,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/pet_birth_text"
                 android:textColor="@color/light_black"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/pet_birth_text_star"
                 app:layout_constraintTop_toBottomOf="@+id/pet_sex_male_button" />
@@ -283,7 +284,7 @@
                 android:gravity="center_vertical"
                 android:hint="@string/pet_birth_date_hint"
                 android:padding="16dp"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:drawableRightCompat="@drawable/arrow_down"
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
@@ -297,7 +298,7 @@
                 android:paddingHorizontal="5dp"
                 android:text="@string/duty_text"
                 android:textColor="@color/main_pink"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/pet_birth_date_picker" />
@@ -309,7 +310,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/pet_breed_text"
                 android:textColor="@color/light_black"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/pet_breed_text_star"
                 app:layout_constraintTop_toBottomOf="@+id/pet_birth_date_picker" />
@@ -323,7 +324,7 @@
                 android:gravity="center_vertical"
                 android:hint="@string/pet_breed_hint"
                 android:padding="16dp"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:drawableRightCompat="@drawable/arrow_down"
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
@@ -334,6 +335,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:textSize="14dp"
                 android:background="@color/transparent"
                 android:src="@drawable/selector_dont_know_button"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
@@ -347,7 +349,7 @@
                 android:paddingHorizontal="5dp"
                 android:text="@string/duty_text"
                 android:textColor="@color/main_pink"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/dont_know_button" />
@@ -359,7 +361,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/pet_weight_text"
                 android:textColor="@color/light_black"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/pet_weight_text_star"
                 app:layout_constraintTop_toBottomOf="@+id/dont_know_button" />
@@ -375,7 +377,7 @@
                 android:maxLength="10"
                 android:padding="16dp"
                 android:saveEnabled="false"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/pet_weight_text" />
@@ -388,7 +390,7 @@
                 android:paddingHorizontal="5dp"
                 android:text="@string/duty_text"
                 android:textColor="@color/main_pink"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/pet_weight_edittext" />
@@ -400,7 +402,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/pet_neutral_text"
                 android:textColor="@color/light_black"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/pet_neutral_text_star"
                 app:layout_constraintTop_toBottomOf="@+id/pet_weight_edittext" />
@@ -423,7 +425,7 @@
                     android:layout_weight="1"
                     android:text="@string/not_neutral_text"
                     android:textColor="@color/black_500"
-                    android:textSize="16sp" />
+                    android:textSize="16dp" />
 
                 <RadioButton
                     android:id="@+id/neutral_radio"
@@ -432,7 +434,7 @@
                     android:layout_weight="1"
                     android:text="@string/neutral_text"
                     android:textColor="@color/black_500"
-                    android:textSize="16sp" />
+                    android:textSize="16dp" />
 
             </RadioGroup>
 
@@ -443,7 +445,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/pet_register_num_text"
                 android:textColor="@color/light_black"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/pet_neutral_radio_group" />
@@ -459,7 +461,7 @@
                 android:maxLength="15"
                 android:padding="16dp"
                 android:saveEnabled="false"
-                android:textSize="12sp"
+                android:textSize="12dp"
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/pet_register_num_text" />
@@ -473,7 +475,7 @@
                 android:background="@drawable/grey_button"
                 android:text="@string/pet_submit_text"
                 android:textColor="@color/grey"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
@@ -494,7 +496,7 @@
                 app:spb_maxStateNumber="3"
                 app:spb_stateBackgroundColor="@color/grey"
                 app:spb_stateDescriptionColor="@color/grey"
-                app:spb_stateDescriptionSize="10sp"
+                app:spb_stateDescriptionSize="10dp"
                 app:spb_stateForegroundColor="@color/main_blue"
                 app:spb_stateNumberBackgroundColor="@color/white"
                 app:spb_stateNumberForegroundColor="@color/white"
