@@ -31,10 +31,10 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
 
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
 
-    private val nickname = GlobalApplication.prefs.nickname ?: ""
-    private val groupName = GlobalApplication.prefs.groupName ?: ""
-    private val invitationCode = GlobalApplication.prefs.invitationCode ?: ""
-    private val profileImageUrl = GlobalApplication.prefs.profileImageUrl ?: ""
+    private var nickname = GlobalApplication.prefs.nickname ?: ""
+    private var groupName = GlobalApplication.prefs.groupName ?: ""
+    private var invitationCode = GlobalApplication.prefs.invitationCode ?: ""
+    private var profileImageUrl = GlobalApplication.prefs.profileImageUrl ?: ""
     private var logoutDialog: MaterialAlertDialogBuilder? = null
     private var withdrawalDialog: MaterialAlertDialogBuilder? = null
 
@@ -54,7 +54,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
 
     override fun onResume() {
         super.onResume()
-
+        initInfo()
         initGroupType()
     }
 
@@ -83,6 +83,13 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
             underGroupInviteDivide.visibility = View.GONE
             groupMakeText.visibility = View.VISIBLE
         }
+    }
+
+    private fun initInfo(){
+        nickname = GlobalApplication.prefs.nickname ?: ""
+        groupName = GlobalApplication.prefs.groupName ?: ""
+        invitationCode = GlobalApplication.prefs.invitationCode ?: ""
+        profileImageUrl = GlobalApplication.prefs.profileImageUrl ?: ""
     }
 
     private fun buttonClick() = with(binding) {

@@ -3,7 +3,7 @@
     <string name="copyright">Copyright© 2022.Retriever. All rights reserved</string>
     <string name="invite_comment">가족 또는 친구를 초대해서 반려동물을 함께 케어해보세요!</string>
     <string name="more_see_text"><u>보기</u></string>
-    <string name="input_code"><u>초대코드 입력하기</u></string>
+    <string name="input_code">초대코드 입력하기</string>
     <string name="create_group_comment">그룹을 만들면 공동 양육 기능 및 그룹 통계 기능을 사용할 수 있습니다\n그룹을 생성하고 가족 또는 친구를 초대해서\n반려동물을 함께 케어해보세요</string>
     <string name="group_photo_comment">(선택) 그룹 사진을 설정해주세요</string>
     <string name="group_name_comment">그룹을 대표하는 이름을 설정해주세요\n예시) 00패밀리, 00이네, 00커플, 00팸 등</string>
@@ -49,15 +49,15 @@
     <string name="select_alone_text">\n혼자 키워요</string>
     <string name="alone_comment_text">1인가구 또는 반려동물을\n혼자서 케어하는 분에게\n적합한 유형이에요!</string>
     <string name="select_group_text">\n함께 키워요</string>
-    <string name="group_comment_text">2인 이상의 가족 또는\n반려동물을 함께 케어하는\n그룹에게 적합한 유형이에요!\n(추천)</string>
+    <string name="group_comment_text">2인 이상의 가족 또는\n반려동물을 함께 케어하는\n그룹에게 적합한 유형이에요!</string>
     <string name="choose_complete_text">선택하기</string>
     <string name="create_family_title_text">그룹 생성하기</string>
     <string name="group_name_text">그룹 이름</string>
     <string name="group_name_hint">그룹 이름을 적어주세요</string>
     <string name="group_nickname_text">그룹 내 닉네임</string>
     <string name="group_nickname_hint">그룹 내 닉네임을 적어주세요</string>
-    <string name="family_entrance_title">그룹 등록 및 찾기</string>
-    <string name="group_create_button_text">그룹 생성하기</string>
+    <string name="family_entrance_title">그룹 만들기 및 찾기</string>
+    <string name="group_create_button_text">그룹 만들기</string>
     <string name="group_question_text">이미 그룹이 있으신가요?</string>
     <string name="create_pet_title_text">반려동물 등록</string>
     <string name="pet_name_text">이름</string>
@@ -191,5 +191,6 @@
     <string name="photo_comment">사진은 한장만 업로드 할 수 있습니다\n사진 비율은 3:2를 권장합니다</string>
     <string name="register_diary_text">일기 등록하기</string>
     <string name="splash_text">스마트한 반려동물 케어의 시작</string>
+    <string name="group_sub_comment_text">그룹 만들기 / 그룹 들어가기</string>
 
 </resources>

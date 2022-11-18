@@ -70,7 +70,7 @@
         android:id="@+id/familyEntranceFragment"
         android:name="org.retriever.dailypet.ui.signup.group.GroupEntranceFragment"
         android:label="fragment_family_entrance"
-        tools:layout="@layout/fragment_family_entrance">
+        tools:layout="@layout/fragment_group_entrance">
         <action
             android:id="@+id/action_familyEntranceFragment_to_createFamilyFragment"
             app:destination="@id/createFamilyFragment" />

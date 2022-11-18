@@ -24,7 +24,7 @@ android {
         applicationId "org.retriever.dailypet"
         minSdk 23
         targetSdk 32
-        versionCode 4
+        versionCode 5
         versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -44,7 +44,7 @@ android {
             buildConfigField("String", "BASE_URL",BASE_URL)
         }
         release {
-            debuggable true
+            debuggable false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
