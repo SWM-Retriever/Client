@@ -192,5 +192,6 @@
     <string name="register_diary_text">일기 등록하기</string>
     <string name="splash_text">스마트한 반려동물 케어의 시작</string>
     <string name="group_sub_comment_text">그룹 만들기 / 그룹 들어가기</string>
+    <string name="can_not_withdrawal_comment">회원님은 그룹장입니다\n그룹 탈퇴를 원하시면 다른 그룹원에게 그룹장을 위임해주세요\n(그룹 및 반려동물 관리 -> 그룹 구성원)</string>
 
 </resources>

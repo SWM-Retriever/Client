@@ -237,7 +237,11 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
                 }
                 is Resource.Error -> {
                     hideProgressCircular(binding.progressCircular)
-                    Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
+                    if(response.code == canNotWithdrawal){
+                        Toast.makeText(requireContext(), getString(R.string.can_not_withdrawal_comment), Toast.LENGTH_SHORT).show()
+                    } else{
+                        Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 
@@ -294,6 +298,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         private const val OPENSOURCE_URL = "https://showy-king-303.notion.site/719843c38acb40efb8efab7059a38564"
         private const val FAMILY = "FAMILY"
         private const val TAG = "MY_PAGE"
+        private const val canNotWithdrawal = 403
     }
 
 }
