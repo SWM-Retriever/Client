@@ -7,5 +7,5 @@ data class GroupResponse(
     val familyId: Int,
     val familyMemberCount: Int,
     val familyMemberList: List<GroupMember>,
-    val familyName: String
+    val familyName: String,
 )

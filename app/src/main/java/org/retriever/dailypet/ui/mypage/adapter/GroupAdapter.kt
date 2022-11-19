@@ -14,6 +14,9 @@ class GroupAdapter : ListAdapter<GroupMember, GroupAdapter.ViewHolder>(diffUtil)
     class ViewHolder(val binding: ItemMyPageDetailBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: GroupMember) {
             binding.profileNickName.text = item.familyRoleName
+            if(item.groupLeader){
+                binding.profileLeader.text = "(그룹장)"
+            }
             val imageUrl = item.profileImageUrl
             if(imageUrl.isNotEmpty()){
                 binding.profilePhotoImageview.load(imageUrl)

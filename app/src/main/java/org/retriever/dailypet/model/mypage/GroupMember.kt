@@ -6,5 +6,6 @@ import com.squareup.moshi.JsonClass
 data class GroupMember(
     val familyRoleName: String,
     val memberId: Int,
-    val profileImageUrl: String
+    val profileImageUrl: String,
+    val groupLeader: Boolean,
 )
