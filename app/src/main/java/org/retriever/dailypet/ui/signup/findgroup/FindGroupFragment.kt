@@ -15,7 +15,6 @@ import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentFindGroupBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
-import org.retriever.dailypet.ui.mypage.adapter.GroupAdapter
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
@@ -30,7 +29,7 @@ class FindGroupFragment : BaseFragment<FragmentFindGroupBinding>() {
 
     private val jwt = GlobalApplication.prefs.jwt ?: ""
 
-    private lateinit var groupAdapter: GroupAdapter
+    private lateinit var groupAdapter: FindGroupAdapter
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentFindGroupBinding {
         return FragmentFindGroupBinding.inflate(inflater, container, false)
@@ -93,7 +92,7 @@ class FindGroupFragment : BaseFragment<FragmentFindGroupBinding>() {
     }
 
     private fun initRecyclerAdapter() {
-        groupAdapter = GroupAdapter()
+        groupAdapter = FindGroupAdapter()
 
         binding.familyGroupRecyclerview.apply {
             adapter = groupAdapter

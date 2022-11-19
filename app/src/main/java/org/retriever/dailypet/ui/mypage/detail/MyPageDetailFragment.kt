@@ -5,17 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentMyPageDetailBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.diary.DiaryItem
 import org.retriever.dailypet.ui.base.BaseFragment
-import org.retriever.dailypet.ui.mypage.MyPageMainFragmentDirections
+import org.retriever.dailypet.ui.login.LoginActivity
 import org.retriever.dailypet.ui.mypage.adapter.GroupAdapter
 import org.retriever.dailypet.ui.mypage.adapter.PetAdapter
 import org.retriever.dailypet.util.hideProgressCircular
@@ -27,11 +29,10 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
 
     private lateinit var groupAdapter: GroupAdapter
     private lateinit var petAdapter: PetAdapter
-
+    private var delegateDialog: MaterialAlertDialogBuilder? = null
     private val nickname = GlobalApplication.prefs.nickname ?: ""
     private val groupName = GlobalApplication.prefs.groupName ?: ""
     private val invitationCode = GlobalApplication.prefs.invitationCode ?: ""
-
     private val familyId = GlobalApplication.prefs.familyId
     private val jwt = GlobalApplication.prefs.jwt ?: ""
 
@@ -50,6 +51,7 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
         observeGroupResponse()
         observePetDetailResponse()
         observeRecentDiaryResponse()
+        observePatchLeaderResponse()
     }
 
     private fun callApi() {
@@ -69,6 +71,10 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
             adapter = groupAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
+
+        groupAdapter.onItemClick = { groupItem ->
+            showDelegateDialog(groupItem.memberId, groupItem.familyRoleName)
+        }
     }
 
     private fun initPetAdapter() {
@@ -87,7 +93,7 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
 
     private fun buttonClick() = with(binding) {
 
-        memberAddButton.setOnClickListener{
+        memberAddButton.setOnClickListener {
             onShareClicked()
         }
 
@@ -99,6 +105,19 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
         exitButton.setOnClickListener {
             (activity as MyPageDetailActivity).finish()
         }
+    }
+
+    private fun showDelegateDialog(memberId : Int, familyRoleName: String) {
+        delegateDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomMaterialAlertDialog)
+            .setTitle("그룹장 위임")
+            .setMessage("$familyRoleName 에게 그룹장을 위임하시겠습니까?")
+            .setNegativeButton(getString(R.string.dialog_no_text)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(getString(R.string.dialog_yes_text)) { _, _ ->
+                myPageDetailViewModel.patchLeader(familyId, memberId , jwt)
+            }
+        delegateDialog?.show()
     }
 
     private fun observeGroupResponse() = with(binding) {
@@ -156,15 +175,44 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
         }
     }
 
+    private fun observePatchLeaderResponse() = with(binding) {
+        myPageDetailViewModel.patchLeaderResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showProgressCircular(progressCircular)
+                }
+                is Resource.Success -> {
+                    hideProgressCircular(progressCircular)
+                    callApi()
+                    initGroupAdapter()
+                    Toast.makeText(requireContext(), "그룹장 위임에 성공하였습니다", Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(progressCircular)
+                    if(response.code == CANNOT_PATCH_LEADER){
+                        Toast.makeText(requireContext(), "위임 권한이 없거나\n위임가능한 그룹원이 아닙니다", Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
+
+                    }
+                }
+            }
+        }
+    }
+
     private fun initRecentDiaryCardView(diaryItem: DiaryItem?) = with(binding.itemRecentDiary) {
         diaryItem?.let {
             writerNickNameText.text = it.authorNickName
             diaryContentText.text = it.diaryText
-            if(!it.authorImageUrl.isNullOrEmpty()){
+            if (!it.authorImageUrl.isNullOrEmpty()) {
                 writerCircleImage.load(it.authorImageUrl)
             }
-            if(!it.diaryImageUrl.isNullOrEmpty()) {
+            if (!it.diaryImageUrl.isNullOrEmpty()) {
+                diaryImageCardView.visibility = View.VISIBLE
                 diaryImage.load(it.diaryImageUrl)
+            } else {
+                diaryImageCardView.visibility = View.GONE
             }
         }
     }
@@ -177,4 +225,7 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
         startActivity(Intent.createChooser(intent, "초대코드 공유하기"))
     }
 
+    companion object {
+        private const val CANNOT_PATCH_LEADER = 403
+    }
 }

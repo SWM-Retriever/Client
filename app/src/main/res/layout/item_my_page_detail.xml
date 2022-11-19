@@ -20,13 +20,24 @@
         android:id="@+id/profile_nick_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:textColor="@color/light_black"
         android:textSize="16dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_photo_imageview"
-        tools:text="김시진" />
+        tools:text="안세훈" />
+
+    <TextView
+        android:id="@+id/profile_leader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/main_blue"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_nick_name"
+        tools:text="(그룹장)" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

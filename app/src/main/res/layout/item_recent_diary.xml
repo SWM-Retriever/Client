@@ -46,6 +46,7 @@
         android:layout_height="200dp"
         android:layout_marginTop="20dp"
         android:elevation="3dp"
+        android:visibility="gone"
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
@@ -55,6 +56,7 @@
             android:id="@+id/diary_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="invisible"
             android:src="@color/transparent" />
 
     </androidx.cardview.widget.CardView>

@@ -31,10 +31,10 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
 
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
 
-    private val nickname = GlobalApplication.prefs.nickname ?: ""
-    private val groupName = GlobalApplication.prefs.groupName ?: ""
-    private val invitationCode = GlobalApplication.prefs.invitationCode ?: ""
-    private val profileImageUrl = GlobalApplication.prefs.profileImageUrl ?: ""
+    private var nickname = GlobalApplication.prefs.nickname ?: ""
+    private var groupName = GlobalApplication.prefs.groupName ?: ""
+    private var invitationCode = GlobalApplication.prefs.invitationCode ?: ""
+    private var profileImageUrl = GlobalApplication.prefs.profileImageUrl ?: ""
     private var logoutDialog: MaterialAlertDialogBuilder? = null
     private var withdrawalDialog: MaterialAlertDialogBuilder? = null
 
@@ -54,7 +54,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
 
     override fun onResume() {
         super.onResume()
-
+        initInfo()
         initGroupType()
     }
 
@@ -83,6 +83,13 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
             underGroupInviteDivide.visibility = View.GONE
             groupMakeText.visibility = View.VISIBLE
         }
+    }
+
+    private fun initInfo(){
+        nickname = GlobalApplication.prefs.nickname ?: ""
+        groupName = GlobalApplication.prefs.groupName ?: ""
+        invitationCode = GlobalApplication.prefs.invitationCode ?: ""
+        profileImageUrl = GlobalApplication.prefs.profileImageUrl ?: ""
     }
 
     private fun buttonClick() = with(binding) {
@@ -167,11 +174,8 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
                 dialog.dismiss()
             }
             .setPositiveButton(getString(R.string.dialog_yes_text)) { _, _ ->
-                withdrawal()
-                kakaoUnlink()
-                naverUnlink()
-                val intent = Intent(requireContext(), LoginActivity::class.java)
-                startActivity(intent)
+                val jwt = GlobalApplication.prefs.jwt ?: ""
+                myPageViewModel.deleteMemberWithdrawal(jwt)
             }
 
         withdrawalDialog?.show()
@@ -216,7 +220,6 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
             this.initGroupType()
             this.initProfileImageUrl()
         }
-        myPageViewModel.deleteMemberWithdrawal(jwt)
     }
 
     private fun observeWithdrawalResponse() {
@@ -227,10 +230,20 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
                 }
                 is Resource.Success -> {
                     hideProgressCircular(binding.progressCircular)
+                    Toast.makeText(requireContext(), "회원탈퇴에 성공하였습니다", Toast.LENGTH_SHORT).show()
+                    kakaoUnlink()
+                    naverUnlink()
+                    withdrawal()
+                    val intent = Intent(requireContext(), LoginActivity::class.java)
+                    startActivity(intent)
                 }
                 is Resource.Error -> {
                     hideProgressCircular(binding.progressCircular)
-                    Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
+                    if(response.code == canNotWithdrawal){
+                        Toast.makeText(requireContext(), getString(R.string.can_not_withdrawal_comment), Toast.LENGTH_SHORT).show()
+                    } else{
+                        Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 
@@ -287,6 +300,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         private const val OPENSOURCE_URL = "https://showy-king-303.notion.site/719843c38acb40efb8efab7059a38564"
         private const val FAMILY = "FAMILY"
         private const val TAG = "MY_PAGE"
+        private const val canNotWithdrawal = 403
     }
 
 }

@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import org.retriever.dailypet.R
-import org.retriever.dailypet.databinding.FragmentFamilyEntranceBinding
+import org.retriever.dailypet.databinding.FragmentGroupEntranceBinding
 import org.retriever.dailypet.ui.base.BaseFragment
 
-class GroupEntranceFragment : BaseFragment<FragmentFamilyEntranceBinding>() {
+class GroupEntranceFragment : BaseFragment<FragmentGroupEntranceBinding>() {
     private var progressList: ArrayList<String> = arrayListOf("프로필","그룹","반려동물")
 
-    override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentFamilyEntranceBinding {
-        return FragmentFamilyEntranceBinding.inflate(inflater, container, false)
+    override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentGroupEntranceBinding {
+        return FragmentGroupEntranceBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -56,7 +56,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/select_alone_button"
         android:layout_width="0dp"
-        android:layout_height="240dp"
+        android:layout_height="260dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="7dp"
         android:background="@drawable/btn_click"
@@ -92,7 +92,7 @@
         android:id="@+id/alone_comment_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="40dp"
         android:text="@string/alone_comment_text"
         android:textAlignment="center"
         android:textColor="@color/light_black"
@@ -104,7 +104,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/select_group_button"
         android:layout_width="0dp"
-        android:layout_height="240dp"
+        android:layout_height="260dp"
         android:layout_marginStart="7dp"
         android:layout_marginTop="44dp"
         android:background="@drawable/btn_click"
@@ -120,7 +120,7 @@
         android:id="@+id/group_comment_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="40dp"
         android:text="@string/group_comment_text"
         android:textAlignment="center"
         android:textColor="@color/light_black"
@@ -128,6 +128,20 @@
         app:layout_constraintBottom_toBottomOf="@+id/select_group_button"
         app:layout_constraintEnd_toEndOf="@+id/select_group_button"
         app:layout_constraintStart_toStartOf="@+id/select_group_button" />
+
+    <TextView
+        android:id="@+id/group_sub_comment_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/group_sub_comment_text"
+        android:textAlignment="center"
+        android:textColor="@color/main_blue"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/select_group_button"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="@+id/select_group_button"
+        app:layout_constraintTop_toBottomOf="@+id/group_comment_text" />
 
     <ImageView
         android:id="@+id/group_image_circle"
