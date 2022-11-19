@@ -234,6 +234,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
                 }
                 is Resource.Success -> {
                     hideProgressCircular(binding.progressCircular)
+                    Toast.makeText(requireContext(), "회원탈퇴에 성공하였습니다", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Error -> {
                     hideProgressCircular(binding.progressCircular)

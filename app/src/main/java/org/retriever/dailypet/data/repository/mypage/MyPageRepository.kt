@@ -26,4 +26,6 @@ class MyPageRepository @Inject constructor(private val myPageApiService: MyPageA
     suspend fun getRecentDiary(familyId: Int, jwt: String): Resource<DiaryItem> =
         safeApiCall { myPageApiService.getRecentDiary(familyId, jwt) }
 
+    suspend fun patchLeader(familyId: Int, memberId: Int, jwt: String): Resource<ResponseBody> =
+        safeApiCall { myPageApiService.patchLeader(familyId, memberId, jwt) }
 }

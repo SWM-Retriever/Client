@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import org.retriever.dailypet.databinding.ItemMyPageDetailBinding
 import org.retriever.dailypet.model.mypage.GroupMember
+import org.retriever.dailypet.model.mypage.PetDetailItem
 
 class GroupAdapter : ListAdapter<GroupMember, GroupAdapter.ViewHolder>(diffUtil) {
+    var onItemClick: ((GroupMember) -> Unit)? = null
 
     class ViewHolder(val binding: ItemMyPageDetailBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: GroupMember) {
@@ -30,6 +32,9 @@ class GroupAdapter : ListAdapter<GroupMember, GroupAdapter.ViewHolder>(diffUtil)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
+        holder.itemView.setOnClickListener {
+            onItemClick?.invoke(currentList[holder.adapterPosition])
+        }
     }
 
     companion object {

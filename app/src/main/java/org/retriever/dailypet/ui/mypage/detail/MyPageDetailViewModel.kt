@@ -32,6 +32,9 @@ class MyPageDetailViewModel @Inject constructor(
     private val _getRecentDiaryResponse = MutableLiveData<Resource<DiaryItem>>()
     val getRecentDiaryResponse: LiveData<Resource<DiaryItem>> = _getRecentDiaryResponse
 
+    private val _patchLeaderResponse = MutableLiveData<Resource<ResponseBody>>()
+    val patchLeaderResponse: LiveData<Resource<ResponseBody>> = _patchLeaderResponse
+
     fun getPetList(familyId: Int, jwt: String) {
         viewModelScope.launch {
             _petDetailResponse.postValue(Resource.Loading())
@@ -61,6 +64,14 @@ class MyPageDetailViewModel @Inject constructor(
             _getRecentDiaryResponse.postValue(Resource.Loading())
 
             _getRecentDiaryResponse.postValue(myPageRepository.getRecentDiary(familyId, jwt))
+        }
+    }
+
+    fun patchLeader(familyId: Int, memberId: Int, jwt: String) {
+        viewModelScope.launch {
+            _patchLeaderResponse.postValue(Resource.Loading())
+
+            _patchLeaderResponse.postValue(myPageRepository.patchLeader(familyId, memberId, jwt))
         }
     }
 

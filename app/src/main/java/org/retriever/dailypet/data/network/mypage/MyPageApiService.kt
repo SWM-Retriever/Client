@@ -8,6 +8,7 @@ import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.PATCH
 import retrofit2.http.Path
 
 interface MyPageApiService {
@@ -41,5 +42,12 @@ interface MyPageApiService {
         @Path("familyId") familyId: Int,
         @Header("X-AUTH-TOKEN") jwt: String,
     ): Response<DiaryItem>
+
+    @PATCH("api/v1/families/{familyId}/group-leader/{memberId}")
+    suspend fun patchLeader(
+        @Path("familyId") familyId: Int,
+        @Path("memberId") memberId: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
+    ): Response<ResponseBody>
 
 }
