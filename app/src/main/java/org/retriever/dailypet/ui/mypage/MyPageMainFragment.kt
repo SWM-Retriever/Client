@@ -174,11 +174,8 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
                 dialog.dismiss()
             }
             .setPositiveButton(getString(R.string.dialog_yes_text)) { _, _ ->
-                withdrawal()
-                kakaoUnlink()
-                naverUnlink()
-                val intent = Intent(requireContext(), LoginActivity::class.java)
-                startActivity(intent)
+                val jwt = GlobalApplication.prefs.jwt ?: ""
+                myPageViewModel.deleteMemberWithdrawal(jwt)
             }
 
         withdrawalDialog?.show()
@@ -223,7 +220,6 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
             this.initGroupType()
             this.initProfileImageUrl()
         }
-        myPageViewModel.deleteMemberWithdrawal(jwt)
     }
 
     private fun observeWithdrawalResponse() {
@@ -235,6 +231,11 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
                 is Resource.Success -> {
                     hideProgressCircular(binding.progressCircular)
                     Toast.makeText(requireContext(), "회원탈퇴에 성공하였습니다", Toast.LENGTH_SHORT).show()
+                    kakaoUnlink()
+                    naverUnlink()
+                    withdrawal()
+                    val intent = Intent(requireContext(), LoginActivity::class.java)
+                    startActivity(intent)
                 }
                 is Resource.Error -> {
                     hideProgressCircular(binding.progressCircular)
