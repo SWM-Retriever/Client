@@ -83,8 +83,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>({ ActivitySplashBindi
         appUpdateManager = AppUpdateManagerFactory.create(this)
         appUpdateManager.let {
             it.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
-                Log.e("ABC Availability",appUpdateInfo.updateAvailability().toString())
-                Log.e("ABC Version",appUpdateInfo.availableVersionCode().toString())
                 if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                     && appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)) {
                     requestUpdate(appUpdateInfo)
@@ -96,31 +94,16 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>({ ActivitySplashBindi
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CODE_UPDATE) {
             if (resultCode != Activity.RESULT_OK) {
-                appUpdateManager.let {
-                    it.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
-                        if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-                            if (appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)) {
-                                val dialog = MaterialAlertDialogBuilder(this, R.style.CustomMaterialAlertDialog)
-                                    .setTitle("업데이트 알림",)
-                                    .setMessage("필수 업데이트가 있습니다.\n최적의 사용 환경을 위해 최신 버전으로 업데이트 해주세요.")
-                                    .setNegativeButton("취소") { dialog, _ ->
-                                        dialog.dismiss()
-                                        finish()
-                                    }
-                                    .setPositiveButton("업데이트") { _, _ ->
-                                        requestUpdate(appUpdateInfo)
-                                    }
-                                dialog.show()
-                            }
-                        }
-                    }
-                }
+                checkUpdate()
+            }
+            else if (requestCode == Activity.RESULT_OK){
+                val loginIntent = Intent(applicationContext, LoginActivity::class.java)
+                startActivity(loginIntent)
             }
         }
     }
 
     private fun requestUpdate(appUpdateInfo: AppUpdateInfo){
-        Log.e("ABC","Update")
         appUpdateManager.startUpdateFlowForResult(
             appUpdateInfo,
             IMMEDIATE,
@@ -128,15 +111,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>({ ActivitySplashBindi
             REQUEST_CODE_UPDATE
         )
     }
-
-//    private fun popupSnackbarForCompleteUpdate() {
-//        val snackbar = Snackbar.make(findViewById(R.id.clActivityMain), "업데이트 버전 다운로드 완료", 5000)
-//            .setAction("설치/재시작") {
-//                appUpdateManager?.completeUpdate()
-//            }
-//
-//        snackbar.show()
-//    }
 
     private fun initProgress() = with(binding) {
         val loginIntent = Intent(applicationContext, LoginActivity::class.java)

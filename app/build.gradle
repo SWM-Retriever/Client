@@ -44,7 +44,7 @@ android {
             buildConfigField("String", "BASE_URL",BASE_URL)
         }
         release {
-            debuggable false
+            debuggable true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
