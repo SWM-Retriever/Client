@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -23,13 +23,14 @@ import org.retriever.dailypet.databinding.FragmentMyPageMainBinding
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.login.LoginActivity
+import org.retriever.dailypet.ui.mypage.adapter.ProfileModifyBottomSheet
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 
 @AndroidEntryPoint
 class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
 
-    private val myPageViewModel by activityViewModels<MyPageViewModel>()
+    private val myPageViewModel by viewModels<MyPageViewModel>()
 
     private var nickname = GlobalApplication.prefs.nickname ?: ""
     private var groupName = GlobalApplication.prefs.groupName ?: ""
@@ -93,6 +94,10 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     }
 
     private fun buttonClick() = with(binding) {
+        profileModifyText.setOnClickListener {
+            showProfileModifyBottomSheet()
+        }
+
         manageGroupText.setOnClickListener {
             root.findNavController().navigate(R.id.action_myPageMainFragment_to_myPageDetailActivity)
         }
@@ -148,6 +153,17 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         withdrawalText.setOnClickListener {
             showWithdrawalDialog()
         }
+    }
+
+    private fun showProfileModifyBottomSheet(){
+        val profileModifyBottomSheet = ProfileModifyBottomSheet()
+
+        val bundle = Bundle()
+        bundle.putString("nickName", nickname)
+        bundle.putString("profileImageUrl", profileImageUrl)
+
+        profileModifyBottomSheet.arguments = bundle
+        profileModifyBottomSheet.show(childFragmentManager, profileModifyBottomSheet.tag)
     }
 
     private fun showLogoutDialog() {
