@@ -63,13 +63,14 @@ class DiaryDetailFragment : BaseFragment<FragmentDiaryDetailBinding>() {
         diaryContentText.movementMethod = ScrollingMovementMethod()
         writerNickNameText.text = item.authorNickName
         diaryContentText.text = item.diaryText
-        if(item.authorImageUrl?.isNotEmpty() == true){
+        if (item.authorImageUrl?.isNotEmpty() == true) {
             writerCircleImage.load(item.authorImageUrl)
         }
-        if(!item.diaryImageUrl.isNullOrEmpty()){
-            diaryImage.load(item.diaryImageUrl )
-        } else{
-            diaryImageCardView.visibility = View.GONE
+        if (!item.diaryImageUrl.isNullOrEmpty()) {
+            diaryImage.load(item.diaryImageUrl)
+            diaryImage.visibility = View.VISIBLE
+        } else {
+            diaryImage.visibility = View.GONE
         }
     }
 

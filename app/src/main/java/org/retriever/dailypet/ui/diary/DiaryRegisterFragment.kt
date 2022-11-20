@@ -3,7 +3,6 @@ package org.retriever.dailypet.ui.diary
 import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
+import coil.transform.RoundedCornersTransformation
 import com.github.dhaval2404.imagepicker.ImagePicker
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -118,7 +118,9 @@ class DiaryRegisterFragment : BaseFragment<FragmentDiaryRegisterBinding>() {
                 Activity.RESULT_OK -> {
                     fileUri = data?.data!!
                     file = File(fileUri.path ?: "")
-                    binding.contentImage.load(file)
+                    binding.contentImage.load(file){
+                        transformations(RoundedCornersTransformation(25f))
+                    }
                     binding.contentImage.visibility = View.VISIBLE
                 }
                 ImagePicker.RESULT_ERROR -> {
@@ -234,7 +236,6 @@ class DiaryRegisterFragment : BaseFragment<FragmentDiaryRegisterBinding>() {
     }
 
     companion object {
-        private const val TAG = "CREATE DIARY"
         private const val S3_PATH = "DIARY"
     }
 
