@@ -179,8 +179,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateFamilyBinding>() {
                         Toast.makeText(requireContext(), "그룹이 성공적으로 생성되었습니다", Toast.LENGTH_SHORT).show()
                         GlobalApplication.prefs.familyId = response.data?.familyId ?: -1
 
-                        val action = CreateGroupFragmentDirections.actionCreateFamilyFragmentToCreatePetFragment(false)
-                        root.findNavController().navigate(action)
+                        root.findNavController().navigate(R.id.action_createFamilyFragment_to_createPetFragment)
                     }
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)

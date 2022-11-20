@@ -53,15 +53,15 @@ import java.util.*
 class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     private val petViewModel by viewModels<PetViewModel>()
+    //private val args: CreatePetFragmentArgs by navArgs()
     private lateinit var onBackCallBack: OnBackPressedCallback
     private val jwt = GlobalApplication.prefs.jwt ?: ""
     private val familyId = GlobalApplication.prefs.familyId
     private var datePicker: MaterialDatePicker<Long>? = null
-    private val args: CreatePetFragmentArgs by navArgs()
     private var imageUrl = ""
     private var file: File? = null
     private lateinit var fileUri: Uri
-    private var progressList: ArrayList<String> = arrayListOf("프로필","그룹","반려동물")
+    private var progressList: ArrayList<String> = arrayListOf("프로필", "그룹", "반려동물")
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentCreatePetBinding {
         return FragmentCreatePetBinding.inflate(inflater, container, false)
@@ -69,10 +69,10 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initPetInfo()
         initCallBack()
         initProgressCircular()
-        initArgsView()
         buttonClick()
         editTextWatch()
         observeSetPetNameState()
@@ -113,51 +113,6 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     private fun initProgressCircular() {
         hideProgressCircular(binding.progressCircular)
         binding.signUpProgressbar.setStateDescriptionData(progressList)
-    }
-
-    private fun initArgsView() = with(binding) {
-        args.petDetailItem?.let {
-
-            createPetTitleText.text = getString(R.string.pet_modify_title)
-            petSubmitButton.text = getString(R.string.modify_text)
-
-            petNameEdittext.setText(it.petName)
-            petViewModel.setPetNameState(EditTextValidateState.VALID_STATE)
-
-            if (it.petKind == "DOG") {
-                petViewModel.setPetTypeState(EditTextState.INVALID_STATE)
-            } else {
-                petViewModel.setPetTypeState(EditTextState.VALID_STATE)
-            }
-            petTypeDogButton.isClickable = false
-            petTypeCatButton.isClickable = false
-
-            if (it.gender == "MALE") {
-                petViewModel.setPetSexState(EditTextState.INVALID_STATE)
-            } else {
-                petViewModel.setPetSexState(EditTextState.VALID_STATE)
-            }
-            petSexMaleButton.isClickable = false
-            petSexFemaleButton.isClickable = false
-
-            petBirthDatePicker.text = it.birthDate
-            petViewModel.setBirthState(EditTextState.VALID_STATE)
-
-            petBreedBottomSheet.text = it.petKind
-            petBreedBottomSheet.isClickable = false
-            petViewModel.setBreedState(EditTextState.VALID_STATE)
-
-            petWeightEdittext.setText(it.weight.toString())
-            petViewModel.setWeightState(EditTextState.VALID_STATE)
-
-            petRegisterNumEdittext.setText(it.registerNumber)
-
-            if (it.isNeutered) {
-                neutralRadio.isChecked = true
-            } else {
-                notNeutralRadio.isChecked = true
-            }
-        }
     }
 
     private fun buttonClick() = with(binding) {
@@ -223,26 +178,14 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         }
 
         petSubmitButton.setOnClickListener {
-            if (args.petDetailItem == null) {
-                if (file != null) {
-                    file?.let {
-                        val requestFile = file!!.asRequestBody("image/*".toMediaTypeOrNull())
-                        val multipartBody = MultipartBody.Part.createFormData("image", it.name, requestFile)
-                        petViewModel.postImage(S3_PATH, multipartBody)
-                    }
-                } else {
-                    postPetInfo()
+            if (file != null) {
+                file?.let {
+                    val requestFile = file!!.asRequestBody("image/*".toMediaTypeOrNull())
+                    val multipartBody = MultipartBody.Part.createFormData("image", it.name, requestFile)
+                    petViewModel.postImage(S3_PATH, multipartBody)
                 }
             } else {
-                if (file != null) {
-                    file?.let {
-                        val requestFile = file!!.asRequestBody("image/*".toMediaTypeOrNull())
-                        val multipartBody = MultipartBody.Part.createFormData("image", it.name, requestFile)
-                        petViewModel.postImage(S3_PATH, multipartBody)
-                    }
-                } else {
-                    modifyPet(args.petDetailItem?.petId ?: -1)
-                }
+                postPetInfo()
             }
         }
     }
@@ -252,7 +195,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
     }
 
     private fun showDatePicker() {
-        val constraints : CalendarConstraints = CalendarConstraints.Builder()
+        val constraints: CalendarConstraints = CalendarConstraints.Builder()
             .setValidator(DateValidatorPointBackward.now()).build()
 
         datePicker = MaterialDatePicker.Builder.datePicker()
@@ -306,18 +249,6 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     private fun postPetInfo() {
         petViewModel.postPet(familyId, jwt)
-    }
-
-    private fun modifyPet(petId: Int) {
-        val modifyPetRequest = ModifyPetRequest(
-            petViewModel.petInfo.petName,
-            petViewModel.petInfo.birthDate,
-            petViewModel.petInfo.weight,
-            petViewModel.petInfo.isNeutered,
-            petViewModel.petInfo.registerNumber,
-            petViewModel.petInfo.profileImageUrl
-        )
-        petViewModel.modifyPet(familyId, petId, jwt, modifyPetRequest)
     }
 
     private fun editTextWatch() = with(binding) {
@@ -613,12 +544,8 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
                             )
                         }
 
-                        if (args.isAdd) {
-                            root.findNavController().popBackStack()
-                        } else {
-                            val action = CreatePetFragmentDirections.actionCreatePetFragmentToCreationCompleteFragment(petResponse!!)
-                            root.findNavController().navigate(action)
-                        }
+                        val action = CreatePetFragmentDirections.actionCreatePetFragmentToCreationCompleteFragment(petResponse!!)
+                        root.findNavController().navigate(action)
                     }
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)
@@ -658,7 +585,7 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
                     petViewModel.petInfo.profileImageUrl = imageUrl
                     postPetInfo()
                 }
-                is Resource.Error -> Toast.makeText(requireContext(),"이미지 업로드에 실패했습니다",Toast.LENGTH_SHORT)
+                is Resource.Error -> Toast.makeText(requireContext(), "이미지 업로드에 실패했습니다", Toast.LENGTH_SHORT)
             }
         }
     }

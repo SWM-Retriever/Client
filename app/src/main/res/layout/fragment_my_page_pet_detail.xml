@@ -72,7 +72,6 @@
         android:paddingEnd="0dp"
         android:paddingBottom="16dp"
         android:src="@drawable/icon_more"
-        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
