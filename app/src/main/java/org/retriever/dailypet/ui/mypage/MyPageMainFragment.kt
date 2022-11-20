@@ -141,11 +141,11 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
             root.findNavController().navigate(action)
         }
 
-        logoutButton.setOnClickListener {
+        logOutText.setOnClickListener {
             showLogoutDialog()
         }
 
-        withdrawalButton.setOnClickListener {
+        withdrawalText.setOnClickListener {
             showWithdrawalDialog()
         }
     }
