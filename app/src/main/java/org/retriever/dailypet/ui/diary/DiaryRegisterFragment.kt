@@ -3,6 +3,7 @@ package org.retriever.dailypet.ui.diary
 import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,9 +45,9 @@ class DiaryRegisterFragment : BaseFragment<FragmentDiaryRegisterBinding>() {
     private var file: File? = null
     private lateinit var fileUri: Uri
     private var imageUrl = ""
-    private var mNow : Long = 0
-    private lateinit var mDate : Date
-
+    private var mNow: Long = 0
+    private lateinit var mDate: Date
+    private var isModifyMode = false
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentDiaryRegisterBinding {
         return FragmentDiaryRegisterBinding.inflate(inflater, container, false)
@@ -68,11 +69,17 @@ class DiaryRegisterFragment : BaseFragment<FragmentDiaryRegisterBinding>() {
         diaryItem = args.diaryItem
     }
 
-    private fun initView() = with(binding){
-        diaryTimeText.text = getTime()
+    private fun initView() = with(binding) {
         if (!diaryItem.diaryText.isNullOrBlank()) {
-            contentEdittext.setText(diaryItem.diaryText)
+            isModifyMode = true
             diaryRegisterTitle.text = getString(R.string.diary_modify_title)
+            completeButton.setText(R.string.modify_diary_submit_text)
+            contentEdittext.setText(diaryItem.diaryText)
+            contentImage.load(diaryItem.diaryImageUrl)
+            diaryTimeText.text = diaryItem.date
+
+        } else {
+            diaryTimeText.text = getTime()
         }
     }
 
@@ -80,7 +87,7 @@ class DiaryRegisterFragment : BaseFragment<FragmentDiaryRegisterBinding>() {
         hideProgressCircular(binding.progressCircular)
     }
 
-    private fun buttonClick() = with(binding){
+    private fun buttonClick() = with(binding) {
         backButton.setOnClickListener {
             root.findNavController().popBackStack()
         }
@@ -126,9 +133,8 @@ class DiaryRegisterFragment : BaseFragment<FragmentDiaryRegisterBinding>() {
 
     private fun callApi() {
         val text = binding.contentEdittext.text.toString()
-        val image = ""
+        val image = diaryItem.diaryImageUrl ?: ""
         val diaryPost = DiaryPost(text, image)
-
 
         if (file != null) {
             file?.let {
@@ -136,16 +142,14 @@ class DiaryRegisterFragment : BaseFragment<FragmentDiaryRegisterBinding>() {
                 val multipartBody = MultipartBody.Part.createFormData("image", it.name, requestFile)
                 diaryViewModel.postImage(S3_PATH, multipartBody)
             }
-        } else{
-            if (diaryItem.diaryText.isNullOrBlank()) {
+        } else {
+            if (isModifyMode.not()) {
                 postDiary(diaryPost)
-            }
-            else{
+            } else {
                 val diaryId = diaryItem.diaryId ?: -1
                 updateDiary(diaryId, diaryPost)
             }
         }
-
     }
 
     private fun postDiary(diaryPost: DiaryPost) {
@@ -156,7 +160,7 @@ class DiaryRegisterFragment : BaseFragment<FragmentDiaryRegisterBinding>() {
         diaryViewModel.updateDiary(familyId, diaryId, jwt, diaryPost)
     }
 
-    private fun observePostImageResponse() = with(binding){
+    private fun observePostImageResponse() = with(binding) {
         diaryViewModel.postImageResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
@@ -167,9 +171,9 @@ class DiaryRegisterFragment : BaseFragment<FragmentDiaryRegisterBinding>() {
                     hideProgressCircular(progressCircular)
                     imageUrl = response.data?.imageUrl ?: ""
                     val diaryPost = DiaryPost(contentEdittext.text.toString(), imageUrl)
-                    if (diaryItem.diaryText.isNullOrBlank()) {
+                    if (isModifyMode.not()) {
                         postDiary(diaryPost)
-                    } else{
+                    } else {
                         val diaryId = diaryItem.diaryId ?: -1
                         updateDiary(diaryId, diaryPost)
                     }
@@ -222,7 +226,7 @@ class DiaryRegisterFragment : BaseFragment<FragmentDiaryRegisterBinding>() {
         }
     }
 
-    private fun getTime() : String{
+    private fun getTime(): String {
         mNow = currentTimeMillis()
         mDate = Date(mNow)
         val mFormat = SimpleDateFormat("yyyy-MM-dd")
