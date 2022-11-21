@@ -3,8 +3,10 @@ package org.retriever.dailypet.data.network.mypage
 import okhttp3.ResponseBody
 import org.retriever.dailypet.model.diary.DiaryItem
 import org.retriever.dailypet.model.mypage.GroupResponse
+import org.retriever.dailypet.model.mypage.ModifyProfile
 import org.retriever.dailypet.model.mypage.PetDetailResponse
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -49,5 +51,11 @@ interface MyPageApiService {
         @Path("memberId") memberId: Int,
         @Header("X-AUTH-TOKEN") jwt: String,
     ): Response<ResponseBody>
+
+    @PATCH("api/v1/member/mypage/profile")
+    suspend fun modifyProfile(
+        @Header("X-AUTH-TOKEN") jwt: String,
+        @Body modifyProfile: ModifyProfile
+    ) : Response<ModifyProfile>
 
 }

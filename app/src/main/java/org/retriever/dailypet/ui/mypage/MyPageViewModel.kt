@@ -8,12 +8,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import org.retriever.dailypet.data.repository.image.ImageRepository
 import org.retriever.dailypet.data.repository.mypage.MyPageRepository
 import org.retriever.dailypet.data.repository.signup.ProfileRepository
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.image.ImageResponse
+import org.retriever.dailypet.model.mypage.ModifyProfile
 import org.retriever.dailypet.ui.signup.EditTextValidateState
 import javax.inject.Inject
 
@@ -31,7 +33,7 @@ class MyPageViewModel @Inject constructor(
     val editTextValidateState: LiveData<EditTextValidateState> = _editTextValidateState
 
     private val _registerButtonState = MutableStateFlow(false)
-    val registerButtonState : StateFlow<Boolean> = _registerButtonState
+    val registerButtonState: StateFlow<Boolean> = _registerButtonState
 
     private val _postImageResponse = MutableLiveData<Resource<ImageResponse>>()
     val postImageResponse: LiveData<Resource<ImageResponse>> = _postImageResponse
@@ -39,17 +41,20 @@ class MyPageViewModel @Inject constructor(
     private val _nickNameResponse = MutableLiveData<Resource<ResponseBody>>()
     val nickNameResponse: LiveData<Resource<ResponseBody>> = _nickNameResponse
 
+    private val _modifyProfile = MutableLiveData<Resource<ModifyProfile>>()
+    val modifyProfile: LiveData<Resource<ModifyProfile>> = _modifyProfile
+
     fun deleteMemberWithdrawal(jwt: String) = viewModelScope.launch {
         _withdrawalResponse.postValue(Resource.Loading())
 
         _withdrawalResponse.postValue(myPageRepository.deleteMemberWithdrawal(jwt))
     }
 
-    fun setNickNameState(state : EditTextValidateState){
+    fun setNickNameState(state: EditTextValidateState) {
         _editTextValidateState.value = state
     }
 
-    fun setRegisterButtonState(check : Boolean){
+    fun setRegisterButtonState(check: Boolean) {
         _registerButtonState.value = check
     }
 
@@ -57,6 +62,20 @@ class MyPageViewModel @Inject constructor(
         _nickNameResponse.postValue(Resource.Loading())
 
         _nickNameResponse.postValue(profileRepository.postCheckProfileNickname(nickName))
+    }
+
+    fun postImage(s3Path: String, file: MultipartBody.Part) = viewModelScope.launch {
+        _postImageResponse.postValue(Resource.Loading())
+
+        _postImageResponse.postValue(imageRepository.postImage(s3Path, file))
+    }
+
+    fun modifyProfile(jwt: String, modifyProfile: ModifyProfile) {
+        viewModelScope.launch {
+            _modifyProfile.postValue(Resource.Loading())
+
+            _modifyProfile.postValue(myPageRepository.modifyProfile(jwt, modifyProfile))
+        }
     }
 
 

@@ -6,6 +6,7 @@ import org.retriever.dailypet.data.repository.BaseRepo
 import org.retriever.dailypet.model.Resource
 import org.retriever.dailypet.model.diary.DiaryItem
 import org.retriever.dailypet.model.mypage.GroupResponse
+import org.retriever.dailypet.model.mypage.ModifyProfile
 import org.retriever.dailypet.model.mypage.PetDetailResponse
 import javax.inject.Inject
 
@@ -28,4 +29,8 @@ class MyPageRepository @Inject constructor(private val myPageApiService: MyPageA
 
     suspend fun patchLeader(familyId: Int, memberId: Int, jwt: String): Resource<ResponseBody> =
         safeApiCall { myPageApiService.patchLeader(familyId, memberId, jwt) }
+
+    suspend fun modifyProfile(jwt: String, modifyProfile: ModifyProfile): Resource<ModifyProfile> =
+        safeApiCall { myPageApiService.modifyProfile(jwt, modifyProfile) }
+
 }

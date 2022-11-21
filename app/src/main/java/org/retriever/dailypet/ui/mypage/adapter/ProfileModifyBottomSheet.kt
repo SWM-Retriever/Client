@@ -19,9 +19,14 @@ import coil.load
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.BottomSheetProfileModifyBinding
 import org.retriever.dailypet.model.Resource
+import org.retriever.dailypet.model.mypage.ModifyProfile
 import org.retriever.dailypet.ui.mypage.MyPageViewModel
 import org.retriever.dailypet.ui.signup.EditTextValidateState
 import org.retriever.dailypet.util.hideProgressCircular
@@ -43,6 +48,7 @@ class ProfileModifyBottomSheet : BottomSheetDialogFragment() {
     private var imageUrl = ""
     private var file: File? = null
     private lateinit var fileUri: Uri
+    private val jwt = GlobalApplication.prefs.jwt ?: ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,11 +74,15 @@ class ProfileModifyBottomSheet : BottomSheetDialogFragment() {
         watchEdittext()
         observeNickNameViewState()
         observeRegisterButtonState()
+        observePostImageResponse()
+        observeModifyResponse()
     }
 
     private fun initView() {
         with(binding) {
-            profilePhotoImageview.load(profileImageUrl)
+            if (profileImageUrl.isNotBlank()) {
+                profilePhotoImageview.load(profileImageUrl)
+            }
             profileNicknameEdittext.setText(nickName)
             myPageViewModel.setNickNameState(EditTextValidateState.VALID_STATE)
             hideProgressCircular(progressCircular)
@@ -80,7 +90,7 @@ class ProfileModifyBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun buttonClick() {
-        with(binding){
+        with(binding) {
             createProfilePhotoButton.setOnClickListener {
                 ImagePicker.with(requireActivity())
                     .crop()
@@ -94,6 +104,18 @@ class ProfileModifyBottomSheet : BottomSheetDialogFragment() {
             profileNicknameCheckButton.setOnClickListener {
                 nickName = profileNicknameEdittext.text.toString()
                 checkValidNickName(nickName)
+            }
+
+            registerCompleteButton.setOnClickListener {
+                if (file != null) {
+                    file?.let {
+                        val requestFile = file!!.asRequestBody("image/*".toMediaTypeOrNull())
+                        val multipartBody = MultipartBody.Part.createFormData("image", it.name, requestFile)
+                        myPageViewModel.postImage(S3_PATH, multipartBody)
+                    }
+                } else {
+                    modifyProfile()
+                }
             }
         }
     }
@@ -113,9 +135,9 @@ class ProfileModifyBottomSheet : BottomSheetDialogFragment() {
 
                     when (response.code) {
                         CODE_INVALID_NICKNAME -> {
-                            if(nickName == arguments?.getString("nickName")){
+                            if (nickName == arguments?.getString("nickName")) {
                                 myPageViewModel.setNickNameState(EditTextValidateState.VALID_STATE)
-                            }else{
+                            } else {
                                 myPageViewModel.setNickNameState(EditTextValidateState.USED_STATE)
                             }
                         }
@@ -225,9 +247,28 @@ class ProfileModifyBottomSheet : BottomSheetDialogFragment() {
 
                 is Resource.Success -> {
                     imageUrl = response.data?.imageUrl ?: ""
-                    //TODO 이미지업로드
+                    modifyProfile()
                 }
-                is Resource.Error -> Toast.makeText(requireContext(),"이미지 업로드에 실패했습니다", Toast.LENGTH_SHORT)
+                is Resource.Error -> Toast.makeText(requireContext(), "이미지 업로드에 실패했습니다", Toast.LENGTH_SHORT)
+            }
+        }
+    }
+
+    private fun observeModifyResponse() {
+        myPageViewModel.modifyProfile.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showProgressCircular(binding.progressCircular)
+                }
+                is Resource.Success -> {
+                    hideProgressCircular(binding.progressCircular)
+                    GlobalApplication.prefs.nickname = response.data?.nickName
+                    GlobalApplication.prefs.profileImageUrl = response.data?.profileImageUrl
+                    dismiss()
+                }
+                is Resource.Error -> {
+                    hideProgressCircular(binding.progressCircular)
+                }
             }
         }
     }
@@ -252,6 +293,14 @@ class ProfileModifyBottomSheet : BottomSheetDialogFragment() {
 
             }
         }
+
+    private fun modifyProfile() {
+        val modifyProfile = ModifyProfile(
+            binding.profileNicknameEdittext.text.toString(),
+            imageUrl
+        )
+        myPageViewModel.modifyProfile(jwt, modifyProfile)
+    }
 
     override fun onDestroyView() {
         _binding = null
