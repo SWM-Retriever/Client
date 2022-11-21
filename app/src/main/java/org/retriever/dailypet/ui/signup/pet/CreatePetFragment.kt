@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +15,9 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.navArgs
 import coil.load
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.datepicker.CalendarConstraints
@@ -30,18 +27,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import org.retriever.dailypet.GlobalApplication
 import org.retriever.dailypet.R
 import org.retriever.dailypet.databinding.FragmentCreatePetBinding
 import org.retriever.dailypet.model.Resource
-import org.retriever.dailypet.model.signup.pet.ModifyPetRequest
 import org.retriever.dailypet.model.signup.pet.PetResponse
 import org.retriever.dailypet.ui.base.BaseFragment
 import org.retriever.dailypet.ui.login.LoginActivity
 import org.retriever.dailypet.ui.signup.EditTextState
 import org.retriever.dailypet.ui.signup.EditTextValidateState
-import org.retriever.dailypet.ui.signup.profile.CreateProfileFragment
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.setViewBackgroundWithoutResettingPadding
 import org.retriever.dailypet.util.showProgressCircular
@@ -53,7 +47,6 @@ import java.util.*
 class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
 
     private val petViewModel by viewModels<PetViewModel>()
-    //private val args: CreatePetFragmentArgs by navArgs()
     private lateinit var onBackCallBack: OnBackPressedCallback
     private val jwt = GlobalApplication.prefs.jwt ?: ""
     private val familyId = GlobalApplication.prefs.familyId
@@ -85,7 +78,6 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
         observeRegisterButtonState()
         observePetNameResponse()
         observePetResponse()
-        observeModifyPet()
         observePostImageResponse()
     }
 
@@ -544,31 +536,19 @@ class CreatePetFragment : BaseFragment<FragmentCreatePetBinding>() {
                             )
                         }
 
-                        val action = CreatePetFragmentDirections.actionCreatePetFragmentToCreationCompleteFragment(petResponse!!)
-                        root.findNavController().navigate(action)
+                        val isAdd = arguments?.get("isAdd") ?: false
+
+                        if(isAdd as Boolean){
+                            root.findNavController().popBackStack()
+                        }else{
+                            val action = CreatePetFragmentDirections.actionCreatePetFragmentToCreationCompleteFragment(petResponse!!)
+                            root.findNavController().navigate(action)
+                        }
+
                     }
                     is Resource.Error -> {
                         hideProgressCircular(progressCircular)
                         Toast.makeText(requireContext(), "반려동물 등록에 실패하였습니다", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
-    }
-
-    private fun observeModifyPet() = with(binding) {
-        petViewModel.modifyPetResponse.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let { response ->
-                when (response) {
-                    is Resource.Loading -> {
-                        showProgressCircular(progressCircular)
-                    }
-                    is Resource.Success -> {
-                        hideProgressCircular(progressCircular)
-                        root.findNavController().popBackStack()
-                    }
-                    is Resource.Error -> {
-                        hideProgressCircular(progressCircular)
                     }
                 }
             }

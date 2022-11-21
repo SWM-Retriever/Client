@@ -73,7 +73,6 @@ class PetViewModel @Inject constructor(
     private val _postImageResponse = MutableLiveData<Resource<ImageResponse>>()
     val postImageResponse: LiveData<Resource<ImageResponse>> = _postImageResponse
 
-
     fun setPetNameState(state: EditTextValidateState) {
         _petNameState.value = state
         setRegisterButtonState()
@@ -159,14 +158,6 @@ class PetViewModel @Inject constructor(
         _petResponse.postValue(Event(Resource.Loading()))
 
         _petResponse.postValue(Event(petRepository.postPet(familyId, jwt, petInfo)))
-    }
-
-    fun modifyPet(familyId: Int, petId: Int, jwt: String, modifyPetRequest: ModifyPetRequest) {
-        viewModelScope.launch {
-            _modifyPetResponse.postValue(Event(Resource.Loading()))
-
-            _modifyPetResponse.postValue(Event(petRepository.modifyPet(familyId, petId, jwt, modifyPetRequest)))
-        }
     }
 
     fun getPetList(familyId: Int, jwt: String) = viewModelScope.launch {

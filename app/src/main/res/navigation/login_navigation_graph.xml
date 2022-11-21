@@ -128,7 +128,7 @@
     <activity
         android:id="@+id/webViewActivity2"
         android:name="org.retriever.dailypet.ui.mypage.webview.WebViewActivity"
-        android:label="WebViewActivity" >
+        android:label="WebViewActivity">
         <argument
             android:name="url"
             app:argType="string" />
