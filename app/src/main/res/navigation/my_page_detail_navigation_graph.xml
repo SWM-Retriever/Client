@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/myPageDetailFragment"
         android:name="org.retriever.dailypet.ui.mypage.detail.MyPageDetailFragment"
-        android:label="MyPageDetailFragment" >
+        android:label="MyPageDetailFragment">
         <action
             android:id="@+id/action_myPageDetailFragment_to_myPagePetDetailFragment"
             app:destination="@id/myPagePetDetailFragment" />
@@ -18,25 +18,22 @@
     <fragment
         android:id="@+id/myPagePetDetailFragment"
         android:name="org.retriever.dailypet.ui.mypage.detail.MyPagePetDetailFragment"
-        android:label="MyPagePetDetailFragment" >
-        <argument
-            android:name="petDetailItem"
-            app:argType="org.retriever.dailypet.model.mypage.PetDetailItem" />
+        android:label="MyPagePetDetailFragment">
         <action
-            android:id="@+id/action_myPagePetDetailFragment_to_createPetFragment2"
-            app:destination="@id/createPetFragment2" />
+            android:id="@+id/action_myPagePetDetailFragment_to_petModifyFragment"
+            app:destination="@id/petModifyFragment" />
     </fragment>
     <fragment
         android:id="@+id/createPetFragment2"
         android:name="org.retriever.dailypet.ui.signup.pet.CreatePetFragment"
-        android:label="CreatePetFragment" >
-        <argument
-            android:name="isAdd"
-            app:argType="boolean" />
-        <argument
-            android:name="petDetailItem"
-            app:argType="org.retriever.dailypet.model.mypage.PetDetailItem"
-            app:nullable="true"
-            android:defaultValue="@null" />
+        android:label="CreatePetFragment">
+    </fragment>
+    <fragment
+        android:id="@+id/petModifyFragment"
+        android:name="org.retriever.dailypet.ui.mypage.detail.PetModifyFragment"
+        android:label="PetModifyFragment" >
+        <action
+            android:id="@+id/action_petModifyFragment_to_myPageDetailFragment"
+            app:destination="@id/myPageDetailFragment" />
     </fragment>
 </navigation>

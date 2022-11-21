@@ -18,11 +18,12 @@ import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
 
 @AndroidEntryPoint
-class BreedBottomSheet(val itemClick : (Breed) -> Unit) : BottomSheetDialogFragment() {
+class BreedBottomSheet(val itemClick: (Breed) -> Unit) : BottomSheetDialogFragment() {
 
     private val petViewModel by activityViewModels<PetViewModel>()
 
-    private lateinit var binding : BottomSheetBreedBinding
+    private var _binding: BottomSheetBreedBinding? = null
+    private val binding get() = _binding!!
 
     private val jwt = GlobalApplication.prefs.jwt ?: ""
 
@@ -37,7 +38,7 @@ class BreedBottomSheet(val itemClick : (Breed) -> Unit) : BottomSheetDialogFragm
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = BottomSheetBreedBinding.inflate(inflater, container, false)
+        _binding = BottomSheetBreedBinding.inflate(inflater, container, false)
 
         petType = arguments?.getString("petType") ?: ""
 
@@ -54,7 +55,7 @@ class BreedBottomSheet(val itemClick : (Breed) -> Unit) : BottomSheetDialogFragm
         buttonClick()
     }
 
-    private fun initAdapter(){
+    private fun initAdapter() {
         breedAdapter = BreedAdapter()
 
         binding.breedRecyclerview.apply {
@@ -68,27 +69,27 @@ class BreedBottomSheet(val itemClick : (Breed) -> Unit) : BottomSheetDialogFragm
         }
     }
 
-    private fun initData() = with(binding){
+    private fun initData() = with(binding) {
         petViewModel.getPetBreedList(petType, jwt)
 
-        petViewModel.petBreedList.observe(viewLifecycleOwner){response ->
-            when(response){
-                is Resource.Loading ->{
+        petViewModel.petBreedList.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
                     showProgressCircular(progressCircular)
                 }
-                is Resource.Success ->{
+                is Resource.Success -> {
                     hideProgressCircular(progressCircular)
                     breedAdapter.modifyList(response.data?.petKindList ?: listOf())
                 }
-                is Resource.Error ->{
+                is Resource.Error -> {
                     hideProgressCircular(progressCircular)
                 }
             }
         }
     }
 
-    private fun initSearchEditText(){
-        binding.breedSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+    private fun initSearchEditText() {
+        binding.breedSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 return false
             }
@@ -104,6 +105,12 @@ class BreedBottomSheet(val itemClick : (Breed) -> Unit) : BottomSheetDialogFragm
         binding.exitButton.setOnClickListener {
             dismiss()
         }
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+
+        super.onDestroyView()
     }
 
 }

@@ -23,7 +23,10 @@ import org.retriever.dailypet.util.showProgressCircular
 class AddProfileBottomSheet : BottomSheetDialogFragment() {
 
     private val findGroupViewModel by activityViewModels<FindGroupViewModel>()
-    private lateinit var binding: BottomSheetAddProfileBinding
+
+    private var _binding : BottomSheetAddProfileBinding? = null
+    private val binding get() = _binding!!
+
     private val jwt = GlobalApplication.prefs.jwt ?: ""
     private var invitationCode = ""
     private var familyId = 0
@@ -36,7 +39,7 @@ class AddProfileBottomSheet : BottomSheetDialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = BottomSheetAddProfileBinding.inflate(inflater, container, false)
+        _binding = BottomSheetAddProfileBinding.inflate(inflater, container, false)
 
         invitationCode = arguments?.getString("invitationCode") ?: ""
         familyId = arguments?.getInt("familyId") ?: 0
@@ -170,6 +173,12 @@ class AddProfileBottomSheet : BottomSheetDialogFragment() {
 
     private fun enterGroup(groupNickname: String) {
         findGroupViewModel.postEnterGroup(familyId, jwt, groupNickname)
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+
+        super.onDestroyView()
     }
 
     companion object {

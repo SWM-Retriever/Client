@@ -22,8 +22,6 @@ import org.retriever.dailypet.util.showProgressCircular
 
 class MyPagePetDetailFragment : BaseFragment<FragmentMyPagePetDetailBinding>() {
 
-    private val args: MyPagePetDetailFragmentArgs by navArgs()
-
     private lateinit var popUpWindow: ListPopupWindow
     private val popUpWindowItems = listOf(MODIFY, DELETE)
 
@@ -32,7 +30,9 @@ class MyPagePetDetailFragment : BaseFragment<FragmentMyPagePetDetailBinding>() {
 
     private val myPageDetailViewModel by activityViewModels<MyPageDetailViewModel>()
 
-    private lateinit var petDetailItem: PetDetailItem
+    private val petDetailItem by lazy {
+        myPageDetailViewModel.clickPetDetailItem
+    }
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentMyPagePetDetailBinding {
         return FragmentMyPagePetDetailBinding.inflate(inflater, container, false)
@@ -53,18 +53,21 @@ class MyPagePetDetailFragment : BaseFragment<FragmentMyPagePetDetailBinding>() {
     }
 
     private fun initView() = with(binding) {
-        petDetailItem = args.petDetailItem
-        if(petDetailItem.profileImageUrl.isNotEmpty()) {
-            petCircleImage.load(petDetailItem.profileImageUrl)
+        petDetailItem?.let {
+            if (it.profileImageUrl.isNotBlank()) {
+                petCircleImage.load(it.profileImageUrl)
+            }
+
+            petNameText.text = it.petName
+            petKindText.text = if (it.petType == "DOG") "강아지" else "고양이"
+            petSexText.text = if (it.gender == "MALE") "수컷" else "암컷"
+            petBirthText.text = it.birthDate
+            petBreedText.text = it.petKind
+            petWeightText.text = getString(R.string.weight_text, it.weight)
+            petNeutralText.text = if (it.isNeutered) "완료" else "미실시"
+            petRegisterNumText.text = it.registerNumber.ifBlank { "없음" }
         }
-        petNameText.text = petDetailItem.petName
-        petKindText.text = if (petDetailItem.petType == "DOG") "강아지" else "고양이"
-        petSexText.text = if (petDetailItem.gender == "MALE") "수컷" else "암컷"
-        petBirthText.text = petDetailItem.birthDate
-        petBreedText.text = petDetailItem.petKind
-        petWeightText.text = getString(R.string.weight_text, petDetailItem.weight)
-        petNeutralText.text = if (petDetailItem.isNeutered) "완료" else "미실시"
-        petRegisterNumText.text = petDetailItem.registerNumber.ifBlank { "없음" }
+
     }
 
     private fun buttonClick() = with(binding) {
@@ -86,8 +89,7 @@ class MyPagePetDetailFragment : BaseFragment<FragmentMyPagePetDetailBinding>() {
 
         popUpWindow.setOnItemClickListener { _, _, _, id ->
             if (id == 0L) {
-                val action = MyPagePetDetailFragmentDirections.actionMyPagePetDetailFragmentToCreatePetFragment2(false, petDetailItem)
-                binding.root.findNavController().navigate(action)
+                binding.root.findNavController().navigate(R.id.action_myPagePetDetailFragment_to_petModifyFragment)
             } else {
                 deletePet()
             }
@@ -97,7 +99,7 @@ class MyPagePetDetailFragment : BaseFragment<FragmentMyPagePetDetailBinding>() {
     }
 
     private fun deletePet() {
-        myPageDetailViewModel.deletePet(jwt, familyId, petDetailItem.petId)
+        myPageDetailViewModel.deletePet(jwt, familyId, petDetailItem?.petId ?: -2)
     }
 
     private fun observeDeleteResponse() = with(binding) {

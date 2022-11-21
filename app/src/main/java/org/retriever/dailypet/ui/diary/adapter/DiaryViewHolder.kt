@@ -1,6 +1,5 @@
 package org.retriever.dailypet.ui.diary.adapter
 
-import android.opengl.Visibility
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -17,8 +16,9 @@ class DiaryViewHolder(private val binding : ItemDiaryBinding) : RecyclerView.Vie
         }
         if(!item.diaryImageUrl.isNullOrEmpty()){
             diaryImage.load(item.diaryImageUrl )
+            diaryImage.visibility = View.VISIBLE
         } else{
-            diaryImageCardView.visibility = View.GONE
+            diaryImage.visibility = View.GONE
         }
     }
 

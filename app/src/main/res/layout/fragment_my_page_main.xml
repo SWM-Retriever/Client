@@ -42,18 +42,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/logout_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/logout_text"
-                android:textColor="@color/black"
-                android:textSize="12dp"
-                app:drawableTopCompat="@drawable/icon_logout"
-                app:layout_constraintEnd_toEndOf="@id/right_guideline"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/user_circle_image"
                 android:layout_width="96dp"
@@ -63,15 +51,6 @@
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/user_profile_modify_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:src="@drawable/icon_camera"
-                app:layout_constraintBottom_toBottomOf="@+id/user_circle_image"
-                app:layout_constraintEnd_toEndOf="@+id/user_circle_image" />
 
             <TextView
                 android:id="@+id/user_nick_name"
@@ -84,7 +63,22 @@
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/user_circle_image"
-                tools:text="" />
+                tools:text="김시진" />
+
+            <TextView
+                android:id="@+id/profile_modify_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:text="@string/profile_modify_text"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:padding="8dp"
+                android:background="@drawable/dark_grey_8_background"
+                app:layout_constraintEnd_toEndOf="@id/right_guideline"
+                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/user_nick_name" />
 
             <View
                 android:id="@+id/first_divide"
@@ -96,7 +90,7 @@
                 android:backgroundTintMode="add"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/user_nick_name" />
+                app:layout_constraintTop_toBottomOf="@id/profile_modify_text" />
 
             <TextView
                 android:id="@+id/manage_group_text"
@@ -337,16 +331,55 @@
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/marketing_text" />
 
-            <TextView
-                android:id="@+id/withdrawal_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="64dp"
-                android:text="@string/withdrawal_text"
-                android:textSize="14dp"
+            <View
+                android:id="@+id/third_divide"
+                android:layout_width="0dp"
+                android:layout_height="8dp"
+                android:background="?android:attr/listDivider"
+                android:backgroundTint="@color/dark_grey"
+                android:backgroundTintMode="add"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/open_source_license_text" />
+
+            <TextView
+                android:id="@+id/log_out_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawablePadding="12dp"
+                android:paddingVertical="16dp"
+                android:text="@string/logout_text"
+                android:textColor="@color/light_black"
+                android:textSize="16dp"
+                app:drawableStartCompat="@drawable/ic_baseline_logout_24"
+                app:layout_constraintEnd_toEndOf="@id/right_guideline"
+                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/third_divide" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:backgroundTint="@color/dark_grey"
+                android:backgroundTintMode="add"
+                app:layout_constraintBottom_toBottomOf="@id/withdrawal_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/log_out_text" />
+
+            <TextView
+                android:id="@+id/withdrawal_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawablePadding="12dp"
+                android:paddingVertical="16dp"
+                android:text="@string/withdrawal_text"
+                android:textColor="@color/light_black"
+                android:textSize="16dp"
+                app:drawableStartCompat="@drawable/ic_baseline_person_off_24"
+                app:layout_constraintEnd_toEndOf="@id/right_guideline"
+                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/log_out_text" />
 
             <TextView
                 android:id="@+id/copyright_text"
@@ -357,7 +390,7 @@
                 android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/withdrawal_button" />
+                app:layout_constraintTop_toBottomOf="@id/withdrawal_text" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

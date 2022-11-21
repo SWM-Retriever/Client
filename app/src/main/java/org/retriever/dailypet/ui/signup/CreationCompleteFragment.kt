@@ -133,9 +133,7 @@ class CreationCompleteFragment : BaseFragment<FragmentCreationCompleteBinding>()
     private fun buttonClick() = with(binding) {
 
         petAddButton.setOnClickListener {
-            //childFragmentManager.clearBackStack()
-            val action = CreationCompleteFragmentDirections.actionCreationCompleteFragmentToCreatePetFragment()
-            root.findNavController().navigate(action)
+            root.findNavController().navigate(R.id.action_creationCompleteFragment_to_createPetFragment)
         }
 
         careStartButton.setOnClickListener {

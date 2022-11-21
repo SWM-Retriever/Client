@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -86,8 +87,8 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
         }
 
         petAdapter.onItemClick = { petDetailItem ->
-            val action = MyPageDetailFragmentDirections.actionMyPageDetailFragmentToMyPagePetDetailFragment(petDetailItem)
-            binding.root.findNavController().navigate(action)
+            myPageDetailViewModel.setModifyPet(petDetailItem)
+            binding.root.findNavController().navigate(R.id.action_myPageDetailFragment_to_myPagePetDetailFragment)
         }
     }
 
@@ -98,8 +99,7 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
         }
 
         petAddButton.setOnClickListener {
-            val action = MyPageDetailFragmentDirections.actionMyPageDetailFragmentToCreatePetFragment2(true)
-            binding.root.findNavController().navigate(action)
+            binding.root.findNavController().navigate(R.id.action_myPageDetailFragment_to_createPetFragment2, bundleOf("isAdd" to true))
         }
 
         exitButton.setOnClickListener {
@@ -209,10 +209,10 @@ class MyPageDetailFragment : BaseFragment<FragmentMyPageDetailBinding>() {
                 writerCircleImage.load(it.authorImageUrl)
             }
             if (!it.diaryImageUrl.isNullOrEmpty()) {
-                diaryImageCardView.visibility = View.VISIBLE
+                diaryImage.visibility = View.VISIBLE
                 diaryImage.load(it.diaryImageUrl)
             } else {
-                diaryImageCardView.visibility = View.GONE
+                diaryImage.visibility = View.GONE
             }
         }
     }
