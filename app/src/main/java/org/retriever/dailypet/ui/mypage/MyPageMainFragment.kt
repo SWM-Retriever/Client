@@ -56,6 +56,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     override fun onResume() {
         super.onResume()
         initInfo()
+        initProfile()
         initGroupType()
     }
 
