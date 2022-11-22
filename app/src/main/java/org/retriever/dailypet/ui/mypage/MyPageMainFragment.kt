@@ -10,7 +10,12 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import coil.load
+import com.google.android.gms.tasks.RuntimeExecutionException
+import com.google.android.gms.tasks.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.play.core.review.ReviewInfo
+import com.google.android.play.core.review.ReviewManagerFactory
+import com.google.android.play.core.review.model.ReviewErrorCode
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
@@ -26,6 +31,7 @@ import org.retriever.dailypet.ui.login.LoginActivity
 import org.retriever.dailypet.ui.mypage.adapter.ProfileModifyBottomSheet
 import org.retriever.dailypet.util.hideProgressCircular
 import org.retriever.dailypet.util.showProgressCircular
+
 
 @AndroidEntryPoint
 class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
@@ -113,8 +119,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         }
 
         appReviewText.setOnClickListener {
-            val action = MyPageMainFragmentDirections.actionMyPageMainFragmentToWebViewActivity(PLAY_STORE_URL)
-            root.findNavController().navigate(action)
+            showInAppReviewPopup()
         }
 
         notificationText.setOnClickListener {
@@ -264,6 +269,17 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
                 }
             }
 
+        }
+    }
+
+    private fun showInAppReviewPopup() {
+        val manager = ReviewManagerFactory.create(requireContext())
+        val request = manager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val reviewInfo: ReviewInfo = task.result
+                manager.launchReviewFlow(requireActivity(), reviewInfo).addOnFailureListener { }.addOnCompleteListener { }
+            }
         }
     }
 
