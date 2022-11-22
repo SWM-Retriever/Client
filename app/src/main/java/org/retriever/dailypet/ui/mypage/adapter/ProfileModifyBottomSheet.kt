@@ -254,7 +254,7 @@ class ProfileModifyBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    private fun observeModifyResponse() {
+    private fun observeModifyResponse() = with(binding){
         myPageViewModel.modifyProfile.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {

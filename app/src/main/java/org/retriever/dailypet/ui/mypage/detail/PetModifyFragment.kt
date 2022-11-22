@@ -288,13 +288,14 @@ class PetModifyFragment : BaseFragment<FragmentPetModifyBinding>() {
     }
 
     private fun postModifyPet() {
+        val photoUrl = imageUrl.ifEmpty { petDetailItem?.profileImageUrl ?:"" }
         val modifyPetRequest = ModifyPetRequest(
             binding.petNameEdittext.text.toString(),
             petDetailItem?.birthDate ?: "",
             binding.petWeightEdittext.text.toString().toFloat(),
             binding.neutralRadio.isChecked,
             binding.petRegisterNumEdittext.text.toString(),
-            imageUrl
+            photoUrl
         )
         myPageDetailViewModel.modifyPet(familyId, petDetailItem?.petId ?: -2, jwt, modifyPetRequest)
     }
@@ -329,6 +330,7 @@ class PetModifyFragment : BaseFragment<FragmentPetModifyBinding>() {
                     }
                     is Resource.Success -> {
                         hideProgressCircular(progressCircular)
+                        Toast.makeText(requireContext(), "반려동물 프로필이 수정되었습니다", Toast.LENGTH_SHORT).show()
                         root.findNavController().navigate(R.id.action_petModifyFragment_to_myPageDetailFragment)
                     }
                     is Resource.Error -> {

@@ -76,6 +76,7 @@ class HomeMainFragment : BaseFragment<FragmentHomeMainBinding>() {
     override fun onResume() {
         super.onResume()
         initView()
+        getPetList()
     }
 
     private fun initCallBack() {
