@@ -256,7 +256,7 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
                 is Resource.Error -> {
                     hideProgressCircular(binding.progressCircular)
                     if(response.code == canNotWithdrawal){
-                        Toast.makeText(requireContext(), getString(R.string.can_not_withdrawal_comment), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.can_not_withdrawal_comment), Toast.LENGTH_LONG).show()
                     } else{
                         Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
                     }
