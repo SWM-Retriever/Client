@@ -254,7 +254,7 @@ class ProfileModifyBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    private fun observeModifyResponse() {
+    private fun observeModifyResponse() = with(binding){
         myPageViewModel.modifyProfile.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
@@ -264,6 +264,7 @@ class ProfileModifyBottomSheet : BottomSheetDialogFragment() {
                     hideProgressCircular(binding.progressCircular)
                     GlobalApplication.prefs.nickname = response.data?.nickName
                     GlobalApplication.prefs.profileImageUrl = response.data?.profileImageUrl
+                    Toast.makeText(requireContext(), "프로필이 수정되었습니다", Toast.LENGTH_SHORT).show()
                     dismiss()
                 }
                 is Resource.Error -> {
@@ -295,9 +296,10 @@ class ProfileModifyBottomSheet : BottomSheetDialogFragment() {
         }
 
     private fun modifyProfile() {
+        val photoUrl = imageUrl.ifEmpty { profileImageUrl }
         val modifyProfile = ModifyProfile(
             binding.profileNicknameEdittext.text.toString(),
-            imageUrl
+            photoUrl
         )
         myPageViewModel.modifyProfile(jwt, modifyProfile)
     }
