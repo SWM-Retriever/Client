@@ -1,17 +1,19 @@
 package org.retriever.dailypet.ui.mypage
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.browser.customtabs.CustomTabsClient.getPackageName
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import coil.load
 import com.google.android.gms.tasks.RuntimeExecutionException
-import com.google.android.gms.tasks.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManagerFactory
@@ -229,8 +231,6 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
     }
 
     private fun withdrawal() {
-        var jwt = ""
-
         GlobalApplication.prefs.apply {
             jwt = this.jwt ?: ""
 
@@ -272,13 +272,23 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
         }
     }
 
-    private fun showInAppReviewPopup() {
+    @SuppressLint("SupportAnnotationUsage")
+    private fun showInAppReviewPopup() = with(binding) {
         val manager = ReviewManagerFactory.create(requireContext())
         val request = manager.requestReviewFlow()
+
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.addCategory(Intent.CATEGORY_DEFAULT)
+        intent.data = Uri.parse(STORE_URL)
+
         request.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val reviewInfo: ReviewInfo = task.result
-                manager.launchReviewFlow(requireActivity(), reviewInfo).addOnFailureListener { }.addOnCompleteListener { }
+                manager.launchReviewFlow(requireActivity(), reviewInfo).addOnFailureListener {
+                    startActivity(intent)
+                }.addOnCompleteListener {
+                    startActivity(intent)
+                }
             }
         }
     }
@@ -318,12 +328,12 @@ class MyPageMainFragment : BaseFragment<FragmentMyPageMainBinding>() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
         logoutDialog = null
         withdrawalDialog = null
     }
 
     companion object {
+        private const val STORE_URL = "market://details?id=org.retriever.dailypet"
         private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=org.retriever.dailypet"
         private const val NOTIFICATION_URL = "https://showy-king-303.notion.site/2b97d48c4a434e019c1058800f7a48fe"
         private const val REPORT_URL = "https://the-form.io/forms/survey/response/fe418f0f-0ab2-46ce-80d1-d5a8188e5247"
