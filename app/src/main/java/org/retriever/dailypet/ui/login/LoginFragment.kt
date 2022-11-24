@@ -1,5 +1,7 @@
 package org.retriever.dailypet.ui.login
 
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -51,6 +53,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initCallBack()
+        initVersionInfo()
         initProgressCircular()
         initLogin()
         buttonClick()
@@ -260,6 +263,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             override fun onFailure(httpStatus: Int, message: String) = Unit
         }
         NaverIdLoginSDK.authenticate(requireContext(), oAuthLoginCallback)
+    }
+
+
+    private fun initVersionInfo() {
+        val info: PackageInfo = requireContext().packageManager.getPackageInfo(requireContext().packageName, 0)
+        val version = info.versionName
+        binding.versionText.text = "ver $version"
     }
 
     companion object {
