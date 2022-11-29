@@ -37,6 +37,9 @@
 ## 기술 스택
 - Custom UI
 - MVVM
-- Hilt, Jetpack Navigation, DataStore, Room, LiveData, Flow, Coroutine
-- Retrofit2, Glide
 - Kakao Login, Naver Login
+- Hilt, Jetpack Navigation, DataStore, Room, LiveData, Coroutine
+- Retrofit2, Coil, Moshi
+- Percentage Chart, MpAndroidChart, StateProgressBar, ImagePicker, CircleImageView
+- Fireabase (Crashlytics, FCM, GA)
+- ProGuard, UpdateManager, ReviewManager
