@@ -35,7 +35,6 @@
 |[안세훈](https://github.com/ashpurple)|[김시진](https://github.com/koreatlwls)|[박범근](https://github.com/bbeomgeun)|
 
 ## 기술 스택
-- Custom UI
 - MVVM
 - Kakao Login, Naver Login
 - Hilt, Jetpack Navigation, DataStore, Room, LiveData, Coroutine
